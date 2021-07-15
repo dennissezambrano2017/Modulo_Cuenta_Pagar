@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <body>
+    <h:body>
 
         <ui:composition template="./../Plantilla/Plantilla.xhtml">
 
@@ -15,71 +15,48 @@
                     <h1 class="title">Generar Calendario de Pagos</h1>
 
                     <h:form class="formulario">
+                        <p:panelGrid 
+                            columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                            columns="2" 
+                            layout="grid" 
+                            styleClass="showcase-text-align-center">
 
-                        <div style="display: flex; justify-content: flex-start; align-items: center; margin-top: 10px;">
                             <p:outputLabel style="margin-right: 10px;" for="proveedor" value="Proveedor: "/>
                             <p:selectOneMenu id="proveedor"  style="width:250px">
                                 <f:selectItem itemLabel="Selecionar proveedor" itemValue="" noSelectionOption="true"/>
                                 <f:selectItem itemLabel="Proveedor 1" itemValue="" noSelectionOption="true"/>
                             </p:selectOneMenu>
-                        </div>
-
-
-                        <div style=" 
-                             margin: 20px 0px 10px 0px;
-                             display: flex; 
-                             flex-direction: row; 
-                             justify-content: flex-start; 
-                             align-items: center;">
 
                             <h5 style="margin-right: 10px;">Todos los proveedores</h5>
                             <p:toggleSwitch />
 
-                        </div>
 
-                        <div style="
-                             display: flex;
-                             justify-content: space-around;
-                             align-items: center;
-                             margin: 20px 0px 10px 0px;
-                             ">
-                            <div>
-                                <p:outputLabel style="margin-right: 10px;" for="desde" value="Desde:"/>
-                                <p:datePicker id="desde"  />
-                            </div>
+                            <p:outputLabel style="margin-right: 10px;" for="desde" value="Desde:"/>
+                            <p:datePicker id="desde"  />
 
-                            <div>
-                                <p:outputLabel style="margin-right: 10px;" for="hasta" value="Hasta:"/>
-                                <p:datePicker id="hasta"  />
-                            </div>
-
-                        </div>
-
-
-                        <div style=" 
-                             margin: 20px 0px 10px 0px;
-                             display: flex; 
-                             flex-direction: row; 
-                             justify-content: flex-start; 
-                             align-items: center;">
+                            <p:outputLabel style="margin-right: 10px;" for="hasta" value="Hasta:"/>
+                            <p:datePicker id="hasta"  />
 
                             <h5 style="margin-right: 10px;">Sin filtro de fechas</h5>
                             <p:toggleSwitch />
 
-                        </div>
 
-                        <div style="
-                             display: flex;
-                             justify-content: flex-end;
-                             ">
-                            <p:commandButton
-                                value="Generar" 
-                                styleClass="ui-button-success button" />
+                            <p:row>
+                                <p:column styleClass="ui-grid-col-12">
+                                    <p:commandButton
+                                        value="Generar" 
+                                        styleClass="ui-button-success button" />
 
-                            <p:button 
-                                value="Cancelar" 
-                                styleClass="ui-button-danger ui-button-outlined" />
-                        </div>
+                                    <p:button 
+                                        value="Cancelar" 
+                                        styleClass="ui-button-danger ui-button-outlined" />
+                                </p:column>
+                            </p:row>
+
+
+
+                        </p:panelGrid>
+
 
                     </h:form>
                 </div>
@@ -87,5 +64,5 @@
 
         </ui:composition>
 
-    </body>
+    </h:body>
 </html>
