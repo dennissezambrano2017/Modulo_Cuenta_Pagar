@@ -6,15 +6,15 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <body>
-
+    <h:body>
+        <!-- Vista de Reporte de cuentas por pagar -->
         <ui:composition template="./../Plantilla/Plantilla.xhtml">
 
             <ui:define name="content">
 
                 <div class="container contenedor-flex" 
                      style="background-color: white; margin: 20px;">
-                    
+
                     <h1 class="title">Reporte cuentas por pagar</h1>
 
                     <h:form class="formulario">
@@ -25,42 +25,44 @@
                             styleClass="showcase-text-align-center">
 
                             <p:outputLabel 
-                                style="margin-right: 10px;" 
                                 for="fecha" 
                                 value="A Fecha:"/>
-                            
                             <p:datePicker id="fecha"  />
+
 
                             <p:outputLabel 
                                 style="margin-right: 10px;" 
                                 for="proveedor" 
                                 value="Proveedor: "/>
-                            
                             <p:selectOneMenu id="proveedor"  style="width:250px">
                                 <f:selectItem 
                                     itemLabel="Selecionar proveedor" 
                                     itemValue="" 
                                     noSelectionOption="true"/>
-                                
+
                                 <f:selectItem 
                                     itemLabel="Proveedor 1" 
                                     itemValue="" 
                                     noSelectionOption="true"/>
                             </p:selectOneMenu>
 
-                            <h5 >Todos los proveedores</h5>
+
+                            <p:outputLabel value="Todos los proveedores"/>
                             <p:toggleSwitch />   
 
                             <p:row>
-                                <p:column styleClass="ui-grid-col-12">
+                                <p:column styleClass="ui-grid-col-12" style="display: flex; justify-content: flex-end">
                                     <p:commandButton
-                                        value="Generar"/>
+                                        icon="pi pi-check" 
+                                        value="Generar"  />
 
-                                    <p:button 
+                                    <p:commandButton 
+                                        icon="pi pi-times" 
                                         value="Cancelar" 
-                                        styleClass="ui-button-danger ui-button-outlined" />
+                                        styleClass="ui-button-danger" />
                                 </p:column>
                             </p:row>
+                            
                         </p:panelGrid>    
 
 
@@ -71,5 +73,5 @@
 
         </ui:composition>
 
-    </body>
+    </h:body>
 </html>
