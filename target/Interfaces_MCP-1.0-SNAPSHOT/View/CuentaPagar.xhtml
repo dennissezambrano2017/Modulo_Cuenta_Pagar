@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../Plantilla/Plantilla.xhtml">
+
+            <ui:define name="content">
+
+                <div class="container contenedor-flex" style="background-color: white; margin: 20px;">
+                    <h:form class="formulario">
+                        <h1 class="title">Reporte cuentas por pagar</h1>
+
+                        <div>
+                            <p:outputLabel style="margin-right: 10px;" for="fecha" value="A Fecha:"/>
+                            <p:datePicker id="fecha"  />
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-start; align-items: center; margin-top: 10px;">
+                            <p:outputLabel style="margin-right: 10px;" for="proveedor" value="Proveedor: "/>
+                            <p:selectOneMenu id="proveedor"  style="width:250px">
+                                <f:selectItem itemLabel="Selecionar proveedor" itemValue="" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Proveedor 1" itemValue="" noSelectionOption="true"/>
+                            </p:selectOneMenu>
+                        </div>
+
+                        <h5 style="margin-top: 20px;">Todos los proveedores</h5>
+                        <p:toggleSwitch />
+
+                        <div style="
+                             display: flex;
+                             justify-content: flex-end;
+                             ">
+                            <p:commandButton
+                                value="Generar" 
+                                styleClass="ui-button-success button" />
+
+                            <p:button 
+                                value="Cancelar" 
+                                styleClass="ui-button-danger ui-button-outlined" />
+                        </div>
+
+                    </h:form>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
