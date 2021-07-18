@@ -8,21 +8,25 @@
 
     <h:head>
         <title>Modulo Cuenta Pagar</title>
+        <h:outputStylesheet name="css/main.css"/>
         <h:outputStylesheet name="css/cssLayout.css" />
         <h:outputStylesheet name="css/default.css"/>
         <h:outputStylesheet name="css/estilo.css"/>
-        <h:outputStylesheet name="css/main.css"/>
+        
+        
+        
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' />
     </h:head>
 
     <h:body>
-        <div id="top" class="top">
-            <ui:insert name="top">
-                <div>
-                     <p:outputLabel value="ERP Contable" style="font-family: serif;font-size: 40px;" ></p:outputLabel>   
-                </div>
-            </ui:insert>
-        </div>
+        
+        <ui:insert name="top">
+            <div class="navbar">
+                <h:graphicImage name="imag/erpLogo.png"  height="60px" style="margin-right: 10px"/>
+                <h2>ERP CONTABLE</h2>
+            </div>
+        </ui:insert>
+        
         <div>
             <div id="left">
                 <ui:insert name="left"></ui:insert>
@@ -32,7 +36,7 @@
                             <p:growl>
                                 <p:autoUpdate/>
                             </p:growl>
-                            <p:panelMenu style="width:200px">
+                            <p:panelMenu style="width:250px">
                                 <p:submenu label ="Cuentas por pagar">
                                     <p:menuitem value="Proveedores"
                                                 icon="pi pi-briefcase"
@@ -65,6 +69,8 @@
                 </ui:insert>
             </div>
         </div>
+        
+        
     </h:body>
 
 </html>

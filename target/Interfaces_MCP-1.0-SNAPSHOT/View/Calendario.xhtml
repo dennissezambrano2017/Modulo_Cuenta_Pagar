@@ -5,12 +5,15 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
 
     <h:body>
         <!-- Vista de generar calendario de pagos -->
         <ui:composition template="./../Plantilla/Plantilla.xhtml">
 
             <ui:define name="content">
+                
+
                 <div class="container contenedor-flex">
                     <h1 class="title">Generar Calendario de Pagos</h1>
 
@@ -22,7 +25,7 @@
                             layout="grid" 
                             styleClass="showcase-text-align-center">
 
-                            
+
                             <p:outputLabel 
                                 for="proveedor" 
                                 value="Proveedor: "/>
@@ -37,13 +40,13 @@
                                     noSelectionOption="true"/>
                             </p:selectOneMenu>
 
-                            
-                            
-                            
+
+
+
                             <p:outputLabel value="Todos los proveedores:"/>
                             <p:toggleSwitch />
 
-                            
+
                             <p:outputLabel 
                                 style="margin-right: 10px;" 
                                 for="desde" 
@@ -56,11 +59,11 @@
                                 value="Hasta:"/>
                             <p:datePicker id="hasta"  />
 
-                            
+
                             <p:outputLabel value="Sin parametros de fechas"/>
                             <p:toggleSwitch />
 
-                            
+
                             <p:row>
                                 <p:column styleClass="ui-grid-col-12" style="display: flex; justify-content: flex-end">
                                     <p:commandButton

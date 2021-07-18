@@ -8,6 +8,18 @@
     background-color: white;
 }
 
+.navbar {
+    height: 75px;
+    background-color: #445976;
+    color: #E2EAF6;
+    margin-bottom: 10px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
+}
+
 .contenedor-flex {
     display: flex;
     flex-direction: column;
