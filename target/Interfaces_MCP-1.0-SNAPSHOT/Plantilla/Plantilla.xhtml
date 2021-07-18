@@ -22,7 +22,9 @@
         
         <ui:insert name="top">
             <div class="navbar">
-                <h:graphicImage name="imag/erpLogo.png"  height="60px" style="margin-right: 10px"/>
+                <a href="/Modulo_Cuenta_Pagar/">
+                    <h:graphicImage name="imag/erpLogo.png"  height="60px" style="margin-right: 10px"/>
+                </a>
                 <h2>ERP CONTABLE</h2>
             </div>
         </ui:insert>
@@ -36,8 +38,8 @@
                             <p:growl>
                                 <p:autoUpdate/>
                             </p:growl>
-                            <p:panelMenu style="width:250px">
-                                <p:submenu label ="Cuentas por pagar">
+                            <p:panelMenu style="width:250px" >
+                                <p:submenu label ="Cuentas por pagar" expanded="true">
                                     <p:menuitem value="Proveedores"
                                                 icon="pi pi-briefcase"
                                                 outcome="/View/Proveedor"/>
@@ -65,7 +67,12 @@
             </div>
             <div id="content" class="left_content">
                 <ui:insert name="content">
-                    <div></div>
+                    
+                    <div class="containerWelcome">
+                        <h:graphicImage name="imag/erpLogo.png"  height="100px" />
+                        <h2>Bienvenido a ERP Contable</h2>
+                        <p>Descripción del sistema</p>
+                    </div>
                 </ui:insert>
             </div>
         </div>
