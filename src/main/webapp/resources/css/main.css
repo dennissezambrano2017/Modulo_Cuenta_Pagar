@@ -5,7 +5,20 @@
 }
 
 .container {
+    background-color: white;
+}
+
+.navbar {
+    height: 75px;
+    background-color: #445976;
+    color: #E2EAF6;
+    margin-bottom: 10px;
+    padding-left: 20px;
     
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 2px;
 }
 
 .contenedor-flex {
@@ -20,7 +33,6 @@
 .formulario {
  
     padding: 20px;
-    margin: 20px;
     min-width: 700px;
     
 }

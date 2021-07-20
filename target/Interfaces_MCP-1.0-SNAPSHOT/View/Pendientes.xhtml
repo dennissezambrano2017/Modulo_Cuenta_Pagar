@@ -12,9 +12,7 @@
         <ui:composition template="./../Plantilla/Plantilla.xhtml">
 
             <ui:define name="content">
-                <div 
-                    class="container contenedor-flex" 
-                    style="background-color: white; margin: 20px;">
+                <div class="container contenedor-flex">
                     
                     <h1 class="title">Resumen Pendientes de Pagos</h1>
 
@@ -45,20 +43,23 @@
                                     noSelectionOption="true"/>
                             </p:selectOneMenu>
 
-                            <h5>Todos los proveedores</h5>
+                            
+                            <p:outputLabel value="Todos los proveedores"/>
                             <p:toggleSwitch />
 
                             <p:row>
-                                <p:column styleClass="ui-grid-col-12" >
+                                <p:column styleClass="ui-grid-col-12" style="display: flex; justify-content: flex-end">
                                     <p:commandButton
-                                        value="Generar"/>
+                                        icon="pi pi-check" 
+                                        value="Generar"  />
 
-                                    <p:button 
+                                    <p:commandButton 
+                                        icon="pi pi-times" 
                                         value="Cancelar" 
-                                        styleClass="ui-button-danger ui-button-outlined" />
+                                        styleClass="ui-button-danger" />
                                 </p:column>
-
                             </p:row>
+                            
                         </p:panelGrid>
 
 

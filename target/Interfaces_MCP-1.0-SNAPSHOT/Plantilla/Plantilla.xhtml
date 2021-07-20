@@ -8,10 +8,13 @@
 
     <h:head>
         <title>Modulo Cuenta Pagar</title>
+        <h:outputStylesheet name="css/main.css"/>
         <h:outputStylesheet name="css/cssLayout.css" />
         <h:outputStylesheet name="css/default.css"/>
         <h:outputStylesheet name="css/estilo.css"/>
-        <h:outputStylesheet name="css/main.css"/>
+        
+        
+        
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' />
     </h:head>
 
@@ -23,6 +26,17 @@
                 </div>
             </ui:insert>
         </div>
+
+        
+        <ui:insert name="top">
+            <div class="navbar">
+                <a href="/Modulo_Cuenta_Pagar/">
+                    <h:graphicImage name="imag/erpLogo.png"  height="60px" style="margin-right: 10px"/>
+                </a>
+                <h2>ERP CONTABLE</h2>
+            </div>
+        </ui:insert>
+
         <div>
             <div id="left">
                 <ui:insert name="left"></ui:insert>
@@ -32,8 +46,8 @@
                             <p:growl>
                                 <p:autoUpdate/>
                             </p:growl>
-                            <p:panelMenu style="width:200px">
-                                <p:submenu label ="Cuentas por pagar">
+                            <p:panelMenu style="width:250px" >
+                                <p:submenu label ="Cuentas por pagar" expanded="true">
                                     <p:menuitem value="Proveedores"
                                                 icon="pi pi-briefcase"
                                                 outcome="/View/Proveedor"/>
@@ -62,9 +76,17 @@
             <div id="content" class="left_content">
                 <ui:insert name="content">
 
+                    
+                    <div class="containerWelcome">
+                        <h:graphicImage name="imag/erpLogo.png"  height="100px" />
+                        <h2>Bienvenido a ERP Contable</h2>
+                        <p>Descripción del sistema</p>
+                    </div>
                 </ui:insert>
             </div>
         </div>
+        
+        
     </h:body>
 
 </html>
