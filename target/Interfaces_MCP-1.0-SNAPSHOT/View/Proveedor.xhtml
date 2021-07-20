@@ -26,7 +26,7 @@
 
                                              <p:commandButton value="Editar" 
                                                               icon="pi pi-pencil" 
-                                                              oncomplete="PF('ProveedorNew').show()"  
+                                                              oncomplete="PF('ProveedorEdit').show()"  
                                                               styleClass="ui-button-info" 
                                                               style="margin-right: .3rem" >                                
                                              </p:commandButton>
@@ -86,18 +86,13 @@
                               <p:dialog header="Nuevo proveedor"  minHeight="40" 
                                         height="auto" width="800px" showEffect="fade"
                                         modal="true" widgetVar="ProveedorNew">
-                                   <h:form style="height:600px;
-                                                  width: 600px;
-                                                  margin: 3%;
-                                                  position:absolute;
-                                                  top:  -30px;
-                                                  left: -10px">
+                                   <h:form >
                                         <p:outputPanel  class="ui-fluid">
                                              <div class="ui-fluid p-formgrid p-grid">
                                                   <label for="Proveedor" style="width:500px;">
                                                        <h3>Dirección</h3>
                                                        <div class="p-field p-col-12 p-md-3">
-                                                            <label style="padding-left: 17px">
+                                                            <label style="padding-left: 18px">
                                                                  Código: 
                                                             </label>                                            
                                                             <p:inputText id="IdProveedor" 
@@ -107,25 +102,43 @@
                                                                          background-color:silver;
                                                                          margin: 3px"/> 
 
-                                                            <label style="padding-left: 75px">
-                                                                 Nombre: 
+                                                            <label style="padding-left: 115px">
+                                                                 R.U.C: 
                                                             </label>
-                                                            <p:inputText id="NombreProveedor"
+                                                            <p:inputText id="rucProveedor"
                                                                          type="text" 
                                                                          style="width: 250px;
-                                                                                margin: 3px"/>
+                                                                         margin: 3px"/>
                                                        </div> 
+                                                       <div class="p-field p-col-12 p-md-3">
+                                                            <label style="padding-left: 10px">
+                                                                 Nombre: 
+                                                            </label>
+                                                            <p:inputText id="nombreProveedor"
+                                                                         type="text" 
+                                                                         style="width: 250px; 
+                                                                         margin: 3px;"/> 
+
+                                                            <label style="padding-left: 16px">
+                                                                 Razón Social:
+                                                            </label>
+                                                            <p:inputText id="razonSclProveedor"
+                                                                         type="text" 
+                                                                         style="width: 250px;  
+                                                                         margin: 3px;"/> 
+                                                       </div>
+
 
                                                        <div class="p-field p-col-12 p-md-3">
-                                                            <label style="padding-left: 4px">
+                                                            <label style="padding-left: 3px">
                                                                  Dirección: 
                                                             </label>
                                                             <p:inputText id="direccionProveedor"
                                                                          type="text" 
                                                                          style="width: 250px; 
-                                                                                margin: 3px;"/> 
+                                                                         margin: 3px;"/> 
 
-                                                            <label style="padding-left: 16px">
+                                                            <label style="padding-left: 41px">
                                                                  Teléfono:
                                                             </label>
                                                             <p:inputText id="telefonoProveedor"
@@ -135,21 +148,21 @@
                                                        </div>
 
                                                        <div class="p-field p-col-12 p-md-3">
-                                                            <label style="padding-left: 4px">
+                                                            <label style="padding-left: 5px">
                                                                  Contacto: 
                                                             </label>
                                                             <p:inputText id="contactoProveedor"
                                                                          type="text" 
                                                                          style="width: 250px;
-                                                                                margin: 3px;"/> 
+                                                                         margin: 3px;"/> 
 
-                                                            <label style="padding-left: 40px">
+                                                            <label style="padding-left: 65px">
                                                                  Email: 
                                                             </label>
                                                             <p:inputText id="emailProveedor"
                                                                          type="text" 
                                                                          style="width: 250px;
-                                                                                margin: 3px;"/>  
+                                                                         margin: 3px;"/>  
                                                        </div>
 
                                                        <div class="p-field p-col-12 p-md-3">
@@ -157,12 +170,12 @@
                                                             <p:inputText id="web_PageProveedor" 
                                                                          type="text" 
                                                                          style="width: 250px; 
-                                                                                margin: 3px;"/> 
+                                                                         margin: 3px;"/> 
                                                        </div>
                                                   </label>
                                                   <br>
                                                   </br>
-                                                  
+
                                                   <label for="Condiciones" style="width:500px;">
                                                        <h3>Condiciones</h3>
 
@@ -173,14 +186,14 @@
                                                             <p:inputText id="idDescuento" 
                                                                          type="text"                                                                     
                                                                          style="width: 200px;
-                                                                                margin: 3px;"/> 
+                                                                         margin: 3px;"/> 
                                                             <label style="padding-left: 54px">
                                                                  Días Descuento: 
                                                             </label>  
                                                             <p:inputText id="diasDescuento" 
                                                                          type="text" 
                                                                          style="width: 222px;
-                                                                                margin: 3px;"/>
+                                                                         margin: 3px;"/>
                                                        </div> 
 
                                                        <div class="p-field p-col-12 p-md-3">
@@ -189,12 +202,12 @@
                                                             </label>  
                                                             <p:inputText id="diasNeto" type="text" 
                                                                          style="width: 200px; 
-                                                                                margin: 3px;"/> 
+                                                                         margin: 3px;"/> 
                                                             Cant. Días Vencimiento:
                                                             <p:inputText id="cantDiasVencimiento" 
                                                                          type="text" 
                                                                          style="width: 220px; 
-                                                                                margin: 3px;"/> 
+                                                                         margin: 3px;"/> 
                                                        </div>
 
                                                        <div class="p-field p-col-12 p-md-3">
@@ -202,7 +215,7 @@
                                                             <p:inputText id="descripcionProveedor" 
                                                                          type="text" 
                                                                          style="width: 200px;
-                                                                                margin: 3px;"/>  
+                                                                         margin: 3px;"/>  
                                                             <label style="padding-left: 87px">
                                                                  Cuentas GL:  
                                                             </label>  
@@ -235,6 +248,171 @@
                                                          class="ui-button-secondary"/>
                                    </f:facet>
                               </p:dialog>
+                              <p:dialog header="Editar proveedor"  minHeight="40" 
+                                        height="auto" width="800px" showEffect="fade"
+                                        modal="true" widgetVar="ProveedorEdit">
+                                   <h:form>
+                                        <p:outputPanel  class="ui-fluid">
+                                             <div class="ui-fluid p-formgrid p-grid">
+                                                  <label for="Proveedor" style="width:500px;">
+                                                       <h3>Dirección</h3>
+                                                       <div class="p-field p-col-12 p-md-3">
+                                                            <label style="padding-left: 18px">
+                                                                 Código: 
+                                                            </label>                                            
+                                                            <p:inputText id="IdProveedor" 
+                                                                         type="text" 
+                                                                         disabled="true" 
+                                                                         style="width: 200px;
+                                                                         background-color:silver;
+                                                                         margin: 3px"/> 
+
+                                                            <label style="padding-left: 115px">
+                                                                 R.U.C: 
+                                                            </label>
+                                                            <p:inputText id="rucProveedor"
+                                                                         type="text" 
+                                                                         style="width: 250px;
+                                                                         margin: 3px"/>
+                                                       </div> 
+                                                       <div class="p-field p-col-12 p-md-3">
+                                                            <label style="padding-left: 10px">
+                                                                 Nombre: 
+                                                            </label>
+                                                            <p:inputText id="nombreProveedor"
+                                                                         type="text" 
+                                                                         style="width: 250px; 
+                                                                         margin: 3px;"/> 
+
+                                                            <label style="padding-left: 16px">
+                                                                 Razón Social:
+                                                            </label>
+                                                            <p:inputText id="razonSclProveedor"
+                                                                         type="text" 
+                                                                         style="width: 250px;  
+                                                                         margin: 3px;"/> 
+                                                       </div>
+
+
+                                                       <div class="p-field p-col-12 p-md-3">
+                                                            <label style="padding-left: 3px">
+                                                                 Dirección: 
+                                                            </label>
+                                                            <p:inputText id="direccionProveedor"
+                                                                         type="text" 
+                                                                         style="width: 250px; 
+                                                                         margin: 3px;"/> 
+
+                                                            <label style="padding-left: 41px">
+                                                                 Teléfono:
+                                                            </label>
+                                                            <p:inputText id="telefonoProveedor"
+                                                                         type="text" 
+                                                                         style="width: 250px;  
+                                                                         margin: 3px;"/> 
+                                                       </div>
+
+                                                       <div class="p-field p-col-12 p-md-3">
+                                                            <label style="padding-left: 5px">
+                                                                 Contacto: 
+                                                            </label>
+                                                            <p:inputText id="contactoProveedor"
+                                                                         type="text" 
+                                                                         style="width: 250px;
+                                                                         margin: 3px;"/> 
+
+                                                            <label style="padding-left: 65px">
+                                                                 Email: 
+                                                            </label>
+                                                            <p:inputText id="emailProveedor"
+                                                                         type="text" 
+                                                                         style="width: 250px;
+                                                                         margin: 3px;"/>  
+                                                       </div>
+
+                                                       <div class="p-field p-col-12 p-md-3">
+                                                            Web page:
+                                                            <p:inputText id="web_PageProveedor" 
+                                                                         type="text" 
+                                                                         style="width: 250px; 
+                                                                         margin: 3px;"/> 
+                                                       </div>
+                                                  </label>
+                                                  <br>
+                                                  </br>
+
+                                                  <label for="Condiciones" style="width:500px;">
+                                                       <h3>Condiciones</h3>
+
+                                                       <div class="p-field p-col-12 p-md-3">
+                                                            <label style="padding-left: 8px">
+                                                                 Descuento: 
+                                                            </label>                                               
+                                                            <p:inputText id="idDescuento" 
+                                                                         type="text"                                                                     
+                                                                         style="width: 200px;
+                                                                         margin: 3px;"/> 
+                                                            <label style="padding-left: 54px">
+                                                                 Días Descuento: 
+                                                            </label>  
+                                                            <p:inputText id="diasDescuento" 
+                                                                         type="text" 
+                                                                         style="width: 222px;
+                                                                         margin: 3px;"/>
+                                                       </div> 
+
+                                                       <div class="p-field p-col-12 p-md-3">
+                                                            <label style="padding-left: 18px">
+                                                                 Días neto: 
+                                                            </label>  
+                                                            <p:inputText id="diasNeto" type="text" 
+                                                                         style="width: 200px; 
+                                                                         margin: 3px;"/> 
+                                                            Cant. Días Vencimiento:
+                                                            <p:inputText id="cantDiasVencimiento" 
+                                                                         type="text" 
+                                                                         style="width: 220px; 
+                                                                         margin: 3px;"/> 
+                                                       </div>
+
+                                                       <div class="p-field p-col-12 p-md-3">
+                                                            Descripción:
+                                                            <p:inputText id="descripcionProveedor" 
+                                                                         type="text" 
+                                                                         style="width: 200px;
+                                                                         margin: 3px;"/>  
+                                                            <label style="padding-left: 87px">
+                                                                 Cuentas GL:  
+                                                            </label>  
+                                                            <p:selectOneMenu style=
+                                                                             "min-width: 14rem;
+                                                                             width: 10px;
+                                                                             height: 40px;"
+                                                                             placeholder="Seleccione">
+                                                                 <f:selectItem 
+                                                                      itemLabel="Banco" 
+                                                                      itemValue="Banco"/>
+                                                                 <f:selectItem 
+                                                                      itemLabel="Descuentos compra" 
+                                                                      itemValue="Terreno"/>
+                                                                 <f:selectItem 
+                                                                      itemLabel="Cuentas x pagar" 
+                                                                      itemValue="Cuentas x pagar"/>
+                                                            </p:selectOneMenu>  
+                                                       </div> 
+                                                  </label>
+                                             </div>
+                                        </p:outputPanel>
+                                   </h:form>
+
+                                   <f:facet name="footer">
+                                        <p:commandButton value="Save" 
+                                                         icon="pi pi-check"/>
+                                        <p:commandButton value="Cancel" icon="pi pi-times" 
+                                                         onclick="PF('ProveedorEdit').hide()"
+                                                         class="ui-button-secondary"/>
+                                   </f:facet>
+                              </p:dialog>
 
                               <p:dialog header="Buscar Proveedor" widgetVar="BuscarProveedor"  
                                         minHeight="40" height="200px" width="400px"
@@ -257,7 +435,7 @@
                                         <div class="p-field p-col-12 p-md-3">
                                              <label for="BProveedor" style="position: relative;
                                                     top: 10px;left: 15px;">    
-                                                  
+
                                                   <p:inputText id="BProveedor" type="text" 
                                                                style="width: 200px;"/>
                                                   <p:commandButton icon="pi pi-search"                                                    
