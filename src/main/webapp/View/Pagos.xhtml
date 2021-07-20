@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
@@ -78,9 +79,12 @@
                 </h:form>
                 <!-- Registro de pago-->
                 <p:dialog header="Registrar Pago " widgetVar="RegistroPago"  
-                          minHeight="40" height="auto" width="700px" showEffect="fade" modal="true">
-                    <h:form style="height:500px;width: 600px;margin: 3%;position: relative;top:  -30px;left: -10px">
-                        <div class="ui-fluid p-formgrid p-grid" style="height:500px;width: 600px;margin: 3%;">
+                          minHeight="40" height="auto" width="700px" 
+                          showEffect="fade" modal="true">
+                    <h:form style="height:500px;width: 600px;margin: 3%;
+                            position: relative;top:  -30px;left: -10px">
+                        <div class="ui-fluid p-formgrid p-grid" 
+                             style="height:500px;width: 600px;margin: 3%;">
 
                             <!-- Datos del proveedor -->
                             <div class="p-field p-col-12 p-md-3">
@@ -92,12 +96,14 @@
                                                  disabled="true"/>
                                     <p:inputText id="IdProveedor" type="text" 
                                                  disabled="true" 
-                                                 style="width: 200px;background-color:  silver;
+                                                 style="width: 200px;
+                                                 background-color:  silver;
                                                  margin: 10px"/>
                                     <p:commandButton icon="pi pi-folder-open" 
                                                      oncomplete="PF('BuscarProveedor').show()"
                                                      styleClass="ui-button-warning" 
-                                                     style="margin-right: .5rem;width: 40px">
+                                                     style="margin-right: .5rem;
+                                                     width: 40px">
                                     </p:commandButton>
 
                                 </label>
@@ -153,9 +159,11 @@
                                                  background-color:  silver;position: relative;
                                                  top: 5px;left: 13px;" 
                                                  disabled="true"/>
-                                    <p:outputLabel for="Fecha" value="Fecha: " style="position: relative;
+                                    <p:outputLabel for="Fecha" value="Fecha: " 
+                                                   style="position: relative;
                                                    left: 30px;"/>
-                                    <p:datePicker id="Fecha" showIcon="true" style="width: 150px;position: relative;
+                                    <p:datePicker id="Fecha" showIcon="true" 
+                                                  style="width: 150px;position: relative;
                                                   left: 50px;"/>
                                 </label>
                                 <p:dataTable value="#{pagoMB.pagos}" 
@@ -185,14 +193,18 @@
                             </div>
 
                             <div class="p-field p-col-12 p-md-3" 
-                                 style="width: 250px; position: relative;top: 200px;
+                                 style="width: 250px; position: relative;
+                                 top: 200px;
                                  left: 200px;width: 300px;">
-                                <p:commandButton style="width: 100px;margin-right: .5rem;" 
+                                <p:commandButton style="width: 100px;
+                                                 margin-right: .5rem;" 
                                                  value="Guardar" 
                                                  styleClass="ui-confirmdialog-no ui-button-flat">
                                 </p:commandButton>
-                                <p:commandButton style="width: 100px;margin-right: .5rem;" 
-                                                 value="Cancelar" styleClass="ui-button-secondary" 
+                                <p:commandButton style="width: 100px;
+                                                 margin-right: .5rem;" 
+                                                 value="Cancelar" 
+                                                 styleClass="ui-button-secondary" 
                                                  >
                                 </p:commandButton>
                             </div>
@@ -203,9 +215,12 @@
                 </p:dialog>
                 <!-- Modificar pago-->
                 <p:dialog header="Editar Pago " widgetVar="ModificarPago"  
-                          minHeight="40" height="auto" width="700px" showEffect="fade" modal="true">
-                    <h:form style="height:500px;width: 600px;margin: 3%;position: relative;top:  -30px;left: -10px">
-                        <div class="ui-fluid p-formgrid p-grid" style="height:500px;width: 600px;margin: 3%;">
+                          minHeight="40" height="auto" width="700px" 
+                          showEffect="fade" modal="true">
+                    <h:form style="height:500px;width: 600px;margin: 3%;
+                            position: relative;top:  -30px;left: -10px">
+                        <div class="ui-fluid p-formgrid p-grid" 
+                             style="height:500px;width: 600px;margin: 3%;">
 
                             <!-- Datos del proveedor -->
                             <div class="p-field p-col-12 p-md-3">
@@ -217,7 +232,8 @@
                                                  disabled="true"/>
                                     <p:inputText id="IdProveedor" type="text" 
                                                  disabled="true" 
-                                                 style="width: 200px;background-color:  silver;
+                                                 style="width: 200px;
+                                                 background-color:  silver;
                                                  margin: 10px"/>
                                 </label>
                             </div>
@@ -228,7 +244,8 @@
 
                                     <p:selectOneMenu style="width: 130px;height: 42px;
                                                      position: relative;top: 8px;
-                                                     left: 8px;" placeholder="Seleccione" >
+                                                     left: 8px;" 
+                                                     placeholder="Seleccione" >
                                         <f:selectItem itemLabel="Caja" 
                                                       itemValue="Caja"/>
                                         <f:selectItem itemLabel="Cheque" 
@@ -252,7 +269,8 @@
                                     <p:selectOneMenu style="min-width: 14rem;
                                                      width: 50px;height: 40px;
                                                      position: relative;top: 20px;
-                                                     left: 28px;" placeholder="Seleccione" >
+                                                     left: 28px;" 
+                                                     placeholder="Seleccione" >
                                         <f:selectItem itemLabel="Banco Pichincha" 
                                                       itemValue="BancoPichincha"/>
                                         <f:selectItem itemLabel="Banco Machala" 
@@ -269,12 +287,15 @@
                                     Importe:
                                     <p:inputText id="Importe" type="text" 
                                                  style="width: 150px;
-                                                 background-color:  silver;position: relative;
+                                                 background-color:  silver;
+                                                 position: relative;
                                                  top: 5px;left: 13px;" 
                                                  disabled="true"/>
-                                    <p:outputLabel for="Fecha" value="Fecha: " style="position: relative;
+                                    <p:outputLabel for="Fecha" value="Fecha: " 
+                                                   style="position: relative;
                                                    left: 30px;"/>
-                                    <p:datePicker id="Fecha" showIcon="true" style="width: 150px;position: relative;
+                                    <p:datePicker id="Fecha" showIcon="true" 
+                                                  style="width: 150px;position: relative;
                                                   left: 50px;"/>
                                 </label>
                                 <p:dataTable value="#{pagoMB.pagos}" 
@@ -306,10 +327,12 @@
                             <div class="p-field p-col-12 p-md-3" 
                                  style="width: 250px; position: relative;top: 200px;
                                  left: 200px;width: 300px;">
-                                <p:commandButton style="width: 100px;margin-right: .5rem;" 
+                                <p:commandButton style="width: 100px;
+                                                 margin-right: .5rem;" 
                                                  value="Guardar" >
                                 </p:commandButton>
-                                <p:commandButton style="width: 100px;" value="Cancelar"
+                                <p:commandButton style="width: 100px;" 
+                                                 value="Cancelar"
                                                  styleClass="ui-button-secondary">
                                 </p:commandButton>
                             </div>
@@ -322,15 +345,20 @@
                 <p:dialog modal="true" height="400" 
                           width="400" widgetVar="DesahabilitarPago">
                     <h:form>
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
-                            <p:commandButton value="OK" type="button" styleClass="ui-confirmdialog-yes"/>
-                            <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no ui-button-flat" />
+                        <p:confirmDialog global="true" showEffect="fade" 
+                                         hideEffect="fade" responsive="true" 
+                                         width="350">
+                            <p:commandButton value="OK" type="button" 
+                                             styleClass="ui-confirmdialog-yes"/>
+                            <p:commandButton value="Cancelar" type="button" 
+                                             styleClass="ui-confirmdialog-no ui-button-flat" />
                         </p:confirmDialog>
                     </h:form>
                 </p:dialog>
                 <!-- Buscar pago-->
                 <p:dialog header="Buscar Pago " widgetVar="BuscarPago"  
-                          minHeight="40" height="200px" width="400px" showEffect="fade" modal="true">
+                          minHeight="40" height="200px" width="400px" 
+                          showEffect="fade" modal="true">
                     <h:form style="height: 200px">
                         <div class="p-field p-col-12 p-md-3">
                             <label for="BReferencia" style=" position: relative;
@@ -358,13 +386,16 @@
                         </div>
                         <div class="p-field p-col-12 p-md-3" style="width: 200px; position: relative;
                              top: 28px;left: 100px;">
-                            <p:commandButton type="button" value="OK" style="margin-right: .5rem" />
-                            <p:commandButton type="button" value="Cancelar" styleClass="ui-button-secondary" />
+                            <p:commandButton type="button" value="OK" 
+                                             style="margin-right: .5rem" />
+                            <p:commandButton type="button" value="Cancelar" 
+                                             styleClass="ui-button-secondary" />
                         </div>
                     </h:form>
                 </p:dialog>
                 <p:dialog header="Buscar Proveedor " widgetVar="BuscarProveedor"  
-                          minHeight="40" height="300px" width="500px" showEffect="fade" modal="true">
+                          minHeight="40" height="300px" width="500px" 
+                          showEffect="fade" modal="true">
                     <h:form>
                         <div class="p-field p-col-12 p-md-3"> 
                             <p:inputText id="NombreProveedor" type="text" 
@@ -386,8 +417,6 @@
                     </h:form>
                 </p:dialog>
             </ui:define>
-
         </ui:composition>
-
     </h:body>
 </html>

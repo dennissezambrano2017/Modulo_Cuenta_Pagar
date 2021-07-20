@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -11,7 +12,8 @@
         <ui:composition template="./../Plantilla/Plantilla.xhtml">
 
             <ui:define name="content">
-                <div class="container contenedor-flex" style="background-color: white; margin: 20px;">
+                <div class="container contenedor-flex" 
+                     style="background-color: white; margin: 20px;">
                     <h1 class="title">Generar Calendario de Pagos</h1>
 
                     <h:form class="formulario">
@@ -21,23 +23,29 @@
                             layout="grid" 
                             styleClass="showcase-text-align-center">
 
-                            <p:outputLabel style="margin-right: 10px;" for="proveedor" value="Proveedor: "/>
+                            <p:outputLabel style="margin-right: 10px;" 
+                                           for="proveedor" value="Proveedor: "/>
                             <p:selectOneMenu id="proveedor"  style="width:250px">
-                                <f:selectItem itemLabel="Selecionar proveedor" itemValue="" noSelectionOption="true"/>
-                                <f:selectItem itemLabel="Proveedor 1" itemValue="" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Selecionar proveedor" 
+                                              itemValue="" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Proveedor 1" 
+                                              itemValue="" noSelectionOption="true"/>
                             </p:selectOneMenu>
 
                             <h5 style="margin-right: 10px;">Todos los proveedores</h5>
                             <p:toggleSwitch />
 
 
-                            <p:outputLabel style="margin-right: 10px;" for="desde" value="Desde:"/>
+                            <p:outputLabel style="margin-right: 10px;" 
+                                           for="desde" value="Desde:"/>
                             <p:datePicker id="desde"  />
 
-                            <p:outputLabel style="margin-right: 10px;" for="hasta" value="Hasta:"/>
+                            <p:outputLabel style="margin-right: 10px;" 
+                                           for="hasta" value="Hasta:"/>
                             <p:datePicker id="hasta"  />
 
-                            <h5 style="margin-right: 10px;">Sin filtro de fechas</h5>
+                            <h5 style="margin-right: 10px;">
+                                Sin filtro de fechas</h5>
                             <p:toggleSwitch />
 
 
@@ -51,17 +59,10 @@
                                         styleClass="ui-button-danger ui-button-outlined" />
                                 </p:column>
                             </p:row>
-
-
-
                         </p:panelGrid>
-
-
                     </h:form>
                 </div>
             </ui:define>
-
         </ui:composition>
-
     </h:body>
 </html>
