@@ -29,22 +29,23 @@
                             <p:outputLabel 
                                 for="proveedor" 
                                 value="Proveedor: "/>
-                            <p:selectOneMenu id="proveedor"  style="width:250px">
+                            <p:selectOneMenu id="proveedor" value="#{bindGenerarCalendario.opcionSeleccionada}"  style="width:250px">
                                 <f:selectItem 
                                     itemLabel="Selecionar proveedor" 
-                                    itemValue="" 
-                                    noSelectionOption="true"/>
+                                    itemValue=""/>
                                 <f:selectItem 
                                     itemLabel="Proveedor 1" 
-                                    itemValue="" 
-                                    noSelectionOption="true"/>
+                                    itemValue="Proveedor 1" />
+                                <f:selectItem 
+                                    itemLabel="Proveedor 2" 
+                                    itemValue="Proveedor 2"/>
                             </p:selectOneMenu>
 
 
 
 
                             <p:outputLabel value="Todos los proveedores:"/>
-                            <p:toggleSwitch />
+                            <p:toggleSwitch value="#{bindGenerarCalendario.todosProveedores}" />
 
 
                             <p:outputLabel 
@@ -61,14 +62,15 @@
 
 
                             <p:outputLabel value="Sin parametros de fechas"/>
-                            <p:toggleSwitch />
+                            <p:toggleSwitch value="#{bindGenerarCalendario.sinFechas}"/>
 
 
                             <p:row>
                                 <p:column styleClass="ui-grid-col-12" style="display: flex; justify-content: flex-end">
                                     <p:commandButton
                                         icon="pi pi-check" 
-                                        value="Generar"  />
+                                        value="Generar" 
+                                        action="#{bindGenerarCalendario.showInfo()}" />
 
                                     <p:commandButton 
                                         icon="pi pi-times" 

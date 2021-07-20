@@ -13,9 +13,10 @@
     background-color: #445976;
     color: #E2EAF6;
     margin-bottom: 10px;
+    padding-left: 20px;
     
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     border-radius: 2px;
 }
