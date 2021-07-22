@@ -38,10 +38,10 @@
                             <p:growl>
                                 <p:autoUpdate/>
                             </p:growl>
-                            <p:panelMenu style="width:250px" >
+                            <p:panelMenu  >
                                 <p:submenu label ="Cuentas por pagar" expanded="true">
                                     <p:menuitem value="Proveedores"
-                                                icon="pi pi-briefcase"
+                                                icon="pi pi-refresh"
                                                 outcome="/View/Proveedor"/>
                                     <p:menuitem value="Facturas Compra"
                                                 icon="pi pi-file-o"
@@ -52,10 +52,16 @@
                                     
                                     <p:submenu label="Reportes">
                                         <p:menuitem value="Generar calendario de pagos"
+                                                    icon="pi pi-file-pdf" 
+                                                    style="display: flex; align-items: center; text-decoration: none;"
                                                     outcome="/View/Reportes/Calendario"/>
                                         <p:menuitem value="Reportes de cuentas por pagar"
+                                                    style="display: flex; align-items: center; text-decoration: none;"
+                                                    icon="pi pi-file-pdf"
                                                     outcome="/View/Reportes/CuentaPagar"/>
                                         <p:menuitem value="Resumen pedientes de pagos"
+                                                    style="display: flex; align-items: center; text-decoration: none;"
+                                                    icon="pi pi-file-pdf"
                                                     outcome="/View/Reportes/Pendientes"/>
                                     </p:submenu>
                                     
