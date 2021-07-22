@@ -143,7 +143,7 @@ public class bindGenerarCalendario implements Serializable {
         
         ec.responseReset();
         ec.setResponseContentType("application/pdf");
-        ec.setResponseHeader("Content-disposition", "attachment; filename=\"hola.pdf\"");
+        ec.setResponseHeader("Content-disposition", "attachment; filename=hola.pdf");
         
         try (OutputStream stream = ec.getResponseOutputStream()) {
             ManagerCalendario mc = new ManagerCalendario();
