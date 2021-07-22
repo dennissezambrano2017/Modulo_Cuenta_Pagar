@@ -125,10 +125,11 @@
                             <p:row>
                                 <p:column styleClass="ui-grid-col-12" style="display: flex; justify-content: flex-end">
                                     <p:commandButton
+                                        onclick="this.form.target='_blank'"
                                         icon="pi pi-check" 
                                         value="Generar" 
                                         styleClass="ui-button-success" 
-                                        actionListener="#{bindGenerarCalendario.mostrar}"/>
+                                        action="#{bindGenerarCalendario.mostrar2}"/>
 
                                     <p:commandButton 
                                         icon="pi pi-times" 

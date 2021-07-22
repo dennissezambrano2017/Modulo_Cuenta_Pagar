@@ -9,6 +9,7 @@ import Model.ManagerCalendario;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +35,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
  */
 //@Named(value = "bindGenerarCalendario")
 @ManagedBean(name = "bindGenerarCalendario")
-@ViewScoped
+@RequestScoped
 public class bindGenerarCalendario implements Serializable {
 
     private String proveedor;
@@ -100,8 +102,9 @@ public class bindGenerarCalendario implements Serializable {
     
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
        
-        response.setContentType("application/xml");
-        response.setHeader("Content-disposition", "attachment; filename='jsfReport.xml'");
+        response.setContentType("application/pdf");
+        
+        response.addHeader("Content-disposition", "attachment; filename=jsfReport.pdf");
         
         ManagerCalendario mc = new ManagerCalendario();
         
@@ -120,8 +123,8 @@ public class bindGenerarCalendario implements Serializable {
             
             System.out.println("Ancho: " + jasperPrint.getPageWidth());
            
-            //JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
-            JasperExportManager.exportReportToXmlStream(jasperPrint, outputStream);
+            JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+            //JasperExportManager.exportReportToXmlStream(jasperPrint, outputStream);
             
             outputStream.flush();
             outputStream.close();
@@ -129,6 +132,44 @@ public class bindGenerarCalendario implements Serializable {
         }
         
         FacesContext.getCurrentInstance().responseComplete();
+        
+        System.out.println("fin proccess");
+    }
+    
+    public void mostrar2() throws IOException, JRException { 
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        
+        ec.responseReset();
+        ec.setResponseContentType("application/pdf");
+        ec.setResponseHeader("Content-disposition", "attachment; filename=\"hola.pdf\"");
+        
+        try (OutputStream stream = ec.getResponseOutputStream()) {
+            ManagerCalendario mc = new ManagerCalendario();
+            
+            Map<String, Object> parametros = new HashMap<String, Object>();
+            parametros.put("titulo", "Reporte desde java");
+            
+            
+            File filetext = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/Blank_A4.jasper"));
+            
+            
+            JasperPrint jasperPrint = JasperFillManager.fillReport(
+                    filetext.getPath(),
+                    parametros,
+                    new JRBeanCollectionDataSource(mc.getListCuotas())
+            );
+            
+            JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
+            //JasperExportManager.exportReportToXmlStream(jasperPrint, outputStream);
+            
+            stream.flush();
+            stream.close();
+        }
+
+        
+        fc.responseComplete();
         
         System.out.println("fin proccess");
     }
