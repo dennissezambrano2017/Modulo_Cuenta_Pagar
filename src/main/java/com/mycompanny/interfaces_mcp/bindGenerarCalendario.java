@@ -152,7 +152,7 @@ public class bindGenerarCalendario implements Serializable {
             parametros.put("titulo", "Reporte desde java");
             
             
-            File filetext = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/Blank_A4.jasper"));
+            File filetext = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/Calendario.jasper"));
             
             
             JasperPrint jasperPrint = JasperFillManager.fillReport(
@@ -179,6 +179,7 @@ public class bindGenerarCalendario implements Serializable {
         
         
     }
+   
     
     public void exportarpdf(ActionEvent actionEvent) throws JRException, IOException {
         Map<String, Object> parametros = new HashMap<String, Object>();
