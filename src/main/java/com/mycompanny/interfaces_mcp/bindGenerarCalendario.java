@@ -31,14 +31,32 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @RequestScoped
 public class bindGenerarCalendario implements Serializable {
 
+    // Parametro de la vista
     private String proveedor;
-    private boolean  todosProveedores;
-    
+    private boolean  todosProveedores;    
     private LocalDate desde = LocalDate.now();
     private LocalDate hasta = LocalDate.now();
-    
     private boolean sinfecha;
 
+    
+    // Datos a consultar en la db
+    private ManagerCalendario managerCalendario;
+
+    
+    public bindGenerarCalendario() {
+        System.out.println("Iniciamos la class");
+        managerCalendario = new ManagerCalendario();
+    }
+    
+    
+    public ManagerCalendario getManagerCalendario() {
+        return managerCalendario;
+    }
+
+    public void setManagerCalendario(ManagerCalendario managerCalendario) {
+        this.managerCalendario = managerCalendario;
+    }
+    
     public String getProveedor() {
         return proveedor;
     }
@@ -81,9 +99,7 @@ public class bindGenerarCalendario implements Serializable {
 
    
     
-    public bindGenerarCalendario() {
-        System.out.println("Iniciamos la class");
-    }
+    
     
     
     

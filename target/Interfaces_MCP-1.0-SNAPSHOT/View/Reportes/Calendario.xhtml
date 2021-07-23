@@ -10,7 +10,7 @@
 
         <!-- Vista de generar calendario de pagos -->
         <ui:composition template="../../Plantilla/Plantilla.xhtml">
-            
+
             <ui:define name="content">
 
                 <div class="container contenedor-flex">
@@ -75,13 +75,15 @@
                             </p:row>
                         </p:panelGrid>
                     </h:form>
+
+
                 </div>
 
 
-                <p:dialog id="gmapDialog" widgetVar="dlg" width="800" height="400" modal="true">
-                    <h3>info para mostrar reporte</h3>
-                </p:dialog>
-                
+                <ui:include src="ModalGenerarCalendario.xhtml">
+                    <ui:param name="nombre" value="Roberto"></ui:param>
+                </ui:include>
+
             </ui:define>
         </ui:composition>
 

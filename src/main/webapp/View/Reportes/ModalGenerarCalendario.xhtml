@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+   
+    <h:body>
+        <p:dialog id="gmapDialog" widgetVar="dlg" width="1200" height="400" modal="true">
+            <h:form>
+                <h2>Reporte Calendario de pagos</h2>
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton type="button" value="Exportar PDF" icon="pi pi-file-pdf"/>
+                    </p:toolbarGroup>
+                </p:toolbar>
+                <p:dataTable 
+                    id="Cuotas" 
+                    var="cuota" 
+                    value="#{bindGenerarCalendario.managerCalendario.listCuotas}" 
+                    rowKey="#{cuota.numero}">
+                    
+                    <p:column headerText="Numero">
+                        <h:outputText value="#{cuota.numero}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Proveedor">
+                        <h:outputText value="#{cuota.proveedor}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Descripción">
+                        <h:outputText value="#{cuota.descripcion}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Fecha">
+                        <h:outputText value="#{cuota.fecha}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Interes">
+                        <h:outputText value="#{cuota.interes}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Cuota">
+                        <h:outputText value="#{cuota.cuota}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Saldo Capital">
+                        <h:outputText value="#{cuota.saldoCapital}"/>
+                    </p:column>
+                    
+                </p:dataTable>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+
