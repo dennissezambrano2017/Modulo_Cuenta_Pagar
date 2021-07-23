@@ -38,10 +38,10 @@
                             <p:growl>
                                 <p:autoUpdate/>
                             </p:growl>
-                            <p:panelMenu style="width:250px" >
+                            <p:panelMenu  >
                                 <p:submenu label ="Cuentas por pagar" expanded="true">
                                     <p:menuitem value="Proveedores"
-                                                icon="pi pi-briefcase"
+                                                icon="pi pi-refresh"
                                                 outcome="/View/Proveedor"/>
                                     <p:menuitem value="Facturas Compra"
                                                 icon="pi pi-file-o"
@@ -49,13 +49,20 @@
                                     <p:menuitem value="Pagos"
                                                 icon="pi pi-money-bill"
                                                 outcome="/View/Pagos"/>
+                                    
                                     <p:submenu label="Reportes">
                                         <p:menuitem value="Generar calendario de pagos"
-                                                    outcome="/View/Calendario"/>
+                                                    icon="pi pi-file-pdf" 
+                                                    style="display: flex; align-items: center; text-decoration: none;"
+                                                    outcome="/View/Reportes/Calendario"/>
                                         <p:menuitem value="Reportes de cuentas por pagar"
-                                                    outcome="/View/CuentaPagar"/>
+                                                    style="display: flex; align-items: center; text-decoration: none;"
+                                                    icon="pi pi-file-pdf"
+                                                    outcome="/View/Reportes/CuentaPagar"/>
                                         <p:menuitem value="Resumen pedientes de pagos"
-                                                    outcome="/View/Pendientes"/>
+                                                    style="display: flex; align-items: center; text-decoration: none;"
+                                                    icon="pi pi-file-pdf"
+                                                    outcome="/View/Reportes/Pendientes"/>
                                     </p:submenu>
                                     <p:menuitem value="Anticipos"
                                                 icon="pi pi-file-o"
@@ -72,12 +79,13 @@
             <div id="content" class="left_content">
                 <ui:insert name="content">
 
-                    
+                    <!-- Contenido por defecto. -->
                     <div class="containerWelcome">
                         <h:graphicImage name="imag/erpLogo.png"  height="100px" />
                         <h2>Bienvenido a ERP Contable</h2>
                         <p>Descripción del sistema</p>
                     </div>
+                    
                 </ui:insert>
             </div>
         </div>
