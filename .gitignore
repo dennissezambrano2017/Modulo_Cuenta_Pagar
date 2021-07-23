@@ -24,8 +24,8 @@ hs_err_pid*
 
 ## configuración para ignorar file no necesarios.
 
-### Maven ###
-target/
+### Maven proyecto ###
+target/*
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup

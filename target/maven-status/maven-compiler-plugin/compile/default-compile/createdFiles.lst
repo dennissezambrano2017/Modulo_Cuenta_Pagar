@@ -1,9 +1,0 @@
-com\mycompanny\interfaces_mcp\resources\JavaEE8Resource.class
-DataView\PagoDAO.class
-Controller\PagoManagedBean.class
-com\mycompanny\interfaces_mcp\JAXRSConfiguration.class
-Model\Cuotas.class
-Model\ManagerCalendario.class
-com\mycompanny\interfaces_mcp\bindGenerarCalendario.class
-DataView\Conexion.class
-Model\Pago.class
