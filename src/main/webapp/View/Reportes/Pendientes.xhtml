@@ -50,6 +50,7 @@
                             <p:row>
                                 <p:column styleClass="ui-grid-col-12" style="display: flex; justify-content: flex-end">
                                     <p:commandButton
+                                        onclick="PF('dlg').show();"
                                         icon="pi pi-check" 
                                         styleClass="ui-button-success" 
                                         value="Generar"  />
@@ -66,6 +67,11 @@
 
                     </h:form>
                 </div>
+                
+                <!-- Insertamos la modal de Resumen pendientes de pagos -->
+                <ui:include src="ModalResumenPendientesDePagos.xhtml">
+                    <ui:param name="nombre" value="Roberto"></ui:param>
+                </ui:include>
             </ui:define>
 
         </ui:composition>

@@ -17,7 +17,8 @@ public class ManagerCalendario {
 
     public ManagerCalendario() {
         this.listCuotas = new ArrayList<Cuotas>();
-        listCuotas.add(new Cuotas(1, "Roberto", "sdlfkjs", null, 255, 155, 1555));
+        listCuotas.add(new Cuotas(1, "Roberto", "sdlfkjs", LocalDate.now(), 255, 155, 1555));
+        listCuotas.add(new Cuotas(2, "Daniel", "data mas data", LocalDate.now(), 255, 155, 1555));
     }
     private String titulo;
     private LocalDate fecha;

@@ -25,7 +25,7 @@
                             <p:outputLabel 
                                 for="proveedor" 
                                 value="Proveedor: "/>
-                            <p:selectOneMenu id="proveedor" value="#{bindGenerarCalendario.proveedor}"  style="width:250px">
+                            <p:selectOneMenu id="proveedor" value="#{beanGenerarCalendario.proveedor}"  style="width:250px">
                                 <f:selectItem 
                                     itemLabel="Selecionar proveedor" 
                                     itemValue=""/>
@@ -38,24 +38,24 @@
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Todos los proveedores:"/>
-                            <p:toggleSwitch value="#{bindGenerarCalendario.todosProveedores}" />
+                            <p:toggleSwitch value="#{beanGenerarCalendario.todosProveedores}" />
 
 
                             <p:outputLabel 
                                 style="margin-right: 10px;" 
                                 for="desde" 
                                 value="Desde:"/>
-                            <p:datePicker id="desde" value="#{bindGenerarCalendario.desde}" />
+                            <p:datePicker id="desde" value="#{beanGenerarCalendario.desde}" />
 
                             <p:outputLabel 
                                 style="margin-right: 10px;" 
                                 for="hasta" 
                                 value="Hasta:"/>
-                            <p:datePicker id="hasta" value="#{bindGenerarCalendario.hasta}" />
+                            <p:datePicker id="hasta" value="#{beanGenerarCalendario.hasta}" />
 
 
                             <p:outputLabel value="Sin parametros de fechas"/>
-                            <p:toggleSwitch value="#{bindGenerarCalendario.sinfecha}" />
+                            <p:toggleSwitch value="#{beanGenerarCalendario.sinfecha}" />
 
 
                             <p:row>
@@ -79,7 +79,7 @@
 
                 </div>
 
-
+                <!-- Insertamos la modal de generar Calendario de pagos. -->
                 <ui:include src="ModalGenerarCalendario.xhtml">
                     <ui:param name="nombre" value="Roberto"></ui:param>
                 </ui:include>

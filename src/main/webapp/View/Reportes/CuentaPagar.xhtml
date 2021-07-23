@@ -52,9 +52,10 @@
                             <p:row>
                                 <p:column styleClass="ui-grid-col-12" style="display: flex; justify-content: flex-end">
                                     <p:commandButton
+                                        onclick="PF('dlg').show();"
                                         icon="pi pi-check" 
                                         styleClass="ui-button-success" 
-                                        value="Generar"  />
+                                        value="Vista Previa"  />
 
                                     <p:commandButton 
                                         icon="pi pi-times" 
@@ -67,6 +68,11 @@
 
                     </h:form>
                 </div>
+                
+                <!-- Insertamos Modal de Cuentas por pagar -->
+                <ui:include src="ModalCuentasPorPagar.xhtml">
+                    <ui:param name="nombre" value="Roberto"></ui:param>
+                </ui:include>
             </ui:define>
 
         </ui:composition>
