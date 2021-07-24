@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.time.LocalDate;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.enterprise.context.RequestScoped;
@@ -40,8 +41,12 @@ public class BeanGenerarCalendario implements Serializable {
     // Datos a consultar en la db
     private ManagerCalendario managerCalendario;
 
-    public BeanGenerarCalendario() {
+    public BeanGenerarCalendario()  {
         System.out.println("Iniciamos la class");
+        
+        //System.out.println(database.getInstancia().getPersonas());
+        
+        System.out.println("pasamos db");
         managerCalendario = new ManagerCalendario();
     }
 
