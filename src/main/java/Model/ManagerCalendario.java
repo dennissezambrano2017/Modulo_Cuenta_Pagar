@@ -15,38 +15,71 @@ import java.util.List;
  */
 public class ManagerCalendario {
 
+    
+    private String Titulo;
+    private LocalDate Fecha; // fecha del corte, que se genero el reporte
+    // lista de las factuas a los cuales hay que pagar.
+    private List<ReporteFactura> listFacturas;
+
+    
     public ManagerCalendario() {
-        this.listCuotas = new ArrayList<Cuotas>();
-        listCuotas.add(new Cuotas(1, "Roberto", "sdlfkjs", LocalDate.now(), 255, 155, 1555));
-        listCuotas.add(new Cuotas(2, "Daniel", "data mas data", LocalDate.now(), 255, 155, 1555));
+        //this.listCuotas = new ArrayList<Cuotas>();
+        this.listFacturas = new ArrayList<>();
+        this.listFacturas.add(
+                new ReporteFactura(
+                        LocalDate.now(), 
+                        "software sa", 
+                        "001", 
+                        100, 
+                        LocalDate.now().plusWeeks(1), "Contado"));
+        this.listFacturas.add(
+                new ReporteFactura(
+                        LocalDate.now(), 
+                        "Coca cola", 
+                        "002", 
+                        500, 
+                        LocalDate.now().plusWeeks(1), "Cuotas"));
     }
-    private String titulo;
-    private LocalDate fecha;
-    // lista de las cuotas
-    private List<Cuotas> listCuotas;
 
     public String getTitulo() {
-        return titulo;
+        return Titulo;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTitulo(String Titulo) {
+        this.Titulo = Titulo;
     }
 
     public LocalDate getFecha() {
-        return fecha;
+        return Fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
+    public void setFecha(LocalDate Fecha) {
+        this.Fecha = Fecha;
     }
 
-    public List<Cuotas> getListCuotas() {
-        return listCuotas;
+    public List<ReporteFactura> getListFacturas() {
+        return listFacturas;
     }
 
-    public void setListCuotas(List<Cuotas> listCuotas) {
-        this.listCuotas = listCuotas;
+    public void setListFacturas(List<ReporteFactura> listFacturas) {
+        this.listFacturas = listFacturas;
+    }
+    
+    // getListFacturasFilter retorna las facturas que este dentro del rango
+    // de las fechas que se le pasa
+    public List<ReporteFactura> getListFacturasFilter(LocalDate inicio, LocalDate fin) {
+        System.out.println("lista de factura con filtro");
+        List<ReporteFactura> resultado;
+        resultado = new ArrayList<>();
+        listFacturas.forEach(fac -> {
+            if (fac.getFechaVencimiento().isAfter(inicio)) {
+                resultado.add(fac);
+            }
+            
+        });
+        
+        resultado.add(new ReporteFactura(LocalDate.now(), "ultimo", "003", 22, LocalDate.now().plusDays(2), "Contable"));
+        return resultado;
     }
     
     

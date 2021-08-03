@@ -5,57 +5,7 @@
       xmlns:p="http://primefaces.org/ui">
    
     <h:body>
-        <p:dialog header="Reporte Calendario de pagos" id="gmapDialog" widgetVar="dlg" width="1200" height="400" modal="true">
-            <h:form>
-                
-                <p:toolbar>
-                    <p:toolbarGroup>
-                        <p:commandButton
-                            value="Exportar PDF" 
-                            ajax="false"
-                            actionListener="#{beanGenerarCalendario.exportpdf()}"
-                            icon="pi pi-file-pdf" 
-                            styleClass="ui-button-raised" />
-                        <p:button value="Exportar Excel" icon="pi pi-file-excel" styleClass="ui-button-raised ui-button-success" />
-                    </p:toolbarGroup>
-                </p:toolbar>
-                <p:dataTable 
-                    id="Cuotas" 
-                    var="cuota" 
-                    value="#{beanGenerarCalendario.managerCalendario.listCuotas}" 
-                    rowKey="#{cuota.numero}">
-                    
-                    <p:column headerText="Fecha de adquicición">
-                        <h:outputText value="#{cuota.fecha}"/>
-                    </p:column>
-                    
-                    <p:column headerText="Proveedor">
-                        <h:outputText value="#{cuota.proveedor}"/>
-                    </p:column>
-                    
-                    <p:column headerText="Numero de factura">
-                        <h:outputText value="#{cuota.descripcion}"/>
-                    </p:column>
-                    
-                    <p:column headerText="Valor de factura">
-                        <h:outputText value="#{cuota.cuota}"/>
-                    </p:column>
-                    
-                    <p:column headerText="Fecha de vencimiento">
-                        <h:outputText value="#{cuota.fecha}"/>
-                    </p:column>
-                    
-                    <p:column headerText="Cuota">
-                        <h:outputText value="#{cuota.cuota}"/>
-                    </p:column>
-                    
-                    <p:column headerText="Saldo Capital">
-                        <h:outputText value="#{cuota.saldoCapital}"/>
-                    </p:column>
-                    
-                </p:dataTable>
-            </h:form>
-        </p:dialog>
+        
     </h:body>
 </html>
 

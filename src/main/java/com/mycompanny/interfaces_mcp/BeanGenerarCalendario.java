@@ -6,6 +6,7 @@
 package com.mycompanny.interfaces_mcp;
 
 import Model.ManagerCalendario;
+import Model.ReporteFactura;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -14,11 +15,13 @@ import java.time.LocalDate;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
@@ -42,11 +45,6 @@ public class BeanGenerarCalendario implements Serializable {
     private ManagerCalendario managerCalendario;
 
     public BeanGenerarCalendario()  {
-        System.out.println("Iniciamos la class");
-        
-        //System.out.println(database.getInstancia().getPersonas());
-        
-        System.out.println("pasamos db");
         managerCalendario = new ManagerCalendario();
     }
 
@@ -107,7 +105,7 @@ public class BeanGenerarCalendario implements Serializable {
         // Cabecera de la respuesta.
         ec.responseReset();
         ec.setResponseContentType("application/pdf");
-        ec.setResponseHeader("Content-disposition", "attachment; filename=hola.pdf");
+        ec.setResponseHeader("Content-disposition", "attachment; filename=Reporte.pdf");
 
         // tomamos el stream para llenarlo con el pdf.
         try (OutputStream stream = ec.getResponseOutputStream()) {
@@ -127,7 +125,7 @@ public class BeanGenerarCalendario implements Serializable {
             JasperPrint jasperPrint = JasperFillManager.fillReport(
                     filetext.getPath(),
                     parametros,
-                    new JRBeanCollectionDataSource(mc.getListCuotas())
+                    new JRBeanCollectionDataSource(mc.getListFacturas())
             );
 
             // exportamos a pdf.
@@ -144,4 +142,25 @@ public class BeanGenerarCalendario implements Serializable {
         System.out.println("fin proccess");
     }
 
+    private List<ReporteFactura> listaFacturas;
+
+    public List<ReporteFactura> getListaFacturas() {
+        return listaFacturas;
+    }
+
+    public void setListaFacturas(List<ReporteFactura> listaFacturas) {
+        this.listaFacturas = listaFacturas;
+    }
+    
+    
+    public void filtrado() {
+        System.out.println("filtrado en bean");
+        List<ReporteFactura> facturas;
+        facturas = managerCalendario.getListFacturasFilter(this.desde, this.hasta);
+        this.setListaFacturas(facturas);
+        facturas.forEach(fac -> {
+            System.out.println(fac.getProveedor());
+        });
+    }
+    
 }
