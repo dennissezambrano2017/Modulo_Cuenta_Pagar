@@ -35,50 +35,41 @@
                             </p:toolbarGroup>
                         </p:toolbar>
 
-                        <p:growl id="messages" showDetail="true"/>
+                        <p:outputPanel id="facturas" >
 
-                        <p:dataTable id="dt-products" widgetVar="dtProducts" var="product" value="#{crudView.products}"
-                                     reflow="true" styleClass="products-table"
-                                     selection="#{crudView.selectedProducts}" rowKey="#{product.id}" paginator="true"
-                                     rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                            <p:dataTable value="#{facturaMB.listaFactura}" 
+                                         var="factura" id="facturatabla">
+                                
+                                <p:column headerText="No. Factura">
+                                    <h:outputText value="#{factura.nfactura}" />
+                                </p:column>
 
-                            <p:column headerText="Fecha" style="width: 35px; text-align: center">
-                                <h:outputText value="#{product.code}"/>
-                            </p:column>
+                                <p:column headerText="Fecha">
+                                    <h:outputText value="#{factura.fecha}"/>
+                                </p:column>
 
-                            <p:column headerText="Proveedor" style="width: 75px; text-align: center">
-                                <h:outputText value="#{product.name}"/>
-                            </p:column>
+                                <p:column headerText="Proveedor">
+                                    <h:outputText value="#{factura.idproveedor}" style="text-align: center"/>
+                                </p:column>
 
-                            <p:column headerText="Nombre" style="width: 130px; text-align: center">
-                                <h:outputText value="#{product.image}"/>
-                            </p:column>
+                                <p:column headerText="Importe">
+                                    <h:outputText value="#{factura.importe}"/>
+                                </p:column>
 
-                            <p:column headerText="No. Factura" style="width: 75px; text-align: center">
-                                <h:outputText value="#{product.price}"/>
-                            </p:column>
+                                <p:column headerText="Pagado">
+                                    <h:outputText value="#{factura.pagado}"/>
+                                </p:column>
 
-                            <p:column headerText="Importe" style="width: 45px; text-align: center">
-                                <h:outputText value="#{product.category}"/>
-                            </p:column>
+                                <p:column headerText="Vencimiento">
+                                    <h:outputText value="#{factura.vencimiento}"/>
+                                </p:column>
 
-                            <p:column headerText="Pendiente" style="width: 55px; text-align: center">
-                                <p:rating value="#{product.rating}" readonly="true"/>
-                            </p:column>
+                                <p:column headerText="Descripción">
+                                    <h:outputText value="#{factura.descripcion}"/>
+                                </p:column>
 
-                            <p:column headerText="Vence" style="width: 35px; text-align: center">
-                                <h:outputText value="#{product.inventoryStatus.text}"/>
-                            </p:column>
-
-                            <p:column headerText="Perido" style="width: 35px; text-align: center">
-                                <h:outputText value="#{product.inventoryStatus.text}"/>
-                            </p:column>
-
-                            <p:column headerText="Descripción" style="width: 130px; text-align: center">
-                                <h:outputText value="#{product.inventoryStatus.text}"/>
-                            </p:column>
-
-                        </p:dataTable>
+                            </p:dataTable>
+                        </p:outputPanel>
                     </p:panel>
                 </h:form>
 

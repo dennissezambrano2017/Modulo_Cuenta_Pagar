@@ -4,24 +4,29 @@
  * and open the template in the editor.
  */
 package Model;
+
 import java.util.Date;
+
 /**
  *
  * @author PAOLA
  */
 public class AbonoProveedor {
+
     private int idAbonoProveedor;
     private String referencia;
     private int idAsiento;
     private int idTipoPago;
     private int idTipoBanco;
     private int idProveedor;
+    private Date factura;
 
     public AbonoProveedor() {
     }
 
-    public AbonoProveedor(int idAbonoProveedor, String referencia, int idAsiento, 
-            int idTipoPago, int idTipoBanco, int idProveedor) {
+    public AbonoProveedor(int idAbonoProveedor, String referencia, 
+            int idAsiento, int idTipoPago, int idTipoBanco, 
+            int idProveedor) {
         this.idAbonoProveedor = idAbonoProveedor;
         this.referencia = referencia;
         this.idAsiento = idAsiento;
@@ -29,7 +34,6 @@ public class AbonoProveedor {
         this.idTipoBanco = idTipoBanco;
         this.idProveedor = idProveedor;
     }
-
 
     public int getIdAbonoProveedor() {
         return idAbonoProveedor;
@@ -78,6 +82,13 @@ public class AbonoProveedor {
     public void setIdProveedor(int idProveedor) {
         this.idProveedor = idProveedor;
     }
-    
-    
+
+    public Date getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Date factura) {
+        this.factura = factura;
+    }
+
 }
