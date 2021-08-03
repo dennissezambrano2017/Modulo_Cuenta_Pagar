@@ -46,34 +46,35 @@
                                     </p:commandButton>
                                 </p:toolbarGroup>
                             </p:toolbar>
-                            <p:dataTable value="#{pagoMB.pagos}" 
-                                         var="pago" id="proveedortabla">
-                                <p:column headerText="Fecha" >
-                                    <h:outputText value="#{pago.fechaPago}"/>
-                                </p:column>
-                                <p:column headerText="Pago por" >
-                                    <h:outputText value="#{pago.idTipoPago}"/>
-                                </p:column>
-                                <p:column headerText="Referencia">
-                                    <h:outputText value="#{pago.referencia}"/>
-                                </p:column>
-                                <p:column headerText="Importe">
-                                    <h:outputText value="#{pago.importe}">
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="Proveedor" >
-                                    <h:outputText value="#{pago.idProveedor}"/>
-                                </p:column>
-                                <p:column headerText="Nombre" >
-                                    <h:outputText value="#{pago.idProveedor}"/>
-                                </p:column>
-                                <p:column headerText="Periodo" >
-                                    <h:outputText value="#{pago.periodo}"/>
-                                </p:column>
-                                <p:column headerText="Registrado" >
-                                    <h:outputText value="#{pago.resgitrado}"/>
-                                </p:column>
-                            </p:dataTable>
+                            <p:outputPanel id="proveedores">
+                                <p:dataTable value="#{abonoProveedorMB.listaAbonos}" 
+                                             var="pago" id="proveedortabla">
+                                    <p:column headerText="Fecha" >
+                                        <h:outputText value=""/>
+                                    </p:column>
+                                    <p:column headerText="Pago por" >
+                                        <h:outputText value="#{pago.idTipoPago}"/>
+                                    </p:column>
+                                    <p:column headerText="Referencia">
+                                        <h:outputText value="#{pago.referencia}"/>
+                                    </p:column>
+                                    <p:column headerText="Importe">
+                                        <h:outputText value=""/>
+                                    </p:column>
+                                    <p:column headerText="Proveedor" >
+                                        <h:outputText value="#{pago.idProveedor}"/>
+                                    </p:column>
+                                    <p:column headerText="Nombre" >
+                                        <h:outputText value=""/>
+                                    </p:column>
+                                    <p:column headerText="Periodo" >
+                                        <h:outputText value=""/>
+                                    </p:column>
+                                    <p:column headerText="Registrado" >
+                                        <h:outputText value=""/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:outputPanel>
                         </p:panel>
                     </div>
                 </h:form>
