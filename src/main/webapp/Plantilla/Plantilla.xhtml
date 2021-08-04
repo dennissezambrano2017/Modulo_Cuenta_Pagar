@@ -46,9 +46,16 @@
                                     <p:menuitem value="Facturas Compra"
                                                 icon="pi pi-file-o"
                                                 outcome="/View/Facturas"/>
-                                    <p:menuitem value="Pagos"
-                                                icon="pi pi-money-bill"
-                                                outcome="/View/Pagos"/>
+                                    <p:submenu label="Pagos">
+                                        <p:menuitem value="Autorizar pago"
+                                                    style="display: flex; align-items: center; text-decoration: none;"
+                                                    icon="pi pi-check-square"
+                                                    outcome="/View/AutorizacionPago"/>
+                                        <p:menuitem value="Realizar Pago"
+                                                    style="display: flex; align-items: center; text-decoration: none;"
+                                                    icon="pi pi-money-bill"
+                                                    outcome="/View/Pagos"/>
+                                    </p:submenu>
                                     
                                     <p:submenu label="Reportes">
                                         <p:menuitem value="Generar calendario de pagos"
