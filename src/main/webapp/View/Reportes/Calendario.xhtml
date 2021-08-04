@@ -61,9 +61,11 @@
                             <p:row>
                                 <p:column styleClass="ui-grid-col-12" style="display: flex; justify-content: flex-end">
                                     <p:commandButton
-                                        onclick="PF('dlg').show();"
+                                        onclick="PF('dlg').show();" 
+                                        action="#{beanGenerarCalendario.filtrado()}"
                                         icon="pi pi-check"
                                         value="Generar" 
+                                        update="datos"
                                         styleClass="ui-button-success" />
 
                                     <p:commandButton 
@@ -74,16 +76,57 @@
                                 </p:column>
                             </p:row>
                         </p:panelGrid>
+
+                        <!-- Insertamos la modal de generar Calendario de pagos. -->
+                        <p:dialog header="Reporte Calendario de pagos" id="gmapDialog" widgetVar="dlg" width="1200" height="400" modal="true">
+                            <p:toolbar>
+                                <p:toolbarGroup>
+                                    <p:commandButton
+                                        value="Exportar PDF" 
+                                        ajax="false"
+                                        actionListener="#{beanGenerarCalendario.exportpdf()}"
+                                        icon="pi pi-file-pdf" 
+                                        styleClass="ui-button-raised" />
+                                    <p:button value="Exportar Excel" icon="pi pi-file-excel" styleClass="ui-button-raised ui-button-success" />
+                                </p:toolbarGroup>
+                            </p:toolbar>
+                            <p:dataTable id="datos"
+                                         var="factura"
+                                         value="#{beanGenerarCalendario.listaFacturas}" 
+                                         rowKey="#{factura.numeroFactura}">
+
+                                <p:column headerText="Fecha de adquicición">
+                                    <h:outputText value="#{factura.fechaAqusicion}"/>
+                                </p:column>
+
+                                <p:column headerText="Proveedor">
+                                    <h:outputText value="#{factura.proveedor}"/>
+                                </p:column>
+
+                                <p:column headerText="Numero de factura">
+                                    <h:outputText value="#{factura.numeroFactura}"/>
+                                </p:column>
+
+                                <p:column headerText="Valor de factura">
+                                    <h:outputText value="#{factura.valorFactura}"/>
+                                </p:column>
+
+                                <p:column headerText="Fecha de vencimiento">
+                                    <h:outputText value="#{factura.fechaVencimiento}"/>
+                                </p:column>
+
+                                <p:column headerText="Tipo de factua">
+                                    <h:outputText value="#{factura.tipoFactura}"/>
+                                </p:column>
+
+
+
+                            </p:dataTable>
+
+                        </p:dialog>
+                        
                     </h:form>
-
-
                 </div>
-
-                <!-- Insertamos la modal de generar Calendario de pagos. -->
-                <ui:include src="ModalGenerarCalendario.xhtml">
-                    <ui:param name="nombre" value="Roberto"></ui:param>
-                </ui:include>
-
             </ui:define>
         </ui:composition>
 
