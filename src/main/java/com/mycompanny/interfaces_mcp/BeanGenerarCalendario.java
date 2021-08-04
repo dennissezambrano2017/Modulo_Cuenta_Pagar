@@ -38,7 +38,7 @@ public class BeanGenerarCalendario implements Serializable {
     private String proveedor;
     private boolean todosProveedores;
     private LocalDate desde = LocalDate.now();
-    private LocalDate hasta = LocalDate.now();
+    private LocalDate hasta = LocalDate.now().plusWeeks(1);
     private boolean sinfecha;
 
     // Datos a consultar en la db
@@ -140,27 +140,6 @@ public class BeanGenerarCalendario implements Serializable {
         fc.responseComplete();
 
         System.out.println("fin proccess");
-    }
-
-    private List<ReporteFactura> listaFacturas;
-
-    public List<ReporteFactura> getListaFacturas() {
-        return listaFacturas;
-    }
-
-    public void setListaFacturas(List<ReporteFactura> listaFacturas) {
-        this.listaFacturas = listaFacturas;
-    }
-    
-    
-    public void filtrado() {
-        System.out.println("filtrado en bean");
-        List<ReporteFactura> facturas;
-        facturas = managerCalendario.getListFacturasFilter(this.desde, this.hasta);
-        this.setListaFacturas(facturas);
-        facturas.forEach(fac -> {
-            System.out.println(fac.getProveedor());
-        });
     }
     
 }

@@ -67,13 +67,18 @@ public class ManagerCalendario {
     
     // getListFacturasFilter retorna las facturas que este dentro del rango
     // de las fechas que se le pasa
-    public List<ReporteFactura> getListFacturasFilter(LocalDate inicio, LocalDate fin) {
+    public List<ReporteFactura> getListFacturasFilter(LocalDate inicio, LocalDate fin, boolean sinFecha) {
         System.out.println("lista de factura con filtro");
-        List<ReporteFactura> resultado;
+        List<ReporteFactura> resultado; // Lista donde se almacena las factura que pasan los parametros.
         resultado = new ArrayList<>();
         listFacturas.forEach(fac -> {
-            if (fac.getFechaVencimiento().isAfter(inicio)) {
+            // Condicionamos si es con fecha, o sin los para metros de fechas.
+            if (sinFecha) {
                 resultado.add(fac);
+            }else {
+                if (fac.getFechaVencimiento().isAfter(inicio) && fac.getFechaVencimiento().isBefore(fin)) {
+                    resultado.add(fac);
+                }
             }
             
         });
