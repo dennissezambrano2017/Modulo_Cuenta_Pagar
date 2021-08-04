@@ -21,15 +21,12 @@ public class AbonoProveedorDAO {
 
     Conexion conex;
     private AbonoProveedor abono;
-    private DetalleAbono detalleAbono;
     private ResultSet result;
     private List<AbonoProveedor> listaAbono;
-    private List<DetalleAbono> listaDetalle;
 
     public AbonoProveedorDAO() {
         conex = new Conexion();
         listaAbono = new ArrayList<>();
-        listaDetalle = new ArrayList<>();
     }
 
     public AbonoProveedorDAO(AbonoProveedor abono) {
@@ -40,7 +37,7 @@ public class AbonoProveedorDAO {
     public List<AbonoProveedor> llenar() {
         if (conex.isEstado()) {
             try {
-                String sentencia = "SELECT a.fecha,pag.descripcion,a.referencia,sum(d.pago) as pago,a.\"idProveedor\",p.nombre,d.periodo\n"
+                String sentencia = "SELECT a.fecha,pag.descripcion,a.referencia,sum(d.pago) as Pago,a.\"idProveedor\",p.nombre,d.periodo\n"
                         + "FROM \"public\".\"abonoProveedor\" a \n"
                         + "	INNER JOIN \"public\".\"detalleAbono\" d ON ( a.\"idAbonoProveedor\" = d.\"idAbonoProveedor\"  )  \n"
                         + "	INNER JOIN \"public\".\"tipoPago\" t ON ( a.\"idTipoPago\" = t.\"idTipoPago\"  )  \n"
@@ -49,13 +46,11 @@ public class AbonoProveedorDAO {
                         + "	group by d.periodo,a.fecha,pag.descripcion,a.referencia,a.\"idProveedor\",p.nombre";
                 result = conex.ejecutarConsulta(sentencia);
                 while (result.next()) {
-                    
                     listaAbono.add(new AbonoProveedor(result.getString("referencia"),
-                            result.getInt("idProveedor"),result.getDate("fecha")));
-                    listaDetalle.add(new DetalleAbono(result.getFloat("pago"),result.getString("periodo")));
-                    
+                            result.getInt("idProveedor"),result.getDate("fecha"),
+                            result.getFloat("Pago"),result.getString("periodo"),
+                            result.getString("descripcion"),result.getString("nombre")));
                 }
-
                 result.close();
                 return listaAbono;
             } catch (SQLException ex) {

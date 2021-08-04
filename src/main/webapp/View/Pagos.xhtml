@@ -49,29 +49,27 @@
                             <p:outputPanel id="proveedores">
                                 <p:dataTable value="#{abonoProveedorMB.listaAbonos}" 
                                              var="pago" id="proveedortabla">
+                                    <p:column style="width:10px "><p:selectBooleanCheckbox/></p:column>
                                     <p:column headerText="Fecha" >
                                         <h:outputText value="#{pago.fecha}"/>
                                     </p:column>
                                     <p:column headerText="Pago por" >
-                                        <h:outputText value="#{pago.idTipoPago}"/>
+                                        <h:outputText value="#{pago.detalletipoPago}"/>
                                     </p:column>
                                     <p:column headerText="Referencia">
                                         <h:outputText value="#{pago.referencia}"/>
                                     </p:column>
                                     <p:column headerText="Importe">
-                                        <h:outputText value=""/>
+                                        <h:outputText value="#{pago.pago}"/>
                                     </p:column>
                                     <p:column headerText="Proveedor" >
                                         <h:outputText value="#{pago.idProveedor}"/>
                                     </p:column>
                                     <p:column headerText="Nombre" >
-                                        <h:outputText value=""/>
+                                        <h:outputText value="#{pago.nombreProveedor}"/>
                                     </p:column>
                                     <p:column headerText="Periodo" >
-                                        <h:outputText value=""/>
-                                    </p:column>
-                                    <p:column headerText="Registrado" >
-                                        <h:outputText value=""/>
+                                        <h:outputText value="#{pago.periodo}"/>
                                     </p:column>
                                 </p:dataTable>
                             </p:outputPanel>
