@@ -40,7 +40,7 @@ public class FacturaDAO {
                 + factura.getDescripcion() + "',"+ factura.getImporte() + "," 
                 + factura.getPagado() + "," + factura.getFecha() + ","
                 + factura.getVencimiento() + "," + factura.getEstado() + ","
-                + factura.getIdproveedor() + "," + factura.getIdasiento() + ")";
+                + factura.getNombre() + "," + factura.getIdasiento() + ")";
         if (conexion.isEstado()) {
             return conexion.insertar(sentencia);
         }
@@ -50,7 +50,9 @@ public class FacturaDAO {
     public List<Factura> llenar() {
         if (conexion.isEstado()) {
             try {
-                String sentencia = "SELECT * FROM public.factura";
+                String sentencia = "SELECT f.idfactura,f.nfactura,f.descripcion," +
+                "f.importe,f.pagado,f.fecha,f.vencimiento,f.estado, p.nombre,f.idasiento " +
+                "from factura as f INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor)";
                 result = conexion.ejecutarConsulta(sentencia);
                 System.out.println(result.toString());
                 while (result.next()) {
@@ -58,7 +60,7 @@ public class FacturaDAO {
                         result.getInt("nfactura"),result.getString("descripcion"),
                         result.getFloat("importe"),result.getFloat("pagado"),
                     result.getDate("fecha"),result.getDate("vencimiento"),
-                    result.getInt("estado"),result.getInt("idproveedor"),
+                    result.getInt("estado"),result.getString("nombre"),
                     result.getInt("idasiento")));
                 }
                 result.close();
