@@ -49,7 +49,7 @@
                                 </p:column>
 
                                 <p:column headerText="Proveedor">
-                                    <h:outputText value="#{factura.idproveedor}" style="text-align: center"/>
+                                    <h:outputText value="#{factura.nombre}"/>
                                 </p:column>
 
                                 <p:column headerText="Importe">
@@ -103,12 +103,7 @@
 
                             <p:outputLabel value="Vencimiento:" style=" padding-left: 30px"/>
                             <p:datePicker showIcon="true"/>
-
-                            <p:outputLabel value="Deuda: "/>
-                            <p:inputText value="#{userWizard.user.age}"/>  
-
-                            <h:outputText value="Descuento:" style=" padding-left: 30px"/>
-                            <p:inputText value="#{userWizard.user.age}"/>                 
+        
                         </h:panelGrid>
 
                         <!-- TABLA DE DIALOG 1-->

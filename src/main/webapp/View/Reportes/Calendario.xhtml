@@ -62,7 +62,6 @@
                                 <p:column styleClass="ui-grid-col-12" style="display: flex; justify-content: flex-end">
                                     <p:commandButton
                                         onclick="PF('dlg').show();" 
-                                        action="#{beanGenerarCalendario.filtrado()}"
                                         icon="pi pi-check"
                                         value="Generar" 
                                         update="datos"
@@ -92,7 +91,7 @@
                             </p:toolbar>
                             <p:dataTable id="datos"
                                          var="factura"
-                                         value="#{beanGenerarCalendario.listaFacturas}" 
+                                         value="#{beanGenerarCalendario.managerCalendario.getListFacturasFilter(beanGenerarCalendario.desde, beanGenerarCalendario.hasta, beanGenerarCalendario.sinfecha)}" 
                                          rowKey="#{factura.numeroFactura}">
 
                                 <p:column headerText="Fecha de adquicición">

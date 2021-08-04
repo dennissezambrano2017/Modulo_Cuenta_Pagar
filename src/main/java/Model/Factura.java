@@ -18,14 +18,14 @@ public class Factura {
     private Date fecha;
     private Date vencimiento;
     private int estado;
-    private int idproveedor;
+    private String nombre;
     private int idasiento;
 
     public Factura() {
     }
     
 
-    public Factura(int id, int nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, int idproveedor, int idasiento) {
+    public Factura(int id, int nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String nombre, int idasiento) {
         this.id = id;
         this.nfactura = nfactura;
         this.descripcion = descripcion;
@@ -34,7 +34,7 @@ public class Factura {
         this.fecha = fecha;
         this.vencimiento = vencimiento;
         this.estado = estado;
-        this.idproveedor = idproveedor;
+        this.nombre = nombre;
         this.idasiento = idasiento;
     }
     
@@ -102,13 +102,15 @@ public class Factura {
         this.estado = estado;
     }
 
-    public int getIdproveedor() {
-        return idproveedor;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setIdproveedor(int idproveedor) {
-        this.idproveedor = idproveedor;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
+
+
 
     public int getIdasiento() {
         return idasiento;
