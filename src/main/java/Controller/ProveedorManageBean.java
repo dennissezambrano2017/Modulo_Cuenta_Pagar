@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -26,8 +27,9 @@ public class ProveedorManageBean implements Serializable {
      private Proveedor proveedor;
      private ProveedorDAO proveedorDAO;
      private List<Proveedor> listaProveedor;
-     String msj;
-
+     private String msj;
+     
+     
      public ProveedorManageBean() {
           proveedor = new Proveedor();
           listaProveedor = new ArrayList<>();
@@ -35,25 +37,23 @@ public class ProveedorManageBean implements Serializable {
           listaProveedor = proveedorDAO.llenar();
 
      }
-
-     public void mostrar() {
-          listaProveedor = proveedorDAO.llenar();
-
-     }
-
      public void insertarProveedor() {
           try {
                this.proveedorDAO = new ProveedorDAO();
-               this.proveedorDAO.Insertar(proveedor);
+               this.proveedorDAO.InsertarProveedor(proveedor);
                this.proveedor = new Proveedor();
+               this.msj = "Proveedor registrado";               
+              
           } catch (Exception e) {
                this.msj = "Error :" + e.getMessage();
+               e.printStackTrace();
                System.out.println(msj+"ERROR DAO");
           }
+           getListaProveedor();
           FacesMessage mensaje = new FacesMessage(msj);
           FacesContext.getCurrentInstance().addMessage(msj, mensaje);
      }
-
+     
      public Proveedor getProveedor() {
           return proveedor;
      }
@@ -71,11 +71,32 @@ public class ProveedorManageBean implements Serializable {
      }
 
      public List<Proveedor> getListaProveedor() {
+          try{
+               this.proveedorDAO = new ProveedorDAO();
+               this.listaProveedor = this.proveedorDAO.llenar();
+          }catch(Exception e){throw e;}
           return listaProveedor;
      }
 
      public void setListaProveedor(List<Proveedor> listaProveedor) {
           this.listaProveedor = listaProveedor;
      }
+     
+     
+     public void onRowSelect(SelectEvent<Proveedor> event) {
+        String msg2 = event.getObject().getNombre();
+        System.out.print(msg2);
+        setMsj(msg2);
+    }
+
+    public String getMsj() {
+        return msj;
+    }
+
+    public void setMsj(String msj) {
+        this.msj = msj;
+    }
+    
+
 
 }

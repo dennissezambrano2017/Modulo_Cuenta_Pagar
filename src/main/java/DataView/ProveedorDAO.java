@@ -11,61 +11,56 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author ebert
  */
-public class ProveedorDAO {
-     Connection con;
-     Conexion conex;
+public class ProveedorDAO extends Conexion{
+    Connection con;
      private Proveedor proveedor;
-     private ResultSet result;
-     private List<Proveedor> listaProveedors;
+     private ResultSet result; 
+   
 
-     public ProveedorDAO() {
-          conex = new Conexion();
-          listaProveedors = new ArrayList<>();
-     }
-
-     public ProveedorDAO(Proveedor proveedor) {
-          conex = new Conexion();
-          this.proveedor = proveedor;
-     }
-
-     public List<Proveedor> llenar() {
-          if (conex.isEstado()) {
+   public ArrayList<Proveedor> llenar(){
+          ArrayList<Proveedor> lista = new ArrayList<>();
+          
                try {
                     String sentencia = "select * from public.\"proveedor\"";
-                    result = conex.ejecutarConsulta(sentencia);
-                    while (result.next()) {
-                         listaProveedors.add(new Proveedor(
-                                 result.getString("codigo"),
-                                 result.getString("nombre"),
-                                 result.getString("email"),
-                                 result.getString("telefono"),
-                                 result.getString("contacto"),
-                                 result.getBoolean("estado")));
-                    }
-                    result.close();
-                    return listaProveedors;
+                   this.Conectar();
+                   PreparedStatement pst = this.getCnx().prepareStatement(sentencia);
+                   result = pst.executeQuery();
+                   while (result.next()) {
+                        Proveedor p = new Proveedor();
+                        p.setCodigo(result.getString("codigo"));
+                         p.setNombre(result.getString("nombre"));
+                          p.setEmail(result.getString("email"));
+                           p.setTelefono(result.getString("telefono"));
+                            p.setContacto(result.getString("contacto"));
+                             p.setEstado(result.getBoolean("estado"));
+                             lista.add(p);
+                    }                   
                } catch (SQLException ex) {
                     System.out.println(ex.getMessage() + " error en conectarse EBERT");
                } finally {
-                    conex.cerrarConexion();
+                    this.cerrarConexion();
                }
-          }
-          return listaProveedors;
+          
+          return lista;
      }
 
-     public void Insertar( Proveedor proveedor) {
-          if (conex.isEstado()) {
+    public void InsertarProveedor( Proveedor proveedor) {
+          
                try {
-                    String sentencia = "";
-                    PreparedStatement preparedStatement =con.prepareStatement(sentencia);
+                    this.Conectar();
+                    String sentencia = "INSERT INTO public.proveedor(\n" +
+"	codigo, \"razonSocial\", ruc, nombre, direccion, email,\n" +
+"	\"webPage\", contacto, telefono, estado, descuento,\n" +
+"	\"diasNeto\", \"diasDescuento\", \"cantDiasVencidos\", descripcion)\n" +
+"	VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                    PreparedStatement preparedStatement = this.getCnx().prepareStatement(sentencia);
+                            
                     preparedStatement.setString(1,proveedor.getCodigo());
                     preparedStatement.setString(2,proveedor.getRazonSocial());
                     preparedStatement.setString(3,proveedor.getRuc());
@@ -92,9 +87,9 @@ public class ProveedorDAO {
                } catch (SQLException ex) {
                     System.out.println(ex.getMessage() + " error en conectarse EBERT GUARANGA");
                } finally {
-                    conex.cerrarConexion();
+                    this.cerrarConexion();
                }
-          }
+          
      }
 
 }
