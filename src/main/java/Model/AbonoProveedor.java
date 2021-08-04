@@ -19,20 +19,27 @@ public class AbonoProveedor {
     private int idTipoPago;
     private int idTipoBanco;
     private int idProveedor;
-    private Date factura;
+    private Date fecha;
 
     public AbonoProveedor() {
     }
 
-    public AbonoProveedor(int idAbonoProveedor, String referencia, 
-            int idAsiento, int idTipoPago, int idTipoBanco, 
-            int idProveedor) {
+    public AbonoProveedor(String referencia, int idProveedor, Date fecha) {
+        this.referencia = referencia;
+        this.idProveedor = idProveedor;
+        this.fecha = fecha;
+    }
+
+    public AbonoProveedor(int idAbonoProveedor, String referencia,
+            int idAsiento, int idTipoPago, int idTipoBanco,
+            int idProveedor, Date fecha) {
         this.idAbonoProveedor = idAbonoProveedor;
         this.referencia = referencia;
         this.idAsiento = idAsiento;
         this.idTipoPago = idTipoPago;
         this.idTipoBanco = idTipoBanco;
         this.idProveedor = idProveedor;
+        this.fecha = fecha;
     }
 
     public int getIdAbonoProveedor() {
@@ -83,12 +90,12 @@ public class AbonoProveedor {
         this.idProveedor = idProveedor;
     }
 
-    public Date getFactura() {
-        return factura;
+    public Date getFecha() {
+        return fecha;
     }
 
-    public void setFactura(Date factura) {
-        this.factura = factura;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
 }

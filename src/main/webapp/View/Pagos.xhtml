@@ -50,7 +50,7 @@
                                 <p:dataTable value="#{abonoProveedorMB.listaAbonos}" 
                                              var="pago" id="proveedortabla">
                                     <p:column headerText="Fecha" >
-                                        <h:outputText value=""/>
+                                        <h:outputText value="#{pago.fecha}"/>
                                     </p:column>
                                     <p:column headerText="Pago por" >
                                         <h:outputText value="#{pago.idTipoPago}"/>

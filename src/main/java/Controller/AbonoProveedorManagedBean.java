@@ -35,7 +35,7 @@ public class AbonoProveedorManagedBean implements Serializable{
     public void mostrar()
     {
         listaAbonos = abonoDAO.llenar();
-        System.out.println(listaAbonos.size()+"holis");
+        System.out.println(listaAbonos);
     }
 
     public AbonoProveedor getAbonoproveedor() {

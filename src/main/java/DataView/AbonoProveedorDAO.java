@@ -7,6 +7,7 @@ package DataView;
 
 import Controller.Conexion;
 import Model.AbonoProveedor;
+import Model.DetalleAbono;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -20,12 +21,15 @@ public class AbonoProveedorDAO {
 
     Conexion conex;
     private AbonoProveedor abono;
+    private DetalleAbono detalleAbono;
     private ResultSet result;
     private List<AbonoProveedor> listaAbono;
+    private List<DetalleAbono> listaDetalle;
 
     public AbonoProveedorDAO() {
         conex = new Conexion();
         listaAbono = new ArrayList<>();
+        listaDetalle = new ArrayList<>();
     }
 
     public AbonoProveedorDAO(AbonoProveedor abono) {
@@ -36,14 +40,22 @@ public class AbonoProveedorDAO {
     public List<AbonoProveedor> llenar() {
         if (conex.isEstado()) {
             try {
-                String sentencia = "select * from public.\"abonoProveedor\"";
+                String sentencia = "SELECT a.fecha,pag.descripcion,a.referencia,sum(d.pago) as pago,a.\"idProveedor\",p.nombre,d.periodo\n"
+                        + "FROM \"public\".\"abonoProveedor\" a \n"
+                        + "	INNER JOIN \"public\".\"detalleAbono\" d ON ( a.\"idAbonoProveedor\" = d.\"idAbonoProveedor\"  )  \n"
+                        + "	INNER JOIN \"public\".\"tipoPago\" t ON ( a.\"idTipoPago\" = t.\"idTipoPago\"  )  \n"
+                        + "	INNER JOIN \"public\".proveedor p ON ( a.\"idProveedor\" = p.idproveedor  )  \n"
+                        + "	INNER JOIN \"public\".\"tipoPago\" pag ON ( a.\"idTipoPago\" = pag.\"idTipoPago\"  )  \n"
+                        + "	group by d.periodo,a.fecha,pag.descripcion,a.referencia,a.\"idProveedor\",p.nombre";
                 result = conex.ejecutarConsulta(sentencia);
                 while (result.next()) {
-                    listaAbono.add(new AbonoProveedor(result.getInt("idAbonoProveedor"),
-                            result.getString("referencia"), result.getInt("idAsiento"),
-                            result.getInt("idTipoPago"), result.getInt("idTipoBanco"), 
-                            result.getInt("idProveedor")));
+                    
+                    listaAbono.add(new AbonoProveedor(result.getString("referencia"),
+                            result.getInt("idProveedor"),result.getDate("fecha")));
+                    listaDetalle.add(new DetalleAbono(result.getFloat("pago"),result.getString("periodo")));
+                    
                 }
+
                 result.close();
                 return listaAbono;
             } catch (SQLException ex) {

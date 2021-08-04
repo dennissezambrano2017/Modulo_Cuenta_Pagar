@@ -28,6 +28,11 @@ public class DetalleAbono {
         this.idFactura = idFactura;
     }
 
+    public DetalleAbono(float pago, String periodo) {
+        this.pago = pago;
+        this.periodo = periodo;
+    }
+
     public int getIdDetalleAbono() {
         return idDetalleAbono;
     }
