@@ -43,6 +43,7 @@ public class Conexion {
     public boolean abrirConexion() throws SQLException {
         try {
             if (conex == null || !(conex.isClosed())) {
+                System.out.println(mensaje+ " si abre la conexion");
                 Class.forName(classForName);
                 conex = DriverManager.getConnection(url, usuario, clave);
                 st = conex.createStatement();
@@ -50,7 +51,7 @@ public class Conexion {
             }
         } catch (ClassNotFoundException | SQLException exSQL) {
             mensaje = exSQL.getMessage();
-            System.out.println(mensaje);
+            System.out.println(mensaje+ " no abre la conexion");
             tipoMensaje = FacesMessage.SEVERITY_FATAL;
             return false;
         }
@@ -115,15 +116,16 @@ public class Conexion {
         int retorno = -1;
         try {
             if (abrirConexion()) {
-                retorno = st.executeUpdate(sql);
+                System.out.println(retorno = st.executeUpdate(sql));
                 mensaje = "Se insertó correctamente : ";
                 tipoMensaje = FacesMessage.SEVERITY_INFO;
+                System.out.println(retorno+"HOLIS");
             }
         } catch (SQLException exc) {
             System.out.println(sql);
             mensaje = exc.getMessage();
             tipoMensaje = FacesMessage.SEVERITY_FATAL;
-            System.out.println(mensaje);
+            System.out.println(mensaje+" AQUI");
         }
         cerrarConexion();
         return retorno;
