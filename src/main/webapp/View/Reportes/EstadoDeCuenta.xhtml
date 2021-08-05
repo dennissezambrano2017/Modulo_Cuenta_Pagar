@@ -14,7 +14,7 @@
             <ui:define name="content">
                 <div class="container contenedor-flex">
                     
-                    <h1 class="title">Estado de cuetna proveedor</h1>
+                    <h1 class="title">Estado de cuenta proveedor</h1>
 
                     <h:form class="formulario">
                         
@@ -38,8 +38,6 @@
                                     itemValue="Proveedor 2"/>
                             </p:selectOneMenu>
 
-                            <p:outputLabel value="Todos los proveedores:"/>
-                            <p:toggleSwitch value="" />
 
 
                             <p:outputLabel 
@@ -52,11 +50,11 @@
                                 style="margin-right: 10px;" 
                                 for="hasta" 
                                 value="Hasta:"/>
-                            <p:datePicker id="hasta" value="" />
+                            <p:datePicker id="hasta" value="#{estadoDeCuentaMB.hasta}" />
 
 
                             <p:outputLabel value="Sin parametros de fechas"/>
-                            <p:toggleSwitch value="" />
+                            <p:toggleSwitch value="#{estadoDeCuentaMB.sinfechas}" />
 
 
                             <p:row>
@@ -77,18 +75,18 @@
                         </p:panelGrid>
 
                         <!-- Insertamos la modal de Estado de cuenta proveedor. -->
-                        <p:dialog header="Reporte Calendario de pagos" id="gmapDialog" widgetVar="dlg-cuentaProveedor" width="1200" height="400" modal="true">
+                        <p:dialog header="Reporte Estado de Cuenta Proveedor" id="gmapDialog" widgetVar="dlg-cuentaProveedor" width="1200" height="400" modal="true">
                             <p:toolbar>
                                 <p:toolbarGroup>
                                     <p:commandButton
                                         value="Exportar PDF" 
                                         ajax="false"
-                                        actionListener="#{beanGenerarCalendario.exportpdf()}"
                                         icon="pi pi-file-pdf" 
                                         styleClass="ui-button-raised" />
                                     <p:button value="Exportar Excel" icon="pi pi-file-excel" styleClass="ui-button-raised ui-button-success" />
                                 </p:toolbarGroup>
                             </p:toolbar>
+                            <!-- Tabla donde se muestra los documentos-->
                             <p:dataTable id="datos">
 
                                 <p:column headerText="Fecha de adquicición">

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompanny.interfaces_mcp;
+package Controller;
 
 import Model.ManagerCalendario;
 import Model.ReporteFactura;

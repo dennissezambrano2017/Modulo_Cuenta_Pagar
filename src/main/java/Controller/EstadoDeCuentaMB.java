@@ -22,11 +22,15 @@ public class EstadoDeCuentaMB {
     /**
      * Creates a new instance of EstadoDeCuentaMB
      */
-    
+    private String proveedor;
     private LocalDate desde;
+    private LocalDate hasta;
+    private boolean sinfechas;
     
     public EstadoDeCuentaMB() {
         desde = LocalDate.now();
+        hasta = LocalDate.now().plusDays(5);
+        sinfechas = true;
     }
     
     public LocalDate getDesde() {
@@ -35,6 +39,30 @@ public class EstadoDeCuentaMB {
 
     public void setDesde(LocalDate desde) {
         this.desde = desde;
+    }
+
+    public String getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(String proveedor) {
+        this.proveedor = proveedor;
+    }
+
+    public LocalDate getHasta() {
+        return hasta;
+    }
+
+    public void setHasta(LocalDate hasta) {
+        this.hasta = hasta;
+    }
+
+    public boolean isSinfechas() {
+        return sinfechas;
+    }
+
+    public void setSinfechas(boolean sinfechas) {
+        this.sinfechas = sinfechas;
     }
 
     
