@@ -132,4 +132,30 @@ public class Conexion {
     public boolean isEstado() {
         return estado;
     }
+    //EBERT-- LO USO
+     public Connection getCnx() {
+       return conex;
+    }
+    public void setCnx(Connection conex) {
+       this.conex = conex;
+       
+    } 
+    
+    public void Conectar() throws SQLException {
+        try {
+            if (conex == null || !(conex.isClosed())) {
+                Class.forName(classForName);
+                conex = DriverManager.getConnection(url, usuario, clave);
+                st = conex.createStatement();
+                estado = true;
+            }
+        } catch (ClassNotFoundException | SQLException exSQL) {
+            mensaje = exSQL.getMessage();
+            System.out.println(mensaje);
+            tipoMensaje = FacesMessage.SEVERITY_FATAL;          
+        }
+       
+    }
+   
+    
 }

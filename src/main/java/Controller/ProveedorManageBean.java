@@ -35,25 +35,22 @@ public class ProveedorManageBean implements Serializable {
           listaProveedor = proveedorDAO.llenar();
 
      }
-
-     public void mostrar() {
-          listaProveedor = proveedorDAO.llenar();
-
-     }
-
      public void insertarProveedor() {
           try {
                this.proveedorDAO = new ProveedorDAO();
-               this.proveedorDAO.Insertar(proveedor);
+               this.proveedorDAO.InsertarProveedor(proveedor);
                this.proveedor = new Proveedor();
+               this.msj = "Proveedor registrado";               
+              
           } catch (Exception e) {
                this.msj = "Error :" + e.getMessage();
+               e.printStackTrace();
                System.out.println(msj+"ERROR DAO");
           }
+           getListaProveedor();
           FacesMessage mensaje = new FacesMessage(msj);
           FacesContext.getCurrentInstance().addMessage(msj, mensaje);
      }
-
      public Proveedor getProveedor() {
           return proveedor;
      }
@@ -71,6 +68,10 @@ public class ProveedorManageBean implements Serializable {
      }
 
      public List<Proveedor> getListaProveedor() {
+          try{
+               this.proveedorDAO = new ProveedorDAO();
+               this.listaProveedor = this.proveedorDAO.llenar();
+          }catch(Exception e){throw e;}
           return listaProveedor;
      }
 
