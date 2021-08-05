@@ -13,119 +13,84 @@
 
             <ui:define name="content">
 
-                <div class="container contenedor-flex">
-                    <h1 class="title">Generar Calendario de Pagos</h1>
-                    <!-- Formulario principanl de la vista -->
-                    <h:form class="formulario">
-                        <p:panelGrid 
-                            columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-                            columns="2" 
-                            layout="grid" 
-                            styleClass="showcase-text-align-center">
-                            <p:outputLabel 
-                                for="proveedor" 
-                                value="Proveedor: "/>
-                            <p:selectOneMenu id="proveedor" value="#{beanGenerarCalendario.proveedor}"  style="width:250px">
-                                <f:selectItem 
-                                    itemLabel="Selecionar proveedor" 
-                                    itemValue=""/>
-                                <f:selectItem 
-                                    itemLabel="Proveedor 1" 
-                                    itemValue="Proveedor 1" />
-                                <f:selectItem 
-                                    itemLabel="Proveedor 2" 
-                                    itemValue="Proveedor 2"/>
-                            </p:selectOneMenu>
+                <h:form class="p-p-5">
+                    <h1 class="p-mb-2">Reporte de cuentas por pagar</h1>
+                    <p  class="p-mb-2">Consulte a quién le debe, cuánto debes y la fecha del vencimiento de las facturas</p>
 
-                            <p:outputLabel value="Todos los proveedores:"/>
-                            <p:toggleSwitch value="#{beanGenerarCalendario.todosProveedores}" />
+                    <div class="p-formgroup-inline">
 
+                        <div class="p-field p-mr-2">
+                            <p:outputLabel for="desde" value="Desde: "/>
+                            <p:datePicker id="desde" value="#{beanGenerarCalendario.desde}"/>
+                        </div>
 
-                            <p:outputLabel 
-                                style="margin-right: 10px;" 
-                                for="desde" 
-                                value="Desde:"/>
-                            <p:datePicker id="desde" value="#{beanGenerarCalendario.desde}" />
+                        <div class="p-field p-mr-2">
+                            <p:outputLabel for="hasta" value="Hasta: "/>
+                            <p:datePicker id="hasta" value="#{beanGenerarCalendario.hasta}"/>
+                        </div>
 
-                            <p:outputLabel 
-                                style="margin-right: 10px;" 
-                                for="hasta" 
-                                value="Hasta:"/>
-                            <p:datePicker id="hasta" value="#{beanGenerarCalendario.hasta}" />
+                        <p:button value="Generar" styleClass="ui-button-raised" />
+                    </div>
 
+                    <div class="p-formgroup-inline">
+                        <p:selectOneButton>
+                            <f:selectItem itemLabel="Vencida en 30 dias o menos" itemValue="60" />
+                            <f:selectItem itemLabel="Vencida en 31 dias a 60 días" itemValue="60" />
+                            <f:selectItem itemLabel="Vencida en 61 dias a 90 días" itemValue="60" />
+                            <f:selectItem itemLabel="Vencidas 91+" itemValue="60" />
+                            <f:selectItem itemLabel="No vencidas" itemValue="60" />
+                        </p:selectOneButton>
+                    </div>
+                    
+                    <div class="p-mt-3">
+                        <p:dataTable id="facturas" >
+                            <f:facet name="header">
+                                <div class="p-d-flex p-jc-between p-ai-center">
+                                    Reporte de cuentas por pagar
 
-                            <p:outputLabel value="Sin parametros de fechas"/>
-                            <p:toggleSwitch value="#{beanGenerarCalendario.sinfecha}" />
+                                    <div>
+                                        <p:commandButton id="toggler" type="button" value="Columnas" icon="pi pi-align-justify"/>
+                                        <p:columnToggler datasource="facturas" trigger="toggler"/>
+                                    </div>
+                                </div>
+                            </f:facet>
 
+                            <p:column headerText="Número">
+                                <h:outputText value="" />
+                            </p:column>
 
-                            <p:row>
-                                <p:column styleClass="ui-grid-col-12" style="display: flex; justify-content: flex-end">
-                                    <p:commandButton
-                                        onclick="PF('dlg').show();" 
-                                        icon="pi pi-check"
-                                        value="Generar" 
-                                        update="datos"
-                                        styleClass="ui-button-success" />
+                            <p:column headerText="Proveedor">
+                                <h:outputText value="" />
+                            </p:column>
 
-                                    <p:commandButton 
-                                        action="Proveedor"
-                                        icon="pi pi-times" 
-                                        value="Cancelar" 
-                                        styleClass="ui-button-danger" />
-                                </p:column>
-                            </p:row>
-                        </p:panelGrid>
+                            <p:column headerText="Creación">
+                                <h:outputText value="" />
+                            </p:column>
 
-                        <!-- Insertamos la modal de generar Calendario de pagos. -->
-                        <p:dialog header="Reporte Calendario de pagos" id="gmapDialog" widgetVar="dlg" width="1200" height="400" modal="true">
-                            <p:toolbar>
-                                <p:toolbarGroup>
-                                    <p:commandButton
-                                        value="Exportar PDF" 
-                                        ajax="false"
-                                        actionListener="#{beanGenerarCalendario.exportpdf()}"
-                                        icon="pi pi-file-pdf" 
-                                        styleClass="ui-button-raised" />
-                                    <p:button value="Exportar Excel" icon="pi pi-file-excel" styleClass="ui-button-raised ui-button-success" />
-                                </p:toolbarGroup>
-                            </p:toolbar>
-                            <p:dataTable id="datos"
-                                         var="factura"
-                                         value="#{beanGenerarCalendario.managerCalendario.getListFacturasFilter(beanGenerarCalendario.desde, beanGenerarCalendario.hasta, beanGenerarCalendario.sinfecha)}" 
-                                         rowKey="#{factura.numeroFactura}">
+                            <p:column headerText="Vencimiento">
+                                <h:outputText value="" />
+                            </p:column>
 
-                                <p:column headerText="Fecha de adquicición">
-                                    <h:outputText value="#{factura.fechaAqusicion}"/>
-                                </p:column>
+                            <p:column headerText="Total">
+                                <h:outputText value="" />
+                            </p:column>
 
-                                <p:column headerText="Proveedor">
-                                    <h:outputText value="#{factura.proveedor}"/>
-                                </p:column>
+                            <p:column headerText="Pagado">
+                                <h:outputText value="" />
+                            </p:column>
 
-                                <p:column headerText="Numero de factura">
-                                    <h:outputText value="#{factura.numeroFactura}"/>
-                                </p:column>
+                            <p:column headerText="Por pagar">
+                                <h:outputText value="" />
+                            </p:column>
 
-                                <p:column headerText="Valor de factura">
-                                    <h:outputText value="#{factura.valorFactura}"/>
-                                </p:column>
-
-                                <p:column headerText="Fecha de vencimiento">
-                                    <h:outputText value="#{factura.fechaVencimiento}"/>
-                                </p:column>
-
-                                <p:column headerText="Tipo de factua">
-                                    <h:outputText value="#{factura.tipoFactura}"/>
-                                </p:column>
+                        </p:dataTable>
+                    </div>
 
 
 
-                            </p:dataTable>
+                </h:form>
 
-                        </p:dialog>
-                        
-                    </h:form>
-                </div>
+
             </ui:define>
         </ui:composition>
 

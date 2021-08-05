@@ -35,17 +35,20 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 public class BeanGenerarCalendario implements Serializable {
 
     // Parametro de la vista
-    private String proveedor;
-    private boolean todosProveedores;
     private LocalDate desde = LocalDate.now();
     private LocalDate hasta = LocalDate.now().plusWeeks(1);
     private boolean sinfecha;
 
     // Datos a consultar en la db
     private ManagerCalendario managerCalendario;
+    
+    
 
     public BeanGenerarCalendario()  {
         managerCalendario = new ManagerCalendario();
+        this.desde = LocalDate.now().withMonth(1).withDayOfMonth(1);
+        this.hasta = LocalDate.now().withMonth(12).withDayOfMonth(31);
+        
     }
 
     public ManagerCalendario getManagerCalendario() {
@@ -54,22 +57,6 @@ public class BeanGenerarCalendario implements Serializable {
 
     public void setManagerCalendario(ManagerCalendario managerCalendario) {
         this.managerCalendario = managerCalendario;
-    }
-
-    public String getProveedor() {
-        return proveedor;
-    }
-
-    public void setProveedor(String proveedor) {
-        this.proveedor = proveedor;
-    }
-
-    public boolean isTodosProveedores() {
-        return todosProveedores;
-    }
-
-    public void setTodosProveedores(boolean todosProveedores) {
-        this.todosProveedores = todosProveedores;
     }
 
     public LocalDate getDesde() {
