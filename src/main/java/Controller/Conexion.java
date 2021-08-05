@@ -134,15 +134,17 @@ public class Conexion {
     public boolean isEstado() {
         return estado;
     }
+
     //EBERT-- LO USO
-     public Connection getCnx() {
-       return conex;
+    public Connection getCnx() {
+        return conex;
     }
+
     public void setCnx(Connection conex) {
-       this.conex = conex;
-       
-    } 
-    
+        this.conex = conex;
+
+    }
+
     public void Conectar() throws SQLException {
         try {
             if (conex == null || !(conex.isClosed())) {
@@ -154,10 +156,19 @@ public class Conexion {
         } catch (ClassNotFoundException | SQLException exSQL) {
             mensaje = exSQL.getMessage();
             System.out.println(mensaje);
-            tipoMensaje = FacesMessage.SEVERITY_FATAL;          
+            tipoMensaje = FacesMessage.SEVERITY_FATAL;
         }
-       
+
     }
-   
-    
+//Diana -- Lo uso
+    public void Ejecutar2(String sql) {
+        try {
+            if (abrirConexion()) {
+                st.executeUpdate(sql);
+            }
+        } catch (SQLException exc) {
+            System.out.print(exc);
+        }
+    }
+
 }

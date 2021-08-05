@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class FacturaDAO {
 
-    Conexion conexion;
+    Conexion conexion = new Conexion();
     private Factura factura;
     private ResultSet result;
     private List<Factura> listaFacturas;
@@ -34,14 +34,16 @@ public class FacturaDAO {
     }
 
     public int insertar() {
-        String sentencia = "INSERT INTO public.factura(nfactura, descripcion,"
-                + " importe, pagado, fecha, vencimiento, estado, idproveedor,"
-                + " idasiento) VALUES (" + factura.getNfactura() + ",'" 
-                + factura.getDescripcion() + "',"+ factura.getImporte() + "," 
+        System.out.print("SI ENTREEEEEE");
+        String sentencia ="INSERT INTO public.factura("
+                + "nfactura, descripcion, importe, pagado, fecha, vencimiento,idproveedor)"
+                + " VALUES (" + factura.getNfactura() + ",'"
+                + factura.getDescripcion() + "'," + factura.getImporte() + ","
                 + factura.getPagado() + "," + factura.getFecha() + ","
-                + factura.getVencimiento() + "," + factura.getEstado() + ","
-                + factura.getNombre() + "," + factura.getIdasiento() + ")";
+                + factura.getVencimiento() + ",(Select idproveedor from proveedor p "
+                + " where p.nombre = '" + factura.getNombre() + "'))";
         if (conexion.isEstado()) {
+            System.out.print("hola que hace");
             return conexion.insertar(sentencia);
         }
         return -1;
@@ -50,18 +52,17 @@ public class FacturaDAO {
     public List<Factura> llenar() {
         if (conexion.isEstado()) {
             try {
-                String sentencia = "SELECT f.idfactura,f.nfactura,f.descripcion," +
-                "f.importe,f.pagado,f.fecha,f.vencimiento,f.estado, p.nombre,f.idasiento " +
-                "from factura as f INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor)";
+                String sentencia = "SELECT f.idfactura,f.nfactura,f.descripcion,"
+                        + "f.importe,f.pagado,f.fecha,f.vencimiento,f.estado, p.nombre "
+                        + "from factura as f INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor)";
                 result = conexion.ejecutarConsulta(sentencia);
                 System.out.println(result.toString());
                 while (result.next()) {
                     listaFacturas.add(new Factura(result.getInt("idfactura"),
-                        result.getInt("nfactura"),result.getString("descripcion"),
-                        result.getFloat("importe"),result.getFloat("pagado"),
-                    result.getDate("fecha"),result.getDate("vencimiento"),
-                    result.getInt("estado"),result.getString("nombre"),
-                    result.getInt("idasiento")));
+                            result.getInt("nfactura"), result.getString("descripcion"),
+                            result.getFloat("importe"), result.getFloat("pagado"),
+                            result.getDate("fecha"), result.getDate("vencimiento"),
+                            result.getInt("estado"), result.getString("nombre")));
                 }
                 result.close();
             } catch (SQLException ex) {
@@ -71,5 +72,29 @@ public class FacturaDAO {
             }
         }
         return listaFacturas;
+    }
+
+    public void Insertar(Factura factura) {
+        this.factura = factura;
+        String cadena = "INSERT INTO public.factura("
+                + "nfactura, descripcion, importe, pagado, fecha, vencimiento,idproveedor)"
+                + " VALUES (" + factura.getNfactura() + ",'"
+                + factura.getDescripcion() + "'," + factura.getImporte() + ","
+                + factura.getPagado() + "," + factura.getFecha() + ","
+                + factura.getVencimiento() + ",(Select idproveedor from proveedor p "
+                + " where p.nombre = '" + factura.getNombre() + "'))";
+        System.out.print(cadena);
+        this.factura = new Factura();
+        conexion.Ejecutar2(cadena);
+    }
+
+    public void Insertar() {
+        System.out.print("SI ENTREEEE xd");
+        String cadena = "INSERT INTO public.factura(nfactura, descripcion,"
+                + " importe, pagado, fecha, vencimiento,idproveedor)"
+                + "VALUES (7894,'hola','1235' ,232323,NOW(),NOW(), "
+                + "(Select idproveedor from proveedor p where p.nombre = 'La Fabril'))";
+        System.out.print(cadena);
+        conexion.Ejecutar2(cadena);
     }
 }

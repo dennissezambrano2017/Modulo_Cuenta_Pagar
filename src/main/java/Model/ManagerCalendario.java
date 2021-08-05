@@ -79,7 +79,7 @@ public class ManagerCalendario extends Conexion implements DAOCalendario{
             
         });
         
-        resultado.add(new ReporteFactura(LocalDate.now(), "ultimo", "003", 22, LocalDate.now().plusDays(2), "Contable"));
+        //resultado.add(new ReporteFactura(LocalDate.now(), "ultimo", "003", 22, LocalDate.now().plusDays(2), "Contable"));
         return resultado;
     }
 
