@@ -8,86 +8,98 @@
 
      <body>
 
-          <ui:composition template="./../Plantilla/Plantilla.xhtml">
+         <ui:composition template="./../Plantilla/Plantilla.xhtml">
 
                <ui:define name="content">
+                    <p:growl id="msj"></p:growl>
                     <h:form>
                          <p:panel>
                               <h1 style="text-align: center; color: black;">Proveedores</h1>
                               <div>
                                    <!-- Botones de comando Nuevo,Editar,Deshabilitar,Buscar  !-->
-                                   <p:toolbar>
-                                        <p:toolbarGroup>
-                                             <p:commandButton value="Nuevo" icon="pi pi-plus"   
-                                                              oncomplete="PF('ProveedorNew').show()"   
-                                                              styleClass="ui-button-success" 
-                                                              style="margin-right: .3rem">                               
-                                             </p:commandButton>
+                                   <h:form > 
+                                        <p:toolbar>
 
-                                             <p:commandButton value="Editar" 
-                                                              icon="pi pi-pencil" 
-                                                              oncomplete="PF('ProveedorEdit').show()"  
-                                                              styleClass="ui-button-secondary" 
-                                                              style="margin-right: .3rem" >                                
-                                             </p:commandButton>
+                                             <p:toolbarGroup>
+                                                  <p:commandButton value="Nuevo" icon="pi pi-plus"   
+                                                                   oncomplete="PF('ProveedorNew').show()"  
 
-                                             <p:commandButton id="delete-products-button"
-                                                              value="Deshabilitar" 
-                                                              icon="pi pi-times"                                            
-                                                              styleClass="ui-button-danger"  
-                                                              style="margin-right: .3rem">
-                                                  <p:confirm  header="Confirmation"
-                                                              message="Dese eliminar el 
-                                                              proveedor seleccionado?"
-                                                              icon="pi pi-exclamation-triangle" />
+                                                                   styleClass="ui-button-success" 
+                                                                   style="margin-right: .3rem"> 
+                                                       <p:resetInput target=":datosLista"></p:resetInput>
 
-                                             </p:commandButton>
+                                                  </p:commandButton>
 
-                                             <p:commandButton value="Buscar" 
-                                                              icon="pi pi-search" 
-                                                              oncomplete="PF('BuscarProveedor').show()"  
-                                                              styleClass="ui-button-warning" 
-                                                              style="margin-right: .3rem">                           
-                                             </p:commandButton>
+                                                  <p:commandButton value="Editar" 
+                                                                   icon="pi pi-pencil" 
+                                                                   oncomplete="PF('ProveedorEdit').show()"  
+                                                                   styleClass="ui-button-secondary" 
+                                                                   style="margin-right: .3rem" >                                
+                                                  </p:commandButton>
 
-                                        </p:toolbarGroup>                       
-                                   </p:toolbar> 
+                                                  <p:commandButton id="delete-products-button"
+                                                                   value="Deshabilitar" 
+                                                                   icon="pi pi-times"                                            
+                                                                   styleClass="ui-button-danger"  
+                                                                   style="margin-right: .3rem">
+                                                       <p:confirm  header="Confirmation"
+                                                                   message="Dese eliminar el 
+                                                                   proveedor seleccionado?"
+                                                                   icon="pi pi-exclamation-triangle" />
+
+                                                  </p:commandButton>
+
+                                                  <p:commandButton value="Buscar" 
+                                                                   icon="pi pi-search" 
+                                                                   oncomplete="PF('BuscarProveedor').show()"  
+                                                                   styleClass="ui-button-warning" 
+                                                                   style="margin-right: .3rem">                           
+                                                  </p:commandButton>
+
+                                             </p:toolbarGroup>      
+
+                                        </p:toolbar>  
+                                   </h:form >   
                                    <!-- Tabla visual de datos  !-->
-                                   <p:dataTable>
-                                        <p:column headerText="Proveedor"  >
-                                             <h:outputText value=""/>
-                                        </p:column>
+                                   <h:form id="datosLista">
 
-                                        <p:column headerText="Nombre" >
-                                             <h:outputText value=""/>
-                                        </p:column>                       
+                                        <p:dataTable value="#{proveedorDAO.listaProveedor}"
+                                                     var ="provee">
+                                             <p:column headerText="Proveedor"  >
+                                                  <h:outputText value="#{provee.codigo}"/>
+                                             </p:column>
 
-                                        <p:column headerText="Saldo" >
-                                             <h:outputText value="" style="font-weight: 700">
-                                                  <f:convertNumber currencySymbol="$" type="currency"/>
-                                             </h:outputText>
-                                        </p:column>
+                                             <p:column headerText="Nombre" >
+                                                  <h:outputText value="#{provee.nombre}"/>
+                                             </p:column>                       
 
-                                        <p:column headerText="Teléfono">
-                                             <h:outputText value=""/>
-                                        </p:column>
+                                             <p:column headerText="E-mail" >
+                                                  <h:outputText value="#{provee.email}" style="font-weight: 700">
 
-                                        <p:column headerText="Contacto">
-                                             <h:outputText value=""/>
-                                        </p:column>
+                                                  </h:outputText>
+                                             </p:column>
 
-                                        <p:column headerText="Estado">
-                                             <h:outputText styleClass="product-badge"
-                                                           value=""/>
-                                        </p:column>
-                                   </p:dataTable>
+                                             <p:column headerText="Teléfono">
+                                                  <h:outputText value="#{provee.telefono}"/>
+                                             </p:column>
+
+                                             <p:column headerText="Contacto">
+                                                  <h:outputText value="#{provee.contacto}"/>
+                                             </p:column>
+
+                                             <p:column headerText="Estado">
+                                                  <h:outputText styleClass="product-badge"
+                                                                value="#{provee.estado}"/>
+                                             </p:column>
+                                        </p:dataTable>
+                                   </h:form>
                               </div>
                               <!-- Ventana Agregar Proveedor  !-->
                               <p:dialog header="Nuevo proveedor"  minHeight="40" 
                                         height="auto" width="800px" showEffect="fade"
                                         modal="true" widgetVar="ProveedorNew">
-                                   <h:form >
-                                        <p:outputPanel  class="ui-fluid">
+                                   <h:form id="np">
+                                        <p:outputPanel id="outputNuevoProveedor" class="ui-fluid">
                                              <div class="ui-fluid p-formgrid p-grid">
                                                   <label for="Proveedor" style="width:500px;">
                                                        <h3>Dirección</h3>
@@ -97,10 +109,11 @@
                                                             </label>                                            
                                                             <p:inputText id="IdProveedor" 
                                                                          type="text" 
-                                                                         disabled="true" 
+
                                                                          style="width: 200px;
                                                                          background-color:silver;
-                                                                         margin: 3px"/> 
+                                                                         margin: 3px"
+                                                                         value="#{proveedorDAO.proveedor.codigo}"/> 
 
                                                             <label style="padding-left: 115px">
                                                                  R.U.C: 
@@ -108,7 +121,8 @@
                                                             <p:inputText id="rucProveedor"
                                                                          type="text" 
                                                                          style="width: 250px;
-                                                                         margin: 3px"/>
+                                                                         margin: 3px"
+                                                                         value="#{proveedorDAO.proveedor.ruc}"/>
                                                        </div> 
                                                        <div class="p-field p-col-12 p-md-3">
                                                             <label style="padding-left: 10px">
@@ -117,7 +131,8 @@
                                                             <p:inputText id="nombreProveedor"
                                                                          type="text" 
                                                                          style="width: 250px; 
-                                                                         margin: 3px;"/> 
+                                                                         margin: 3px;"
+                                                                         value="#{proveedorDAO.proveedor.nombre}"/> 
 
                                                             <label style="padding-left: 16px">
                                                                  Razón Social:
@@ -125,7 +140,8 @@
                                                             <p:inputText id="razonSclProveedor"
                                                                          type="text" 
                                                                          style="width: 250px;  
-                                                                         margin: 3px;"/> 
+                                                                         margin: 3px;"
+                                                                         value="#{proveedorDAO.proveedor.razonSocial}"/> 
                                                        </div>
 
 
@@ -136,7 +152,8 @@
                                                             <p:inputText id="direccionProveedor"
                                                                          type="text" 
                                                                          style="width: 250px; 
-                                                                         margin: 3px;"/> 
+                                                                         margin: 3px;"
+                                                                         value="#{proveedorDAO.proveedor.direccion}"/> 
 
                                                             <label style="padding-left: 41px">
                                                                  Teléfono:
@@ -144,7 +161,8 @@
                                                             <p:inputText id="telefonoProveedor"
                                                                          type="text" 
                                                                          style="width: 250px;  
-                                                                         margin: 3px;"/> 
+                                                                         margin: 3px;"
+                                                                         value="#{proveedorDAO.proveedor.telefono}"/> 
                                                        </div>
 
                                                        <div class="p-field p-col-12 p-md-3">
@@ -154,7 +172,8 @@
                                                             <p:inputText id="contactoProveedor"
                                                                          type="text" 
                                                                          style="width: 250px;
-                                                                         margin: 3px;"/> 
+                                                                         margin: 3px;"
+                                                                         value="#{proveedorDAO.proveedor.contacto}"/> 
 
                                                             <label style="padding-left: 65px">
                                                                  Email: 
@@ -162,7 +181,8 @@
                                                             <p:inputText id="emailProveedor"
                                                                          type="text" 
                                                                          style="width: 250px;
-                                                                         margin: 3px;"/>  
+                                                                         margin: 3px;"
+                                                                         value="#{proveedorDAO.proveedor.email}"/>  
                                                        </div>
 
                                                        <div class="p-field p-col-12 p-md-3">
@@ -170,7 +190,8 @@
                                                             <p:inputText id="web_PageProveedor" 
                                                                          type="text" 
                                                                          style="width: 250px; 
-                                                                         margin: 3px;"/> 
+                                                                         margin: 3px;"
+                                                                         value="#{proveedorDAO.proveedor.webPage}"/> 
                                                        </div>
                                                   </label>
                                                   <br>
@@ -186,14 +207,16 @@
                                                             <p:inputText id="idDescuento" 
                                                                          type="text"                                                                     
                                                                          style="width: 200px;
-                                                                         margin: 3px;"/> 
+                                                                         margin: 3px;"
+                                                                         value="#{proveedorDAO.proveedor.descuento}"/> 
                                                             <label style="padding-left: 54px">
                                                                  Días Descuento: 
                                                             </label>  
                                                             <p:inputText id="diasDescuento" 
                                                                          type="text" 
                                                                          style="width: 222px;
-                                                                         margin: 3px;"/>
+                                                                         margin: 3px;"
+                                                                         value="#{proveedorDAO.proveedor.diasDescuento}"/>
                                                        </div> 
 
                                                        <div class="p-field p-col-12 p-md-3">
@@ -202,12 +225,14 @@
                                                             </label>  
                                                             <p:inputText id="diasNeto" type="text" 
                                                                          style="width: 200px; 
-                                                                         margin: 3px;"/> 
+                                                                         margin: 3px;"
+                                                                         value="#{proveedorDAO.proveedor.diasNeto}"/> 
                                                             Cant. Días Vencimiento:
                                                             <p:inputText id="cantDiasVencimiento" 
                                                                          type="text" 
                                                                          style="width: 220px; 
-                                                                         margin: 3px;"/> 
+                                                                         margin: 3px;"
+                                                                         value="#{proveedorDAO.proveedor.cantDiasVencidos}"/> 
                                                        </div>
 
                                                        <div class="p-field p-col-12 p-md-3">
@@ -215,43 +240,40 @@
                                                             <p:inputText id="descripcionProveedor" 
                                                                          type="text" 
                                                                          style="width: 200px;
-                                                                         margin: 3px;"/>  
-                                                            <label style="padding-left: 87px">
-                                                                 Cuentas GL:  
-                                                            </label>  
-                                                            <p:selectOneMenu style=
-                                                                             "min-width: 14rem;
-                                                                             width: 10px;
-                                                                             height: 40px;"
-                                                                             placeholder="Seleccione">
-                                                                 <f:selectItem 
-                                                                      itemLabel="Banco" 
-                                                                      itemValue="Banco"/>
-                                                                 <f:selectItem 
-                                                                      itemLabel="Descuentos compra" 
-                                                                      itemValue="Terreno"/>
-                                                                 <f:selectItem 
-                                                                      itemLabel="Cuentas x pagar" 
-                                                                      itemValue="Cuentas x pagar"/>
-                                                            </p:selectOneMenu>  
+                                                                         margin: 3px;"
+                                                                         value="#{proveedorDAO.proveedor.descripcion}"/>  
+                                                            <label style="padding-left: 87px"/> 
+
+
+
                                                        </div> 
                                                   </label>
                                              </div>
+
+
+
+
                                         </p:outputPanel>
+                                        <p:commandButton value="Save" actionListener="#{proveedorDAO.insertarProveedor()}"
+                                                         icon="pi pi-check"
+                                                         update="outputNuevoProveedor :msj" process="outputNuevoProveedor @this" 
+                                                         onclick="PF('ProveedorNew').hide()">
+                                         <f:ajax execute="outputNuevoProveedor" render="datosLista" />
+                                        </p:commandButton>
+                                       
+                                        <p:commandButton value="Cancel" icon="pi pi-times" 
+                                                         onclick="PF('ProveedorNew').hide()"
+                                                         class="ui-button-secondary"/>
+
+
+
                                    </h:form>
 
-                                   <f:facet name="footer">
-                                        <p:commandButton value="Save" 
-                                                         icon="pi pi-check"/>
-                                        <p:commandButton value="Cancel" icon="pi pi-times" 
-                                                         onclick="PF('Proveedornew').hide()"
-                                                         class="ui-button-secondary"/>
-                                   </f:facet>
                               </p:dialog>
                               <p:dialog header="Editar proveedor"  minHeight="40" 
                                         height="auto" width="800px" showEffect="fade"
                                         modal="true" widgetVar="ProveedorEdit">
-                                   <h:form>
+                                   <h:form id ="editarProveedor">
                                         <p:outputPanel  class="ui-fluid">
                                              <div class="ui-fluid p-formgrid p-grid">
                                                   <label for="Proveedor" style="width:500px;">

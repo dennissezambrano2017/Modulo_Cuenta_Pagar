@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -27,7 +28,8 @@ public class ProveedorManageBean implements Serializable {
      private ProveedorDAO proveedorDAO;
      private List<Proveedor> listaProveedor;
      String msj;
-
+     
+     
      public ProveedorManageBean() {
           proveedor = new Proveedor();
           listaProveedor = new ArrayList<>();
@@ -51,6 +53,7 @@ public class ProveedorManageBean implements Serializable {
           FacesMessage mensaje = new FacesMessage(msj);
           FacesContext.getCurrentInstance().addMessage(msj, mensaje);
      }
+     
      public Proveedor getProveedor() {
           return proveedor;
      }
@@ -78,5 +81,22 @@ public class ProveedorManageBean implements Serializable {
      public void setListaProveedor(List<Proveedor> listaProveedor) {
           this.listaProveedor = listaProveedor;
      }
+     
+     
+     public void onRowSelect(SelectEvent<Proveedor> event) {
+        String msg2 = event.getObject().getNombre();
+        System.out.print(msg2);
+        setMsj(msg2);
+    }
+
+    public String getMsj() {
+        return msj;
+    }
+
+    public void setMsj(String msj) {
+        this.msj = msj;
+    }
+    
+
 
 }
