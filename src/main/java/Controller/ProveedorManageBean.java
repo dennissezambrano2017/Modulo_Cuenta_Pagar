@@ -28,6 +28,9 @@ public class ProveedorManageBean implements Serializable {
      private ProveedorDAO proveedorDAO;
      private List<Proveedor> listaProveedor;
      private String msj;
+     private String nom;
+     private String cod;
+     
      
      
      public ProveedorManageBean() {
@@ -85,18 +88,27 @@ public class ProveedorManageBean implements Serializable {
      
      public void onRowSelect(SelectEvent<Proveedor> event) {
         String msg2 = event.getObject().getNombre();
-        System.out.print(msg2);
-        setMsj(msg2);
+        String msg3 = event.getObject().getCodigo();
+        System.out.print("Nombre: "+msg2);
+        System.out.print("Codigo: "+msg3);
+        setNom(msg2);
+        setCod(msg3);
     }
 
-    public String getMsj() {
-        return msj;
+    public String getNom() {
+        return nom;
     }
 
-    public void setMsj(String msj) {
-        this.msj = msj;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
-    
 
+    public String getCod() {
+        return cod;
+    }
+
+    public void setCod(String cod) {
+        this.cod = cod;
+    }
 
 }
