@@ -56,6 +56,7 @@ public class FacturaDAO {
                         + "f.importe,f.pagado,f.fecha,f.vencimiento,f.estado, p.nombre "
                         + "from factura as f INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor)";
                 result = conexion.ejecutarConsulta(sentencia);
+                System.out.println("llenar()");
                 System.out.println(result.toString());
                 while (result.next()) {
                     listaFacturas.add(new Factura(result.getInt("idfactura"),

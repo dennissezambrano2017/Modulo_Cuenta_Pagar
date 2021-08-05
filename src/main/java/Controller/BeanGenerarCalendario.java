@@ -5,16 +5,15 @@
  */
 package Controller;
 
+import DataView.FacturaDAO;
 import Model.Factura;
 import Model.ManagerCalendario;
-import Model.ReporteFactura;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalDate;
 
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +22,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.exolab.castor.types.Date;
 
 /**
  *
@@ -41,7 +38,8 @@ public class BeanGenerarCalendario implements Serializable {
     private LocalDate desde;
     private LocalDate hasta;
     private boolean sinfecha;
-    private List<Factura> list_factura;
+    private FacturaDAO facturaDAO;
+    List<Factura> facturas; // datos que se muestran en la tabla.
 
     // Datos a consultar en la db
     private ManagerCalendario managerCalendario;
@@ -52,27 +50,26 @@ public class BeanGenerarCalendario implements Serializable {
         managerCalendario = new ManagerCalendario();
         this.desde = LocalDate.now().withMonth(1).withDayOfMonth(1);
         this.hasta = LocalDate.now().withMonth(12).withDayOfMonth(31);
-        list_factura = new ArrayList<>();
-        list_factura.add(new Factura(
-                0,
-                1,
-                "Compra de computador",
-                3904,
-                200,
-                new java.util.Date(2021, 8, 5),
-                new java.util.Date(2021, 8, 5),
-                1,
-                "Coca cola"
-        ));
-        
+        facturaDAO = new FacturaDAO();
+        facturas = facturaDAO.llenar();
     }
 
-    public List<Factura> getListFactura() {
-        return list_factura;
+    ////////////////////////////////
+    // GET AND SET DE LOS METODOS //
+    public List<Factura> getFacturas() {
+        return facturas;
     }
 
-    public void setListFactura(List<Factura> listFactura) {
-        this.list_factura = listFactura;
+    public void setFacturas(List<Factura> facturas) {
+        this.facturas = facturas;
+    }
+
+    public FacturaDAO getFacturaDAO() {
+        return facturaDAO;
+    }
+
+    public void setFacturaDAO(FacturaDAO facturaDAO) {
+        this.facturaDAO = facturaDAO;
     }
     
     public ManagerCalendario getManagerCalendario() {
@@ -106,7 +103,10 @@ public class BeanGenerarCalendario implements Serializable {
     public void setSinfecha(boolean sinfecha) {
         this.sinfecha = sinfecha;
     }
+    
 
+    // METODOS PARA TRABAJAR CON LOS DATOS.
+    ///////////////////////////////////////
     // Metodo funcional para exportar pdf
     public void exportpdf() throws IOException, JRException {
 

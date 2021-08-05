@@ -14,8 +14,19 @@
             <ui:define name="content">
 
                 <h:form class="p-p-5">
-                    <h1 class="p-mb-2">Reporte de cuentas por pagar</h1>
-                    <p  class="p-mb-2">Consulte a quién le debe, cuánto debes y la fecha del vencimiento de las facturas</p>
+                    <div class="p-grid">
+                        <div class="p-col-8">
+                            <h1 class="p-mb-2">Reporte de cuentas por pagar</h1>
+                            <p  class="p-mb-2">Consulte a quién le debe, cuánto debes y la fecha del vencimiento de las facturas</p>
+                        </div>
+                        <div class="p-col-4">
+                            <p:button 
+                                value="Exportar a Excel" 
+                                styleClass="ui-button-raised ui-button-success"
+                                icon="pi pi-file-excel" />
+                        </div>
+                    </div>
+                    
 
                     <div class="p-formgroup-inline">
 
@@ -43,7 +54,7 @@
                     </div>
                     
                     <div class="p-mt-3">
-                        <p:dataTable id="tablafacturas" value="#{beanGenerarCalendario.listFactura}" var="factura" >
+                        <p:dataTable id="tablafacturas" value="#{beanGenerarCalendario.facturas}" var="factura" size="small">
                             <f:facet name="header">
                                 <div class="p-d-flex p-jc-between p-ai-center">
                                     Reporte de cuentas por pagar
