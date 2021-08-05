@@ -17,7 +17,7 @@ import javax.faces.application.FacesMessage;
  */
 public class Conexion {
 
-    public Connection conex;
+    private Connection conex;
     private java.sql.Statement st;
     private ResultSet lector;
     private boolean estado;

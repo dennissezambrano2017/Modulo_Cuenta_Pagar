@@ -5,10 +5,6 @@
  */
 package Model;
 
-import Controller.Conexion;
-import interfaces.DAOCalendario;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +12,8 @@ import java.util.List;
 /**
  *
  * @author elect
- * Dao implement DAOCalendario
  */
-public class ManagerCalendario extends Conexion implements DAOCalendario{
+public class ManagerCalendario {
 
     
     private String Titulo;
@@ -30,11 +25,20 @@ public class ManagerCalendario extends Conexion implements DAOCalendario{
     public ManagerCalendario() {
         //this.listCuotas = new ArrayList<Cuotas>();
         this.listFacturas = new ArrayList<>();
-        try {
-            this.listFacturas = this.listaFactura();
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-        }
+        this.listFacturas.add(
+                new ReporteFactura(
+                        LocalDate.now(), 
+                        "software sa", 
+                        "001", 
+                        100, 
+                        LocalDate.now().plusWeeks(1), "Contado"));
+        this.listFacturas.add(
+                new ReporteFactura(
+                        LocalDate.now(), 
+                        "Coca cola", 
+                        "002", 
+                        500, 
+                        LocalDate.now().plusWeeks(1), "Cuotas"));
     }
 
     public String getTitulo() {
@@ -81,61 +85,6 @@ public class ManagerCalendario extends Conexion implements DAOCalendario{
         
         resultado.add(new ReporteFactura(LocalDate.now(), "ultimo", "003", 22, LocalDate.now().plusDays(2), "Contable"));
         return resultado;
-    }
-
-    @Override
-    public ManagerCalendario Selecionar() throws Exception {
-        try {
-            this.abrirConexion();
-            PreparedStatement st = this.conex.prepareStatement("SELECT * FROM facturas");
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                
-            }
-            
-        } catch(Exception e) {
-            throw e;
-        } finally {
-            this.cerrarConexion();
-        }
-        
-        return null;
-    }
-
-    @Override
-    public List<ReporteFactura> listaFactura() throws Exception {
-        List<ReporteFactura> lista = new ArrayList<>();
-        System.out.println("Conectado a la db");
-        try {
-            
-            this.abrirConexion();
-            // Consulta.
-            PreparedStatement st = this.conex.prepareStatement(
-                    "SELECT idfactura, nfactura, descripcion, importe, pagado, fecha, vencimiento, estado, idproveedor, idasiento\n" +
-                    "	FROM public.factura;");
-            // Ejecución
-            ResultSet rs = st.executeQuery();
-            
-            while (rs.next()) {
-                ReporteFactura reporteFactura = 
-                        new ReporteFactura(
-                                rs.getObject("fecha", LocalDate.class), 
-                                "root", 
-                                rs.getString("nfactura"), 
-                                rs.getFloat("importe"), 
-                                rs.getObject("vencimiento", LocalDate.class), 
-                                "Contable"
-                        );
-                lista.add(reporteFactura);
-            }
-            
-        } catch(Exception e) {
-            throw e;
-        } finally {
-            this.cerrarConexion();
-        }
-        
-        return lista;
     }
     
     
