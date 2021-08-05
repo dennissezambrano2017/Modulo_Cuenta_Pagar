@@ -8,10 +8,14 @@ package DataView;
 import Controller.Conexion;
 import Model.AbonoProveedor;
 import Model.DetalleAbono;
+import Model.TipoPago;
+import Model.TipoBanco;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.Statement;
 
 /**
  *
@@ -21,8 +25,11 @@ public class AbonoProveedorDAO {
 
     Conexion conex;
     private AbonoProveedor abono;
+    private DetalleAbono detalleAbono;
     private ResultSet result;
     private List<AbonoProveedor> listaAbono;
+     private Statement statement;
+    private Connection connection;
 
     public AbonoProveedorDAO() {
         conex = new Conexion();
@@ -32,6 +39,11 @@ public class AbonoProveedorDAO {
     public AbonoProveedorDAO(AbonoProveedor abono) {
         conex = new Conexion();
         this.abono = abono;
+    }
+
+    public AbonoProveedorDAO(DetalleAbono detalleAbono) {
+        conex = new Conexion();
+        this.detalleAbono = detalleAbono;
     }
 
     public List<AbonoProveedor> llenar() {
@@ -60,6 +72,58 @@ public class AbonoProveedorDAO {
             }
         }
         return listaAbono;
+    }
+    public int insertar(String sentencia){
+        try{
+            connection = conex.getCnx();
+            statement = connection.createStatement();
+            statement.executeUpdate(sentencia);
+            System.out.print("Si insertoq");
+            return 1;
+        }
+        catch (Exception e){
+            return 0;
+        }
+    }
+    
+    public Conexion getConex() {
+        return conex;
+    }
+
+    public void setConex(Conexion conex) {
+        this.conex = conex;
+    }
+
+    public AbonoProveedor getAbono() {
+        return abono;
+    }
+
+    public void setAbono(AbonoProveedor abono) {
+        this.abono = abono;
+    }
+
+    public ResultSet getResult() {
+        return result;
+    }
+
+    public DetalleAbono getDetalleAbono() {
+        return detalleAbono;
+    }
+
+    public void setDetalleAbono(DetalleAbono detalleAbono) {
+        this.detalleAbono = detalleAbono;
+    }
+
+    public void setResult(ResultSet result) {
+        this.result = result;
+    }
+
+    public List<AbonoProveedor> getListaAbono() {
+        return listaAbono;
+    }
+
+    public void setListaAbono(List<AbonoProveedor> listaAbono) {
+        this.listaAbono = listaAbono;
     }
 
 }

@@ -19,12 +19,25 @@ public class Factura {
     private Date vencimiento;
     private int estado;
     private String nombre;
+    private String codigo;
     private int idasiento;
 
     public Factura() {
     }
     
 
+    public Factura(int id, int nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String codigo, String nombre) {
+        this.id = id;
+        this.nfactura = nfactura;
+        this.descripcion = descripcion;
+        this.importe = importe;
+        this.pagado = pagado;
+        this.fecha = fecha;
+        this.vencimiento = vencimiento;
+        this.estado = estado;
+        this.codigo = codigo;
+        this.nombre = nombre;
+    }
     public Factura(int id, int nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String nombre) {
         this.id = id;
         this.nfactura = nfactura;
@@ -117,6 +130,14 @@ public class Factura {
 
     public void setIdasiento(int idasiento) {
         this.idasiento = idasiento;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
     
 }

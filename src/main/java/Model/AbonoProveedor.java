@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -25,6 +26,8 @@ public class AbonoProveedor {
     private String periodo;
     private String detalletipoPago;
     private String nombreProveedor;
+    private String detalletipoBanco;
+    private String ruc;
 
     public AbonoProveedor() {
     }
@@ -141,5 +144,34 @@ public class AbonoProveedor {
     public void setNombreProveedor(String nombreProveedor) {
         this.nombreProveedor = nombreProveedor;
     }
+
+    public String getDetalletipoBanco() {
+        return detalletipoBanco;
+    }
+
+    public void setDetalletipoBanco(String detalletipoBanco) {
+        this.detalletipoBanco = detalletipoBanco;
+    }
+
+    public String getRuc() {
+        return ruc;
+    }
+
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
+    }
+    
+    public String getSentencia(String descripcionPago, String descripcionBanco, String proveedor)
+    {
+        
+        LocalDate date = LocalDate.now();
+        String sentencia = String.format("INSERT INTO public.\"abonoProveedor\"( referencia, \"idAsiento\", \"idTipoPago\", \"idTipoBanco\", \"idProveedor\", fecha)\n" +
+        "VALUES ('%1$s',%2$d,(select t.\"idTipoPago\" FROM public.\"tipoPago\" t where t.descripcion='%3$s'),(select t.\"idTipoBanco\" FROM public.\"tipoBanco\" t where t.descripcion='%4$s'),"
+                + "(select idproveedor from proveedor pro where pro.codigo =%5$s),'%6$s');"
+                ,getReferencia(),1,descripcionPago,descripcionBanco,proveedor,date.toString());
+        System.out.print(sentencia);
+        return sentencia;
+    }
+    
 
 }
