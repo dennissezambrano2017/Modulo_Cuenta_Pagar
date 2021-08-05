@@ -27,7 +27,7 @@ public class ProveedorManageBean implements Serializable {
      private Proveedor proveedor;
      private ProveedorDAO proveedorDAO;
      private List<Proveedor> listaProveedor;
-     String msj;
+     private String msj;
      
      
      public ProveedorManageBean() {
