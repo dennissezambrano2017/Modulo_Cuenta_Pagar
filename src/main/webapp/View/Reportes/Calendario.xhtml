@@ -43,44 +43,44 @@
                     </div>
                     
                     <div class="p-mt-3">
-                        <p:dataTable id="facturas" >
+                        <p:dataTable id="tablafacturas" value="#{beanGenerarCalendario.listFactura}" var="factura" >
                             <f:facet name="header">
                                 <div class="p-d-flex p-jc-between p-ai-center">
                                     Reporte de cuentas por pagar
 
                                     <div>
                                         <p:commandButton id="toggler" type="button" value="Columnas" icon="pi pi-align-justify"/>
-                                        <p:columnToggler datasource="facturas" trigger="toggler"/>
+                                        <p:columnToggler datasource="tablafacturas" trigger="toggler"/>
                                     </div>
                                 </div>
                             </f:facet>
 
                             <p:column headerText="Número">
-                                <h:outputText value="" />
+                                <h:outputText value="#{factura.nfactura}" />
                             </p:column>
 
                             <p:column headerText="Proveedor">
-                                <h:outputText value="" />
+                                <h:outputText value="#{factura.nombre}" />
                             </p:column>
 
                             <p:column headerText="Creación">
-                                <h:outputText value="" />
+                                <h:outputText value="#{factura.fecha}" />
                             </p:column>
 
                             <p:column headerText="Vencimiento">
-                                <h:outputText value="" />
+                                <h:outputText value="#{factura.vencimiento}" />
                             </p:column>
 
                             <p:column headerText="Total">
-                                <h:outputText value="" />
+                                <h:outputText value="#{factura.importe}" />
                             </p:column>
 
                             <p:column headerText="Pagado">
-                                <h:outputText value="" />
+                                <h:outputText value="#{factura.pagado}" />
                             </p:column>
 
                             <p:column headerText="Por pagar">
-                                <h:outputText value="" />
+                                <h:outputText value="#{factura.importe - factura.pagado}" />
                             </p:column>
 
                         </p:dataTable>
