@@ -81,32 +81,33 @@
                 <!-- DIALOG 1 NUEVA FACTURA-->
 
                 <p:dialog  header="Nueva Factura" widgetVar="NewFactura" minHeight="500" width="70%" showEffect="fade">
-                    <h:form>
+                    <h:form id="form">
                         <h:panelGrid columns="2">
                             <p:outputLabel value="Proveedor:"/>
                             <p:inputText type="button" styleClass="ui-button-warning"
-                                         id="movieBtn" style="width: 300px" value="#{proveedorDAO.msj}"/>
-                            
+                                         id="movieBtn" style="width: 300px" value="#{facturaMB.factura.nombre=proveedorDAO.msj}"/>
+
                             <p:outputLabel value="No. Factura: "/>
-                            <p:inputText value="#{userWizard.user.lastname}" required="true" label="Lastname"/>
-                            
+                            <p:inputText value="#{facturaMB.factura.nfactura}" required="true" label="Lastname"/>
+
 
                             <p:outputLabel value="Descripción: "/>
-                            <p:inputText value="#{userWizard.user.age}" style="width: 300px"/>      
+                            <p:inputText  value="#{facturaMB.factura.descripcion}" style="width: 300px"/>      
                         </h:panelGrid>
+                        <p:inputText id="hola" value="#{facturaMB.factura.nombre}" type="hidden"/>
 
                         <h:panelGrid columns="4" style="padding-top: 20px">
                             <p:outputLabel value="Importe: "/>
-                            <p:inputText value="#{userWizard.user.firstname}" required="true" label="Firstname"/>
+                            <p:inputText value="#{facturaMB.factura.importe}" required="true"/>
 
                             <p:outputLabel value="Fecha Factura:" style=" padding-left: 30px"/>
-                            <p:calendar id="restricted" value="#{calendarView.date6}"/>
+                            <p:datePicker   value="#{facturaMB.factura.fecha}"/>
 
                             <p:outputLabel value="Pagado: "/>
-                            <p:inputText value="#{userWizard.user.lastname}" required="true" label="Lastname"/>
+                            <p:inputText value="#{facturaMB.factura.pagado}" required="true"/>
 
                             <p:outputLabel value="Vencimiento:" style=" padding-left: 30px"/>
-                            <p:calendar/>
+                            <p:datePicker  value="#{facturaMB.factura.vencimiento}"/>
                         </h:panelGrid>
 
                         <!-- TABLA DE DIALOG 1-->
@@ -131,7 +132,7 @@
                         <p:overlayPanel for="movieBtn" dynamic="true" style="width:600px" widgetVar="moviePicker">
                             <p:dataTable var="proveedor" value="#{proveedorDAO.listaProveedor}" rows="5" paginator="true" selectionMode="single"
                                          selection="#{proveedorDAO.proveedor}" rowKey="#{proveedor.nombre}">
-                                <p:ajax event="rowSelect" listener="#{proveedorDAO.onRowSelect}" onsuccess="PF('moviePicker').hide()" update="@(form)"/>
+                                <p:ajax event="rowSelect" listener="#{proveedorDAO.onRowSelect}" onsuccess="PF('moviePicker').hide()" update="form"/>
 
                                 <p:column headerText="Proveedor">
                                     <h:outputText value="#{proveedor.codigo}"/>
@@ -143,10 +144,12 @@
 
                             </p:dataTable>
                         </p:overlayPanel>
-                        <div style="">
-                            <p:commandButton type="button" value="No" styleClass="ui-button-flat p-mr-2" style="width: 6rem" />
-                            <p:commandButton type="button" value="Yes" style="width: 5rem" />
-                        </div>
+                        <p:commandButton value="Guardar" action="Facturas"
+                                          actionListener="#{facturaMB.insertarfactura(facturaMB.factura)}"
+                                          icon="pi pi-check" oncomplete="PF('NewFactura').hide()"
+                                          update="form">
+                             <p:resetInput target="form"/>
+                </p:commandButton>
                     </h:form>             
                 </p:dialog>
 
