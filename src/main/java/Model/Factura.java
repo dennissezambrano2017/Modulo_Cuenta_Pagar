@@ -25,7 +25,7 @@ public class Factura {
     }
     
 
-    public Factura(int id, int nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String nombre, int idasiento) {
+    public Factura(int id, int nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String nombre) {
         this.id = id;
         this.nfactura = nfactura;
         this.descripcion = descripcion;
@@ -35,7 +35,6 @@ public class Factura {
         this.vencimiento = vencimiento;
         this.estado = estado;
         this.nombre = nombre;
-        this.idasiento = idasiento;
     }
     
     public int getId() {
