@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Model.Factura;
 import Model.ManagerCalendario;
 import Model.ReporteFactura;
 import java.io.File;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.exolab.castor.types.Date;
 
 /**
  *
@@ -35,9 +38,10 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 public class BeanGenerarCalendario implements Serializable {
 
     // Parametro de la vista
-    private LocalDate desde = LocalDate.now();
-    private LocalDate hasta = LocalDate.now().plusWeeks(1);
+    private LocalDate desde;
+    private LocalDate hasta;
     private boolean sinfecha;
+    private List<Factura> list_factura;
 
     // Datos a consultar en la db
     private ManagerCalendario managerCalendario;
@@ -48,9 +52,29 @@ public class BeanGenerarCalendario implements Serializable {
         managerCalendario = new ManagerCalendario();
         this.desde = LocalDate.now().withMonth(1).withDayOfMonth(1);
         this.hasta = LocalDate.now().withMonth(12).withDayOfMonth(31);
+        list_factura = new ArrayList<>();
+        list_factura.add(new Factura(
+                0,
+                1,
+                "Compra de computador",
+                3904,
+                200,
+                new java.util.Date(2021, 8, 5),
+                new java.util.Date(2021, 8, 5),
+                1,
+                "Coca cola"
+        ));
         
     }
 
+    public List<Factura> getListFactura() {
+        return list_factura;
+    }
+
+    public void setListFactura(List<Factura> listFactura) {
+        this.list_factura = listFactura;
+    }
+    
     public ManagerCalendario getManagerCalendario() {
         return managerCalendario;
     }
