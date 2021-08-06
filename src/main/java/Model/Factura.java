@@ -25,8 +25,18 @@ public class Factura {
 
     public Factura() {
     }
-    
 
+    //Paola: Usa este Constructor
+    public Factura(String nfactura, float importe, float pagado, LocalDate fecha, LocalDate vencimiento) {
+        this.nfactura = nfactura;
+        this.importe = importe;
+        this.pagado = pagado;
+        this.fecha = fecha;
+        this.vencimiento = vencimiento;
+    }
+    
+    
+    //Diana Constructor para Buscar proveedor e insertar 
     public Factura(int id, String nfactura, String descripcion, float importe, float pagado, LocalDate fecha, LocalDate vencimiento, int estado, String ruc, String nombre) {
         this.id = id;
         this.nfactura = nfactura;
@@ -39,6 +49,8 @@ public class Factura {
         this.ruc = ruc;
         this.nombre = nombre;
     }
+    
+    //Diana: Constructor para mostrar
     public Factura(int id, String nfactura, String descripcion, float importe, float pagado, LocalDate fecha, LocalDate vencimiento, int estado, String nombre) {
         this.id = id;
         this.nfactura = nfactura;
