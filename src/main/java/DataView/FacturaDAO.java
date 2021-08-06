@@ -82,7 +82,7 @@ public class FacturaDAO {
                 + factura.getDescripcion() + "'," + factura.getImporte() + ","
                 + factura.getPagado() + "," + factura.getFecha() + ","
                 + factura.getVencimiento() + ",(Select idproveedor from proveedor p "
-                + " where p.nombre = '" + factura.getNombre() + "'))";
+                + " where p.codigo = '" + factura.getCodigo()+ "'))";
         System.out.print(cadena);
         this.factura = new Factura();
         conexion.Ejecutar2(cadena);

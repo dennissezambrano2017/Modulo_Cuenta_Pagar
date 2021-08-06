@@ -82,19 +82,20 @@
 
                 <p:dialog  header="Nueva Factura" widgetVar="NewFactura" minHeight="500" width="70%" showEffect="fade">
                     <h:form id="form">
-                        <h:panelGrid columns="2">
+                        <h:panelGrid columns="3">
                             <p:outputLabel value="Proveedor:"/>
                             <p:inputText type="button" styleClass="ui-button-warning"
-                                         id="movieBtn" style="width: 300px" value="#{facturaMB.factura.nombre=proveedorDAO.msj}"/>
-
+                                         id="movieBtn" style="width: 300px" value="#{proveedorDAO.nom}"/>
+                            <p:inputText id="hola" value="#{proveedorDAO.cod}"/>
                             <p:outputLabel value="No. Factura: "/>
                             <p:inputText value="#{facturaMB.factura.nfactura}" required="true" label="Lastname"/>
-
+                            <a/>
 
                             <p:outputLabel value="Descripción: "/>
                             <p:inputText  value="#{facturaMB.factura.descripcion}" style="width: 300px"/>      
                         </h:panelGrid>
-                        <p:inputText id="hola" value="#{facturaMB.factura.nombre}" type="hidden"/>
+                        <p:inputText id="nod" value="#{facturaMB.factura.nombre}" type="hidden"/>
+<!--                        <p:inputText id="cd" value="#{facturaMB.factura.codigo}" type="hidden"/>-->
 
                         <h:panelGrid columns="4" style="padding-top: 20px">
                             <p:outputLabel value="Importe: "/>
@@ -144,12 +145,12 @@
 
                             </p:dataTable>
                         </p:overlayPanel>
-                        <p:commandButton value="Guardar" action="Facturas"
-                                          actionListener="#{facturaMB.insertarfactura(facturaMB.factura)}"
-                                          icon="pi pi-check" oncomplete="PF('NewFactura').hide()"
-                                          update="form">
-                             <p:resetInput target="form"/>
-                </p:commandButton>
+                        <p:commandButton value="Guardar"
+                                         actionListener="#{facturaMB.insertarfactura()}"
+                                         icon="pi pi-check" oncomplete="PF('NewFactura').hide()"
+                                         update="form">
+                            <p:resetInput target="form"/>
+                        </p:commandButton>
                     </h:form>             
                 </p:dialog>
 
