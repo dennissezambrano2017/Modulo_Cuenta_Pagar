@@ -9,6 +9,7 @@ import Controller.Conexion;
 import Model.Factura;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,8 @@ public class FacturaDAO {
                     listaFacturas.add(new Factura(result.getInt("idfactura"),
                             result.getString("nfactura"), result.getString("descripcion"),
                             result.getFloat("importe"), result.getFloat("pagado"),
-                            result.getDate("fecha"), result.getDate("vencimiento"),
+                            result.getObject("fecha",LocalDate.class), 
+                            result.getObject("vencimiento",LocalDate.class),
                             result.getInt("estado"), result.getString("nombre")));
                 }
                 result.close();
@@ -64,8 +66,8 @@ public class FacturaDAO {
                 + "nfactura, descripcion, importe, pagado, fecha, vencimiento,idproveedor)"
                 + " VALUES ('" + factura.getNfactura() + "','"
                 + factura.getDescripcion() + "'," + factura.getImporte() + ","
-                + factura.getPagado() + "," + factura.getFecha() + ","
-                + factura.getVencimiento() + ",(Select idproveedor from proveedor p "
+                + factura.getPagado() + ",'" + factura.getFecha() + "','"
+                + factura.getVencimiento() + "',(Select idproveedor from proveedor p "
                 + " where p.ruc = '" + factura.getRuc()+ "'))";
         System.out.print(cadena);
         this.factura = new Factura();

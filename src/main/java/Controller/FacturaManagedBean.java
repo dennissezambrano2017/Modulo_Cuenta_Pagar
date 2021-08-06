@@ -19,22 +19,23 @@ import javax.faces.view.ViewScoped;
  */
 @ManagedBean(name = "facturaMB")
 @ViewScoped
-public class FacturaManagedBean implements Serializable{
+public class FacturaManagedBean implements Serializable {
+
     private Factura factura;
     private FacturaDAO facturaDAO;
     private List<Factura> listaFactura;
-    
+
     public FacturaManagedBean() {
         factura = new Factura();
         listaFactura = new ArrayList<>();
         facturaDAO = new FacturaDAO();
         listaFactura = facturaDAO.llenar();
-     
+
     }
-    public void mostrar()
-    {
+
+    public void mostrar() {
         listaFactura = facturaDAO.llenar();
-        System.out.println(listaFactura.size()+"holis");
+        System.out.println(listaFactura.size() + "holis");
     }
 
     public Factura getFactura() {
@@ -60,15 +61,16 @@ public class FacturaManagedBean implements Serializable{
     public void setListaFactura(List<Factura> listaFactura) {
         this.listaFactura = listaFactura;
     }
-    
+
     public void insertarfactura(Factura factura) {
         System.out.print("ESTOY AQUI EN EL MANAGED");
-        System.out.print("Ruc: "+factura.getRuc());
-          try {
-               this.facturaDAO.Insertar(factura);   
-              
-          } catch (Exception e) {
-               System.out.println(e+"ERROR DAO");
-          }
-     }
+        System.out.print("Fecha: " + factura.getFecha());
+        System.out.print("Vence: " + factura.getFecha());
+        try {
+            this.facturaDAO.Insertar(factura);
+
+        } catch (Exception e) {
+            System.out.println(e + "ERROR DAO");
+        }
+    }
 }

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Model;
+import java.time.LocalDate;
 import java.util.Date;
 /**
  *
@@ -15,8 +16,8 @@ public class Factura {
     private String descripcion;
     private float importe;
     private float pagado;
-    private Date fecha;
-    private Date vencimiento;
+    private LocalDate fecha;
+    private LocalDate vencimiento;
     private int estado;
     private String nombre;
     private String ruc;
@@ -26,7 +27,7 @@ public class Factura {
     }
     
 
-    public Factura(int id, String nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String ruc, String nombre) {
+    public Factura(int id, String nfactura, String descripcion, float importe, float pagado, LocalDate fecha, LocalDate vencimiento, int estado, String ruc, String nombre) {
         this.id = id;
         this.nfactura = nfactura;
         this.descripcion = descripcion;
@@ -38,7 +39,7 @@ public class Factura {
         this.ruc = ruc;
         this.nombre = nombre;
     }
-    public Factura(int id, String nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String nombre) {
+    public Factura(int id, String nfactura, String descripcion, float importe, float pagado, LocalDate fecha, LocalDate vencimiento, int estado, String nombre) {
         this.id = id;
         this.nfactura = nfactura;
         this.descripcion = descripcion;
@@ -90,19 +91,19 @@ public class Factura {
         this.pagado = pagado;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
-    public Date getVencimiento() {
+    public LocalDate getVencimiento() {
         return vencimiento;
     }
 
-    public void setVencimiento(Date vencimiento) {
+    public void setVencimiento(LocalDate vencimiento) {
         this.vencimiento = vencimiento;
     }
 
