@@ -57,27 +57,6 @@ public class ProveedorManageBean implements Serializable {
           FacesContext.getCurrentInstance().addMessage(msj, mensaje);
      }
      
-     public void editar() {
-           try {
-               this.proveedorDAO = new ProveedorDAO();
-               this.proveedorDAO.EditarProveedor(proveedor);
-               this.proveedor = new Proveedor();
-               this.msj = "Proveedor actualizado";               
-              
-          } catch (Exception e) {
-               this.msj = "Error :" + e.getMessage();
-               e.printStackTrace();
-               System.out.println(msj+"ERROR DAO Actuali<a");
-          }
-          
-          FacesMessage mensaje = new FacesMessage(msj);
-          FacesContext.getCurrentInstance().addMessage(null, mensaje);
-      
-     }
-      public void cargarData(Proveedor proveedor){
-           this.proveedor = proveedor;
-     }
-
      public Proveedor getProveedor() {
           return proveedor;
      }
