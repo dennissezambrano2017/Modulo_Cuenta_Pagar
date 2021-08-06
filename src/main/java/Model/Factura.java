@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class Factura {
     private int id;
-    private int nfactura;
+    private String nfactura;
     private String descripcion;
     private float importe;
     private float pagado;
@@ -26,7 +26,7 @@ public class Factura {
     }
     
 
-    public Factura(int id, int nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String codigo, String nombre) {
+    public Factura(int id, String nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String codigo, String nombre) {
         this.id = id;
         this.nfactura = nfactura;
         this.descripcion = descripcion;
@@ -38,7 +38,7 @@ public class Factura {
         this.codigo = codigo;
         this.nombre = nombre;
     }
-    public Factura(int id, int nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String nombre) {
+    public Factura(int id, String nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String nombre) {
         this.id = id;
         this.nfactura = nfactura;
         this.descripcion = descripcion;
@@ -58,11 +58,11 @@ public class Factura {
         this.id = id;
     }
 
-    public int getNfactura() {
+    public String getNfactura() {
         return nfactura;
     }
 
-    public void setNfactura(int nfactura) {
+    public void setNfactura(String nfactura) {
         this.nfactura = nfactura;
     }
 
