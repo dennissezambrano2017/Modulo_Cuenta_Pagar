@@ -45,6 +45,7 @@ public class AbonoProveedorManagedBean implements Serializable {
         tipoBanco = new TipoBanco();
         proveedor = new Proveedor();
         listaAbonos = new ArrayList<>();
+        listafactura = new ArrayList<>();
         abonoDAO = new AbonoProveedorDAO();
         listaAbonos = abonoDAO.llenar();
 
@@ -62,18 +63,24 @@ public class AbonoProveedorManagedBean implements Serializable {
 
     public void enviar() {
         this.abonoDAO = new AbonoProveedorDAO(abonoproveedor);
-        System.out.println(tipoPago.getDescripcion() + "--" + tipoBanco.getDescrpcion() + "--" + proveedor.getCodigo());
-        if (this.abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(), tipoBanco.getDescrpcion(), proveedor.getCodigo())) > 0) {
-            this.abonoDAO = new AbonoProveedorDAO(detalleAbono);
-            if (this.abonoDAO.insertar(detalleAbono.getSentencia(proveedor.getCodigo())) > 0) {
+        System.out.println(tipoPago.getDescripcion() + "--" + tipoBanco.getDescrpcion() + "--" + abonoproveedor.getRuc());
+        try {
+            this.abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(), tipoBanco.getDescrpcion(), abonoproveedor.getRuc()));
+            try {
+                this.abonoDAO.insertar(detalleAbono.getSentencia(proveedor.getCodigo()));
                 listaAbonos = abonoDAO.llenar();
                 System.out.println("EXITO");
                 ActualizarFilas();
+            } catch (Exception e) {
+                System.out.println(e + "Error en registrar Detalle Abono");
             }
+        } catch (Exception e) {
+            System.out.println(e + "Error en registrar Cabezera Abono");
         }
-        else{
-            System.out.println("No se registro");
-        }
+    }
+    
+    public void BuscarFactura( String ruc){
+       listafactura=abonoDAO.llenar(abonoproveedor.BuscarFactura(ruc));
     }
 
     public void ActualizarFilas() {

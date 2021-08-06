@@ -8,6 +8,7 @@ package DataView;
 import Controller.Conexion;
 import Model.AbonoProveedor;
 import Model.DetalleAbono;
+import Model.Factura;
 import Model.TipoPago;
 import Model.TipoBanco;
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 /**
  *
@@ -27,18 +29,26 @@ public class AbonoProveedorDAO {
     private AbonoProveedor abono;
     private DetalleAbono detalleAbono;
     private ResultSet result;
+    private Factura factura;
     private List<AbonoProveedor> listaAbono;
-     private Statement statement;
+    private List<Factura> listafactura;
+    private Statement statement;
     private Connection connection;
 
     public AbonoProveedorDAO() {
         conex = new Conexion();
         listaAbono = new ArrayList<>();
+        listafactura = new ArrayList<>();
     }
 
     public AbonoProveedorDAO(AbonoProveedor abono) {
         conex = new Conexion();
         this.abono = abono;
+    }
+
+    public AbonoProveedorDAO(Factura factura) {
+        conex = new Conexion();
+        this.factura = factura;
     }
 
     public AbonoProveedorDAO(DetalleAbono detalleAbono) {
@@ -59,9 +69,9 @@ public class AbonoProveedorDAO {
                 result = conex.ejecutarConsulta(sentencia);
                 while (result.next()) {
                     listaAbono.add(new AbonoProveedor(result.getString("referencia"),
-                            result.getInt("idProveedor"),result.getDate("fecha"),
-                            result.getFloat("Pago"),result.getString("periodo"),
-                            result.getString("descripcion"),result.getString("nombre")));
+                            result.getInt("idProveedor"), result.getDate("fecha"),
+                            result.getFloat("Pago"), result.getString("periodo"),
+                            result.getString("descripcion"), result.getString("nombre")));
                 }
                 result.close();
                 return listaAbono;
@@ -73,19 +83,39 @@ public class AbonoProveedorDAO {
         }
         return listaAbono;
     }
-    public int insertar(String sentencia){
-        try{
+
+    public List<Factura> llenar(String sentencia) {
+        if (conex.isEstado()) {
+            try {
+                result = conex.ejecutarConsulta(sentencia);
+                while (result.next()) {
+                    listafactura.add(new Factura(result.getString("nfactura")
+                            ,result.getFloat("importe"),result.getFloat("pagado")
+                            ,result.getObject("fecha",LocalDate.class),result.getObject("vencimiento",LocalDate.class)));
+                }
+                result.close();
+                return listafactura;
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage() + " error en conectarse");
+            } finally {
+                conex.cerrarConexion();
+            }
+        }
+        return listafactura;
+    }
+
+    public int insertar(String sentencia) {
+        try {
             connection = conex.getCnx();
             statement = connection.createStatement();
             statement.executeUpdate(sentencia);
             System.out.print("Si insertoq");
             return 1;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
     }
-    
+
     public Conexion getConex() {
         return conex;
     }
@@ -124,6 +154,22 @@ public class AbonoProveedorDAO {
 
     public void setListaAbono(List<AbonoProveedor> listaAbono) {
         this.listaAbono = listaAbono;
+    }
+
+    public List<Factura> getListafactura() {
+        return listafactura;
+    }
+
+    public void setListafactura(List<Factura> listafactura) {
+        this.listafactura = listafactura;
+    }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
     }
 
 }

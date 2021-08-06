@@ -7,6 +7,7 @@ package Controller;
 
 
 import DataView.BuscarProvDAO;
+import Controller.AbonoProveedorManagedBean;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
@@ -27,7 +28,7 @@ public class BuscarProvManagedBean implements Serializable {
      private List<Proveedor> listaProveedor;
      private String nom;
      private String cod;
-     
+     private AbonoProveedorManagedBean abonoMB;
      
      
      public BuscarProvManagedBean() {
@@ -35,6 +36,7 @@ public class BuscarProvManagedBean implements Serializable {
           listaProveedor = new ArrayList<>();
           buscarprovDAO = new BuscarProvDAO();
           listaProveedor = buscarprovDAO.llenar();
+          abonoMB = new AbonoProveedorManagedBean();
 
      }
      
@@ -70,6 +72,17 @@ public class BuscarProvManagedBean implements Serializable {
         System.out.print("Ruc: "+msg3);
         setNom(msg2);
         setCod(msg3);
+    }
+     //Paola: Llenar Factura
+     public void onRowSelectf(SelectEvent<Proveedor> event) {
+        String msg2 = event.getObject().getNombre();
+        String msg3 = event.getObject().getRuc();
+        System.out.print("Nombre: "+msg2);
+        System.out.print("Ruc: "+msg3);
+        setNom(msg2);
+        setCod(msg3);
+        abonoMB.BuscarFactura(msg3);
+        
     }
 
     public String getNom() {

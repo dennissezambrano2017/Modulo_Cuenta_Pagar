@@ -85,14 +85,14 @@
                     <p:growl id="growl" widgetVar="growl" showDetail="true"  life="3000"/>  
                     <h:form id="form" >
                         <h:panelGrid columns="0">
-
                             <!-- Datos del proveedor -->
                             <div class="p-field p-col-12 p-md-3">
-                                <label for="Proveedor" style="width:500px;">
-                                    Proveedor:</label>
+                                <label for="Proveedor" >Proveedor:</label>
                                 <p:inputText type="button" styleClass="ui-button-warning"
-                                             id="movieBtn" style="width: 300px" value="#{abonoProveedorMB.abonoproveedor.nombreProveedor=proveedorDAO.msj}"/>
-                                <p:inputText id="hola" value="#{abonoProveedorMB.abonoproveedor.nombreProveedor}" type="hidden"/>
+                                             id="movieBtn" style="width: 300px" value="#{BuscarMB.nom}"/>
+                                <p:inputText id="hola" value="#{BuscarMB.cod}" type="hidden"/>
+                                <h:outputText value="#{abonoProveedorMB.abonoproveedor.ruc=BuscarMB.cod}" style="visibility: hidden"/>
+                                <h:inputText value="#{abonoProveedorMB.abonoproveedor.ruc}" style="visibility: hidden"/>
                             </div>
                         </h:panelGrid>
                         <h:panelGrid columns="2" style="padding-top: 0px; width: 700px">
@@ -143,8 +143,9 @@
                                              style="background-color:silver;" disabled="true"/>
                                 <p:datePicker id="fecha" showIcon="true"/>
                         </h:panelGrid>
-                        <p:dataTable value="" var="pago" id="proveedortabla"
-                                     style="padding-top: 20px">
+                        <p:dataTable var="pago" id="proveedortabla"
+                                     style="padding-top: 20px"
+                                     value="" >
                             <p:column headerText="Factura No." >
                                 <h:outputText />
                             </p:column>
@@ -179,9 +180,9 @@
 
                         <!-- DIALOG BUSCAR PROVEEDOR -->
                         <p:overlayPanel for="movieBtn" dynamic="true" style="width:600px" widgetVar="moviePicker">
-                            <p:dataTable var="proveedor" value="#{proveedorDAO.listaProveedor}" rows="5" paginator="true" selectionMode="single"
-                                         selection="#{proveedorDAO.proveedor}" rowKey="#{proveedor.nombre}">
-                                <p:ajax event="rowSelect" listener="#{proveedorDAO.onRowSelect}" onsuccess="PF('moviePicker').hide()" update="form"/>
+                            <p:dataTable var="proveedor" value="#{BuscarMB.listaProveedor}" rows="5" paginator="true" selectionMode="single"
+                                         selection="#{BuscarMB.proveedor}" rowKey="#{proveedor.nombre}">
+                                <p:ajax event="rowSelect" listener="#{BuscarMB.onRowSelectf}" onsuccess="PF('moviePicker').hide()" update="form"/>
 
                                 <p:column headerText="Proveedor">
                                     <h:outputText value="#{proveedor.codigo}"/>
@@ -189,6 +190,10 @@
 
                                 <p:column headerText="Nombre">
                                     <h:outputText value="#{proveedor.nombre}"/>
+                                </p:column>
+
+                                <p:column headerText="Ruc">
+                                    <h:outputText value="#{proveedor.ruc}"/>
                                 </p:column>
 
                             </p:dataTable>
