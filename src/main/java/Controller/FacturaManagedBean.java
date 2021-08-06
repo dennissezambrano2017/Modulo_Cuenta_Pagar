@@ -63,12 +63,12 @@ public class FacturaManagedBean implements Serializable{
     
     public void insertarfactura(Factura factura) {
         System.out.print("ESTOY AQUI EN EL MANAGED");
-        System.out.print("Codigo: "+factura.getCodigo());
-//          try {
-//               this.facturaDAO.Insertar();   
-//              
-//          } catch (Exception e) {
-//               System.out.println(e+"ERROR DAO");
-//          }
+        System.out.print("Ruc: "+factura.getRuc());
+          try {
+               this.facturaDAO.Insertar(factura);   
+              
+          } catch (Exception e) {
+               System.out.println(e+"ERROR DAO");
+          }
      }
 }

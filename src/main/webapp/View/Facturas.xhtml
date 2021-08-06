@@ -85,17 +85,20 @@
                         <h:panelGrid columns="3">
                             <p:outputLabel value="Proveedor:"/>
                             <p:inputText type="button" styleClass="ui-button-warning"
-                                         id="movieBtn" style="width: 300px" value="#{proveedorDAO.nom}"/>
-                            <p:inputText id="hola" value="#{proveedorDAO.cod}"/>
+                                         id="movieBtn" style="width: 300px" value="#{BuscarMB.nom}"/>
+                            <p:inputText id="nod" value="#{BuscarMB.cod}"/>
+
                             <p:outputLabel value="No. Factura: "/>
-                            <p:inputText value="#{facturaMB.factura.nfactura}" required="true" label="Lastname"/>
-                            <a/>
+                            <p:inputText value="#{facturaMB.factura.nfactura}"/>
+                            <h:outputText id="cd" value="#{facturaMB.factura.ruc=BuscarMB.cod}"
+                                          style="visibility: hidden"/> 
 
                             <p:outputLabel value="Descripción: "/>
                             <p:inputText  value="#{facturaMB.factura.descripcion}" style="width: 300px"/>      
                         </h:panelGrid>
-                        <p:inputText id="nod" value="#{facturaMB.factura.nombre}" type="hidden"/>
-<!--                        <p:inputText id="cd" value="#{facturaMB.factura.codigo}" type="hidden"/>-->
+                        
+                        <h:inputText id="cdd" value="#{facturaMB.factura.ruc}" style="visibility: hidden"/> 
+
 
                         <h:panelGrid columns="4" style="padding-top: 20px">
                             <p:outputLabel value="Importe: "/>
@@ -131,9 +134,9 @@
 
                         <!-- DIALOG BUSCAR PROVEEDOR -->
                         <p:overlayPanel for="movieBtn" dynamic="true" style="width:600px" widgetVar="moviePicker">
-                            <p:dataTable var="proveedor" value="#{proveedorDAO.listaProveedor}" rows="5" paginator="true" selectionMode="single"
-                                         selection="#{proveedorDAO.proveedor}" rowKey="#{proveedor.nombre}">
-                                <p:ajax event="rowSelect" listener="#{proveedorDAO.onRowSelect}" onsuccess="PF('moviePicker').hide()" update="form"/>
+                            <p:dataTable var="proveedor" value="#{BuscarMB.listaProveedor}" rows="5" paginator="true" selectionMode="single"
+                                         selection="#{BuscarMB.proveedor}" rowKey="#{proveedor.nombre}">
+                                <p:ajax event="rowSelect" listener="#{BuscarMB.onRowSelect}" onsuccess="PF('moviePicker').hide()" update="form"/>
 
                                 <p:column headerText="Proveedor">
                                     <h:outputText value="#{proveedor.codigo}"/>
@@ -143,10 +146,14 @@
                                     <h:outputText value="#{proveedor.nombre}"/>
                                 </p:column>
 
+                                <p:column headerText="Ruc">
+                                    <h:outputText value="#{proveedor.ruc}"/>
+                                </p:column>
+
                             </p:dataTable>
                         </p:overlayPanel>
                         <p:commandButton value="Guardar"
-                                         actionListener="#{facturaMB.insertarfactura()}"
+                                         actionListener="#{facturaMB.insertarfactura(facturaMB.factura)}"
                                          icon="pi pi-check" oncomplete="PF('NewFactura').hide()"
                                          update="form">
                             <p:resetInput target="form"/>

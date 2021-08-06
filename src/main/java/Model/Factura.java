@@ -19,14 +19,14 @@ public class Factura {
     private Date vencimiento;
     private int estado;
     private String nombre;
-    private String codigo;
+    private String ruc;
     private int idasiento;
 
     public Factura() {
     }
     
 
-    public Factura(int id, String nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String codigo, String nombre) {
+    public Factura(int id, String nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String ruc, String nombre) {
         this.id = id;
         this.nfactura = nfactura;
         this.descripcion = descripcion;
@@ -35,7 +35,7 @@ public class Factura {
         this.fecha = fecha;
         this.vencimiento = vencimiento;
         this.estado = estado;
-        this.codigo = codigo;
+        this.ruc = ruc;
         this.nombre = nombre;
     }
     public Factura(int id, String nfactura, String descripcion, float importe, float pagado, Date fecha, Date vencimiento, int estado, String nombre) {
@@ -132,12 +132,13 @@ public class Factura {
         this.idasiento = idasiento;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getRuc() {
+        return ruc;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
     }
+    
     
 }
