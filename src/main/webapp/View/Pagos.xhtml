@@ -143,24 +143,23 @@
                                              style="background-color:silver;" disabled="true"/>
                                 <p:datePicker id="fecha" showIcon="true"/>
                         </h:panelGrid>
-                        <p:dataTable var="pago" id="proveedortabla"
+                        <p:dataTable var="pagoFactura" id="proveedortabla"
                                      style="padding-top: 20px"
-                                     value="" >
+                                     value="#{autorizarPagorMB.listaFactura}" >
                             <p:column headerText="Factura No." >
-                                <h:outputText />
+                                <h:outputText value="#{pagoFactura.nfactura}"/>
                             </p:column>
                             <p:column headerText="Fecha" >
-                                <h:outputText />
+                                <h:outputText value="#{pagoFactura.fecha}"/>
                             </p:column>
                             <p:column headerText="Vence">
-                                <h:outputText />
+                                    <h:outputText value="#{pagoFactura.vencimiento}"/>
                             </p:column>
                             <p:column headerText="Importe">
-                                <h:outputText >
-                                </h:outputText>
+                                <h:outputText value="#{pagoFactura.importe}"/>
                             </p:column>
                             <p:column headerText="Pendiente" >
-                                <h:outputText />
+                                <h:outputText value="#{pagoFactura.pagado}"/>
                             </p:column>
                             <p:column headerText="Pago" >
                                 <h:outputText />
@@ -171,7 +170,8 @@
                             <p:commandButton ajax="true" 
                                              update="form"
                                              actionListener="#{abonoProveedorMB.enviar()}"
-                                             type="submit" value="Enviar" oncomplete="PF('RegistroPago').hide()" >
+                                             type="submit" value="Enviar" oncomplete="PF('RegistroPago').hide()" 
+                                             onsuccess="location.reload()">
                                 <f:ajax execute="outputNuevoProveedor" render="form" />
                                 <p:resetInput target="form" />
                             </p:commandButton>

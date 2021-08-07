@@ -24,6 +24,8 @@ public class FacturaManagedBean implements Serializable {
     private Factura factura;
     private FacturaDAO facturaDAO;
     private List<Factura> listaFactura;
+    private boolean check;
+
 
     public FacturaManagedBean() {
         factura = new Factura();
@@ -71,6 +73,25 @@ public class FacturaManagedBean implements Serializable {
 
         } catch (Exception e) {
             System.out.println(e + "ERROR DAO");
+        }
+    }
+    public boolean isCheck() {
+        return check;
+    }
+
+    public void setCheck(boolean cheack) {
+        this.check = cheack;
+    }
+
+    public void Registro() {
+        String detail = check ? "Pago Autorizado" : "Pago no Autorizado";
+        System.out.println(factura.getNfactura()+"-"+factura.getDescripcion()+"-"+detail);
+        if (detail == "Pago Autorizado") {
+//            facturaDAO.Autorizar(autorizarPago.sentencia(factura.getNfactura()));
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(detail));
+        } else {
+//            facturaDAO.Autorizar(autorizarPago.sentencia(factura.getNfactura()));
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(detail));
         }
     }
 }
