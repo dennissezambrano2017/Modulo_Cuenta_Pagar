@@ -13,24 +13,30 @@
             <ui:define name="content">
                 <!-- PRINCIPAL FACTURA -->
 
-                <h:form>
+                <h:form id="form1">
                     <p:panel> 
                         <h1 style="text-align: center; color: black">Facturas de compras</h1>
                         <p:toolbar>
                             <p:toolbarGroup>
                                 <p:commandButton type="button" value="Nuevo" icon="pi pi-plus" 
-                                                 styleClass="ui-button-success" onclick="PF('NewFactura').show()"/>
+                                                 styleClass="ui-button-success" 
+                                                 onclick="PF('NewFactura').show()"/>
                                 <p:commandButton type="button" value="Editar" icon="pi pi-pencil" 
-                                                 styleClass="ui-button-secondary" onclick="PF('EditFactura').show()" style="left: 5px"/>
+                                                 styleClass="ui-button-secondary" 
+                                                 onclick="PF('EditFactura').show()" style="left: 5px"/>
 
-                                <p:commandButton value="Deshabilitar" styleClass="ui-button-danger" icon="pi pi-times" style="left: 10px">
-                                    <p:confirm header="Advertencia" message="Desea deshabilitar esta factura?" icon="pi pi-info-circle"/>
+                                <p:commandButton value="Deshabilitar" styleClass="ui-button-danger" 
+                                                 icon="pi pi-times" style="left: 10px">
+                                    <p:confirm header="Advertencia" message="Desea deshabilitar esta factura?" 
+                                               icon="pi pi-info-circle"/>
                                 </p:commandButton>
 
                                 <p:commandButton type="button" value="Buscar" icon="pi pi-search" 
-                                                 styleClass="ui-button-warning" onclick="PF('Buscar').show()" style="left: 15px"/>
+                                                 styleClass="ui-button-warning" 
+                                                 onclick="PF('Buscar').show()" style="left: 15px"/>
                                 <p:commandButton type="button" value="Pago" icon="pi pi-money-bill" 
-                                                 styleClass="ui-button-primary" onclick="PF('pagos').show()" style="left: 20px"/>
+                                                 styleClass="ui-button-primary" 
+                                                 onclick="PF('pagos').show()" style="left: 20px"/>
                                 <p:commandButton type="button" value="Compro. Retención" icon="pi pi-money-bill" 
                                                  styleClass="ui-button-primary"  style="left: 20px"  onclick=""/>
                             </p:toolbarGroup>
@@ -38,8 +44,10 @@
 
                         <p:outputPanel id="facturas" >
 
-                            <p:dataTable value="#{facturaMB.listaFactura}" 
-                                         var="factura" id="facturatabla" rows="5">
+                            <p:dataTable  id="facturatabla" var="factura"
+                                          value="#{facturaMB.listaFactura}" 
+                                          rows="3" paginator="true"
+                                          paginatorPosition="bottom">
 
                                 <p:column style="width: 15px">
                                     <p:selectBooleanCheckbox />
@@ -80,8 +88,11 @@
 
                 <!-- DIALOG 1 NUEVA FACTURA-->
 
-                <p:dialog  header="Nueva Factura" widgetVar="NewFactura" minHeight="500" width="70%" showEffect="fade">
-                    <h:form id="form">
+                <p:dialog  header="Nueva Factura" widgetVar="NewFactura"
+                           minHeight="500" width="70%" showEffect="fade">
+                    <h:form id="form2">
+
+                        <!-- PANELGRID DEL DIALOG-->
                         <h:panelGrid columns="3">
                             <p:outputLabel value="Proveedor:"/>
                             <p:inputText type="button" styleClass="ui-button-warning"
@@ -94,11 +105,9 @@
                                           style="visibility: hidden"/> 
 
                             <p:outputLabel value="Descripción: "/>
-                            <p:inputText  value="#{facturaMB.factura.descripcion}" style="width: 300px"/>      
+                            <p:inputText  value="#{facturaMB.factura.descripcion}" style="width: 300px"/>
+                            <h:inputText id="cdd" value="#{facturaMB.factura.ruc}" style="visibility: hidden"/> 
                         </h:panelGrid>
-                        
-                        <h:inputText id="cdd" value="#{facturaMB.factura.ruc}" style="visibility: hidden"/> 
-
 
                         <h:panelGrid columns="4" style="padding-top: 20px">
                             <p:outputLabel value="Importe: "/>
@@ -113,9 +122,11 @@
                             <p:outputLabel value="Vencimiento:" style=" padding-left: 30px"/>
                             <p:datePicker  value="#{facturaMB.factura.vencimiento}"/>
                         </h:panelGrid>
+                        <!-- FINAL PANELGRID DEL DIALOG-->
 
                         <!-- TABLA DE DIALOG 1-->
-                        <p:dataTable id="dt-products" widgetVar="dtProducts" var="product" value="#{crudView.products}"
+                        <p:dataTable id="dt-products" widgetVar="dtProducts" 
+                                     var="product" value="#{crudView.products}"
                                      styleClass="products-table" selection="#{crudView.selectedProducts}" 
                                      rowKey="#{product.id}" style="padding-top: 20px">
 
@@ -134,9 +145,13 @@
 
                         <!-- DIALOG BUSCAR PROVEEDOR -->
                         <p:overlayPanel for="movieBtn" dynamic="true" style="width:600px" widgetVar="moviePicker">
-                            <p:dataTable var="proveedor" value="#{BuscarMB.listaProveedor}" rows="5" paginator="true" selectionMode="single"
-                                         selection="#{BuscarMB.proveedor}" rowKey="#{proveedor.nombre}">
-                                <p:ajax event="rowSelect" listener="#{BuscarMB.onRowSelect}" onsuccess="PF('moviePicker').hide()" update="form"/>
+                            <p:dataTable var="proveedor" value="#{BuscarMB.listaProveedor}" 
+                                         rows="3" paginator="true" selectionMode="single"
+                                         paginatorPosition="bottom"
+                                         selection="#{BuscarMB.proveedor}" 
+                                         rowKey="#{proveedor.nombre}">
+                                <p:ajax event="rowSelect" listener="#{BuscarMB.onRowSelect}" 
+                                        onsuccess="PF('moviePicker').hide()" update="form2"/>
 
                                 <p:column headerText="Proveedor">
                                     <h:outputText value="#{proveedor.codigo}"/>
@@ -155,7 +170,7 @@
                         <p:commandButton value="Guardar"
                                          actionListener="#{facturaMB.insertarfactura(facturaMB.factura)}"
                                          icon="pi pi-check" oncomplete="PF('NewFactura').hide()"
-                                         update="form">
+                                         onsuccess="location.reload()">
                             <p:resetInput target="form"/>
                         </p:commandButton>
                     </h:form>             
