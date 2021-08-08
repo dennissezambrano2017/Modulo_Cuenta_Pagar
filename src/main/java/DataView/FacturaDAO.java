@@ -61,7 +61,6 @@ public class FacturaDAO {
     }
 
     public void Insertar(Factura factura) {
-        this.factura = factura;
         String cadena = "INSERT INTO public.factura("
                 + "nfactura, descripcion, importe, pagado, fecha, vencimiento,idproveedor)"
                 + " VALUES ('" + factura.getNfactura() + "','"
@@ -70,7 +69,6 @@ public class FacturaDAO {
                 + factura.getVencimiento() + "',(Select idproveedor from proveedor p "
                 + " where p.ruc = '" + factura.getRuc()+ "'))";
         System.out.print(cadena);
-        this.factura = new Factura();
         conexion.Ejecutar2(cadena);
     }
 

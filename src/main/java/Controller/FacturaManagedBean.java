@@ -10,8 +10,11 @@ import Model.Factura;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -24,6 +27,7 @@ public class FacturaManagedBean implements Serializable {
     private Factura factura;
     private FacturaDAO facturaDAO;
     private List<Factura> listaFactura;
+    private List<Factura> selectedFactura;
     private boolean check;
 
 
@@ -33,11 +37,6 @@ public class FacturaManagedBean implements Serializable {
         facturaDAO = new FacturaDAO();
         listaFactura = facturaDAO.llenar();
 
-    }
-
-    public void mostrar() {
-        listaFactura = facturaDAO.llenar();
-        System.out.println(listaFactura.size() + "holis");
     }
 
     public Factura getFactura() {
@@ -64,16 +63,31 @@ public class FacturaManagedBean implements Serializable {
         this.listaFactura = listaFactura;
     }
 
+    public List<Factura> getSelectedFactura() {
+        return selectedFactura;
+    }
+
+    public void setSelectedFactura(List<Factura> selectedFactura) {
+        this.selectedFactura = selectedFactura;
+    }
+    
+    
+    public void abrirNuevo() {
+        this.factura = new Factura();
+    }
+    
     public void insertarfactura(Factura factura) {
         System.out.print("ESTOY AQUI EN EL MANAGED");
-        System.out.print("Fecha: " + factura.getFecha());
-        System.out.print("Vence: " + factura.getFecha());
+        System.out.print("ruc: "+factura.getRuc());
         try {
             this.facturaDAO.Insertar(factura);
-
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Guardada"));
         } catch (Exception e) {
             System.out.println(e + "ERROR DAO");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al guardar"));
         }
+        PrimeFaces.current().executeScript("PF('NewFactura').hide()");
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-factura");
     }
     public boolean isCheck() {
         return check;

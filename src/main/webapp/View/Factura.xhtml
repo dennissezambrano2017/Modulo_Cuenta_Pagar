@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../Plantilla/Plantilla.xhtml">
+
+            <ui:define name="content">
+                <!-- PRINCIPAL FACTURA -->
+
+                <h:form id="form">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel> 
+                        <h1 style="text-align: center; color: black">Facturas de compras</h1>
+                        <p:toolbar>
+                            <p:toolbarGroup>
+                                <p:commandButton id="new" value="Nuevo" icon="pi pi-plus" 
+                                                 actionListener="#{facturaMB.abrirNuevo}"
+                                                 onclick="PF('newFactura').show()"
+                                                 styleClass="ui-button-success"
+                                                 >
+                                </p:commandButton>
+                                <p:commandButton value="Editar" icon="pi pi-pencil" 
+                                                 styleClass="ui-button-secondary" 
+                                                 onclick="PF('EditFactura').show()" style="left: 5px"/>
+
+                                <p:commandButton value="Deshabilitar" styleClass="ui-button-danger" 
+                                                 icon="pi pi-times" style="left: 10px">
+                                    <p:confirm header="Advertencia" message="Desea deshabilitar esta factura?" 
+                                               icon="pi pi-info-circle"/>
+                                </p:commandButton>
+
+                                <p:commandButton type="button" value="Buscar" icon="pi pi-search" 
+                                                 styleClass="ui-button-warning" 
+                                                 onclick="PF('Buscar').show()" style="left: 15px"/>
+                                <p:commandButton type="button" value="Pago" icon="pi pi-money-bill" 
+                                                 styleClass="ui-button-primary" 
+                                                 onclick="PF('pagos').show()" style="left: 20px"/>
+                                <p:commandButton type="button" value="Compro. Retención" icon="pi pi-money-bill" 
+                                                 styleClass="ui-button-primary"  style="left: 20px"  onclick=""/>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+                        <p:dataTable  id="dt-factura" widgetVar="dtFactura" var="factura"
+                                      value="#{facturaMB.listaFactura}"
+                                      selection="#{facturaMB.selectedFactura}"
+                                      reflow="true" rowKey="#{factura.id}" 
+                                      paginator="true" rows="3" rowSelectMode="add"
+                                      paginatorPosition="bottom"
+                                      style="font-size:13px">
+
+                            <p:column selectionMode="multiple" exportable="false" 
+                                      style="width: 10px"/>
+
+                            <p:column headerText="No. Factura">
+                                <h:outputText value="#{factura.nfactura}" />
+                            </p:column>
+
+                            <p:column headerText="Fecha" sortBy="#{factura.fecha}">
+                                <h:outputText value="#{factura.fecha}"/>
+                            </p:column>
+
+                            <p:column headerText="Proveedor">
+                                <h:outputText value="#{factura.nombre}"/>
+                            </p:column>
+
+                            <p:column headerText="Importe">
+                                <h:outputText value="#{factura.importe}"/>
+                            </p:column>
+
+                            <p:column headerText="Pagado">
+                                <h:outputText value="#{factura.pagado}"/>
+                            </p:column>
+
+                            <p:column headerText="Vencimiento">
+                                <h:outputText value="#{factura.vencimiento}"/>
+                            </p:column>
+
+                            <p:column headerText="Descripción">
+                                <h:outputText value="#{factura.descripcion}"/>
+                            </p:column>
+
+                            <p:column exportable="false">
+                                <p:commandButton icon="pi pi-pencil" update=":form:outputnuevo"
+                                                 oncomplete="PF('newFactura').show()"
+                                                 styleClass="edit-button rounded-button ui-button-warning"
+                                                 process="@this">
+                                    <f:setPropertyActionListener value="#{factura}" target="#{facturaMB.listaFactura}"/>
+                                    <p:resetInput target=":form:outputnuevo"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:panel>
+                    <!-- DIALOG 1 NUEVA FACTURA-->
+
+                    <p:dialog  header="Nueva Factura" showEffect="fade" modal="true"
+                               widgetVar="newFactura" maximizable="true" height="300" width="70%">
+                        <p:outputPanel id="outputnuevo" class="ui-fluid">
+                            <p:outputPanel rendered="#{not empty facturaMB.factura}">
+
+                                <!-- CAMPOS DEL DIALOG-->
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="proveedor">Proveedor: *</p:outputLabel>
+                                        <p:inputText type="button" id="proveedor"
+                                                     value="#{BuscarMB.nom}"/>
+                                    </div>
+
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="nfactura">No. Factura:</p:outputLabel>
+                                        <p:inputText id="nfactura" value="#{facturaMB.factura.nfactura}" required="true"/>
+                                    </div>
+                                </div>
+
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="descripcion" >Descripción:</p:outputLabel>
+                                        <p:inputText id="descripcion" value="#{facturaMB.factura.descripcion}"/>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="cdd" value="#{facturaMB.factura.ruc=BuscarMB.cod}" 
+                                                       style="visibility: hidden"/>
+                                        <p:inputText id="cdd" value="#{facturaMB.factura.ruc}" 
+                                                     type="hidden"/>
+                                    </div>
+                                </div>
+
+
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="importe">Importe:</p:outputLabel>
+                                        <p:spinner id="importe" value="#{facturaMB.factura.importe}" 
+                                                   required="true"/>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="pagado" >Pagado: </p:outputLabel>
+                                        <p:spinner id="pagado" value="#{facturaMB.factura.pagado}"/>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="fecha" >Fecha factura:</p:outputLabel>
+                                        <p:datePicker id="fecha"  value="#{facturaMB.factura.fecha}"
+                                                      required="true"/>
+                                    </div>
+
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="vencimiento">Vencimiento:</p:outputLabel>
+                                        <p:datePicker id="vencimiento" value="#{facturaMB.factura.vencimiento}"
+                                                      required="true"/>
+                                    </div>
+                                </div>
+                                <!-- FINAL CAMPOS DEL DIALOG-->
+
+                                <!-- TABLA DE DIALOG 1-->
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+
+                                        <p:dataTable id="dt-products" widgetVar="dtProducts" 
+                                                     var="product" value="#{crudView.products}"
+                                                     styleClass="products-table" selection="#{crudView.selectedProducts}" 
+                                                     rowKey="#{product.id}" style="padding-top: 20px">
+
+                                            <p:column headerText="Importe" style="width: 35px; text-align: center">
+                                                <h:outputText value="#{product.code}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Cuenta GL" style="width: 75px; text-align: center">
+                                                <h:outputText value="#{product.name}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Nombre" style="width: 130px; text-align: center">
+                                                <h:outputText value="#{product.image}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+
+                                <!-- DIALOG BUSCAR PROVEEDOR -->
+                                <p:overlayPanel for="proveedor" dynamic="true" style="width:600px" widgetVar="moviePicker">
+                                    <p:dataTable var="proveedor" value="#{BuscarMB.listaProveedor}" 
+                                                 rows="3" paginator="true" selectionMode="single"
+                                                 paginatorPosition="bottom"
+                                                 selection="#{BuscarMB.proveedor}" 
+                                                 rowKey="#{proveedor.nombre}">
+                                        <p:ajax event="rowSelect" listener="#{BuscarMB.onRowSelect}" 
+                                                onsuccess="PF('moviePicker').hide()" update=":form:outputnuevo"/>
+
+                                        <p:column headerText="Proveedor">
+                                            <h:outputText value="#{proveedor.codigo}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nombre">
+                                            <h:outputText value="#{proveedor.nombre}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Ruc">
+                                            <h:outputText value="#{proveedor.ruc}"/>
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </p:overlayPanel>
+                            </p:outputPanel>
+                        </p:outputPanel>
+                        <f:facet name="footer">                            
+                            <p:commandButton value="Guardar" icon="pi pi-check" 
+                                             actionListener="#{facturaMB.insertarfactura(facturaMB.factura)}"
+                                             process="manage-product-content @this"
+                                             update=":form:outputnuevo" ajax="False"/>
+
+                            <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('newFactura').hide()"
+                                             class="ui-button-secondary"/>
+                        </f:facet>
+                    </p:dialog>
+
+                    <!--FIN DIALOG 1 -->
+
+                </h:form>
+                <!-- DIALOG 2 EDITAR FACTURA -->
+
+                <p:dialog header="Editar Factura" widgetVar="EditFactura" minHeight="500" width="70%" showEffect="fade">
+                    <h:form>
+                        <h:panelGrid columns="3">
+                            <p:outputLabel value="Proveedor:"/>
+                            <p:inputText value="#{userWizard.user.firstname}" required="true" style="width: 300px"/>
+                            <p:commandButton type="button" icon="pi pi-folder-open" styleClass="ui-button-warning"
+                                             onclick="PF('Bprov').show()"/>
+
+                            <p:outputLabel value="No. Factura: "/>
+                            <p:inputText value="#{userWizard.user.lastname}" required="true" label="Lastname"/>
+                            <p:outputLabel value=""/>
+
+                            <p:outputLabel value="Descripción: "/>
+                            <p:inputText value="#{userWizard.user.age}" style="width: 300px"/>      
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="4" style="padding-top: 20px">
+                            <p:outputLabel value="Importe: "/>
+                            <p:inputText value="#{userWizard.user.firstname}" required="true" label="Firstname"/>
+
+                            <p:outputLabel value="Fecha Factura:" style=" padding-left: 30px"/>
+                            <p:datePicker  showIcon="true"/>
+
+                            <p:outputLabel value="Pagado: "/>
+                            <p:inputText value="#{userWizard.user.lastname}" required="true" label="Lastname"/>
+
+                            <p:outputLabel value="Vencimiento:" style=" padding-left: 30px"/>
+                            <p:datePicker showIcon="true"/>
+
+                            <p:outputLabel value="Deuda: "/>
+                            <p:inputText value="#{userWizard.user.age}"/>  
+
+                            <h:outputText value="Descuento:" style=" padding-left: 30px"/>
+                            <p:inputText value="#{userWizard.user.age}"/>                 
+                        </h:panelGrid>
+
+                        <!-- TABLA DE DIALOG 1-->
+
+                        <p:dataTable id="dt-products" widgetVar="dtProducts" var="product" value="#{crudView.products}"
+                                     styleClass="products-table" selection="#{crudView.selectedProducts}" 
+                                     rowKey="#{product.id}" style="padding-top: 20px">
+
+                            <p:column headerText="Importe" style="width: 35px; text-align: center">
+                                <h:outputText value="#{product.code}"/>
+                            </p:column>
+
+                            <p:column headerText="Cuenta GL" style="width: 75px; text-align: center">
+                                <h:outputText value="#{product.name}"/>
+                            </p:column>
+
+                            <p:column headerText="Nombre" style="width: 130px; text-align: center">
+                                <h:outputText value="#{product.image}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:dialog>
+
+                <!-- DIALOG 3 Habilitar FACTURA-->
+
+                <p:dialog modal="true" height="400" 
+                          width="400" widgetVar="DesahabilitarFactura">
+                    <h:form>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                            <p:commandButton value="OK" type="button" styleClass="ui-confirmdialog-yes"/>
+                            <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no ui-button-flat" />
+                        </p:confirmDialog>
+                    </h:form>
+                </p:dialog>
+
+                <!-- DIALOG 4 BUSCAR FACTURA-->
+
+                <p:dialog header="Buscar Factura" widgetVar="Buscar" minHeight="500" width="40%" showEffect="fade">
+                    <h:form>
+                        <h:panelGrid columns="3" style="padding-bottom: 20px">
+                            <p:outputLabel value="Proveedor:"/>
+                            <p:inputText value="#{userWizard.user.firstname}" required="true" style="width: 300px"/>
+                            <p:commandButton type="button" icon="pi pi-folder-open" styleClass="ui-button-warning"/>
+
+                            <p:outputLabel value="No. Factura: "/>
+                            <p:inputText value="#{userWizard.user.lastname}" required="true" label="Lastname"/>
+                            <p:outputLabel value=""/>
+                        </h:panelGrid>
+                        <p:commandButton type="button" style="left: 140px" value="Buscar" styleClass="ui-button-primary"/> 
+                        <p:commandButton type="button" style="left: 150px" value="Cancelar" styleClass="ui-button-danger"/> 
+                    </h:form>
+                </p:dialog>
+
+                <!-- DIALOG 5 PAGOS-->
+
+                <p:dialog header="Pagos" widgetVar="pagos" minHeight="500" width="70%" showEffect="fade">
+                    <h:form>
+                        <p:dataTable id="dt-products" widgetVar="dtProducts" var="product" value="#{crudView.products}"
+                                     styleClass="products-table" selection="#{crudView.selectedProducts}" 
+                                     rowKey="#{product.id}">
+
+                            <p:column headerText="Pago por" style="width: 75px; text-align: center">
+                                <h:outputText value="#{product.code}"/>
+                            </p:column>
+
+                            <p:column headerText="Referencia" style="width: 75px; text-align: center">
+                                <h:outputText value="#{product.name}"/>
+                            </p:column>
+
+                            <p:column headerText="Fecha" style="width: 75px; text-align: center">
+                                <h:outputText value="#{product.image}"/>
+                            </p:column>
+                            <p:column headerText="Pago" style="width: 75px; text-align: center">
+                                <h:outputText value="#{product.name}"/>
+                            </p:column>
+
+                            <p:column headerText="Total pago" style="width: 75px; text-align: center">
+                                <h:outputText value="#{product.image}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:dialog>
+
+
+
+                <!-- DIALOG OTROS-->
+
+                <p:dialog header="Buscar proveedor" widgetVar="Bprov" minHeight="500" width="40%" showEffect="fade">
+                    <h:form>
+                        <h:panelGrid columns="3" style=" padding-bottom: 20px">
+                            <p:outputLabel value="Proveedor:"/>
+                            <p:inputText value="#{userWizard.user.firstname}" required="true" style="width: 300px"/>
+                            <p:commandButton type="button" icon="pi pi-folder-open" styleClass="ui-button-warning"/>
+
+                            <p:outputLabel value="No. Factura: "/>
+                            <p:inputText value="#{userWizard.user.lastname}" required="true" label="Lastname"/>
+                            <p:outputLabel value=""/>
+                        </h:panelGrid>
+                        <p:commandButton type="button" style="left: 140px" value="Buscar" styleClass="ui-button-primary"/> 
+                        <p:commandButton type="button" style="left: 150px" value="Cancelar" styleClass="ui-button-danger"/> 
+                    </h:form>
+                </p:dialog>
+
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>
