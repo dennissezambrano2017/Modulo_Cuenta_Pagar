@@ -22,17 +22,19 @@ public class Factura {
     private String nombre;
     private String ruc;
     private int idasiento;
+    private float pendiente;
 
     public Factura() {
     }
 
     //Paola: Usa este Constructor
-    public Factura(String nfactura, float importe, float pagado, LocalDate fecha, LocalDate vencimiento) {
+    public Factura(String nfactura, float importe, float pagado, LocalDate fecha, LocalDate vencimiento, float pendiente) {
         this.nfactura = nfactura;
         this.importe = importe;
         this.pagado = pagado;
         this.fecha = fecha;
         this.vencimiento = vencimiento;
+        this.pendiente = pendiente;
     }
     
     

@@ -20,7 +20,6 @@
                         <p:toolbar>
                             <p:toolbarGroup>
                                 <p:commandButton id="new" value="Nuevo" icon="pi pi-plus" 
-                                                 actionListener="#{facturaMB.abrirNuevo}"
                                                  onclick="PF('newFactura').show()"
                                                  styleClass="ui-button-success"
                                                  >
@@ -214,7 +213,7 @@
                         <f:facet name="footer">                            
                             <p:commandButton value="Guardar" icon="pi pi-check" 
                                              actionListener="#{facturaMB.insertarfactura(facturaMB.factura)}"
-                                             process="manage-product-content @this"
+                                             process="outputnuevo @this"
                                              update=":form:outputnuevo" ajax="False"/>
 
                             <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('newFactura').hide()"

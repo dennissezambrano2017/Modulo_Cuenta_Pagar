@@ -80,11 +80,15 @@ public class FacturaManagedBean implements Serializable {
         System.out.print("ESTOY AQUI EN EL MANAGED");
         System.out.print("ruc: "+factura.getRuc());
         try {
+            if("".equals(factura.getRuc()))
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","Error al guardar"));
+            else{
             this.facturaDAO.Insertar(factura);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Guardada"));
+            }
         } catch (Exception e) {
             System.out.println(e + "ERROR DAO");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al guardar"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","Error al guardar"));
         }
         PrimeFaces.current().executeScript("PF('NewFactura').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:dt-factura");

@@ -89,11 +89,12 @@ public class AbonoProveedorDAO {
             try {
                 result = conex.ejecutarConsulta(sentencia);
                 while (result.next()) {
-                    listafactura.add(new Factura(result.getString("nfactura")
-                            ,result.getFloat("importe"),result.getFloat("pagado")
-                            ,result.getObject("fecha",LocalDate.class),result.getObject("vencimiento",LocalDate.class)));
+                    listafactura.add(new Factura(result.getString("nfactura"),
+                             result.getFloat("importe"), result.getFloat("pagado"),
+                             result.getObject("fecha", LocalDate.class), result.getObject("vencimiento", LocalDate.class),
+                             result.getFloat("pendiente")));
                 }
-                
+
                 result.close();
                 return listafactura;
             } catch (SQLException ex) {
