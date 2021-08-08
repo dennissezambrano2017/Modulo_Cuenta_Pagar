@@ -154,6 +154,15 @@ public class Factura {
     public void setRuc(String ruc) {
         this.ruc = ruc;
     }
+
+    public float getPendiente() {
+        return pendiente;
+    }
+
+    public void setPendiente(float pendiente) {
+        this.pendiente = pendiente;
+    }
+    
     
     
 }
