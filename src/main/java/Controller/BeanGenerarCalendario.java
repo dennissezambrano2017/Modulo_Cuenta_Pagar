@@ -153,4 +153,11 @@ public class BeanGenerarCalendario implements Serializable {
         System.out.println("fin proccess");
     }
     
+    public float Total() {
+        final float totalPorPagar = 0;
+        
+        
+        return totalPorPagar;
+    }
+    
 }
