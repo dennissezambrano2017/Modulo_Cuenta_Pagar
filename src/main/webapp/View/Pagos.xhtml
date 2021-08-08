@@ -84,7 +84,7 @@
                 <p:dialog header="Registrar Pago " widgetVar="RegistroPago" minHeight="800" width="70%" showEffect="fade">
                     <p:growl id="growl" widgetVar="growl" showDetail="true"  life="3000"/>  
                     <h:form id="form" >
-                        <h:panelGrid columns="0">
+                        <h:panelGrid columns="2">
                             <!-- Datos del proveedor -->
                             <div class="p-field p-col-12 p-md-3">
                                 <label for="Proveedor" >Proveedor:</label>
@@ -145,7 +145,7 @@
                         </h:panelGrid>
                         <p:dataTable var="pagoFactura" id="proveedortabla"
                                      style="padding-top: 20px"
-                                     value="#{autorizarPagorMB.listaFactura}" >
+                                     value="#{abonoProveedorMB.listaFactura}" >
                             <p:column headerText="Factura No." >
                                 <h:outputText value="#{pagoFactura.nfactura}"/>
                             </p:column>
@@ -153,7 +153,7 @@
                                 <h:outputText value="#{pagoFactura.fecha}"/>
                             </p:column>
                             <p:column headerText="Vence">
-                                    <h:outputText value="#{pagoFactura.vencimiento}"/>
+                                <h:outputText value="#{pagoFactura.vencimiento}"/>
                             </p:column>
                             <p:column headerText="Importe">
                                 <h:outputText value="#{pagoFactura.importe}"/>
@@ -175,7 +175,10 @@
                                 <f:ajax execute="outputNuevoProveedor" render="form" />
                                 <p:resetInput target="form" />
                             </p:commandButton>
-                            <p:commandButton value="Cancelar" styleClass="ui-button-secondary" ></p:commandButton>
+                            <p:commandButton ajax="true" 
+                                             update="form" value="Cancelar" 
+                                             styleClass="ui-button-secondary" 
+                                             onsuccess="location.reload()"></p:commandButton>
                         </div>
 
                         <!-- DIALOG BUSCAR PROVEEDOR -->

@@ -36,7 +36,7 @@ public class AbonoProveedorManagedBean implements Serializable {
     private AbonoProveedorDAO abonoDAO;
     private FacturaDAO facturaDAO;
     private List<AbonoProveedor> listaAbonos;
-    private List<Factura> listafactura;
+    private List<Factura> listaFactura;
 
     public AbonoProveedorManagedBean() {
         abonoproveedor = new AbonoProveedor();
@@ -45,7 +45,7 @@ public class AbonoProveedorManagedBean implements Serializable {
         tipoBanco = new TipoBanco();
         proveedor = new Proveedor();
         listaAbonos = new ArrayList<>();
-        listafactura = new ArrayList<>();
+        listaFactura = new ArrayList<>();
         abonoDAO = new AbonoProveedorDAO();
         listaAbonos = abonoDAO.llenar();
 
@@ -57,8 +57,8 @@ public class AbonoProveedorManagedBean implements Serializable {
     }
 
     public void mostrarPago() {
-        listafactura = facturaDAO.llenar();
-        System.out.println(listafactura);
+        listaFactura = facturaDAO.llenar();
+        System.out.println(listaFactura);
     }
 
     public void enviar() {
@@ -79,8 +79,11 @@ public class AbonoProveedorManagedBean implements Serializable {
         }
     }
     
-    public void BuscarFactura( String ruc){
-       listafactura=abonoDAO.llenar(abonoproveedor.BuscarFactura(ruc));
+    public List<Factura> BuscarFactura( String ruc){
+        System.out.println("Estoy buscandi factura");
+        listaFactura=abonoDAO.llenar(abonoproveedor.BuscarFactura(ruc));
+        System.out.println(listaFactura.size()+"--");
+        return listaFactura;
     }
 
     public void ActualizarFilas() {
@@ -144,4 +147,12 @@ public class AbonoProveedorManagedBean implements Serializable {
         this.proveedor = proveedor;
     }
 
+    public List<Factura> getListaFactura() {
+        return listaFactura;
+    }
+
+    public void setListaFactura(List<Factura> listaFactura) {
+        this.listaFactura = listaFactura;
+    }
+    
 }

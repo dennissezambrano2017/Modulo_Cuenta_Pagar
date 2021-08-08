@@ -93,6 +93,7 @@ public class AbonoProveedorDAO {
                             ,result.getFloat("importe"),result.getFloat("pagado")
                             ,result.getObject("fecha",LocalDate.class),result.getObject("vencimiento",LocalDate.class)));
                 }
+                
                 result.close();
                 return listafactura;
             } catch (SQLException ex) {
