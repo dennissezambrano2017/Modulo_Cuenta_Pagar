@@ -11,78 +11,68 @@
 
             <ui:define name="content">
 
-                <h:form >
-                    <div style="position: relative; left: 600px; top: 34px;">
-                        <p:outputLabel style="color: red;" 
-                                       value="N° Comprobante de retención: "/>
-                        <p:outputLabel style="color: red" value="004-003-1234567890"/>
-                    </div>
-                    <div style="position: relative; left: 500px; top: 130px;">
-                                <p:outputLabel value="Nº Comprobante: " />
-                                <p:inputText value="
-                                         " style="width: 300px"/>
-
+                <h:form class="p-p-5">
+                    <div class="p-grid">
+                        <div class="p-col-6">
+                            <h1>Comprobantes de retención</h1>
+                        </div>
+                        <div class="p-col-6">
+                            <div class="p-formgroup-inline">
+                                <div class="p-field">
+                                    <p:inputText placeholder="Buscar" type="text"/>
+                                </div>
+                                <p:button value="Buscar" styleClass="ui-button-raised ui-button-warning"/>
+                                <p:button value="Insertar" styleClass="ui-button-raised ui-button-success" />
                             </div>
-
-                    <div >
-                        <h:panelGrid columns="3">
-                            <p:outputLabel value="Proveedor:"/>
-                            <p:inputText value="" required="true" style="width: 300px; "/>
-                            <p:commandButton type="button" icon="pi pi-folder-open" styleClass="ui-button-warning"
-                                             onclick="PF('Bprov').show()"/>
-
-
-                            <p:outputLabel value="R.U.C/C.I: "/>
-                            <p:inputText value="" required="true" label="Lastname"/>
-                            <p:outputLabel value=""/>
-
-                            <p:outputLabel value="Dirección: "/>
-                            <p:inputText value="
-                                         " style="width: 300px"/>  
-
-                           
-                            <div style="position: relative; left: 800px; top: 20px;">
-                                <p:outputLabel value="Tipo de comprobante: " />
-                                <p:inputText value="
-                                         " style="width: 300px"/>
-
-                            </div>
-                            
-                             <div style="position: relative; left: 800px; top: 34px;width: 200px">
-                                <p:outputLabel value="Fecha :    " />
-                                <p:datePicker  showIcon="true"/>
-
-                            </div>
-                        </h:panelGrid>
+                        </div>
                     </div>
 
-                </h:form>
-                <br></br>
-                <h:form>
-                    <p:dataTable id="dt-products" widgetVar="dtProducts" var="product" value=""
-                                 styleClass="products-table" selection="" 
-                                 rowKey="">
+                    <p:dataTable var="retencion" value="#{comprobanteMB.retenciones}" size="small">
+                        <p:headerRow field="estado_retencion" expandable="true">
+                            <p:column colspan="6">
+                                <div class="p-d-inline-flex p-ai-center" style="vertical-align: middle">
+                                    <h:outputText styleClass="p-ml-2" value="#{retencion.estado_retencion}"/> 
+                                </div>
+                            </p:column>    
+                        </p:headerRow>
 
-                        <p:column headerText="Ejercicio fiscal" style="width: 75px; text-align: center">
-                            <h:outputText value="2010"/>
-                        </p:column>
-
-                        <p:column headerText="Base imponible para la retenciòn" style="width: 75px; text-align: center">
-                            <h:outputText value="2000"/>
+                        <p:column headerText="N. Retencion">
+                            <h:outputText value="#{retencion.n_comprobante_retencion}"></h:outputText>
                         </p:column>
 
-                        <p:column headerText="Impuesto" style="width: 75px; text-align: center">
-                            <h:outputText value="Renta"/>
-                        </p:column>
-                        <p:column headerText="% de retención" style="width: 75px; text-align: center">
-                            <h:outputText value="8%"/>
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{retencion.estado_retencion}"></h:outputText>
                         </p:column>
 
-                        <p:column headerText="Valor retenido" style="width: 75px; text-align: center">
-                            <h:outputText value="160"/>
+                        <p:column headerText="Razón social">
+                            <h:outputText value="#{retencion.razon_social}"></h:outputText>
                         </p:column>
+
+                        <p:column headerText="Fecha">
+                            <h:outputText value="#{retencion.fecha_emision}"></h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Total">
+                            <h:outputText value="#{retencion.total}"></h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Acciones">
+                            <h:outputText value="Acciones"></h:outputText>
+                        </p:column>
+
+                        <p:summaryRow>
+                            <p:column colspan="5" style="text-align:right">
+                                <h:outputText value="Total de comprobantes:"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{comprobanteMB.getCountRegister(retencion.estado_retencion)}"/>
+                            </p:column>
+                        </p:summaryRow>
+                        
                     </p:dataTable>
+
                 </h:form>
+
             </ui:define>
 
         </ui:composition>
