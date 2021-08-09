@@ -5,11 +5,12 @@
  */
 package Model;
 import java.time.LocalDate;
-import java.util.Date;
+
 /**
  *
  * @author ninat
  */
+
 public class Factura {
     private int id;
     private String nfactura;
@@ -39,12 +40,12 @@ public class Factura {
     
     
     //Diana Constructor para Buscar proveedor e insertar 
-    public Factura(int id, String nfactura, String descripcion, float importe, float pagado, LocalDate fecha, LocalDate vencimiento, int estado, String ruc, String nombre) {
+    public Factura(int id, String nfactura, String descripcion, float importe, float pendiente, LocalDate fecha, LocalDate vencimiento, int estado, String ruc, String nombre) {
         this.id = id;
         this.nfactura = nfactura;
         this.descripcion = descripcion;
         this.importe = importe;
-        this.pagado = pagado;
+        this.pendiente = pendiente;
         this.fecha = fecha;
         this.vencimiento = vencimiento;
         this.estado = estado;
