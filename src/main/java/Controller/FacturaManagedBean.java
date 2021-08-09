@@ -38,7 +38,6 @@ public class FacturaManagedBean implements Serializable {
         listaFactura = facturaDAO.llenar();
 
     }
-
     public Factura getFactura() {
         return factura;
     }
@@ -70,29 +69,34 @@ public class FacturaManagedBean implements Serializable {
     public void setSelectedFactura(List<Factura> selectedFactura) {
         this.selectedFactura = selectedFactura;
     }
-    
-    
+
     public void abrirNuevo() {
         this.factura = new Factura();
     }
-    
-    public void insertarfactura(Factura factura) {
+
+    //Diana: insertar nueva Factura
+    public void insertarfactura() {
         System.out.print("ESTOY AQUI EN EL MANAGED");
-        System.out.print("ruc: "+factura.getRuc());
+        System.out.print("ruc: " + factura.getRuc());
         try {
-            if("".equals(factura.getRuc()))
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","Error al guardar"));
-            else{
-            this.facturaDAO.Insertar(factura);
+            if ("".equals(factura.getRuc())) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
+            } else {
+                this.facturaDAO.Insertar(factura);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Guardada"));
             }
         } catch (Exception e) {
-            System.out.println(e + "ERROR DAO");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","Error al guardar"));
+            System.out.println("ERROR DAO: "+e);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
         }
-        PrimeFaces.current().executeScript("PF('NewFactura').hide()");
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-factura");
+        PrimeFaces.current().executeScript("PF('newFactura').hide()");
+        PrimeFaces.current().executeScript("location.reload()");
     }
+    
+    public void reset() {
+        PrimeFaces.current().resetInputs("form:outputnuevo");
+    }
+
     public boolean isCheck() {
         return check;
     }
@@ -103,7 +107,7 @@ public class FacturaManagedBean implements Serializable {
 
     public void Registro() {
         String detail = check ? "Pago Autorizado" : "Pago no Autorizado";
-        System.out.println(factura.getNfactura()+"-"+factura.getDescripcion()+"-"+detail);
+        System.out.println(factura.getNfactura() + "-" + factura.getDescripcion() + "-" + detail);
         if (detail == "Pago Autorizado") {
 //            facturaDAO.Autorizar(autorizarPago.sentencia(factura.getNfactura()));
 //            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(detail));

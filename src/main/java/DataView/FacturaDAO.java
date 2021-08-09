@@ -72,30 +72,4 @@ public class FacturaDAO {
         conexion.Ejecutar2(cadena);
     }
 
-    
-    public int insertar() {
-        System.out.print("SI ENTREEEEEE");
-        String sentencia ="INSERT INTO public.factura("
-                + "nfactura, descripcion, importe, pagado, fecha, vencimiento,idproveedor)"
-                + " VALUES (" + factura.getNfactura() + ",'"
-                + factura.getDescripcion() + "'," + factura.getImporte() + ","
-                + factura.getPagado() + "," + factura.getFecha() + ","
-                + factura.getVencimiento() + ",(Select idproveedor from proveedor p "
-                + " where p.nombre = '" + factura.getNombre() + "'))";
-        if (conexion.isEstado()) {
-            System.out.print("hola que hace");
-            return conexion.insertar(sentencia);
-        }
-        return -1;
-    }
-
-    public void Insertar() {
-        System.out.print("SI ENTREEEE xd");
-        String cadena = "INSERT INTO public.factura(nfactura, descripcion,"
-                + " importe, pagado, fecha, vencimiento,idproveedor)"
-                + "VALUES (7894,'hola','1235' ,232323,NOW(),NOW(), "
-                + "(Select idproveedor from proveedor p where p.nombre = 'La Fabril'))";
-        System.out.print(cadena);
-        conexion.Ejecutar2(cadena);
-    }
 }
