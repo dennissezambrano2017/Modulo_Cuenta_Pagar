@@ -6,11 +6,13 @@
 package DataView;
 
 import Controller.Conexion;
+import Model.Factura;
 import Model.Proveedor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -19,17 +21,28 @@ import java.util.List;
 public class BuscarProvDAO {
     Conexion conexion = new Conexion();
     private Proveedor proveedor;
+    private Factura factura;
     private ResultSet result;
     private List<Proveedor> listaProveedor;
+    private List<Factura> listaFactura;
 
     public BuscarProvDAO() {
         conexion = new Conexion();
         listaProveedor = new ArrayList<>();
+        listaFactura= new ArrayList<>();
     }
 
     public BuscarProvDAO(Proveedor proveedor) {
         conexion = new Conexion();
         this.proveedor = proveedor;
+    }
+
+    public List<Factura> getListaFactura() {
+        return listaFactura;
+    }
+   
+    public void setListaFactura(List<Factura> listaFactura) {
+        this.listaFactura = listaFactura;
     }
     
      public List<Proveedor> llenar() {

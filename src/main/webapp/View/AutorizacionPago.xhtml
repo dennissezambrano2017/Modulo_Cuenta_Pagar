@@ -15,7 +15,7 @@
                         <h1 style="text-align: center; color: black">Autorizar Pagos</h1>
                         <p:outputPanel id="factura">
                             <p:dataTable value="#{facturaMB.listaFactura}" 
-                                         var="factura" id="tablafactura" 
+                                var="factura" id="tablafactura" 
                                          reflow="true" rows="5" paginator="true">
                                 <p:column headerText="N° Factura" >
                                     <h:outputText value="#{factura.nfactura}"/>
@@ -36,7 +36,12 @@
                                     <h:outputText value="#{factura.nombre}"/>
                                 </p:column>
                                 <p:column>
-                                    <p:selectBooleanButton onLabel="Yes" offLabel="No" style="width:6rem"/>
+                                    <p:growl id="msgs"/>
+                                    <p:selectBooleanButton id="autoPago" value="#{facturaMB.check}"
+                                                               onLabel="Yes" offLabel="No"
+                                                               style="width:6rem">
+                                        <p:ajax update="msgs" listener="#{facturaMB.Registro()}"/>
+                                        </p:selectBooleanButton>
                                 </p:column>
                             </p:dataTable>
                         </p:outputPanel>

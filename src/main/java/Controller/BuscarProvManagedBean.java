@@ -14,6 +14,10 @@ import Model.Proveedor;
 import Model.Factura;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -26,6 +30,7 @@ public class BuscarProvManagedBean implements Serializable {
 
     private Proveedor proveedor;
     private BuscarProvDAO buscarprovDAO;
+    private Factura factura;
     private List<Proveedor> listaProveedor;
     private List<Factura> listaFactura;
     private String nom;
@@ -39,7 +44,7 @@ public class BuscarProvManagedBean implements Serializable {
         buscarprovDAO = new BuscarProvDAO();
         listaProveedor = buscarprovDAO.llenar();
         abonoMB = new AbonoProveedorManagedBean();
-
+        factura = new Factura();
     }
 
     public Proveedor getProveedor() {
@@ -83,9 +88,37 @@ public class BuscarProvManagedBean implements Serializable {
         System.out.print("Ruc: " + msg3);
         setNom(msg2);
         setCod(msg3);
-        listaFactura=abonoMB.BuscarFactura(msg3);
+        listaFactura = abonoMB.BuscarFactura(msg3);
 
     }
+
+     public void onRowEdit(RowEditEvent<Factura> event) {
+        FacesMessage msg = new FacesMessage("Product Edited", String.valueOf(event.getObject().getNfactura()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+     public void onRowCancel(RowEditEvent<Factura> event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", String.valueOf(event.getObject().getNfactura()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        if (newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+    public void onRowDoubleClick(final SelectEvent event) {
+    Object obj = (Object) event.getObject();
+    // rest of your logic
+    if (obj != null ) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "New:" + obj);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+}
 
     public List<Factura> getListaFactura() {
         return listaFactura;

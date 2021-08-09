@@ -15,18 +15,18 @@
                     <div >
                         <p:panel >
                             <h1 style="text-align: center"> PAGOS</h1>
-                            <p:growl id="messages" showDetail="true"/>
+                            <p:growl id="msgs" showDetail="true"/>
 
                             <p:toolbar>
                                 <p:toolbarGroup>
-                                    <p:commandButton value="Nuevo" icon="pi pi-plus" actionListener="#{crudView.openNew}"
-                                                     update=":form:pago-content" oncomplete="PF('manageProductDialog').show()"
+                                    <p:commandButton value="Nuevo" icon="pi pi-plus" 
+                                                     update=":form:pago-content" oncomplete="PF('managePagoDialog').show()"
                                                      styleClass="ui-button-success" style="margin-right: .5rem">
                                         <p:resetInput target=":form:pago-content"/>
                                     </p:commandButton>
 
-                                    <p:commandButton icon="pi pi-pencil" update=":form:pago-content"
-                                                     oncomplete="PF('manageProductDialog').show()"
+<!--                                    <p:commandButton icon="pi pi-pencil" update=":form:pago-content"
+                                                     oncomplete="PF('managePagoDialog').show()"
                                                      styleClass="ui-button-secondary" process="@this"
                                                      value="Editar">
                                         <f:setPropertyActionListener value="#{product}" target="#{crudView.selectedProduct}"/>
@@ -38,7 +38,7 @@
                                                      update="@this"> 
                                         <p:confirm header="Confirmation" message="Delete the selected products?"
                                                    icon="pi pi-exclamation-triangle"/>
-                                    </p:commandButton>
+                                    </p:commandButton>-->
                                     <p:commandButton value="Buscar" icon="pi pi-search" 
                                                      oncomplete="PF('BuscarPago').show()"
                                                      styleClass="ui-button-warning" 
@@ -53,11 +53,11 @@
                                          rows="5" paginator="true" paginatorPosition="bottom">
 
 
-                                <p:ajax event="rowSelect" update=":form:delete-products-button"/>
+<!--                                <p:ajax event="rowSelect" update=":form:delete-products-button"/>
                                 <p:ajax event="rowUnselect" update=":form:delete-products-button"/>
                                 <p:ajax event="rowSelectCheckbox" update=":form:delete-products-button"/>
                                 <p:ajax event="rowUnselectCheckbox" update=":form:delete-products-button"/>
-                                <p:ajax event="toggleSelect" update=":form:delete-products-button"/>
+                                <p:ajax event="toggleSelect" update=":form:delete-products-button"/>-->
 
                                 <p:column selectionMode="multiple" exportable="false"></p:column>
 
@@ -89,19 +89,19 @@
                         </p:panel>
                         <!-- Dialogo Nuevo-->
                         <p:dialog header="Product Details" showEffect="fade" modal="true"
-                                  widgetVar="manageProductDialog" responsive="true" minHeight="800" width="70%" >
+                                  widgetVar="managePagoDialog" height="400" width="70%" >
                             <p:outputPanel id="pago-content" class="ui-fluid">
 
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
                                         <p:outputLabel for="name">Proveedor</p:outputLabel>
                                         <p:inputText id="name" type="button" styleClass="ui-button-warning"
-                                                     value="#{BuscarMB.nom}"/>
+                                                     value="#{BuscarMB.nom}" required="true"/>
                                     </div>
                                     <div class="p-field p-col">
-                                        <p:inputText id="hola" value="#{BuscarMB.cod}" type="hidden"/>
+                                        <p:inputText id="hola" value="#{BuscarMB.cod}" type="hidden" />
                                         <p:outputLabel value="#{abonoProveedorMB.abonoproveedor.ruc=BuscarMB.cod}" style="visibility: hidden"/>
-                                        <p:inputText value="#{abonoProveedorMB.abonoproveedor.ruc}" style="visibility: hidden"/>
+                                        <p:inputText value="#{abonoProveedorMB.abonoproveedor.ruc}" style="visibility: hidden" />
                                     </div>
                                     <div class="p-field p-col"></div>
                                 </div>
@@ -110,8 +110,8 @@
                                         <p:outputLabel for="name" >Pago por
                                         </p:outputLabel>
                                         <p:selectOneMenu  placeholder="Seleccione" id="detallePago"
-                                                          value="#{abonoProveedorMB.tipoPago.descripcion}"
-                                                          >
+                                                          value="#{abonoProveedorMB.tipoPago.descripcion}" >
+                                            <f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
                                             <f:selectItem itemLabel="Caja" 
                                                           itemValue="Caja"/>
                                             <f:selectItem itemLabel="Cheque" 
@@ -136,6 +136,7 @@
                                             Banco:</label>
                                         <p:selectOneMenu placeholder="Seleccione" 
                                                          value="#{abonoProveedorMB.tipoBanco.descrpcion}">
+                                            <f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
                                             <f:selectItem itemLabel="Banco Pichincha" 
                                                           itemValue="Banco Pichincha"/>
                                             <f:selectItem itemLabel="Banco Machala" 
@@ -173,7 +174,15 @@
                                     <div class="p-field p-col">
                                         <p:dataTable var="pagoFactura" id="table-proveedor"
                                                      style="padding-top: 20px"
-                                                     value="#{BuscarMB.listaFactura}" >
+                                                     value="#{BuscarMB.listaFactura}" 
+                                                     editable="true" editMode="cell"
+                                                     editInitEvent="dblclick"
+                                                     widgetVar="cellCars2" >
+                                            <!--Nos ayuda en poder ingresar dato en Pago-->
+                                            <p:ajax event="cellEdit" 
+                                                    listener="#{BuscarMB.onCellEdit}" 
+                                                    update=":form:msgs"/>
+
                                             <p:column headerText="Factura No." >
                                                 <h:outputText value="#{pagoFactura.nfactura}"/>
                                             </p:column>
@@ -184,13 +193,20 @@
                                                 <h:outputText value="#{pagoFactura.vencimiento}"/>
                                             </p:column>
                                             <p:column headerText="Importe">
-                                                <h:outputText value="#{pagoFactura.importe}"/>
+                                                <h:outputText value="$#{pagoFactura.importe}"/>
                                             </p:column>
                                             <p:column headerText="Pendiente" >
-                                                <h:outputText value="#{pagoFactura.pagado}"/>
+                                                <h:outputText value="$#{pagoFactura.pendiente}"/>
                                             </p:column>
                                             <p:column headerText="Pago" >
-                                                <h:outputText />
+                                                <p:cellEditor>
+                                                    <f:facet name="output">
+                                                        <h:outputText value="$#{pagoFactura.pagado}"/>
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputText value="#{pagoFactura.pagado}" style="width:100%" label="Pago"/>
+                                                    </f:facet>
+                                                </p:cellEditor>
                                             </p:column>
                                         </p:dataTable>
                                     </div>
@@ -224,8 +240,8 @@
                             <f:facet name="footer">
                                 <p:commandButton value="Aceptar" icon="pi pi-check" actionListener="#{abonoProveedorMB.enviar()}"
                                                  update="pago-content" process="pago-content @this"
-                                                 styleClass="ui-button-success" onsuccess="location.reload()"/>
-                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageProductDialog').hide()"
+                                                 styleClass="ui-button-success" />
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('managePagoDialog').hide()"
                                                  class="ui-button-secondary" styleClass="ui-button-danger"
                                                  onsuccess="location.reload()"/>
                             </f:facet>

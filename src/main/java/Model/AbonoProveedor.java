@@ -174,8 +174,9 @@ public class AbonoProveedor {
     }
     public String BuscarFactura(String proveedor)
     {
-        String sentencia =String.format("Select * from factura f where f.idproveedor = "
-                + "(Select p.idproveedor from proveedor p where p.ruc ='%1$s')", proveedor);
+        String sentencia =String.format("Select f.nfactura, f.importe,f.pagado,(f.importe-f.pagado) as pendiente, "
+                + "f.fecha,f.vencimiento\n from factura f "
+                + "where f.idproveedor = (Select p.idproveedor from proveedor p where p.ruc ='%1$s')", proveedor);
         System.out.println(sentencia);
         return sentencia;
     }

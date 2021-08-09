@@ -37,6 +37,7 @@ public class AbonoProveedorManagedBean implements Serializable {
     private FacturaDAO facturaDAO;
     private List<AbonoProveedor> listaAbonos;
     private List<Factura> listaFactura;
+    private Factura factura;
 
     public AbonoProveedorManagedBean() {
         abonoproveedor = new AbonoProveedor();
@@ -67,9 +68,17 @@ public class AbonoProveedorManagedBean implements Serializable {
         try {
             this.abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(), tipoBanco.getDescrpcion(), abonoproveedor.getRuc()));
             try {
-                this.abonoDAO.insertar(detalleAbono.getSentencia(proveedor.getCodigo()));
-                listaAbonos = abonoDAO.llenar();
-                System.out.println("EXITO");
+                System.out.println("Si entro1"+listaFactura.size());
+                int index=0;
+                while(index>listaFactura.size()){
+                    System.out.println("Si entro2");
+                    System.out.println(factura.getNfactura()+"-"+factura.getFecha()+"-"+
+                            factura.getVencimiento()+"-"+factura.getImporte()+"-"+
+                            factura.getPendiente()+"-"+factura.getPagado());
+                }
+//                this.abonoDAO.insertar(detalleAbono.getSentencia(proveedor.getCodigo()));
+//                listaAbonos = abonoDAO.llenar();
+//                System.out.println("EXITO");
                 ActualizarFilas();
             } catch (Exception e) {
                 System.out.println(e + "Error en registrar Detalle Abono");
@@ -154,5 +163,14 @@ public class AbonoProveedorManagedBean implements Serializable {
     public void setListaFactura(List<Factura> listaFactura) {
         this.listaFactura = listaFactura;
     }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
+    }
+    
     
 }
