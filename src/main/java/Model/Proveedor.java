@@ -5,6 +5,11 @@
  */
 package Model;
 
+import Controller.Conexion;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.time.LocalDate;
+
 /**
  *
  * @author ebert
@@ -218,5 +223,43 @@ public class Proveedor {
         }
         return true;
     }
+    
+    
+    // Metodos aux para comunicación con db.
+    public static Proveedor getOneProveedor(int idproveedor) {
+        Proveedor pro = new Proveedor();
+        
+        Conexion conn = new Conexion();
+        String query = "select idproveedor, codigo, razonsocial, ruc, nombre, direccion, email, webpage, contacto, telefono, estado\n" +
+                            "from proveedor\n" +
+                            "where idproveedor=?;";
+        try {
+            conn.abrirConexion();
+            
+            //Statement stmt = conn.conex.createStatement();
+            PreparedStatement stmt = conn.conex.prepareStatement(query);
+            stmt.setInt(1, idproveedor);
+            
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                pro.setIdProveedor(rs.getInt("idproveedor"));
+                pro.setCodigo(rs.getString("codigo"));
+                pro.setRazonSocial(rs.getString("razonsocial"));
+                pro.setRuc(rs.getString("ruc"));
+                pro.setNombre(rs.getString("nombre"));
+                pro.setDireccion(rs.getString("direccion"));
+                pro.setEmail(rs.getString("email"));
+                pro.setWebPage(rs.getString("webpage"));
+                pro.setContacto(rs.getString("contacto"));
+                pro.setTelefono(rs.getString("estado"));
+            }
+            conn.conex.close();
 
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+
+        return pro;
+    }
 }

@@ -25,18 +25,6 @@ public class ComprobanteMB {
     
     public ComprobanteMB() {
         this.retenciones = new ArrayList<>();
-        
-        this.retenciones.add(new Retencion(
-                1,
-                LocalDate.now(),
-                "000-001",
-                1,
-                1,
-                "Emitido",
-                "compras y ventas Q",
-                100
-        ));
-        
         this.retenciones = Retencion.getAll();
         
     }

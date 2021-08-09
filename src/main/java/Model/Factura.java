@@ -4,7 +4,13 @@
  * and open the template in the editor.
  */
 package Model;
+import Controller.Conexion;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -20,6 +26,8 @@ public class Factura {
     private LocalDate fecha;
     private LocalDate vencimiento;
     private int estado;
+    private int idproveedor;
+    private Proveedor proveedor;
     private String nombre;
     private String ruc;
     private int idasiento;
@@ -130,6 +138,23 @@ public class Factura {
         this.estado = estado;
     }
 
+    public int getIdproveedor() {
+        return idproveedor;
+    }
+
+    public void setIdproveedor(int idproveedor) {
+        this.idproveedor = idproveedor;
+    }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
+    }
+    
+
     public String getNombre() {
         return nombre;
     }
@@ -165,5 +190,46 @@ public class Factura {
     }
     
     
+    // metodos aux para comunicación con la db
+    public static Factura getOneFactura(int id) {
+        Factura fac = new Factura();
+        
+        Conexion conn = new Conexion();
+        String query = "select idfactura, nfactura, descripcion, importe, pagado, fecha, vencimiento, estado, idproveedor, idasiento\n" +
+                            "from factura\n" +
+                            "where \"idfactura\"=?;";
+        try {
+            conn.abrirConexion();
+            
+            //Statement stmt = conn.conex.createStatement();
+            PreparedStatement stmt = conn.conex.prepareStatement(query);
+            stmt.setInt(1, id);
+            
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                fac.setId(rs.getInt("idfactura"));
+                fac.setNfactura(rs.getString("nfactura"));
+                fac.setDescripcion(rs.getString("descripcion"));
+                fac.setImporte(rs.getFloat("importe"));
+                fac.setPagado(rs.getFloat("pagado"));
+                fac.setFecha(rs.getObject("fecha", LocalDate.class));
+                fac.setVencimiento(rs.getObject("vencimiento", LocalDate.class));
+                fac.setEstado(rs.getInt("estado"));
+                fac.setIdproveedor(rs.getInt("idproveedor"));
+                fac.setIdasiento(rs.getInt("idasiento"));
+            }
+            conn.conex.close();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+
+        return fac;
+    }
     
+    public Factura GetdbProveedor() {
+        this.setProveedor(Proveedor.getOneProveedor(this.idproveedor));
+        return this;
+    }
 }

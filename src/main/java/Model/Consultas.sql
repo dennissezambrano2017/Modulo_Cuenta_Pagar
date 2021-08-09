@@ -22,5 +22,27 @@ insert into factura(nfactura, descripcion, importe, pagado, fecha, vencimiento, 
 \d "tipoComprobante"
 
 -- insertar un tipo de comprobante (retencion)
+insert into "tipoComprobante" ("idTipoComprobante", descripcion) 
+    values (1, 'Retención');
+
+-- seleciona todo
+select *
+    from "tipoComprobante";
+
+-- traer una factura condicionado por el id
+select idfactura, nfactura, descripcion, importe, pagado, fecha, vencimiento, estado, idproveedor, idasiento
+    from factura
+    where "idfactura"=22;
+
+-- actualización de la retenciona para tener la factura 22
+update retencion set "idFacturaCompra"=30 where "idRetencion"=2;
 
 
+-- selecion del proveedor por id
+select idproveedor, codigo, razonsocial, ruc, nombre, direccion, email, webpage, contacto, telefono, estado
+    from proveedor
+    where idproveedor=1;
+
+-- ACTUALIZA FACTURA -> PROVEEDOR.
+update factura set idproveedor=1
+    where idfactura=30;

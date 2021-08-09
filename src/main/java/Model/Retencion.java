@@ -22,6 +22,8 @@ public class Retencion extends Conexion {
     private LocalDate fecha_emision; // fecha de la emición del comprobante
     private String n_comprobante_retencion; // numero de comprobante de retencion, o identiciación 
     private int id_factura_compra;  // referencia hacia la factura.
+    private Factura factura;
+    
     private int id_tipo_comprobante;  // El tipo de comprobante.
 
     //datos faltantes
@@ -70,9 +72,19 @@ public class Retencion extends Conexion {
     public int getId_factura_compra() {
         return id_factura_compra;
     }
+    
+    
 
     public void setId_factura_compra(int id_factura_compra) {
         this.id_factura_compra = id_factura_compra;
+    }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
     }
 
     public int getId_tipo_comprobante() {
@@ -142,8 +154,21 @@ public class Retencion extends Conexion {
             System.out.println(ex.getMessage());
             return null;
         }
+        
+        // Obtenemos las facturas compras de cada retencion.
+        retenciones.forEach(ren -> {
+            ren.getFacturaCompra();
+        });
 
         return retenciones;
 
+    }
+    
+    // traer la factura de la db
+    public void getFacturaCompra() {
+        //this.factura = Factura.getOneFactura(this.id_factura_compra);
+        System.out.println("factura id: " + this.id_factura_compra);
+        // trae la factura con el proveedor.
+        this.setFactura(Factura.getOneFactura(this.id_factura_compra).GetdbProveedor());
     }
 }
