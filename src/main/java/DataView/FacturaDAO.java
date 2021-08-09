@@ -38,14 +38,15 @@ public class FacturaDAO {
         if (conexion.isEstado()) {
             try {
                 String sentencia = "SELECT f.idfactura,f.nfactura,f.descripcion,"
-                        + "f.importe,f.pagado,f.fecha,f.vencimiento,f.estado, p.nombre "
-                        + "from factura as f INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor)";
+                        + "f.importe,(f.importe - f.pagado) as pendiente,f.fecha,"
+                        + "f.vencimiento,f.estado, p.nombre from factura as f "
+                        + "INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor)";
                 result = conexion.ejecutarConsulta(sentencia);
                 System.out.println("Factura: "+result.toString());
                 while (result.next()) {
                     listaFacturas.add(new Factura(result.getInt("idfactura"),
                             result.getString("nfactura"), result.getString("descripcion"),
-                            result.getFloat("importe"), result.getFloat("pagado"),
+                            result.getFloat("importe"), result.getFloat("pendiente"),
                             result.getObject("fecha",LocalDate.class), 
                             result.getObject("vencimiento",LocalDate.class),
                             result.getInt("estado"), result.getString("nombre")));
