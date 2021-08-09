@@ -24,7 +24,7 @@ public class Factura {
     private String ruc;
     private int idasiento;
     private float pendiente;
-
+//double precision
     public Factura() {
     }
 
