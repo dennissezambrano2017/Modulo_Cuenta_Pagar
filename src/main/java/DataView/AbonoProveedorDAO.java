@@ -39,6 +39,7 @@ public class AbonoProveedorDAO {
         conex = new Conexion();
         listaAbono = new ArrayList<>();
         listafactura = new ArrayList<>();
+        factura = new Factura();
     }
 
     public AbonoProveedorDAO(AbonoProveedor abono) {
@@ -111,9 +112,10 @@ public class AbonoProveedorDAO {
             connection = conex.getCnx();
             statement = connection.createStatement();
             statement.executeUpdate(sentencia);
-            System.out.print("Si insertoq");
+            System.out.print("Si inserto");
             return 1;
-        } catch (Exception e) {
+        } catch (SQLException ex) {
+             System.out.print(ex+"Error al querer insertar");
             return 0;
         }
     }

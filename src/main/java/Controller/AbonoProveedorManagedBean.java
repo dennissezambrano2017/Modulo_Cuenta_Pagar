@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
-import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -50,6 +49,7 @@ public class AbonoProveedorManagedBean implements Serializable {
         abonoDAO = new AbonoProveedorDAO();
         listaAbonos = abonoDAO.llenar();
 
+
     }
 
     public void mostrar() {
@@ -66,22 +66,23 @@ public class AbonoProveedorManagedBean implements Serializable {
         this.abonoDAO = new AbonoProveedorDAO(abonoproveedor);
         System.out.println(tipoPago.getDescripcion() + "--" + tipoBanco.getDescrpcion() + "--" + abonoproveedor.getRuc());
         try {
-            this.abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(), tipoBanco.getDescrpcion(), abonoproveedor.getRuc()));
+            abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(), tipoBanco.getDescrpcion(), abonoproveedor.getRuc()));
+             System.out.println("Si entro10");
             try {
-                System.out.println("Si entro1"+listaFactura.size());
-                int index=0;
-                while(index>listaFactura.size()){
-                    System.out.println("Si entro2");
-                    System.out.println(factura.getNfactura()+"-"+factura.getFecha()+"-"+
-                            factura.getVencimiento()+"-"+factura.getImporte()+"-"+
-                            factura.getPendiente()+"-"+factura.getPagado());
-                }
+                System.out.println("Si entro1");
+//                
+//                while(index<listaFactura.size()){
+//                    System.out.println("Si entro2");
+//                    System.out.println(factura.getNfactura()+"-"+factura.getFecha()+"-"+
+//                            factura.getVencimiento()+"-"+factura.getImporte()+"-"+
+//                            factura.getPendiente()+"-"+factura.getPagado());
+//                }
 //                this.abonoDAO.insertar(detalleAbono.getSentencia(proveedor.getCodigo()));
 //                listaAbonos = abonoDAO.llenar();
 //                System.out.println("EXITO");
                 ActualizarFilas();
             } catch (Exception e) {
-                System.out.println(e + "Error en registrar Detalle Abono");
+                System.out.println(e + " Error en registrar Detalle Abono");
             }
         } catch (Exception e) {
             System.out.println(e + "Error en registrar Cabezera Abono");
@@ -170,6 +171,14 @@ public class AbonoProveedorManagedBean implements Serializable {
 
     public void setFactura(Factura factura) {
         this.factura = factura;
+    }
+
+    public FacturaDAO getFacturaDAO() {
+        return facturaDAO;
+    }
+
+    public void setFacturaDAO(FacturaDAO facturaDAO) {
+        this.facturaDAO = facturaDAO;
     }
     
     
