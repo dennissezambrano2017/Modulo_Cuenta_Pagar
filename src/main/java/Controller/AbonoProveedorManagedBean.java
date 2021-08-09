@@ -49,6 +49,7 @@ public class AbonoProveedorManagedBean implements Serializable {
         listaFactura = new ArrayList<>();
         abonoDAO = new AbonoProveedorDAO();
         listaAbonos = abonoDAO.llenar();
+        factura= new Factura();
 
     }
 
@@ -68,7 +69,7 @@ public class AbonoProveedorManagedBean implements Serializable {
         try {
             this.abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(), tipoBanco.getDescrpcion(), abonoproveedor.getRuc()));
             try {
-                System.out.println("Si entro1"+listaFactura.size());
+                System.out.println("Si entro1"+ factura.getNfactura());
                 int index=0;
                 while(index>listaFactura.size()){
                     System.out.println("Si entro2");
