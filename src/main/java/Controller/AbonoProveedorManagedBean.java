@@ -48,6 +48,7 @@ public class AbonoProveedorManagedBean implements Serializable {
         listaFactura = new ArrayList<>();
         abonoDAO = new AbonoProveedorDAO();
         listaAbonos = abonoDAO.llenar();
+        factura= new Factura();
 
 
     }
@@ -69,14 +70,14 @@ public class AbonoProveedorManagedBean implements Serializable {
             abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(), tipoBanco.getDescrpcion(), abonoproveedor.getRuc()));
              System.out.println("Si entro10");
             try {
-                System.out.println("Si entro1");
-//                
-//                while(index<listaFactura.size()){
-//                    System.out.println("Si entro2");
-//                    System.out.println(factura.getNfactura()+"-"+factura.getFecha()+"-"+
-//                            factura.getVencimiento()+"-"+factura.getImporte()+"-"+
-//                            factura.getPendiente()+"-"+factura.getPagado());
-//                }
+                System.out.println("Si entro1"+ factura.getNfactura());
+                int index=0;
+                while(index>listaFactura.size()){
+                    System.out.println("Si entro2");
+                    System.out.println(factura.getNfactura()+"-"+factura.getFecha()+"-"+
+                            factura.getVencimiento()+"-"+factura.getImporte()+"-"+
+                            factura.getPendiente()+"-"+factura.getPagado());
+                }
 //                this.abonoDAO.insertar(detalleAbono.getSentencia(proveedor.getCodigo()));
 //                listaAbonos = abonoDAO.llenar();
 //                System.out.println("EXITO");
