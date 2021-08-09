@@ -48,8 +48,6 @@ public class AutorizarPagoManagedBean implements Serializable {
 
     public void insertarfactura() {
         try {
-            this.facturaDAO.Insertar();
-
         } catch (Exception e) {
             System.out.println(e + "ERROR DAO");
         }
