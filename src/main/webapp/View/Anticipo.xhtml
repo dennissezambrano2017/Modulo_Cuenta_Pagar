@@ -31,7 +31,6 @@ and open the template in the editor.
                                     <p:resetInput target="manage-anticipo-content"/>
 
                                 </p:commandButton>
-                                <p:button value="Editar" styleClass="ui-button-raised ui-button-secondary" />
                                 <p:button value="Desabilitar" styleClass="ui-button-raised ui-button-danger" />
                             </div>
                         </div>
@@ -56,6 +55,10 @@ and open the template in the editor.
                         <p:column headerText="Fecha Registro" sortBy="#{anticipo.fechaRegistro}">
                             <h:outputText value="#{anticipo.fechaRegistro}"/>
                         </p:column>
+                        
+                        <p:column headerText="ID" sortBy="#{anticipo.id_anticipo}">
+                            <h:outputText value="#{anticipo.id_anticipo}"/>
+                        </p:column>
 
                         <p:column headerText="Descripción" sortBy="#{anticipo.descripcion}">
                             <h:outputText value="#{anticipo.descripcion}"/>
@@ -72,6 +75,19 @@ and open the template in the editor.
                         <p:column headerText="Ruc" sortBy="#{anticipo.proveedor.ruc}">
                             <h:outputText value="#{anticipo.proveedor.ruc}"/>
                         </p:column>
+                        
+                        <p:column>
+                            <p:commandButton 
+                                icon="pi pi-pencil" 
+                                oncomplete="PF('manageAnticipoDialog').show()"
+                                styleClass="edit-button rounded-button ui-button-success" process="@this"
+                                update=":form:manage-anticipo-content">
+                                
+                                <f:setPropertyActionListener value="#{anticipo}" target="#{anticipoMB.selected_anticipo}"/>
+                                <p:resetInput target=":form:manage-anticipo-content"/>
+                            </p:commandButton>
+                            
+                        </p:column>
                     </p:dataTable>
 
                     <!-- Dialogo -->
@@ -81,6 +97,11 @@ and open the template in the editor.
                         <p:outputPanel id="manage-anticipo-content" class="ui-fluid">
                             <p:outputPanel rendered="#{not empty anticipoMB.selected_anticipo}">
 
+                                <div class="p-field">
+                                    <p:outputLabel for="id" >ID</p:outputLabel>
+                                    <p:inputNumber id="id" value="#{anticipoMB.selected_anticipo.id_anticipo}" required="true" />
+                                </div>
+                                
                                 <div class="p-field">
                                     <p:outputLabel for="id_proveedor" >Proveedor</p:outputLabel>
                                     <p:inputNumber id="id_proveedor" value="#{anticipoMB.selected_anticipo.id_proveedor}" required="true" />

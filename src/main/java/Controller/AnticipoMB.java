@@ -14,6 +14,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import org.primefaces.PrimeFaces;
 
 /**
@@ -67,18 +68,25 @@ public class AnticipoMB implements Serializable {
     
     public void guardarAnticipo() {
         System.out.println("guardar");
+        System.out.println(this.selected_anticipo.getId_anticipo());
+        System.out.println(this.selected_anticipo.getDescripcion());
         try {
-            System.out.println("data de anticipo: ");
-            System.out.println(this.selected_anticipo);
-            System.out.println(this.selected_anticipo.getFechaRegistro());
-            this.selected_anticipo.InsertDB();
+            if (this.selected_anticipo.getId_anticipo() == 0){
+                this.selected_anticipo.InsertDB();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Anticipo guardado"));
+            } else {
+                this.selected_anticipo.UpdateDB();
+                System.out.println("update registro: " + this.selected_anticipo.getId_anticipo());
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Anticipo actualizado"));
+            }
+            
             
         } catch(Exception ex) {
             System.out.println(ex.getMessage());
         }
         
         
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Anticipo guardado"));
+        
         PrimeFaces.current().executeScript("PF('manageAnticipoDialog').hide()");
         //PrimeFaces.current().ajax().update(":form:dt_anticipos");
         PrimeFaces.current().executeScript("location.reload()");

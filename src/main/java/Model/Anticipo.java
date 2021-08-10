@@ -160,4 +160,37 @@ public class Anticipo {
             System.out.println(ex.getMessage());
         }
     }
+    
+    // Consulta
+    //update anticipo set "importe"=33, "fechaRegistro"='10/05/2021', descripcion='sdffsdf', "idProveedor"=1
+    //where "idAnticipo"=17;
+    public void UpdateDB() {
+        System.out.println("Update objecto a la db");
+        System.out.println(this.id_anticipo);
+        System.out.println(this.fechaRegistro);
+        System.out.println(this.importe);
+        System.out.println(this.id_proveedor);
+        
+        Conexion conn = new Conexion();
+        String query =  "update anticipo set \"importe\"=?, \"fechaRegistro\"=?, descripcion=?, \"idProveedor\"=?\n" +
+                        "    where \"idAnticipo\"=?;";
+        try {
+            conn.abrirConexion();
+            
+            PreparedStatement stmt = conn.conex.prepareStatement(query);
+            stmt.setDouble(1, this.importe);
+            stmt.setObject(2, this.fechaRegistro);
+            stmt.setString(3, this.descripcion);
+            stmt.setInt(4, this.id_proveedor);
+            stmt.setInt(5, this.id_anticipo);
+            
+            stmt.execute();
+            //ResultSet rs = stmt.executeQuery(query);
+          
+            conn.conex.close();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 }
