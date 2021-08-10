@@ -91,7 +91,7 @@ public class BuscarProvDAO {
             try {
                 String sentencia = "SELECT * from proveedor where idproveedor ="
                         + "(SELECT  idproveedor from factura where nfactura = '"
-                        + factura.getNfactura() + "')";
+                        + nfactura+ "')";
                 result = conexion.ejecutarConsulta(sentencia);
                 while (result.next()) {
                     listaProveedor.add(new Proveedor(result.getString("codigo"),
