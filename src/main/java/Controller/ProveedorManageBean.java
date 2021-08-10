@@ -10,8 +10,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import Model.Proveedor;
 import DataView.ProveedorDAO;
+import Model.Condiciones;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
@@ -26,6 +28,7 @@ import org.primefaces.event.SelectEvent;
 public class ProveedorManageBean implements Serializable {
 
      private Proveedor proveedor;
+     private Condiciones condiciones;
      private ProveedorDAO proveedorDAO;
      private List<Proveedor> listaProveedor;
      private List<Proveedor> Proveedores;
@@ -36,6 +39,7 @@ public class ProveedorManageBean implements Serializable {
 
      public ProveedorManageBean() {
           proveedor = new Proveedor();
+          condiciones =new Condiciones();
           listaProveedor = new ArrayList<>();
           proveedorDAO = new ProveedorDAO();
           listaProveedor = proveedorDAO.llenar();
@@ -57,22 +61,34 @@ public class ProveedorManageBean implements Serializable {
      public void setSelectedProveedor(Proveedor selectedProveedor) {
           this.selectedProveedor = selectedProveedor;
      }
+     
+      public void saveProduct() {
+        if (this.selectedProveedor.getCodigo() == null) {
+            this.selectedProveedor.setCodigo(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9));
+            this.listaProveedor.add(this.selectedProveedor);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Added"));
+        }
+        else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Updated"));
+        }
 
-     public void insertarProveedor() {
-          try {
-               this.proveedorDAO = new ProveedorDAO();
-               this.proveedorDAO.InsertarProveedor(proveedor);
-               this.proveedor = new Proveedor();
-               this.msj = "Proveedor registrado";
+        PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
+    }
 
-          } catch (Exception e) {
-               this.msj = "Error :" + e.getMessage();
-               e.printStackTrace();
-               System.out.println(msj + "ERROR DAO");
-          }
-          getListaProveedor();
-          FacesMessage mensaje = new FacesMessage(msj);
-          FacesContext.getCurrentInstance().addMessage(msj, mensaje);
+
+     
+     public void insertar(){
+        try{
+             this.proveedorDAO.insertar(proveedor,condiciones);
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Proveedor agg"));
+             
+        }  catch(Exception e){
+              System.out.println("ERROR DAO: " + e);
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
+              
+             
+        }
      }
 
      public Proveedor getProveedor() {

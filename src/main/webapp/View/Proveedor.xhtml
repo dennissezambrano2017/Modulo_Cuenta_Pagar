@@ -26,6 +26,9 @@
                                    </p:commandButton>
                                    <p:commandButton id="delete-products-button" 
                                                     icon="pi pi-trash" 
+                                                    value="#{proveedorDAO.deleteButtonMessage}"
+                                                    actionListener="#{proveedorDAO.deleteSelectedProducts()}"
+                                                    disabled="#{!proveedorDAO.hasSelectedProducts()}"
                                                     styleClass="ui-button-danger" 
                                                     update="@this">
                                         <p:confirm header="Confirmation" message="Delete the selected products?"
@@ -36,19 +39,33 @@
                          <!--- Lista de Tabal de datos  !-->
                          <p:dataTable id="dt-products" widgetVar="dtProducts" var="provee" value="#{proveedorDAO.listaProveedor}"
                                       reflow="true" styleClass="products-table"
-                                      selection="#{proveedorDAO.selectedProveedor}" rowKey="#{provee.idProveedor}" paginator="true"
-                                      rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                                      selection="#{proveedorDAO.listaProveedor}" rowKey="#{provee.idProveedor}" paginator="true"
+                                      rows="5" rowSelectMode="add" paginatorPosition="bottom">
                               <f:facet name="header">
                                    <div class="products-table-header">
                                         <span style="font-weight: bold">PROVEEDOR</span>
 
+
                                         <span class="filter-container ui-input-icon-left">
                                              <i class="pi pi-search"></i>
                                              <p:inputText id="globalFilter" onkeyup="PF('dtProducts').filter()" placeholder="Search"/>
+
+                                        </span>
+                                        <span class="filter-container ui-input-icon-left">
+                                             <p:commandButton id="toggler" type="burron" value="Columnas" icon="pi pi-align-justify" />
+                                             <p:columnToggler datasource="dt-products" trigger="toggler"/>
                                         </span>
 
                                    </div>
+
                               </f:facet>
+
+
+                              <p:ajax event="rowSelect" update=":form:delete-products-button"/>
+                              <p:ajax event="rowUnselect" update=":form:delete-products-button"/>
+                              <p:ajax event="rowSelectCheckbox" update=":form:delete-products-button"/>
+                              <p:ajax event="rowUnselectCheckbox" update=":form:delete-products-button"/>
+                              <p:ajax event="toggleSelect" update=":form:delete-products-button"/>
 
                               <p:column selectionMode="multiple" exportable="false"></p:column>
 
@@ -75,16 +92,16 @@
                               </p:column>
                               <p:column exportable="false">
                                    <p:commandButton icon="pi pi-pencil" 
-                                                    update=":form:manage-product-content"
+                                                    update=":form:manage-product-content-edit"
                                                     oncomplete="PF('manageProductDialogEdit').show()"
                                                     styleClass="edit-button rounded-button ui-button-success"
                                                     process="@this">
-                                        <f:setPropertyActionListener value="#{provee}" target="#{proveedorDAO.selectedProveedor}"/>
+                                        <f:setPropertyActionListener value="#{provee}" target="#{proveedorDAO.listaProveedor}"/>
                                         <p:resetInput target=":form:manage-product-content-edit" />
                                    </p:commandButton>
 
-                                   <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
-                                                    >
+                                   <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" 
+                                                    oncomplete="PF('deleteProductDialog').show"                                                    >
                                         <f:setPropertyActionListener value="#{provee}" target="#{proveedorDAO.selectedProveedor}"/>
                                    </p:commandButton>
                               </p:column>
@@ -96,6 +113,12 @@
                               <p:outputPanel id="manage-product-content" class="ui-fluid">
                                    <p:outputPanel > <!--asignar atributo de primeface !--> 
                                         <div class="p-formgrid p-grid"> 
+
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="codProveedor"> Código: </p:outputLabel>
+                                                  <p:inputText id ="codProveedor" required="True" 
+                                                               value="#{proveedorDAO.proveedor.codigo}"/>
+                                             </div>
                                              <div class="p-field p-col">
                                                   <p:outputLabel for="check"> Habilitado: </p:outputLabel>
                                                   <p:selectBooleanCheckbox id="check" value="#{proveedorDAO.proveedor.estado}" />
@@ -103,8 +126,8 @@
                                         </div>  
                                         <div class="p-formgrid p-grid">
                                              <div class="p-field p-col">
-                                                  <p:outputLabel for="codProveedor"> Código: </p:outputLabel>
-                                                  <p:inputText id ="codProveedor" required="True" 
+                                                  <p:outputLabel for="nomProveedor"> Nombre: </p:outputLabel>
+                                                  <p:inputText id ="nomProveedor" required="True" 
                                                                value="#{proveedorDAO.proveedor.nombre}"/>
                                              </div>
                                              <div class="p-field p-col">
@@ -127,7 +150,7 @@
                                         </div>
                                         <div class="p-formgrid p-grid">
                                              <div class="p-field p-col">
-                                                  <p:outputLabel for="webProveedor"> Dirección: </p:outputLabel>
+                                                  <p:outputLabel for="webProveedor"> Web page: </p:outputLabel>
                                                   <p:inputText id ="webProveedor" required="false" 
                                                                value="#{proveedorDAO.proveedor.webPage}"/>
                                              </div>
@@ -155,10 +178,11 @@
                                         <div class="p-formgrid p-grid">
                                              <div class="p-field p-col">
                                                   <p:outputLabel for="descuento"> Descuento: </p:outputLabel>
-                                                  <p:inputText id ="descuento" required="true" 
-                                                               >
-                                                       <f:convertNumber type="percent" />       
-                                                  </p:inputText>
+                                                  <p:inputNumber id ="descuento" required="true"  symbol="%"
+                                                                 symbolPosition="s"
+                                                                 /> 
+
+
                                              </div>
                                              <div class="p-field p-col">
                                                   <p:outputLabel for="diasNeto"> Dias neto: </p:outputLabel>
@@ -177,7 +201,7 @@
                                              </div>
                                              <div class="p-field p-col">
                                                   <p:outputLabel for="cantDiasVenc"> Cantidad días vencido: </p:outputLabel>
-                                                  <p:inputText id ="cantDiasVenc" required="true" 
+                                                  <p:inputText type="" id ="cantDiasVenc" required="true" 
                                                                />
                                              </div>
                                         </div>
@@ -193,7 +217,7 @@
 
                               <f:facet name="footer">
                                    <p:commandButton value="Save" icon="pi pi-check" 
-                                                    update="manage-product-content" process="manage-product-content @this"/>
+                                                    update="manage-product-content" process="manage-product-content @this" actionListener="#{proveedorDAO.insertar()}"/>
                                    <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProductDialog').hide()"
                                                     class="ui-button-secondary"/>
                               </f:facet>

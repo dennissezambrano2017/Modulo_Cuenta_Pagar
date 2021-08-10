@@ -6,6 +6,7 @@
 package DataView;
 
 import Controller.Conexion;
+import Model.Condiciones;
 import Model.Proveedor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,6 +26,7 @@ public class ProveedorDAO extends Conexion {
      private List<Proveedor> listaProveedor;
      private Proveedor proveedor;
      private ResultSet result;
+     private Condiciones condiciones;
 
      public ProveedorDAO() {
           conexion = new Conexion();
@@ -53,44 +55,31 @@ public class ProveedorDAO extends Conexion {
           return listaProveedor;
      }
 
-     public void InsertarProveedor(Proveedor proveedor) {
+    
 
-          try {
-               this.Conectar();
-               String sentencia = "INSERT INTO public.proveedor(\n"
-                       + "	codigo, \"razonSocial\", ruc, nombre, direccion, email,\n"
-                       + "	\"webPage\", contacto, telefono, estado, descuento,\n"
-                       + "	\"diasNeto\", \"diasDescuento\", \"cantDiasVencidos\", descripcion)\n"
-                       + "	VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-               PreparedStatement preparedStatement = this.getCnx().prepareStatement(sentencia);
+  
 
-               preparedStatement.setString(1, proveedor.getCodigo());
-               preparedStatement.setString(2, proveedor.getRazonSocial());
-               preparedStatement.setString(3, proveedor.getRuc());
-               preparedStatement.setString(4, proveedor.getNombre());
-               preparedStatement.setString(5, proveedor.getDireccion());
-               preparedStatement.setString(6, proveedor.getEmail());
-               preparedStatement.setString(7, proveedor.getWebPage());
-               preparedStatement.setString(8, proveedor.getContacto());
-               preparedStatement.setString(9, proveedor.getTelefono());
-               preparedStatement.setBoolean(10, proveedor.isEstado());
-               preparedStatement.setDouble(11, proveedor.getDescuento());
-
-               preparedStatement.setInt(12, proveedor.getDiasNeto());
-
-               preparedStatement.setInt(13, proveedor.getDiasDescuento());
-               preparedStatement.setInt(14, proveedor.getCantDiasVencidos());
-
-               preparedStatement.setString(15, proveedor.getDescripcion());
-               preparedStatement.executeUpdate();
-               preparedStatement.close();
-
-          } catch (SQLException ex) {
-               System.out.println(ex.getMessage() + " error en conectarse EBERT GUARANGA");
-          } finally {
-               this.cerrarConexion();
-          }
-
-     }
-
+    public void insertar(Proveedor proveedor, Condiciones condiciones){
+     
+         String cadena = "INSERT INTO public.proveedor(\n" +
+"	 codigo, razonsocial, ruc, nombre, direccion, email, webpage, contacto, telefono, estado)\n" +
+"	VALUES ('"+proveedor.getCodigo()+"','"
+                 +proveedor.getRazonSocial()+"','"+proveedor.getRuc()+"','"
+                 +proveedor.getNombre()+"','"+proveedor.getDireccion()+"','"
+                 +proveedor.getEmail()+"','"+proveedor.getWebPage()+"','"
+                 +proveedor.getContacto()+"','"+proveedor.getTelefono()+"','"
+                 +proveedor.isEstado()+"')";         
+         System.out.print(cadena);
+         conexion.Ejecutar2(cadena);
+         
+         String cadena2 = "INSERT INTO public.condiciones(\n" +
+"	 descuento, \"diasNeto\", \"diasDescuento\", \"cantDiasVencidos\", descripcion, \"idProveedor\")\n" +
+"	VALUES ( "+condiciones.getDescuento()+", "
+                 + ""+condiciones.getDiasNeto()+", "+condiciones.getDiasDescuento()+","
+                 + ""+condiciones.getCantDiasVencidos()+",'"+condiciones.getDescripcion()+"', (SELECT idproveedor FROM proveedor ORDER BY  idproveedor DESC LIMIT 1));\n" +
+"	\n" +
+"	";
+           System.out.print(cadena2);
+         conexion.Ejecutar2(cadena2);
+    }
 }
