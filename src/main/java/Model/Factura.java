@@ -62,11 +62,12 @@ public class Factura {
     }
     
     //Diana: Constructor para mostrar
-    public Factura(int id, String nfactura, String descripcion, float importe, float pendiente, LocalDate fecha, LocalDate vencimiento, int estado, String nombre) {
+    public Factura(int id, String nfactura, String descripcion, float importe, float pagado, float pendiente, LocalDate fecha, LocalDate vencimiento, int estado, String nombre) {
         this.id = id;
         this.nfactura = nfactura;
         this.descripcion = descripcion;
         this.importe = importe;
+        this.pagado = pagado;
         this.pendiente = pendiente;
         this.fecha = fecha;
         this.vencimiento = vencimiento;

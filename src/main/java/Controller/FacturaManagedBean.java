@@ -31,6 +31,7 @@ public class FacturaManagedBean implements Serializable {
     private List<Factura> listaFactura;
     private List<Factura> selectedFactura;
     private boolean check;
+    private boolean value;
 
     public FacturaManagedBean() {
         factura = new Factura();
@@ -72,11 +73,31 @@ public class FacturaManagedBean implements Serializable {
         this.selectedFactura = selectedFactura;
     }
 
+    public boolean isValue() {
+        return value;
+    }
+
+    public void setValue(boolean value) {
+        this.value = value;
+    }
+
+    public List<Factura> check() {
+        String summary = value ? "Pendientes" : "Todas";
+        if (value) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
+            listaFactura = facturaDAO.llenarP();
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
+            listaFactura = facturaDAO.llenar();
+        }
+        return listaFactura;
+    }
+
     public void abrirNuevo() {
         this.factura = new Factura();
-    } 
-    
-    public void cargarEditar(Factura factura){
+    }
+
+    public void cargarEditar(Factura factura) {
         String dato = factura.getNfactura();
         this.factura.setNombre(factura.getNombre());
         this.factura.setNfactura(factura.getNfactura());
@@ -118,7 +139,7 @@ public class FacturaManagedBean implements Serializable {
             }
         }
     }
-    
+
     //Diana Actualizar factura
     public void editarfactura() {
         System.out.print("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
@@ -178,7 +199,8 @@ public class FacturaManagedBean implements Serializable {
         }
     }
 
-//    public boolean valores(){
+    //ESTO ES DE PAOLA
+    //    public boolean valores(){
 //        float importe = factura.getImporte();
 //        float
 //    }
