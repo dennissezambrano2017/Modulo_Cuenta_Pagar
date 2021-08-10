@@ -51,3 +51,7 @@ update factura set idproveedor=1
 -- selecionar todos los registros de anticipo
 select "idAnticipo", importe, "fechaRegistro", descripcion, "idProveedor"
     from anticipo;
+
+-- insertar un anticipo
+insert into anticipo(importe, "fechaRegistro", descripcion, "idProveedor")
+    values (222, '10/08/2021', 'Reparación', 1);

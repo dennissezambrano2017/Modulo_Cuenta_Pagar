@@ -13,7 +13,8 @@ and open the template in the editor.
     <h:body>
         <ui:composition template="./../Plantilla/Plantilla.xhtml">
             <ui:define name="content">
-                <h:form class="p-p-5">
+                <h:form class="p-p-5" id="form">
+                    <p:growl id="messages" showDetail="true"/>
                     <div class="p-grid p-d-flex p-ai-center">
                         <div class="p-col-8">
                             <h1>Anticipos</h1>
@@ -22,15 +23,22 @@ and open the template in the editor.
                         <div class="p-col-4">
                             <div class="p-formgroup-inline">
 
-                                <p:button value="Nuevo" styleClass="ui-button-raised ui-button-success" />
+                                <p:commandButton value="Nuevo" icon="pi pi-plus" 
+                                                 actionListener="#{anticipoMB.openNew()}"
+                                                 update="manage-anticipo-content"
+                                                 oncomplete="PF('manageAnticipoDialog').show()"
+                                                 styleClass="ui-button-raised ui-button-success" >
+                                    <p:resetInput target="manage-anticipo-content"/>
+
+                                </p:commandButton>
                                 <p:button value="Editar" styleClass="ui-button-raised ui-button-secondary" />
                                 <p:button value="Desabilitar" styleClass="ui-button-raised ui-button-danger" />
                             </div>
                         </div>
                     </div>
-                    
-                    <p:dataTable class="p-mt-3" id="dt-table" value="#{anticipoMB.anticipos}" rowKey="#{anticipo.id_anticipo}" var="anticipo">
-                        
+
+                    <p:dataTable class="p-mt-3" id="dt_anticipos" value="#{anticipoMB.anticipos}" rowKey="#{anticipo.id_anticipo}" var="anticipo">
+
                         <f:facet name="header">
                             <div class="p-d-flex p-jc-between p-ai-center">
                                 <span style="font-weight: bold">Anticipos</span>
@@ -43,26 +51,74 @@ and open the template in the editor.
                             </div>
                         </f:facet>
                         
-                        <p:column headerText="Fecha Registro">
+                        <p:column selectionMode="multiple" exportable="false"></p:column>
+
+                        <p:column headerText="Fecha Registro" sortBy="#{anticipo.fechaRegistro}">
                             <h:outputText value="#{anticipo.fechaRegistro}"/>
                         </p:column>
-                        
-                        <p:column headerText="Descripción">
+
+                        <p:column headerText="Descripción" sortBy="#{anticipo.descripcion}">
                             <h:outputText value="#{anticipo.descripcion}"/>
                         </p:column>
-                        
-                        <p:column headerText="Importe">
+
+                        <p:column headerText="Importe" sortBy="#{anticipo.importe}">
                             <h:outputText value="#{anticipo.importe}"/>
                         </p:column>
-                        
-                        <p:column headerText="Proveedor">
+
+                        <p:column headerText="Proveedor" sortBy="#{anticipo.proveedor.nombre}">
                             <h:outputText value="#{anticipo.proveedor.nombre}"/>
                         </p:column>
 
-                        <p:column headerText="Ruc">
+                        <p:column headerText="Ruc" sortBy="#{anticipo.proveedor.ruc}">
                             <h:outputText value="#{anticipo.proveedor.ruc}"/>
                         </p:column>
                     </p:dataTable>
+
+                    <!-- Dialogo -->
+
+                    <p:dialog header="Anticipo" showEffect="fade" modal="true" responsive="true" widgetVar="manageAnticipoDialog">
+                       
+                        <p:outputPanel id="manage-anticipo-content" class="ui-fluid">
+                            <p:outputPanel rendered="#{not empty anticipoMB.selected_anticipo}">
+
+                                <div class="p-field">
+                                    <p:outputLabel for="id_proveedor" >Proveedor</p:outputLabel>
+                                    <p:inputNumber id="id_proveedor" value="#{anticipoMB.selected_anticipo.id_proveedor}" required="true" />
+                                </div>
+
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="importe" >Importe</p:outputLabel>
+                                        <p:inputNumber id="importe" value="#{anticipoMB.selected_anticipo.importe}" required="true" />
+                                    </div>
+
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="fechaRegistro" >Fecha</p:outputLabel>
+                                        <p:datePicker id="fechaRegistro" value="#{anticipoMB.selected_anticipo.fechaRegistro}" required="true" />
+                                    </div>
+                                </div>
+
+
+
+                                <div class="p-field">
+                                    <p:outputLabel for="descripcion" >Descripción</p:outputLabel>
+                                    <p:inputTextarea id="descripcion" value="#{anticipoMB.selected_anticipo.descripcion}" />
+                                </div>
+
+
+                            </p:outputPanel>
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton 
+                                value="Guardar" process="@form" update="dt_anticipos"
+                                actionListener="#{anticipoMB.guardarAnticipo()}"/>
+                            
+                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageAnticipoDialog').hide()"
+                                             class="ui-button-secondary"/>
+                        </f:facet>
+                        
+                    </p:dialog>
 
                 </h:form>
             </ui:define>

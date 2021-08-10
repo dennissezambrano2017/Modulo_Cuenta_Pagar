@@ -6,7 +6,9 @@
 package Model;
 
 import Controller.Conexion;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLType;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -126,5 +128,36 @@ public class Anticipo {
             ant.GetDBProveedor();
         });
         return anticipos;
+    }
+    // Consulta
+    //insert into anticipo(importe, "fechaRegistro", descripcion, "idProveedor")
+    //  values (222, '10/08/2021', 'Reparación', 1);
+    public void InsertDB() {
+        System.out.println("Insertar objecto a la db");
+        System.out.println(this.id_anticipo);
+        System.out.println(this.fechaRegistro);
+        System.out.println(this.importe);
+        System.out.println(this.id_proveedor);
+        
+        Conexion conn = new Conexion();
+        String query =  "insert into anticipo(importe, \"fechaRegistro\", descripcion, \"idProveedor\")\n" +
+                        "    values (?, ?, ?, ?);";
+        try {
+            conn.abrirConexion();
+            
+            PreparedStatement stmt = conn.conex.prepareStatement(query);
+            stmt.setDouble(1, this.importe);
+            stmt.setObject(2, this.fechaRegistro);
+            stmt.setString(3, this.descripcion);
+            stmt.setInt(4, this.id_proveedor);
+            
+            stmt.execute();
+            //ResultSet rs = stmt.executeQuery(query);
+          
+            conn.conex.close();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }
