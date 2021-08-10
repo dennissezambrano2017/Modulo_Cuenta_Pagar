@@ -6,6 +6,7 @@
 package Controller;
 
 import DataView.FacturaDAO;
+import DataView.BuscarProvDAO;
 import Model.Factura;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class FacturaManagedBean implements Serializable {
 
     private Factura factura;
     private FacturaDAO facturaDAO;
+    private BuscarProvDAO busprovDAO;
     private List<Factura> listaFactura;
     private List<Factura> selectedFactura;
     private boolean check;
@@ -35,7 +37,7 @@ public class FacturaManagedBean implements Serializable {
         listaFactura = new ArrayList<>();
         facturaDAO = new FacturaDAO();
         listaFactura = facturaDAO.llenar();
-
+        busprovDAO = new BuscarProvDAO();
     }
 
     public Factura getFactura() {
@@ -72,6 +74,18 @@ public class FacturaManagedBean implements Serializable {
 
     public void abrirNuevo() {
         this.factura = new Factura();
+    } 
+    
+    public void cargarEditar(Factura factura){
+        String dato = factura.getNfactura();
+        this.factura.setNombre(factura.getNombre());
+        this.factura.setNfactura(factura.getNfactura());
+        this.factura.setDescripcion(factura.getDescripcion());
+        this.factura.setImporte(factura.getImporte());
+        this.factura.setFecha(factura.getFecha());
+        this.factura.setVencimiento(factura.getVencimiento());
+        this.factura.setRuc(busprovDAO.Buscar(dato));
+        this.factura.setPagado(facturaDAO.buscarPagado(dato));
     }
 
     public void reset() {
@@ -80,7 +94,7 @@ public class FacturaManagedBean implements Serializable {
 
     //Diana: insertar nueva Factura
     public void insertarfactura() {
-        System.out.print("ESTOY AQUI EN EL MANAGED");
+        System.out.print("ESTOY AQUI EN EL MANAGED INSERTAR");
         System.out.print("ruc: " + factura.getRuc());
         if (fechas()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Fecha es mayor que vencimiento"));
@@ -100,6 +114,33 @@ public class FacturaManagedBean implements Serializable {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
                 }
                 PrimeFaces.current().executeScript("PF('newFactura').hide()");
+                PrimeFaces.current().executeScript("location.reload()");
+            }
+        }
+    }
+    
+    //Diana Actualizar factura
+    public void editarfactura() {
+        System.out.print("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
+        System.out.print("ruc: " + factura.getRuc());
+        if (fechas()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Fecha es mayor que vencimiento"));
+        } else {
+            if (factura.getImporte() < factura.getPagado()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe es menor que pagado"));
+            } else {
+                try {
+                    if ("".equals(factura.getRuc())) {
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
+                    } else {
+                        this.facturaDAO.Actualizar(factura);
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Guardada"));
+                    }
+                } catch (Exception e) {
+                    System.out.println("ERROR DAO: " + e);
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
+                }
+                PrimeFaces.current().executeScript("PF('editFactura').hide()");
                 PrimeFaces.current().executeScript("location.reload()");
             }
         }

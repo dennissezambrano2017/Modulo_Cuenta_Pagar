@@ -18,12 +18,13 @@ import java.util.List;
  * @author ninat
  */
 public class BuscarProvDAO {
+
     Conexion conexion = new Conexion();
     private Proveedor proveedor;
     private Factura factura;
     private ResultSet result;
     private List<Proveedor> listaProveedor;
-    private List<Factura> listaFactura= new ArrayList<>();
+    private List<Factura> listaFactura = new ArrayList<>();
 
     public BuscarProvDAO() {
         conexion = new Conexion();
@@ -38,12 +39,12 @@ public class BuscarProvDAO {
     public List<Factura> getListaFactura() {
         return listaFactura;
     }
-   
+
     public void setListaFactura(List<Factura> listaFactura) {
         this.listaFactura = listaFactura;
     }
-    
-     public List<Proveedor> llenar() {
+
+    public List<Proveedor> llenar() {
         if (conexion.isEstado()) {
             try {
                 String sentencia = "SELECT * from proveedor";
@@ -85,13 +86,14 @@ public class BuscarProvDAO {
     public void setListaProveedor(List<Proveedor> listaProveedor) {
         this.listaProveedor = listaProveedor;
     }
+
     //Diana:Utiliza esta función 
     public String Buscar(String nfactura) {
         if (conexion.isEstado()) {
             try {
                 String sentencia = "SELECT * from proveedor where idproveedor ="
                         + "(SELECT  idproveedor from factura where nfactura = '"
-                        + nfactura+ "')";
+                        + nfactura + "')";
                 result = conexion.ejecutarConsulta(sentencia);
                 while (result.next()) {
                     listaProveedor.add(new Proveedor(result.getString("codigo"),
