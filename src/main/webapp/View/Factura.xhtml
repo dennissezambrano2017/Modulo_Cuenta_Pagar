@@ -40,8 +40,13 @@
                                 <p:commandButton type="button" value="Pago" icon="pi pi-money-bill" 
                                                  styleClass="ui-button-primary" 
                                                  onclick="PF('pagos').show()" style="left: 20px"/>
-                                <p:commandButton type="button" value="Compro. Retención" icon="pi pi-money-bill" 
-                                                 styleClass="ui-button-primary"  style="left: 20px"  onclick=""/>
+                                <!--                                <p:commandButton type="button" value="Compro. Retención" icon="pi pi-money-bill" 
+                                                                                 styleClass="ui-button-primary"  style="left: 20px"  onclick=""/>-->
+<!--                                <div style="padding-left: 200px">
+                                    <p:selectBooleanCheckbox value="#{facturaMB.value}" itemLabel="Pendiente">
+                                        <p:ajax update=":form"/>
+                                    </p:selectBooleanCheckbox>
+                                </div>-->
                             </p:toolbarGroup>
                         </p:toolbar>
                     </p:panel>
@@ -160,28 +165,28 @@
                                 <!-- FINAL CAMPOS DEL DIALOG-->
 
                                 <!-- TABLA DE DIALOG 1-->
-<!--                                <div class="p-formgrid p-grid">
-                                    <div class="p-field p-col">
-
-                                        <p:dataTable id="dt-products" widgetVar="dtProducts" 
-                                                     var="product" value="#{crudView.products}"
-                                                     styleClass="products-table" selection="#{crudView.selectedProducts}" 
-                                                     rowKey="#{product.id}" style="padding-top: 20px">
-
-                                            <p:column headerText="Importe" style="width: 35px; text-align: center">
-                                                <h:outputText value="#{product.code}"/>
-                                            </p:column>
-
-                                            <p:column headerText="Cuenta GL" style="width: 75px; text-align: center">
-                                                <h:outputText value="#{product.name}"/>
-                                            </p:column>
-
-                                            <p:column headerText="Nombre" style="width: 130px; text-align: center">
-                                                <h:outputText value="#{product.image}"/>
-                                            </p:column>
-                                        </p:dataTable>
-                                    </div>
-                                </div>-->
+                                <!--                                <div class="p-formgrid p-grid">
+                                                                    <div class="p-field p-col">
+                                
+                                                                        <p:dataTable id="dt-products" widgetVar="dtProducts" 
+                                                                                     var="product" value="#{crudView.products}"
+                                                                                     styleClass="products-table" selection="#{crudView.selectedProducts}" 
+                                                                                     rowKey="#{product.id}" style="padding-top: 20px">
+                                
+                                                                            <p:column headerText="Importe" style="width: 35px; text-align: center">
+                                                                                <h:outputText value="#{product.code}"/>
+                                                                            </p:column>
+                                
+                                                                            <p:column headerText="Cuenta GL" style="width: 75px; text-align: center">
+                                                                                <h:outputText value="#{product.name}"/>
+                                                                            </p:column>
+                                
+                                                                            <p:column headerText="Nombre" style="width: 130px; text-align: center">
+                                                                                <h:outputText value="#{product.image}"/>
+                                                                            </p:column>
+                                                                        </p:dataTable>
+                                                                    </div>
+                                                                </div>-->
 
                                 <!-- DIALOG BUSCAR PROVEEDOR -->
                                 <p:overlayPanel for="proveedor" dynamic="true" style="width:600px" widgetVar="moviePicker">
@@ -265,8 +270,6 @@
                                         <p:outputLabel for="editpagado" >Pagado: </p:outputLabel>
                                         <p:spinner id="editpagado" value="#{facturaMB.factura.pagado}"/>
                                     </div>
-
-
                                 </div>
 
                                 <div class="p-formgrid p-grid">
