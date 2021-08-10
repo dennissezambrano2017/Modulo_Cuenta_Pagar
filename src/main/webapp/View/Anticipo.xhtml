@@ -55,28 +55,24 @@ and open the template in the editor.
                                         </p:toolbarGroup>                       
                                    </p:toolbar> 
                                    <!-- Tabla visual de datos  !-->
-                                   <p:dataTable>
+                                   <p:dataTable value="#{anticipoMB.anticipos}" var="anticipo">
                                         <p:column headerText="Fecha"  >
-                                             <h:outputText value=""/>
+                                            <h:outputText value="#{anticipo.fechaRegistro}"/>
                                         </p:column>
 
                                         <p:column headerText="Importe" >
-                                             <h:outputText value=""/>
+                                            <h:outputText value="#{anticipo.importe}"/>
                                         </p:column>                       
 
                                         <p:column headerText="Proveedor" >
-                                             <h:outputText value="" style="font-weight: 700">
+                                            <h:outputText value="#{anticipo.proveedor.nombre}" style="font-weight: 700">
                                                   <f:convertNumber currencySymbol="$" type="currency"/>
                                              </h:outputText>
                                         </p:column>
 
-                                        <p:column headerText="Nombre">
-                                             <h:outputText value=""/>
+                                        <p:column headerText="Descripción" >
+                                            <h:outputText value="#{anticipo.descripcion}"/>
                                         </p:column>
-
-                                        <p:column headerText="Registrado">
-                                             <h:outputText value=""/>
-                                        </p:column>                                       
                                    </p:dataTable>
                               </div>
                               <p:dialog header="Nuevo Anticipo"  minHeight="40" 
