@@ -91,162 +91,103 @@
 
                          </p:dataTable>
                          <!---Dialogo de proveedor  !-->
-                         <p:dialog header="Product Details" showEffect="fade" modal="true"
-                                   widgetVar="manageProductDialog" responsive="true"
-                                   height="auto" width="800px" minHeight="40">
+                         <p:dialog header="Proveedor" showEffect="fade" modal="true"
+                                   widgetVar="manageProductDialog" maximizable="true" height="300" width="70%">
                               <p:outputPanel id="manage-product-content" class="ui-fluid">
-                                   <p:outputPanel > <!--asignar atributo de primeface !-->
+                                   <p:outputPanel > <!--asignar atributo de primeface !--> 
+                                        <div class="p-formgrid p-grid"> 
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="check"> Habilitado: </p:outputLabel>
+                                                  <p:selectBooleanCheckbox id="check" value="#{proveedorDAO.proveedor.estado}" />
+                                             </div>
+                                        </div>  
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="codProveedor"> Código: </p:outputLabel>
+                                                  <p:inputText id ="codProveedor" required="True" 
+                                                               value="#{proveedorDAO.proveedor.nombre}"/>
+                                             </div>
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="rucProveedor"> Ruc: </p:outputLabel>
+                                                  <p:inputText id ="rucProveedor" required="True" 
+                                                               value="#{proveedorDAO.proveedor.ruc}"/>
+                                             </div>
+                                        </div>
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="dirProveedor"> Dirección: </p:outputLabel>
+                                                  <p:inputText id ="dirProveedor" required="false" 
+                                                               value="#{proveedorDAO.proveedor.direccion}"/>
+                                             </div>
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="contacProveedor"> Contacto: </p:outputLabel>
+                                                  <p:inputText id ="contacProveedor" required="false" 
+                                                               value="#{proveedorDAO.proveedor.contacto}"/>
+                                             </div>
+                                        </div>
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="webProveedor"> Dirección: </p:outputLabel>
+                                                  <p:inputText id ="webProveedor" required="false" 
+                                                               value="#{proveedorDAO.proveedor.webPage}"/>
+                                             </div>
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="emailProveedor"> Email: </p:outputLabel>
+                                                  <p:inputText id ="emailProveedor" required="false" 
+                                                               value="#{proveedorDAO.proveedor.email}"/>
+                                             </div>
+                                        </div>
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="rsocialProveedor"> Razón social: </p:outputLabel>
+                                                  <p:inputText id ="rsocialProveedor" required="true" 
+                                                               value="#{proveedorDAO.proveedor.razonSocial}"/>
+                                             </div>
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="telProveedor"> Telefono: </p:outputLabel>
+                                                  <p:inputText id ="telProveedor" required="true" 
+                                                               value="#{proveedorDAO.proveedor.telefono}"/>
+                                             </div>
 
-                                        <div class="ui-fluid p-formgrid p-grid">
-                                             <label for="Proveedor" style="width:500px;">
-                                                  <h3>Dirección</h3>
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       <label style="padding-left: 18px">
-                                                            Código: 
-                                                       </label>                                            
-                                                       <p:inputText  
-                                                                    type="text" 
-
-                                                                    style="width: 200px;
-                                                                    background-color:silver;
-                                                                    margin: 3px"
-                                                                    value="#{proveedorDAO.proveedor.codigo}"/> 
-
-                                                       <label style="padding-left: 115px">
-                                                            R.U.C: 
-                                                       </label>
-                                                       <p:inputText id="rucProveedor"
-                                                                    type="text" 
-                                                                    style="width: 250px;
-                                                                    margin: 3px"
-                                                                    value="#{proveedorDAO.proveedor.ruc}"/>
-                                                  </div> 
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       <label style="padding-left: 10px">
-                                                            Nombre: 
-                                                       </label>
-                                                       <p:inputText id="Proveedor"
-                                                                    type="text" 
-                                                                    style="width: 250px; 
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.nombre}"/> 
-
-                                                       <label style="padding-left: 16px">
-                                                            Razón Social:
-                                                       </label>
-                                                       <p:inputText id="razon"
-                                                                    type="text" 
-                                                                    style="width: 250px;  
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.razonSocial}"/> 
-                                                  </div>
-
-
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       <label style="padding-left: 3px">
-                                                            Dirección: 
-                                                       </label>
-                                                       <p:inputText id="direccion"
-                                                                    type="text" 
-                                                                    style="width: 250px; 
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.direccion}"/> 
-
-                                                       <label style="padding-left: 41px">
-                                                            Teléfono:
-                                                       </label>
-                                                       <p:inputText id="telefono"
-                                                                    type="text" 
-                                                                    style="width: 250px;  
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.telefono}"/> 
-                                                  </div>
-
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       <label style="padding-left: 5px">
-                                                            Contacto: 
-                                                       </label>
-                                                       <p:inputText id="contacto"
-                                                                    type="text" 
-                                                                    style="width: 250px;
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.contacto}"/> 
-
-                                                       <label style="padding-left: 65px">
-                                                            Email: 
-                                                       </label>
-                                                       <p:inputText id="email"
-                                                                    type="text" 
-                                                                    style="width: 250px;
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.email}"/>  
-                                                  </div>
-
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       Web page:
-                                                       <p:inputText id="web_Page" 
-                                                                    type="text" 
-                                                                    style="width: 250px; 
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.webPage}"/> 
-                                                  </div>
-                                             </label>
-                                             <br>
-                                             </br>
-
-                                             <label for="Condiciones" style="width:500px;">
-                                                  <h3>Condiciones</h3>
-
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       <label style="padding-left: 8px">
-                                                            Descuento: 
-                                                       </label>                                               
-                                                       <p:inputText id="idDesc" 
-                                                                    type="text"                                                                     
-                                                                    style="width: 200px;
-                                                                    margin: 3px;"
-                                                                    /> 
-                                                       <label style="padding-left: 54px">
-                                                            Días Descuento: 
-                                                       </label>  
-                                                       <p:inputText id="diasDesc" 
-                                                                    type="text" 
-                                                                    style="width: 222px;
-                                                                    margin: 3px;"
-                                                                    />
-                                                  </div> 
-
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       <label style="padding-left: 18px">
-                                                            Días neto: 
-                                                       </label>  
-                                                       <p:inputText id="diasNt" type="text" 
-                                                                    style="width: 200px; 
-                                                                    margin: 3px;"
-                                                                    /> 
-                                                       Cant. Días Vencimiento:
-                                                       <p:inputText id="cantDiVencimiento" 
-                                                                    type="text" 
-                                                                    style="width: 220px; 
-                                                                    margin: 3px;"
-                                                                    /> 
-                                                  </div>
-
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       Descripción:
-                                                       <p:inputText id="descripcionProv" 
-                                                                    type="text" 
-                                                                    style="width: 200px;
-                                                                    margin: 3px;"
-                                                                    />  
-                                                       <label style="padding-left: 87px"/> 
-
-
-
-                                                  </div> 
-                                             </label>
                                         </div>
 
+                                        <h3>Condiciones</h3>
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="descuento"> Descuento: </p:outputLabel>
+                                                  <p:inputText id ="descuento" required="true" 
+                                                               >
+                                                       <f:convertNumber type="percent" />       
+                                                  </p:inputText>
+                                             </div>
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="diasNeto"> Dias neto: </p:outputLabel>
+                                                  <p:inputText id ="diasNeto" required="true" 
+                                                               />
+                                             </div>
+                                        </div>
+
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="diaDescuento"> Dias descuento: </p:outputLabel>
+                                                  <p:inputText id ="diaDescuento" required="true" 
+                                                               >
+
+                                                  </p:inputText>
+                                             </div>
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="cantDiasVenc"> Cantidad días vencido: </p:outputLabel>
+                                                  <p:inputText id ="cantDiasVenc" required="true" 
+                                                               />
+                                             </div>
+                                        </div>
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="descripcion"> Descripción: </p:outputLabel>
+                                                  <p:inputText id ="descripcion" required="true" 
+                                                               />                                                
+                                             </div>                                            
+                                        </div>
                                    </p:outputPanel>
                               </p:outputPanel>
 
@@ -261,160 +202,102 @@
                          <!---Dialogo de proveedor  Editar!-->
                          <p:dialog header="Product Details" showEffect="fade" modal="true"
                                    widgetVar="manageProductDialogEdit" responsive="true"
-                                   height="auto" width="800px" minHeight="40">
+                                   maximizable="true" height="300" width="70%">
                               <p:outputPanel id="manage-product-content-edit" class="ui-fluid">
-                                   <p:outputPanel > <!--asignar atributo de primeface !-->
+                                   <p:outputPanel > <!--asignar atributo de primeface !--> 
+                                        <div class="p-formgrid p-grid"> 
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="check_"> Habilitado: </p:outputLabel>
+                                                  <p:selectBooleanCheckbox id="check_" value="#{proveedorDAO.proveedor.estado}" />
+                                             </div>
+                                        </div>  
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="cod_Proveedor"> Código: </p:outputLabel>
+                                                  <p:inputText id ="cod_Proveedor" required="True" 
+                                                               value="#{proveedorDAO.proveedor.nombre}"/>
+                                             </div>
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="ruc_Proveedor"> Ruc: </p:outputLabel>
+                                                  <p:inputText id ="ruc_Proveedor" required="True" 
+                                                               value="#{proveedorDAO.proveedor.ruc}"/>
+                                             </div>
+                                        </div>
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="dir_Proveedor"> Dirección: </p:outputLabel>
+                                                  <p:inputText id ="dir_Proveedor" required="false" 
+                                                               value="#{proveedorDAO.proveedor.direccion}"/>
+                                             </div>
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="contac_Proveedor"> Contacto: </p:outputLabel>
+                                                  <p:inputText id ="contac_Proveedor" required="false" 
+                                                               value="#{proveedorDAO.proveedor.contacto}"/>
+                                             </div>
+                                        </div>
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="web_Proveedor"> Dirección: </p:outputLabel>
+                                                  <p:inputText id ="web_Proveedor" required="false" 
+                                                               value="#{proveedorDAO.proveedor.webPage}"/>
+                                             </div>
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="email_Proveedor"> Email: </p:outputLabel>
+                                                  <p:inputText id ="email_Proveedor" required="false" 
+                                                               value="#{proveedorDAO.proveedor.email}"/>
+                                             </div>
+                                        </div>
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="rsocial_Proveedor"> Razón social: </p:outputLabel>
+                                                  <p:inputText id ="rsocial_Proveedor" required="true" 
+                                                               value="#{proveedorDAO.proveedor.razonSocial}"/>
+                                             </div>
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="tel_Proveedor"> Telefono: </p:outputLabel>
+                                                  <p:inputText id ="tel_Proveedor" required="true" 
+                                                               value="#{proveedorDAO.proveedor.telefono}"/>
+                                             </div>
 
-                                        <div class="ui-fluid p-formgrid p-grid">
-                                             <label for="Proveedor" style="width:500px;">
-                                                  <h3>Dirección</h3>
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       <label style="padding-left: 18px">
-                                                            Código: 
-                                                       </label>                                            
-                                                       <p:inputText 
-                                                                    type="text" 
-
-                                                                    style="width: 200px;
-                                                                    background-color:silver;
-                                                                    margin: 3px"
-                                                                    value="#{proveedorDAO.proveedor.codigo}"/> 
-
-                                                       <label style="padding-left: 115px">
-                                                            R.U.C: 
-                                                       </label>
-                                                       <p:inputText id="ruc"
-                                                                    type="text" 
-                                                                    style="width: 250px;
-                                                                    margin: 3px"
-                                                                    value="#{proveedorDAO.proveedor.ruc}"/>
-                                                  </div> 
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       <label style="padding-left: 10px">
-                                                            Nombre: 
-                                                       </label>
-                                                       <p:inputText id="nombreProveedor"
-                                                                    type="text" 
-                                                                    style="width: 250px; 
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.nombre}"/> 
-
-                                                       <label style="padding-left: 16px">
-                                                            Razón Social:
-                                                       </label>
-                                                       <p:inputText id="razoProveedor"
-                                                                    type="text" 
-                                                                    style="width: 250px;  
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.razonSocial}"/> 
-                                                  </div>
-
-
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       <label style="padding-left: 3px">
-                                                            Dirección: 
-                                                       </label>
-                                                       <p:inputText id="direcProveedor"
-                                                                    type="text" 
-                                                                    style="width: 250px; 
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.direccion}"/> 
-
-                                                       <label style="padding-left: 41px">
-                                                            Teléfono:
-                                                       </label>
-                                                       <p:inputText id="telefonoProveedor"
-                                                                    type="text" 
-                                                                    style="width: 250px;  
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.telefono}"/> 
-                                                  </div>
-
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       <label style="padding-left: 5px">
-                                                            Contacto: 
-                                                       </label>
-                                                       <p:inputText id="contactoProveedor"
-                                                                    type="text" 
-                                                                    style="width: 250px;
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.contacto}"/> 
-
-                                                       <label style="padding-left: 65px">
-                                                            Email: 
-                                                       </label>
-                                                       <p:inputText id="emailProveedor"
-                                                                    type="text" 
-                                                                    style="width: 250px;
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.email}"/>  
-                                                  </div>
-
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       Web page:
-                                                       <p:inputText id="web_PageProveedor" 
-                                                                    type="text" 
-                                                                    style="width: 250px; 
-                                                                    margin: 3px;"
-                                                                    value="#{proveedorDAO.proveedor.webPage}"/> 
-                                                  </div>
-                                             </label>
-                                             <br>
-                                             </br>
-
-                                             <label for="Condiciones" style="width:500px;">
-                                                  <h3>Condiciones</h3>
-
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       <label style="padding-left: 8px">
-                                                            Descuento: 
-                                                       </label>                                               
-                                                       <p:inputText id="idDescuento" 
-                                                                    type="text"                                                                     
-                                                                    style="width: 200px;
-                                                                    margin: 3px;"
-                                                                    /> 
-                                                       <label style="padding-left: 54px">
-                                                            Días Descuento: 
-                                                       </label>  
-                                                       <p:inputText id="diasDescuento" 
-                                                                    type="text" 
-                                                                    style="width: 222px;
-                                                                    margin: 3px;"
-                                                                    />
-                                                  </div> 
-
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       <label style="padding-left: 18px">
-                                                            Días neto: 
-                                                       </label>  
-                                                       <p:inputText id="diasNeto" type="text" 
-                                                                    style="width: 200px; 
-                                                                    margin: 3px;"
-                                                                    /> 
-                                                       Cant. Días Vencimiento:
-                                                       <p:inputText id="cantDiasVencimiento" 
-                                                                    type="text" 
-                                                                    style="width: 220px; 
-                                                                    margin: 3px;"
-                                                                    /> 
-                                                  </div>
-
-                                                  <div class="p-field p-col-12 p-md-3">
-                                                       Descripción:
-                                                       <p:inputText id="descripcionProveedor" 
-                                                                    type="text" 
-                                                                    style="width: 200px;
-                                                                    margin: 3px;"
-                                                                    />  
-                                                       <label style="padding-left: 87px"/> 
-
-
-
-                                                  </div> 
-                                             </label>
                                         </div>
 
+                                        <h3>Condiciones</h3>
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="descuento_"> Descuento: </p:outputLabel>
+                                                  <p:inputText id ="descuento_" required="true" 
+                                                               >
+                                                       <f:convertNumber type="percent" />       
+                                                  </p:inputText>
+                                             </div>
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="dias_Neto"> Dias neto: </p:outputLabel>
+                                                  <p:inputText id ="dias_Neto" required="true" 
+                                                               />
+                                             </div>
+                                        </div>
+
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="dia_Descuento"> Dias descuento: </p:outputLabel>
+                                                  <p:inputText id ="dia_Descuento" required="true" 
+                                                               >
+
+                                                  </p:inputText>
+                                             </div>
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="cant_DiasVenc"> Cantidad días vencido: </p:outputLabel>
+                                                  <p:inputText id ="cant_DiasVenc" required="true" 
+                                                               />
+                                             </div>
+                                        </div>
+                                        <div class="p-formgrid p-grid">
+                                             <div class="p-field p-col">
+                                                  <p:outputLabel for="descripcion_"> Descripción: </p:outputLabel>
+                                                  <p:inputText id ="descripcion_" required="true" 
+                                                               />                                                
+                                             </div>                                            
+                                        </div>
                                    </p:outputPanel>
                               </p:outputPanel>
 
