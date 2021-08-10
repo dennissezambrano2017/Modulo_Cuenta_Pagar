@@ -24,7 +24,7 @@ public class Conexion {
     private String mensaje;
     private FacesMessage.Severity tipoMensaje;
 
-    private String url = "jdbc:postgresql://localhost:5432/ERP";
+    private String url = "jdbc:postgresql://localhost:5432/ERP_GLOBAL";
     private String usuario = "postgres";
     private String clave = "123456";
     private String classForName = "org.postgresql.Driver";

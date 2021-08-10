@@ -14,11 +14,14 @@ import Model.TipoBanco;
 import Model.Factura;
 import Model.Proveedor;
 import java.io.Serializable;
+import java.sql.Array;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -37,7 +40,10 @@ public class AbonoProveedorManagedBean implements Serializable {
     private FacturaDAO facturaDAO;
     private List<AbonoProveedor> listaAbonos;
     private List<Factura> listaFactura;
+    private List<Proveedor> listaProveedor;
     private Factura factura;
+    private String nom;
+    private String cod;
 
     public AbonoProveedorManagedBean() {
         abonoproveedor = new AbonoProveedor();
@@ -47,6 +53,7 @@ public class AbonoProveedorManagedBean implements Serializable {
         proveedor = new Proveedor();
         listaAbonos = new ArrayList<>();
         listaFactura = new ArrayList<>();
+        listaProveedor = new ArrayList<>();
         abonoDAO = new AbonoProveedorDAO();
         listaAbonos = abonoDAO.llenar();
         factura = new Factura();
@@ -62,36 +69,56 @@ public class AbonoProveedorManagedBean implements Serializable {
         System.out.println(listaFactura);
     }
 
-    public void enviar() {
+    public void enviar(List<Factura> listafactura) {
         this.abonoDAO = new AbonoProveedorDAO(abonoproveedor);
-        System.out.println(tipoPago.getDescripcion() + "--" + tipoBanco.getDescrpcion() + "--" + abonoproveedor.getRuc());
+        int result;
+        System.out.println(tipoPago.getDescripcion() + "--"
+                + tipoBanco.getDescrpcion() + "--" + abonoproveedor.getRuc());
+        
         try {
-            this.abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(), tipoBanco.getDescrpcion(), abonoproveedor.getRuc()));
+            this.abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(),
+                    tipoBanco.getDescrpcion(), abonoproveedor.getRuc(), abonoproveedor.getFecha()));
             try {
-                System.out.println("Si entro1"+factura.getNfactura());
-                int index=0;
-                while(index>listaFactura.size()){
-                    System.out.println("Si entro2");
-                    System.out.println(factura.getNfactura()+"-"+factura.getFecha()+"-"+
-                            factura.getVencimiento()+"-"+factura.getImporte()+"-"+
-                            factura.getPendiente()+"-"+factura.getPagado());
+                this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarFactura(abonoproveedor.getRuc()));
+                System.out.println(this.listaFactura.size() + "--");
+                int index = 0;
+                while (index > getListaFactura().size()) {
+                    this.abonoDAO.insertar(detalleAbono.getSentencia(listaFactura.get(index).getNfactura()));
+                    index++;
                 }
-//                this.abonoDAO.insertar(detalleAbono.getSentencia(proveedor.getCodigo()));
-//                listaAbonos = abonoDAO.llenar();
-//                System.out.println("EXITO");
-                ActualizarFilas();
-            } catch (Exception e) {
-                System.out.println(e + "Error en registrar Detalle Abono");
+                System.out.println("EXITO");
+            } catch (Exception ex) {
+                System.err.println(ex + ":Error en guardar los datos en BD");
             }
         } catch (Exception e) {
             System.out.println(e + "Error en registrar Cabezera Abono");
         }
     }
-    
-    public List<Factura> BuscarFactura( String ruc){
+
+    public int InsertDetail(String ruc) {
         System.out.println("Estoy buscandi factura");
-        listaFactura=abonoDAO.llenar(abonoproveedor.BuscarFactura(ruc));
-        System.out.println(listaFactura.size()+"--");
+        int result = 0;
+        try {
+            this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarFactura(ruc));
+            System.out.println(listaFactura.size() + "--");
+            int index = 0;
+            while (index > getListaFactura().size()) {
+                this.abonoDAO.insertar(detalleAbono.getSentencia(listaFactura.get(index).getNfactura()));
+                index++;
+            }
+            result = 1;
+            System.out.println("EXITO");
+            return result;
+        } catch (Exception ex) {
+            result = 0;
+            System.err.println(ex + ":Error en guardar los datos en BD");
+        }
+
+        return result;
+    }
+
+    public List<Factura> BuscarFactura(String ruc) {
+        this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarFactura(ruc));
         return listaFactura;
     }
 
@@ -171,6 +198,37 @@ public class AbonoProveedorManagedBean implements Serializable {
     public void setFactura(Factura factura) {
         this.factura = factura;
     }
-    
-    
+
+    public FacturaDAO getFacturaDAO() {
+        return facturaDAO;
+    }
+
+    public void setFacturaDAO(FacturaDAO facturaDAO) {
+        this.facturaDAO = facturaDAO;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getCod() {
+        return cod;
+    }
+
+    public void setCod(String cod) {
+        this.cod = cod;
+    }
+
+    public List<Proveedor> getListaProveedor() {
+        return listaProveedor;
+    }
+
+    public void setListaProveedor(List<Proveedor> listaProveedor) {
+        this.listaProveedor = listaProveedor;
+    }
+
 }

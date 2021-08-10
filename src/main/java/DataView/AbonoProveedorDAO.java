@@ -59,18 +59,17 @@ public class AbonoProveedorDAO {
     public List<AbonoProveedor> llenar() {
         if (conex.isEstado()) {
             try {
-                String sentencia = "SELECT a.fecha,pag.descripcion,a.referencia,sum(d.pago) as Pago,a.\"idProveedor\",p.nombre,d.periodo\n"
-                        + "FROM \"public\".\"abonoProveedor\" a \n"
-                        + "	INNER JOIN \"public\".\"detalleAbono\" d ON ( a.\"idAbonoProveedor\" = d.\"idAbonoProveedor\"  )  \n"
-                        + "	INNER JOIN \"public\".\"tipoPago\" t ON ( a.\"idTipoPago\" = t.\"idTipoPago\"  )  \n"
-                        + "	INNER JOIN \"public\".proveedor p ON ( a.\"idProveedor\" = p.idproveedor  )  \n"
-                        + "	INNER JOIN \"public\".\"tipoPago\" pag ON ( a.\"idTipoPago\" = pag.\"idTipoPago\"  )  \n"
-                        + "	group by d.periodo,a.fecha,pag.descripcion,a.referencia,a.\"idProveedor\",p.nombre";
+                String sentencia = "SELECT a.fecha,pag.descripcion,a.referencia,sum(d.pago) as Pago,a.idproveedor,p.nombre,d.periodo\n"
+                        + "FROM abonoproveedor a INNER JOIN detalleabono d ON ( a.idabonoproveedor = d.idabonoproveedor  ) \n"
+                        + "INNER JOIN tipopago t ON ( a.idtipopago= t.idtipopago  )  \n"
+                        + "INNER JOIN proveedor p ON ( a.idproveedor = p.idproveedor)  \n"
+                        + "INNER JOIN tipopago pag ON ( a.idtipopago = pag.idtipopago) \n"
+                        + "group by d.periodo,a.fecha,pag.descripcion,a.referencia,a.idproveedor,p.nombre";
                 result = conex.ejecutarConsulta(sentencia);
                 while (result.next()) {
                     listaAbono.add(new AbonoProveedor(result.getString("referencia"),
-                            result.getInt("idProveedor"), result.getDate("fecha"),
-                            result.getFloat("Pago"), result.getString("periodo"),
+                            result.getInt("idproveedor"), result.getObject("fecha",LocalDate.class),
+                            result.getFloat("pago"), result.getString("periodo"),
                             result.getString("descripcion"), result.getString("nombre")));
                 }
                 result.close();
@@ -90,11 +89,11 @@ public class AbonoProveedorDAO {
                 result = conex.ejecutarConsulta(sentencia);
                 while (result.next()) {
                     listafactura.add(new Factura(result.getString("nfactura"),
-                             result.getFloat("importe"), result.getFloat("pagado"),
-                             result.getObject("fecha", LocalDate.class), result.getObject("vencimiento", LocalDate.class),
-                             result.getFloat("pendiente")));
+                            result.getFloat("importe"), result.getFloat("pagado"),
+                            result.getObject("fecha", LocalDate.class), result.getObject("vencimiento", LocalDate.class),
+                            result.getFloat("pendiente")));
                 }
-
+                System.out.print(listafactura.size()+ "  si hay datosssss");
                 result.close();
                 return listafactura;
             } catch (SQLException ex) {
