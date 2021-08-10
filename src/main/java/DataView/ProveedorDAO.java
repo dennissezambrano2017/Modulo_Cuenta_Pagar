@@ -82,4 +82,19 @@ public class ProveedorDAO extends Conexion {
            System.out.print(cadena2);
          conexion.Ejecutar2(cadena2);
     }
+    public void update (Proveedor proveedor, Condiciones condiciones){
+         String cadena ="UPDATE public.proveedor\n" +
+"	SET razonsocial='"+proveedor.getRazonSocial()+"',"
+                 + " ruc='"+proveedor.getRuc()+"',"
+                 + " nombre='"+proveedor.getNombre()+"',"
+                 + " direccion='"+proveedor.getDireccion()+"',"
+                 + " email='"+proveedor.getEmail()+"',"
+                 + " webpage='"+proveedor.getWebPage()+"',"
+                 + " contacto='"+proveedor.getContacto()+"',"
+                 + " telefono='"+proveedor.getTelefono()+"',"
+                 + " estado='"+proveedor.isEstado()+"'\n" +
+"	WHERE idproveedor = '"+proveedor.getIdProveedor()+"' ;";
+           System.out.print(cadena);
+         conexion.Ejecutar2(cadena);
+    }
 }

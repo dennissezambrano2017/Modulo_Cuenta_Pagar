@@ -39,7 +39,7 @@ public class ProveedorManageBean implements Serializable {
 
      public ProveedorManageBean() {
           proveedor = new Proveedor();
-          condiciones =new Condiciones();
+          condiciones = new Condiciones();
           listaProveedor = new ArrayList<>();
           proveedorDAO = new ProveedorDAO();
           listaProveedor = proveedorDAO.llenar();
@@ -61,34 +61,48 @@ public class ProveedorManageBean implements Serializable {
      public void setSelectedProveedor(Proveedor selectedProveedor) {
           this.selectedProveedor = selectedProveedor;
      }
-     
-      public void saveProduct() {
-        if (this.selectedProveedor.getCodigo() == null) {
-            this.selectedProveedor.setCodigo(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9));
-            this.listaProveedor.add(this.selectedProveedor);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Added"));
-        }
-        else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Updated"));
-        }
 
-        PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
-    }
+     public void saveProduct() {
+          if (this.selectedProveedor.getCodigo() == null) {
+               this.selectedProveedor.setCodigo(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9));
+               this.listaProveedor.add(this.selectedProveedor);
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Added"));
+          } else {
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Updated"));
+          }
 
+          PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
+          PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
+     }
 
-     
-     public void insertar(){
-        try{
-             this.proveedorDAO.insertar(proveedor,condiciones);
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Proveedor agg"));
-             
-        }  catch(Exception e){
-              System.out.println("ERROR DAO: " + e);
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
-              
-             
-        }
+     public void editar() {
+          try {
+               this.proveedorDAO.update(proveedor, condiciones);
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Proveedor Guardado"));
+
+          } catch (Exception e) {
+               System.out.println("ERROR DAO: " + e);
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
+
+          }
+          PrimeFaces.current().executeScript("PF('manageProductDialogEdit').hide()");
+          PrimeFaces.current().executeScript("location.reload()");
+
+     }
+
+     public void insertar() {
+          try {
+               this.proveedorDAO.insertar(proveedor, condiciones);
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Proveedor agg"));
+
+          } catch (Exception e) {
+               System.out.println("ERROR DAO: " + e);
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
+
+          }
+          PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
+          PrimeFaces.current().executeScript("location.reload()");
+
      }
 
      public Proveedor getProveedor() {
@@ -145,37 +159,38 @@ public class ProveedorManageBean implements Serializable {
      public void setCod(String cod) {
           this.cod = cod;
      }
-      
+
      //Metodos primeFaces
      public void openNew() {
-        this.selectedProveedor = new Proveedor();
-    }
-    public void deleteProduct() {
-        this.Proveedores.remove(this.selectedProveedor);
-        this.selectedProveedor = null;
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Removed"));
-         PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
-    }
+          this.selectedProveedor = new Proveedor();
+     }
 
-    public String getDeleteButtonMessage() {
-        if (hasSelectedProducts()) {
-            int size = this.listaProveedor.size();
-            return size > 1 ? size + " products selected" : "1 product selected";
-        }
+     public void deleteProduct() {
+          this.Proveedores.remove(this.selectedProveedor);
+          this.selectedProveedor = null;
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Removed"));
+          PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
+     }
 
-        return "Delete";
-    }
+     public String getDeleteButtonMessage() {
+          if (hasSelectedProducts()) {
+               int size = this.listaProveedor.size();
+               return size > 1 ? size + " products selected" : "1 product selected";
+          }
 
-    public boolean hasSelectedProducts() {
-        return this.listaProveedor != null && !this.listaProveedor.isEmpty();
-    }
+          return "Delete";
+     }
 
-    public void deleteSelectedProducts() {
-        this.Proveedores.removeAll(this.listaProveedor);
-        this.listaProveedor = null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Products Removed"));
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
-        PrimeFaces.current().executeScript("PF('dtProducts').clearFilters()");
-    }
+     public boolean hasSelectedProducts() {
+          return this.listaProveedor != null && !this.listaProveedor.isEmpty();
+     }
+
+     public void deleteSelectedProducts() {
+          this.Proveedores.removeAll(this.listaProveedor);
+          this.listaProveedor = null;
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Products Removed"));
+          PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
+          PrimeFaces.current().executeScript("PF('dtProducts').clearFilters()");
+     }
 
 }
