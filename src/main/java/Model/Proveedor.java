@@ -69,9 +69,10 @@ public class Proveedor {
         this.descripcion = descripcion;
     }
 
-    public Proveedor(String codigo, String nombre, String email, String telefono, String contacto, boolean estado) {
+    public Proveedor(String codigo, String nombre, String email,String direccion, String telefono, String contacto, boolean estado) {
         this.codigo = codigo;
         this.nombre = nombre;
+        this.direccion = direccion;
         this.email = email;
         this.contacto = contacto;
         this.telefono = telefono;
