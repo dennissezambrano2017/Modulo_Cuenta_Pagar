@@ -88,7 +88,7 @@
                             </p:dataTable>
                         </p:panel>
                         <!-- Dialogo Nuevo-->
-                        <p:dialog header="Product Details" showEffect="fade" modal="true"
+                        <p:dialog header="Detalle de Pago" showEffect="fade" modal="true"
                                   widgetVar="managePagoDialog" height="400" width="70%" >
                             <p:outputPanel id="pago-content" class="ui-fluid">
 
@@ -155,7 +155,8 @@
                                             Importe: 
                                         </label>
                                         <p:inputText id="Importe" type="text" 
-                                                     style="background-color:silver;" disabled="true"/>
+                                                     style="background-color:silver;" disabled="true"
+                                                     value="$#{abonoProveedorMB.factura.importe}"/>
 
                                     </div>
                                     <div class="p-field p-col">
@@ -184,19 +185,61 @@
                                                     update=":form:msgs"/>
 
                                             <p:column headerText="Factura No." >
-                                                <h:outputText value="#{pagoFactura.nfactura}"/>
+<!--                                                <h:outputText value="{pagoFactura.nfactura}"/>-->
+                                                <p:cellEditor>
+                                                    <f:facet name="output">
+                                                        <h:outputText value="#{pagoFactura.nfactura}"/>
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputText value="#{pagoFactura.nfactura}" style="width:100%" label="Pago"/>
+                                                    </f:facet>
+                                                </p:cellEditor>
                                             </p:column>
                                             <p:column headerText="Fecha" >
-                                                <h:outputText value="#{pagoFactura.fecha}"/>
+<!--                                                <h:outputText value="{pagoFactura.fecha}"/>-->
+                                                <p:cellEditor>
+                                                    <f:facet name="output">
+                                                        <h:outputText value="#{pagoFactura.fecha}"/>
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputText value="#{pagoFactura.fecha}" style="width:100%" label="Pago"/>
+                                                    </f:facet>
+                                                </p:cellEditor>
+
+                                                
                                             </p:column>
                                             <p:column headerText="Vence">
-                                                <h:outputText value="#{pagoFactura.vencimiento}"/>
+<!--                                                <h:outputText value="{pagoFactura.vencimiento}"/>-->
+                                                <p:cellEditor>
+                                                    <f:facet name="output">
+                                                        <h:outputText value="#{pagoFactura.vencimiento}"/>
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputText value="#{pagoFactura.vencimiento}" style="width:100%" label="Pago"/>
+                                                    </f:facet>
+                                                </p:cellEditor>
                                             </p:column>
                                             <p:column headerText="Importe">
-                                                <h:outputText value="$#{pagoFactura.importe}"/>
+<!--                                                <h:outputText value="{pagoFactura.importe}"/>-->
+                                                <p:cellEditor>
+                                                    <f:facet name="output">
+                                                        <h:outputText value="$#{pagoFactura.importe}"/>
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputText value="#{pagoFactura.importe}" style="width:100%" label="Pago"/>
+                                                    </f:facet>
+                                                </p:cellEditor>
                                             </p:column>
                                             <p:column headerText="Pendiente" >
-                                                <h:outputText value="$#{pagoFactura.pendiente}"/>
+<!--                                                <h:outputText value="{pagoFactura.pendiente}"/>-->
+                                                <p:cellEditor>
+                                                    <f:facet name="output">
+                                                        <h:outputText value="$#{pagoFactura.pendiente}"/>
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputText value="#{pagoFactura.pendiente}" style="width:100%" label="Pago"/>
+                                                    </f:facet>
+                                                </p:cellEditor>
                                             </p:column>
                                             <p:column headerText="Pago" >
                                                 <p:cellEditor>
