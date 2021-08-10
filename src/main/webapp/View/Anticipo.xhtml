@@ -10,332 +10,62 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">  
-     <h:body>
-          <ui:composition template="./../Plantilla/Plantilla.xhtml">
-               <ui:define name="content">
-                    <h:form>
-                         <p:panel>
-                              <h1 style="text-align: center; color: black;">Anticipos</h1>
-                              <div>
-                                   <!-- Botones de comando Nuevo,Editar,Deshabilitar,Buscar  !-->
-                                   <p:toolbar>
-                                        <p:toolbarGroup>
-                                             <p:commandButton value="Nuevo" icon="pi pi-plus"   
-                                                              oncomplete="PF('ProveedorNew').show()"   
-                                                              styleClass="ui-button-success" 
-                                                              style="margin-right: .3rem">                               
-                                             </p:commandButton>
+    <h:body>
+        <ui:composition template="./../Plantilla/Plantilla.xhtml">
+            <ui:define name="content">
+                <h:form class="p-p-5">
+                    <div class="p-grid p-d-flex p-ai-center">
+                        <div class="p-col-8">
+                            <h1>Anticipos</h1>
+                        </div>
 
-                                             <p:commandButton value="Editar" 
-                                                              icon="pi pi-pencil" 
-                                                              oncomplete="PF('ProveedorEdit').show()"  
-                                                              styleClass="ui-button-secondary" 
-                                                              style="margin-right: .3rem" >                                
-                                             </p:commandButton>
+                        <div class="p-col-4">
+                            <div class="p-formgroup-inline">
 
-                                             <p:commandButton id="delete-products-button"
-                                                              value="Deshabilitar" 
-                                                              icon="pi pi-times"                                            
-                                                              styleClass="ui-button-danger"  
-                                                              style="margin-right: .3rem">
-                                                  <p:confirm  header="Confirmation"
-                                                              message="Dese eliminar el 
-                                                              proveedor seleccionado?"
-                                                              icon="pi pi-exclamation-triangle" />
+                                <p:button value="Nuevo" styleClass="ui-button-raised ui-button-success" />
+                                <p:button value="Editar" styleClass="ui-button-raised ui-button-secondary" />
+                                <p:button value="Desabilitar" styleClass="ui-button-raised ui-button-danger" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p:dataTable class="p-mt-3" id="dt-table" value="#{anticipoMB.anticipos}" rowKey="#{anticipo.id_anticipo}" var="anticipo">
+                        
+                        <f:facet name="header">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                <span style="font-weight: bold">Anticipos</span>
 
-                                             </p:commandButton>
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" placeholder="Buscar"/>
+                                </span>
 
-                                             <p:commandButton value="Buscar" 
-                                                              icon="pi pi-search" 
-                                                              oncomplete="PF('BuscarProveedor').show()"  
-                                                              styleClass="ui-button-warning" 
-                                                              style="margin-right: .3rem">                           
-                                             </p:commandButton>
+                            </div>
+                        </f:facet>
+                        
+                        <p:column headerText="Fecha Registro">
+                            <h:outputText value="#{anticipo.fechaRegistro}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Descripción">
+                            <h:outputText value="#{anticipo.descripcion}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Importe">
+                            <h:outputText value="#{anticipo.importe}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Proveedor">
+                            <h:outputText value="#{anticipo.proveedor.nombre}"/>
+                        </p:column>
 
-                                        </p:toolbarGroup>                       
-                                   </p:toolbar> 
-                                   <!-- Tabla visual de datos  !-->
-                                   <p:dataTable value="#{anticipoMB.anticipos}" var="anticipo">
-                                        <p:column headerText="Fecha"  >
-                                            <h:outputText value="#{anticipo.fechaRegistro}"/>
-                                        </p:column>
+                        <p:column headerText="Ruc">
+                            <h:outputText value="#{anticipo.proveedor.ruc}"/>
+                        </p:column>
+                    </p:dataTable>
 
-                                        <p:column headerText="Importe" >
-                                            <h:outputText value="#{anticipo.importe}"/>
-                                        </p:column>                       
-
-                                        <p:column headerText="Proveedor" >
-                                            <h:outputText value="#{anticipo.proveedor.nombre}" style="font-weight: 700">
-                                                  <f:convertNumber currencySymbol="$" type="currency"/>
-                                             </h:outputText>
-                                        </p:column>
-
-                                        <p:column headerText="Descripción" >
-                                            <h:outputText value="#{anticipo.descripcion}"/>
-                                        </p:column>
-                                   </p:dataTable>
-                              </div>
-                              <p:dialog header="Nuevo Anticipo"  minHeight="40" 
-                                        height="auto" width="800px" showEffect="fade"
-                                        modal="true" widgetVar="ProveedorNew">
-                                   <h:form >
-                                        <p:outputPanel  class="ui-fluid">
-                                             <div class="ui-fluid p-formgrid p-grid">
-                                                  <label for="Anticipo" style="width:500px;">
-                                                       <h3>Información</h3>
-                                                       <div class="p-field p-col-12 p-md-3">
-                                                            <label style="padding-left: 18px">
-                                                                 Código: 
-                                                            </label>                                            
-                                                            <p:inputText id="IdProveedor" 
-                                                                         type="text" 
-                                                                         disabled="true" 
-                                                                         style="width: 200px;
-                                                                         background-color:silver;
-                                                                         margin: 3px"/> 
-
-                                                            <label style="padding-left: 90px">
-                                                                 Proveedor: 
-                                                            </label>
-                                                            <p:inputText id="rucProveedor"
-                                                                         type="text" 
-                                                                         style="width: 250px;
-                                                                         margin: 3px"/>
-                                                       </div> 
-                                                       <div class="p-field p-col-12 p-md-3">
-                                                            <label style="padding-left: 15px">
-                                                                 Nombre: 
-                                                            </label>
-                                                            <p:inputText id="nombreProveedor"
-                                                                         type="text" 
-                                                                         style="width: 250px; 
-                                                                         margin: 3px;"/> 
-
-                                                            <label style="padding-left: 16px">
-                                                                 Razón Social:
-                                                            </label>
-                                                            <p:inputText id="razonSclProveedor"
-                                                                         type="text" 
-                                                                         style="width: 250px;  
-                                                                         margin: 3px;"/> 
-                                                       </div>
-
-
-                                                       <div class="p-field p-col-12 p-md-3">
-                                                            <label style="padding-left: 3px">
-                                                                 Dirección: 
-                                                            </label>
-                                                            <p:inputText id="direccionProveedor"
-                                                                         type="text" 
-                                                                         style="width: 250px; 
-                                                                         margin: 3px;"/> 
-
-                                                            <label style="padding-left: 65px">
-                                                                 Fecha:
-                                                                 <p:datePicker style="width: 200px; font-size: 10px"  showIcon="true"/>
-                                                            </label>
-                                                          
-                                                       </div>
-
-                                                       <div class="p-field p-col-12 p-md-3">
-                                                            <label style="padding-left: 10px">
-                                                                 Importe: 
-                                                            </label>
-                                                            <p:inputText id="contactoProveedor"
-                                                                         type="text" 
-                                                                         style="width: 250px;
-                                                                         margin: 3px;"/> 
-
-                                                            <label style="padding-left: 80px">
-                                                                 I.V.A: 
-                                                            </label>
-                                                            <p:inputText id="emailProveedor"
-                                                                         type="text" 
-                                                                         style="width: 250px;
-                                                                         margin: 3px;"/>  
-                                                       </div>
-
-                                                       
-                                                  </label>
-                                                  <br>
-                                                       <h1>CONCEPTO DEL ANTICIPO</h1>
-                                                  </br>
-                                                 
-                                                       <div class="p-field p-col-12 p-md-3">
-                                                            Descripción:
-                                                            <p:inputText id="descripcionProveedor" 
-                                                                         type="text" 
-                                                                         style="width: 600px; height: 150px;
-                                                                         margin: 3px;"/>  
-                                                       </div> 
-                                                  
-                                             </div>
-                                        </p:outputPanel>
-                                   </h:form>
-
-                                   <f:facet name="footer">
-                                        <p:commandButton value="Aceptar" 
-                                                         icon="pi pi-check"
-                                                         class="ui-button-success"/>
-                                        <p:commandButton value="Cancelar" icon="pi pi-times" 
-                                                         onclick="PF('Proveedornew').hide()"
-                                                         class="ui-button-danger"/>
-                                   </f:facet>
-                              </p:dialog> 
-                                  <p:dialog header="Editar Anticipo"  minHeight="40" 
-                                        height="auto" width="800px" showEffect="fade"
-                                        modal="true" widgetVar="ProveedorEdit">
-                                   <h:form >
-                                        <p:outputPanel  class="ui-fluid">
-                                             <div class="ui-fluid p-formgrid p-grid">
-                                                  <label for="Anticipo" style="width:500px;">
-                                                       <h3>Información</h3>
-                                                       <div class="p-field p-col-12 p-md-3">
-                                                            <label style="padding-left: 18px">
-                                                                 Código: 
-                                                            </label>                                            
-                                                            <p:inputText id="IdProveedor" 
-                                                                         type="text" 
-                                                                         disabled="true" 
-                                                                         style="width: 200px;
-                                                                         background-color:silver;
-                                                                         margin: 3px"/> 
-
-                                                            <label style="padding-left: 90px">
-                                                                 Proveedor: 
-                                                            </label>
-                                                            <p:inputText id="rucProveedor"
-                                                                         type="text" 
-                                                                         style="width: 250px;
-                                                                         margin: 3px"/>
-                                                       </div> 
-                                                       <div class="p-field p-col-12 p-md-3">
-                                                            <label style="padding-left: 15px">
-                                                                 Nombre: 
-                                                            </label>
-                                                            <p:inputText id="nombreProveedor"
-                                                                         type="text" 
-                                                                         style="width: 250px; 
-                                                                         margin: 3px;"/> 
-
-                                                            <label style="padding-left: 16px">
-                                                                 Razón Social:
-                                                            </label>
-                                                            <p:inputText id="razonSclProveedor"
-                                                                         type="text" 
-                                                                         style="width: 250px;  
-                                                                         margin: 3px;"/> 
-                                                       </div>
-
-
-                                                       <div class="p-field p-col-12 p-md-3">
-                                                            <label style="padding-left: 3px">
-                                                                 Dirección: 
-                                                            </label>
-                                                            <p:inputText id="direccionProveedor"
-                                                                         type="text" 
-                                                                         style="width: 250px; 
-                                                                         margin: 3px;"/> 
-
-                                                            <label style="padding-left: 65px">
-                                                                 Fecha:
-                                                                 <p:datePicker style="width: 200px;"  showIcon="true"/>
-                                                            </label>
-                                                          
-                                                       </div>
-
-                                                       <div class="p-field p-col-12 p-md-3">
-                                                            <label style="padding-left: 10px">
-                                                                 Importe: 
-                                                            </label>
-                                                            <p:inputText id="contactoProveedor"
-                                                                         type="text" 
-                                                                         style="width: 250px;
-                                                                         margin: 3px;"/> 
-
-                                                            <label style="padding-left: 80px">
-                                                                 I.V.A: 
-                                                            </label>
-                                                            <p:inputText id="emailProveedor"
-                                                                         type="text" 
-                                                                         style="width: 250px;
-                                                                         margin: 3px;"/>  
-                                                       </div>
-
-                                                       
-                                                  </label>
-                                                  <br>
-                                                       <h1>CONCEPTO DEL ANTICIPO</h1>
-                                                  </br>
-                                                 
-                                                       <div class="p-field p-col-12 p-md-3">
-                                                            Descripción:
-                                                            <p:inputText id="descripcionProveedor" 
-                                                                         type="text" 
-                                                                         style="width: 400px; height: 300px;
-                                                                         margin: 3px;"/>  
-                                                            
-                                                            
-                                                           
-                                                       </div> 
-                                                  
-                                             </div>
-                                        </p:outputPanel>
-                                   </h:form>
-
-                                   <f:facet name="footer">
-                                        <p:commandButton value="Save" 
-                                                         icon="pi pi-check"/>
-                                        <p:commandButton value="Cancel" icon="pi pi-times" 
-                                                         onclick="PF('ProveedorEdit').hide()"
-                                                         class="ui-button-secondary"/>
-                                   </f:facet>
-                              </p:dialog> 
-                              
-                              
-                              <p:dialog header="Buscar Anticipo" widgetVar="BuscarProveedor"  
-                                        minHeight="40" height="200px" width="400px"
-                                        showEffect="fade" modal="true">
-
-                                   <h:form style="height: 200px">
-                                        <div class="p-field p-col-12 p-md-3">
-                                             <label for="BReferencia" 
-                                                    style="position: relative;top:0px;left:15px;">                                 
-                                                  <h5 class="p-mt-0">Busacar por:</h5>
-                                                  <p:selectOneRadio id="console" value="" 
-                                                                    unselectable="true">
-                                                       <f:selectItem itemLabel="Id Proveedor" 
-                                                                     itemValue="Option1"/>
-                                                       <f:selectItem itemLabel="Nombre"
-                                                                     itemValue="Option2"/>                                     
-                                                  </p:selectOneRadio>
-                                             </label>
-                                        </div>
-                                        <div class="p-field p-col-12 p-md-3">
-                                             <label for="BProveedor" style="position: relative;
-                                                    top: 10px;left: 15px;">    
-
-                                                  <p:inputText id="BProveedor" type="text" 
-                                                               style="width: 200px;"/>
-                                                  <p:commandButton icon="pi pi-search"                                                    
-                                                                   styleClass="ui-button-warning" 
-                                                                   style="margin-right: .6rem;
-                                                                   width: 40px">
-                                                  </p:commandButton>
-                                             </label>
-                                        </div>                        
-                                   </h:form>
-                                   <f:facet name="footer">
-                                        <p:commandButton value="Ok" 
-                                                         icon="pi pi-check"/>
-                                        <p:commandButton value="Cancel" icon="pi pi-times" 
-                                                         onclick="PF('BuscarProveedor').hide()"
-                                                         class="ui-button-secondary"/>
-                                   </f:facet>
-                              </p:dialog>
-                         </p:panel>
-                    </h:form>
-               </ui:define>
-          </ui:composition>
-     </h:body>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
 </html>
