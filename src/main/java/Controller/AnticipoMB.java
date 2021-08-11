@@ -19,7 +19,7 @@ import org.primefaces.PrimeFaces;
 
 @ManagedBean(name = "anticipoMB")
 @RequestScoped
-public class AnticipoMB implements Serializable {
+public class AnticipoMB  {
 
     private List<Anticipo> anticipos;
     private Anticipo selected_anticipo;
@@ -31,6 +31,8 @@ public class AnticipoMB implements Serializable {
         this.selected_anticipo.setFechaRegistro(LocalDate.now());
         this.selected_anticipo.setDescripcion("");
         this.selected_anticipo.setImporte(0.0);
+        
+        Anticipo.getAllJson();
     }
 
     public List<Anticipo> getAnticipos() {
@@ -66,7 +68,7 @@ public class AnticipoMB implements Serializable {
         System.out.println(this.selected_anticipo.getId_anticipo());
         System.out.println(this.selected_anticipo.getDescripcion());
         try {
-            if (this.selected_anticipo.getId_anticipo() == 0){
+            if (this.selected_anticipo.getId_anticipo().isEmpty()){
                 this.selected_anticipo.InsertDB();
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Anticipo guardado"));
             } else {
@@ -81,9 +83,10 @@ public class AnticipoMB implements Serializable {
         }
         
         
-        
+        this.anticipos = Anticipo.getAll(); // trae solo los datos de los anticipos
+        Anticipo.GetAllDBProveedor(this.anticipos); // trae los proveedores de cada anticipo.
         PrimeFaces.current().executeScript("PF('manageAnticipoDialog').hide()");
-        //PrimeFaces.current().ajax().update(":form:dt_anticipos");
-        PrimeFaces.current().executeScript("location.reload()");
+        PrimeFaces.current().ajax().update(":form:dt_anticipos");
+        //PrimeFaces.current().executeScript("location.reload()");
     }
 }

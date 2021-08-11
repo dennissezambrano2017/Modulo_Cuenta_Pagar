@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class Anticipo {
     
-    private int id_anticipo;
+    private String id_anticipo;
     private Double importe;
     private LocalDate fechaRegistro;
     private String descripcion;
@@ -27,13 +27,15 @@ public class Anticipo {
     public Anticipo() {
     }
 
-    public int getId_anticipo() {
+    public String getId_anticipo() {
         return id_anticipo;
     }
 
-    public void setId_anticipo(int id_anticipo) {
+    public void setId_anticipo(String id_anticipo) {
         this.id_anticipo = id_anticipo;
     }
+
+    
 
     public Double getImporte() {
         return importe;
@@ -91,7 +93,7 @@ public class Anticipo {
     public static List<Anticipo> getAll() {
         List<Anticipo> anticipos = new ArrayList<>();
         Conexion conn = new Conexion();
-        String query =  "select \"idanticipo\", importe, \"fecharegistro\", descripcion, \"idproveedor\"\n" +
+        String query =  "select \"id_anticipo\", importe, \"fecha\", descripcion, \"id_proveedor\"\n" +
                         "    from anticipo;";
         try {
             conn.abrirConexion();
@@ -99,11 +101,11 @@ public class Anticipo {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Anticipo anticipo = new Anticipo();
-                anticipo.setId_anticipo(rs.getInt("idanticipo"));
+                anticipo.setId_anticipo(rs.getString("id_anticipo"));
                 anticipo.setImporte(rs.getDouble("importe"));
-                anticipo.setFechaRegistro(rs.getObject("fecharegistro", LocalDate.class));
+                anticipo.setFechaRegistro(rs.getObject("fecha", LocalDate.class));
                 anticipo.setDescripcion(rs.getString("descripcion"));
-                anticipo.setId_proveedor(rs.getInt("idproveedor"));
+                anticipo.setId_proveedor(rs.getInt("id_proveedor"));
                 
                 anticipos.add(anticipo);
             }
@@ -120,7 +122,7 @@ public class Anticipo {
     // GetAllDBProveedor va iterando por cada anticipo y va a traer el proveedor
     // de cada anticipo.
     public static List<Anticipo> GetAllDBProveedor(List<Anticipo> anticipos) {
-        anticipos.forEach(ant -> {
+        anticipos.forEach((Anticipo ant) -> {
             ant.GetDBProveedor();
         });
         return anticipos;
@@ -136,16 +138,15 @@ public class Anticipo {
         System.out.println(this.id_proveedor);
         
         Conexion conn = new Conexion();
-        String query =  "insert into anticipo(importe, \"fecharegistro\", descripcion, \"idproveedor\")\n" +
-                        "    values (?, ?, ?, ?);";
+        String query =  "select insert_anticipo(?, ?, ?, ?);";
         try {
             conn.abrirConexion();
             
             PreparedStatement stmt = conn.conex.prepareStatement(query);
-            stmt.setDouble(1, this.importe);
-            stmt.setObject(2, this.fechaRegistro);
-            stmt.setString(3, this.descripcion);
-            stmt.setInt(4, this.id_proveedor);
+            stmt.setInt(1, this.id_proveedor);
+            stmt.setDouble(2, this.importe);
+            stmt.setObject(3, this.fechaRegistro);
+            stmt.setString(4, this.descripcion);
             
             stmt.execute();
             //ResultSet rs = stmt.executeQuery(query);
@@ -168,8 +169,8 @@ public class Anticipo {
         System.out.println(this.id_proveedor);
         
         Conexion conn = new Conexion();
-        String query =  "update anticipo set \"importe\"=?, \"fecharegistro\"=?, descripcion=?, \"idproveedor\"=?\n" +
-                        "    where \"idanticipo\"=?;";
+        String query =  "update anticipo set \"importe\"=?, \"fecha\"=?, descripcion=?, \"id_proveedor\"=?\n" +
+                        "    where \"id_anticipo\"=?;";
         try {
             conn.abrirConexion();
             
@@ -178,7 +179,7 @@ public class Anticipo {
             stmt.setObject(2, this.fechaRegistro);
             stmt.setString(3, this.descripcion);
             stmt.setInt(4, this.id_proveedor);
-            stmt.setInt(5, this.id_anticipo);
+            stmt.setString(5, this.id_anticipo);
             
             stmt.execute();
             //ResultSet rs = stmt.executeQuery(query);
@@ -188,5 +189,29 @@ public class Anticipo {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+    }
+    
+    public static List<Anticipo> getAllJson() {
+        String datos = null;
+        Conexion conn = new Conexion();
+        String query =  "select select_all_anticipo_width_proveedor() as _anticipo;";
+        try {
+            conn.abrirConexion();
+            
+            Statement statement = conn.conex.createStatement();
+            //PreparedStatement stmt = conn.conex.prepareStatement(query);
+            
+            ResultSet rs = statement.executeQuery(query);
+            while (rs.next()) { 
+                datos = rs.getString("_anticipo");
+            }
+            System.out.println("datos: ");
+            System.out.println(datos);
+            conn.conex.close();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return null;
     }
 }
