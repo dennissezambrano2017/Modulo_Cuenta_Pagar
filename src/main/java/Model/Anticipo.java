@@ -91,7 +91,7 @@ public class Anticipo {
     public static List<Anticipo> getAll() {
         List<Anticipo> anticipos = new ArrayList<>();
         Conexion conn = new Conexion();
-        String query =  "select \"idAnticipo\", importe, \"fechaRegistro\", descripcion, \"idProveedor\"\n" +
+        String query =  "select \"idanticipo\", importe, \"fecharegistro\", descripcion, \"idproveedor\"\n" +
                         "    from anticipo;";
         try {
             conn.abrirConexion();
@@ -99,11 +99,11 @@ public class Anticipo {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Anticipo anticipo = new Anticipo();
-                anticipo.setId_anticipo(rs.getInt("idAnticipo"));
+                anticipo.setId_anticipo(rs.getInt("idanticipo"));
                 anticipo.setImporte(rs.getDouble("importe"));
-                anticipo.setFechaRegistro(rs.getObject("fechaRegistro", LocalDate.class));
+                anticipo.setFechaRegistro(rs.getObject("fecharegistro", LocalDate.class));
                 anticipo.setDescripcion(rs.getString("descripcion"));
-                anticipo.setId_proveedor(rs.getInt("idProveedor"));
+                anticipo.setId_proveedor(rs.getInt("idproveedor"));
                 
                 anticipos.add(anticipo);
             }
@@ -136,7 +136,7 @@ public class Anticipo {
         System.out.println(this.id_proveedor);
         
         Conexion conn = new Conexion();
-        String query =  "insert into anticipo(importe, \"fechaRegistro\", descripcion, \"idProveedor\")\n" +
+        String query =  "insert into anticipo(importe, \"fecharegistro\", descripcion, \"idproveedor\")\n" +
                         "    values (?, ?, ?, ?);";
         try {
             conn.abrirConexion();
@@ -168,8 +168,8 @@ public class Anticipo {
         System.out.println(this.id_proveedor);
         
         Conexion conn = new Conexion();
-        String query =  "update anticipo set \"importe\"=?, \"fechaRegistro\"=?, descripcion=?, \"idProveedor\"=?\n" +
-                        "    where \"idAnticipo\"=?;";
+        String query =  "update anticipo set \"importe\"=?, \"fecharegistro\"=?, descripcion=?, \"idproveedor\"=?\n" +
+                        "    where \"idanticipo\"=?;";
         try {
             conn.abrirConexion();
             
