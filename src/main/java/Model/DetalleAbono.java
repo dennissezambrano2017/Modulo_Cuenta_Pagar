@@ -75,8 +75,8 @@ public class DetalleAbono {
     
      public String getSentencia(String proveedor)
     {
-         String sentencia = String.format("INSERT INTO public.\"detalleAbono\"(\"idDetalleAbono\", pago, \"idAbonoProveedor\", periodo, idfactura)\n" +
-         "VALUES (((select max(\"idDetalleAbono\")from public.\"detalleAbono\") + 1),'%1$s',(select max(\"idAbonoProveedor\")from public.\"abonoProveedor\"),'%2$s',18);",
+         String sentencia = String.format("INSERT INTO detalleabono(iddetalleabono, pago, idabonoproveedor, periodo, idfactura)\n" +
+         "VALUES (((select max(iddetalleabono)from detalleabono) + 1),'%1$s',(select max(idabonoproveedor)from abonoproveedor),'%2$s',18);",
                  getPago(),getPeriodo()); 
         System.out.print(sentencia);
         return sentencia;

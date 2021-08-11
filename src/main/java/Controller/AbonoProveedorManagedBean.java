@@ -14,11 +14,13 @@ import Model.TipoBanco;
 import Model.Factura;
 import Model.Proveedor;
 import java.io.Serializable;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -37,7 +39,10 @@ public class AbonoProveedorManagedBean implements Serializable {
     private FacturaDAO facturaDAO;
     private List<AbonoProveedor> listaAbonos;
     private List<Factura> listaFactura;
+    private List<Proveedor> listaProveedor;
     private Factura factura;
+    private String nom;
+    private String cod;
 
     public AbonoProveedorManagedBean() {
         abonoproveedor = new AbonoProveedor();
@@ -47,6 +52,7 @@ public class AbonoProveedorManagedBean implements Serializable {
         proveedor = new Proveedor();
         listaAbonos = new ArrayList<>();
         listaFactura = new ArrayList<>();
+        listaProveedor = new ArrayList<>();
         abonoDAO = new AbonoProveedorDAO();
         listaAbonos = abonoDAO.llenar();
         factura = new Factura();
@@ -62,19 +68,20 @@ public class AbonoProveedorManagedBean implements Serializable {
         System.out.println(listaFactura);
     }
 
-    public void enviar() {
+    public void enviar(List<Factura> listafactura) {
         this.abonoDAO = new AbonoProveedorDAO(abonoproveedor);
         System.out.println(tipoPago.getDescripcion() + "--" + tipoBanco.getDescrpcion() + "--" + abonoproveedor.getRuc());
+        
+        System.out.println(getListaFactura().size() + "--");
         try {
             this.abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(), tipoBanco.getDescrpcion(), abonoproveedor.getRuc()));
             try {
-                System.out.println("Si entro1"+factura.getNfactura());
-                int index=0;
-                while(index>listaFactura.size()){
+                int index = 0;
+                while (index > listaFactura.size()) {
                     System.out.println("Si entro2");
-                    System.out.println(factura.getNfactura()+"-"+factura.getFecha()+"-"+
-                            factura.getVencimiento()+"-"+factura.getImporte()+"-"+
-                            factura.getPendiente()+"-"+factura.getPagado());
+                    System.out.println(factura.getNfactura() + "-" + factura.getFecha() + "-"
+                            + factura.getVencimiento() + "-" + factura.getImporte() + "-"
+                            + factura.getPendiente() + "-" + factura.getPagado());
                 }
 //                this.abonoDAO.insertar(detalleAbono.getSentencia(proveedor.getCodigo()));
 //                listaAbonos = abonoDAO.llenar();
@@ -87,11 +94,11 @@ public class AbonoProveedorManagedBean implements Serializable {
             System.out.println(e + "Error en registrar Cabezera Abono");
         }
     }
-    
-    public List<Factura> BuscarFactura( String ruc){
+
+    public List<Factura> BuscarFactura(String ruc) {
         System.out.println("Estoy buscandi factura");
-        listaFactura=abonoDAO.llenar(abonoproveedor.BuscarFactura(ruc));
-        System.out.println(listaFactura.size()+"--");
+        this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarFactura(ruc));
+        System.out.println(getListaFactura().size() + "--");
         return listaFactura;
     }
 
@@ -171,6 +178,37 @@ public class AbonoProveedorManagedBean implements Serializable {
     public void setFactura(Factura factura) {
         this.factura = factura;
     }
-    
-    
+
+    public FacturaDAO getFacturaDAO() {
+        return facturaDAO;
+    }
+
+    public void setFacturaDAO(FacturaDAO facturaDAO) {
+        this.facturaDAO = facturaDAO;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getCod() {
+        return cod;
+    }
+
+    public void setCod(String cod) {
+        this.cod = cod;
+    }
+
+    public List<Proveedor> getListaProveedor() {
+        return listaProveedor;
+    }
+
+    public void setListaProveedor(List<Proveedor> listaProveedor) {
+        this.listaProveedor = listaProveedor;
+    }
+
 }

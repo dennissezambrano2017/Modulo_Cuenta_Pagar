@@ -165,8 +165,8 @@ public class AbonoProveedor {
     {
         
         LocalDate date = LocalDate.now();
-        String sentencia = String.format("INSERT INTO public.\"abonoProveedor\"( referencia, \"idAsiento\", \"idTipoPago\", \"idTipoBanco\", \"idProveedor\", fecha)\n" +
-        "VALUES ('%1$s',%2$d,(select t.\"idTipoPago\" FROM public.\"tipoPago\" t where t.descripcion='%3$s'),(select t.\"idTipoBanco\" FROM public.\"tipoBanco\" t where t.descripcion='%4$s'),"
+        String sentencia = String.format("INSERT INTO abononproveedor( referencia, idasiento, idtipopago, idtipobanco, idproveedor, fecha)\n" +
+        "VALUES ('%1$s',%2$d,(select t.idtipopago FROM public.tipopago t where t.descripcion='%3$s'),(select t.idtipobanco FROM tipobanco t where t.descripcion='%4$s'),"
                 + "(select idproveedor from proveedor pro where pro.codigo ='%5$s'),'%6$s');"
                 ,getReferencia(),1,descripcionPago,descripcionBanco,proveedor,date.toString());
         System.out.print(sentencia);
