@@ -6,7 +6,6 @@
 package Model;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  *
@@ -21,7 +20,7 @@ public class AbonoProveedor {
     private int idTipoPago;
     private int idTipoBanco;
     private int idProveedor;
-    private Date fecha;
+    private LocalDate fecha;
     private float Pago;
     private String periodo;
     private String detalletipoPago;
@@ -32,7 +31,7 @@ public class AbonoProveedor {
     public AbonoProveedor() {
     }
 
-    public AbonoProveedor(String referencia, int idProveedor, Date fecha, 
+    public AbonoProveedor(String referencia, int idProveedor, LocalDate fecha, 
             float Pago, String periodo, String detalletipoPago, 
             String nombreProveedor) {
         this.referencia = referencia;
@@ -47,7 +46,7 @@ public class AbonoProveedor {
     
     public AbonoProveedor(int idAbonoProveedor, String referencia,
             int idAsiento, int idTipoPago, int idTipoBanco,
-            int idProveedor, Date fecha) {
+            int idProveedor, LocalDate fecha) {
         this.idAbonoProveedor = idAbonoProveedor;
         this.referencia = referencia;
         this.idAsiento = idAsiento;
@@ -105,11 +104,11 @@ public class AbonoProveedor {
         this.idProveedor = idProveedor;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
@@ -161,14 +160,13 @@ public class AbonoProveedor {
         this.ruc = ruc;
     }
     
-    public String getSentencia(String descripcionPago, String descripcionBanco, String proveedor)
+    public String getSentencia(String descripcionPago, String descripcionBanco, String proveedor,LocalDate fecha)
     {
         
-        LocalDate date = LocalDate.now();
         String sentencia = String.format("INSERT INTO abononproveedor( referencia, idasiento, idtipopago, idtipobanco, idproveedor, fecha)\n" +
         "VALUES ('%1$s',%2$d,(select t.idtipopago FROM public.tipopago t where t.descripcion='%3$s'),(select t.idtipobanco FROM tipobanco t where t.descripcion='%4$s'),"
                 + "(select idproveedor from proveedor pro where pro.codigo ='%5$s'),'%6$s');"
-                ,getReferencia(),1,descripcionPago,descripcionBanco,proveedor,date.toString());
+                ,getReferencia(),1,descripcionPago,descripcionBanco,proveedor,fecha);
         System.out.print(sentencia);
         return sentencia;
     }

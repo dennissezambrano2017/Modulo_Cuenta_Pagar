@@ -73,11 +73,12 @@ public class DetalleAbono {
         this.idFactura = idFactura;
     }
     
-     public String getSentencia(String proveedor)
+     public String getSentencia(String nfactura)
     {
-         String sentencia = String.format("INSERT INTO detalleabono(iddetalleabono, pago, idabonoproveedor, periodo, idfactura)\n" +
-         "VALUES (((select max(iddetalleabono)from detalleabono) + 1),'%1$s',(select max(idabonoproveedor)from abonoproveedor),'%2$s',18);",
-                 getPago(),getPeriodo()); 
+         String sentencia = String.format("INSERT INTO public.detalleabono(\n" +
+"	idabonoproveedor, pago, periodo, idfactura)\n" +
+"	VALUES ((select max(idabonoproveedor)from abonoproveedor), '%1$s','%2$s',(select f.idfactura from factura f\n" +
+"       where f.nfactura=%3$d));",getPago(),getPeriodo(),nfactura); 
         System.out.print(sentencia);
         return sentencia;
     }

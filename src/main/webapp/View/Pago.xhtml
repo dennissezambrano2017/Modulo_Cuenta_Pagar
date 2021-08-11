@@ -160,14 +160,16 @@
 
                                     </div>
                                     <div class="p-field p-col">
-                                        <p:outputLabel for="fecha" value="Fecha:" />
-                                        <p:datePicker id="fecha" showIcon="true"/>
+                                        <p:outputLabel for="fecha" value="Fecha:"/>
+                                        <p:datePicker id="fecha" 
+                                                      value="#{abonoProveedorMB.abonoproveedor.fecha}" />
                                     </div>
                                     <div class="p-field p-col">
                                         <label for="periodo" >
                                             Periodo: 
                                         </label>
-                                        <p:inputText id="peri" type="text" /><div class="p-field p-col"></div>
+                                        <p:inputText id="peri" type="text"
+                                                     value="#{abonoProveedorMB.abonoproveedor.periodo}"/><div class="p-field p-col"></div>
                                     </div>
                                     <div class="p-field p-col"></div>
                                 </div>
@@ -240,7 +242,7 @@
 
                             <f:facet name="footer">
                                 <p:commandButton value="Aceptar" icon="pi pi-check" actionListener="#{abonoProveedorMB.enviar(pagoFactura)}"
-                                                 update="pago-content" process="pago-content @this"
+                                                 update=":form:proveedortabla" process="pago-content @this"
                                                  styleClass="ui-button-success" />
                                 <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('managePagoDialog').hide()"
                                                  class="ui-button-secondary" styleClass="ui-button-danger"

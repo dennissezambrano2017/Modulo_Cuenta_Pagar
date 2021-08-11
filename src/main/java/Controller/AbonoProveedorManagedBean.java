@@ -15,6 +15,7 @@ import Model.Factura;
 import Model.Proveedor;
 import java.io.Serializable;
 import java.sql.Array;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -70,35 +71,54 @@ public class AbonoProveedorManagedBean implements Serializable {
 
     public void enviar(List<Factura> listafactura) {
         this.abonoDAO = new AbonoProveedorDAO(abonoproveedor);
-        System.out.println(tipoPago.getDescripcion() + "--" + tipoBanco.getDescrpcion() + "--" + abonoproveedor.getRuc());
+        int result;
+        System.out.println(tipoPago.getDescripcion() + "--"
+                + tipoBanco.getDescrpcion() + "--" + abonoproveedor.getRuc());
         
-        System.out.println(getListaFactura().size() + "--");
         try {
-            this.abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(), tipoBanco.getDescrpcion(), abonoproveedor.getRuc()));
+            this.abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(),
+                    tipoBanco.getDescrpcion(), abonoproveedor.getRuc(), abonoproveedor.getFecha()));
             try {
+                this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarFactura(abonoproveedor.getRuc()));
+                System.out.println(this.listaFactura.size() + "--");
                 int index = 0;
-                while (index > listaFactura.size()) {
-                    System.out.println("Si entro2");
-                    System.out.println(factura.getNfactura() + "-" + factura.getFecha() + "-"
-                            + factura.getVencimiento() + "-" + factura.getImporte() + "-"
-                            + factura.getPendiente() + "-" + factura.getPagado());
+                while (index > getListaFactura().size()) {
+                    this.abonoDAO.insertar(detalleAbono.getSentencia(listaFactura.get(index).getNfactura()));
+                    index++;
                 }
-//                this.abonoDAO.insertar(detalleAbono.getSentencia(proveedor.getCodigo()));
-//                listaAbonos = abonoDAO.llenar();
-//                System.out.println("EXITO");
-                ActualizarFilas();
-            } catch (Exception e) {
-                System.out.println(e + "Error en registrar Detalle Abono");
+                System.out.println("EXITO");
+            } catch (Exception ex) {
+                System.err.println(ex + ":Error en guardar los datos en BD");
             }
         } catch (Exception e) {
             System.out.println(e + "Error en registrar Cabezera Abono");
         }
     }
 
-    public List<Factura> BuscarFactura(String ruc) {
+    public int InsertDetail(String ruc) {
         System.out.println("Estoy buscandi factura");
+        int result = 0;
+        try {
+            this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarFactura(ruc));
+            System.out.println(listaFactura.size() + "--");
+            int index = 0;
+            while (index > getListaFactura().size()) {
+                this.abonoDAO.insertar(detalleAbono.getSentencia(listaFactura.get(index).getNfactura()));
+                index++;
+            }
+            result = 1;
+            System.out.println("EXITO");
+            return result;
+        } catch (Exception ex) {
+            result = 0;
+            System.err.println(ex + ":Error en guardar los datos en BD");
+        }
+
+        return result;
+    }
+
+    public List<Factura> BuscarFactura(String ruc) {
         this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarFactura(ruc));
-        System.out.println(getListaFactura().size() + "--");
         return listaFactura;
     }
 
