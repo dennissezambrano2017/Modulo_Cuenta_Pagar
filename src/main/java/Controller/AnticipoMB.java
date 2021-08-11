@@ -3,6 +3,7 @@ package Controller;
 import Model.Anticipo;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -25,14 +26,15 @@ public class AnticipoMB  {
     private Anticipo selected_anticipo;
     
     public AnticipoMB() {
-        this.anticipos = Anticipo.getAll(); // trae solo los datos de los anticipos
-        Anticipo.GetAllDBProveedor(this.anticipos); // trae los proveedores de cada anticipo.
+        //this.anticipos = Anticipo.getAll(); // trae solo los datos de los anticipos
+        //Anticipo.GetAllDBProveedor(this.anticipos); // trae los proveedores de cada anticipo.
+        
         this.selected_anticipo = new Anticipo();
-        this.selected_anticipo.setFechaRegistro(LocalDate.now());
+        this.selected_anticipo.setFecha(new Date());
         this.selected_anticipo.setDescripcion("");
         this.selected_anticipo.setImporte(0.0);
         
-        Anticipo.getAllJson();
+        this.anticipos = Anticipo.getAllJson();
     }
 
     public List<Anticipo> getAnticipos() {
@@ -58,7 +60,7 @@ public class AnticipoMB  {
     public void openNew() {
         this.selected_anticipo.setId_proveedor(1);
         this.selected_anticipo.setImporte(0.0);
-        this.selected_anticipo.setFechaRegistro(LocalDate.now());
+        this.selected_anticipo.setFecha(new Date());
         this.selected_anticipo.setDescripcion("descripción");
         System.out.println("Nuevo anticipo");
     }
@@ -83,8 +85,8 @@ public class AnticipoMB  {
         }
         
         
-        this.anticipos = Anticipo.getAll(); // trae solo los datos de los anticipos
-        Anticipo.GetAllDBProveedor(this.anticipos); // trae los proveedores de cada anticipo.
+        this.anticipos = Anticipo.getAllJson();  // Actualiza los datos de la tabla
+        
         PrimeFaces.current().executeScript("PF('manageAnticipoDialog').hide()");
         PrimeFaces.current().ajax().update(":form:dt_anticipos");
         //PrimeFaces.current().executeScript("location.reload()");

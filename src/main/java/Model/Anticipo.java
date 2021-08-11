@@ -2,12 +2,17 @@
 package Model;
 
 import Controller.Conexion;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLType;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,10 +24,10 @@ public class Anticipo {
     
     private String id_anticipo;
     private Double importe;
-    private LocalDate fechaRegistro;
+    private Date fecha;
     private String descripcion;
     private int id_proveedor;
-    private Proveedor _Proveedor;
+    private Proveedor proveedor;
 
     public Anticipo() {
     }
@@ -45,13 +50,25 @@ public class Anticipo {
         this.importe = importe;
     }
 
-    public LocalDate getFechaRegistro() {
-        return fechaRegistro;
+    public Date getFecha() {
+        return fecha;
     }
 
-    public void setFechaRegistro(LocalDate fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
+
+    
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
+    }
+
+    
 
     public String getDescripcion() {
         return descripcion;
@@ -69,20 +86,14 @@ public class Anticipo {
         this.id_proveedor = id_proveedor;
     }
 
-    public Proveedor getProveedor() {
-        return _Proveedor;
-    }
-
-    public void setProveedor(Proveedor _Proveedor) {
-        this._Proveedor = _Proveedor;
-    }
+  
     
     // Metodo aux para comunicación con db
     public Anticipo GetDBProveedor() {
         if (this.id_proveedor == 0) {
             return null;
         }
-        this._Proveedor = Proveedor.getOneProveedor(this.id_proveedor);
+        this.proveedor = Proveedor.getOneProveedor(this.id_proveedor);
         return this;
     }
     
@@ -103,7 +114,7 @@ public class Anticipo {
                 Anticipo anticipo = new Anticipo();
                 anticipo.setId_anticipo(rs.getString("id_anticipo"));
                 anticipo.setImporte(rs.getDouble("importe"));
-                anticipo.setFechaRegistro(rs.getObject("fecha", LocalDate.class));
+                anticipo.setFecha(rs.getObject("fecha", Date.class));
                 anticipo.setDescripcion(rs.getString("descripcion"));
                 anticipo.setId_proveedor(rs.getInt("id_proveedor"));
                 
@@ -133,7 +144,7 @@ public class Anticipo {
     public void InsertDB() {
         System.out.println("Insertar objecto a la db");
         System.out.println(this.id_anticipo);
-        System.out.println(this.fechaRegistro);
+        System.out.println(this.fecha);
         System.out.println(this.importe);
         System.out.println(this.id_proveedor);
         
@@ -145,7 +156,7 @@ public class Anticipo {
             PreparedStatement stmt = conn.conex.prepareStatement(query);
             stmt.setInt(1, this.id_proveedor);
             stmt.setDouble(2, this.importe);
-            stmt.setObject(3, this.fechaRegistro);
+            stmt.setObject(3, this.fecha);
             stmt.setString(4, this.descripcion);
             
             stmt.execute();
@@ -164,7 +175,7 @@ public class Anticipo {
     public void UpdateDB() {
         System.out.println("Update objecto a la db");
         System.out.println(this.id_anticipo);
-        System.out.println(this.fechaRegistro);
+        System.out.println(this.fecha);
         System.out.println(this.importe);
         System.out.println(this.id_proveedor);
         
@@ -176,7 +187,8 @@ public class Anticipo {
             
             PreparedStatement stmt = conn.conex.prepareStatement(query);
             stmt.setDouble(1, this.importe);
-            stmt.setObject(2, this.fechaRegistro);
+            //stmt.setDate(2, (java.sql.Date) this.fecha);
+            stmt.setObject(2, new java.sql.Date(this.fecha.getTime()));
             stmt.setString(3, this.descripcion);
             stmt.setInt(4, this.id_proveedor);
             stmt.setString(5, this.id_anticipo);
@@ -212,6 +224,27 @@ public class Anticipo {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        return null;
+        
+        // Contenedor de los datos.
+        List<Anticipo> anticiposDB = null;
+        
+        try {
+            Gson gson = new Gson();
+            Type collectionType = new TypeToken<List<Anticipo>>(){}.getType();
+            // Deserializamos los datos de json a java objeto.
+            anticiposDB = gson.fromJson(datos, collectionType);
+            
+            System.out.println("Lista de json, convertida a objeto java");
+            anticiposDB.forEach(ant -> {
+                System.out.println(ant.getId_anticipo());
+                System.out.println(ant.getDescripcion());
+            });
+            
+        } catch (Exception ex) {
+            System.out.println("Error gson: " + ex.getMessage());
+        }
+        
+        
+        return anticiposDB;
     }
 }

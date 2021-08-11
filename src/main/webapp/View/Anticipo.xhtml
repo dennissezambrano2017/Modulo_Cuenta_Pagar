@@ -48,8 +48,8 @@
                         
                         <p:column selectionMode="multiple" exportable="false"></p:column>
 
-                        <p:column headerText="Fecha Registro" sortBy="#{anticipo.fechaRegistro}">
-                            <h:outputText value="#{anticipo.fechaRegistro}"/>
+                        <p:column headerText="Fecha Registro" sortBy="#{anticipo.fecha}">
+                            <h:outputText value="#{anticipo.fecha}"/>
                         </p:column>
                         
                         <p:column headerText="ID" sortBy="#{anticipo.id_anticipo}">
@@ -111,7 +111,7 @@
 
                                     <div class="p-field p-col">
                                         <p:outputLabel for="fechaRegistro" >Fecha</p:outputLabel>
-                                        <p:datePicker id="fechaRegistro" value="#{anticipoMB.selected_anticipo.fechaRegistro}" required="true" />
+                                        <p:datePicker id="fechaRegistro" value="#{anticipoMB.selected_anticipo.fecha}" required="true" />
                                     </div>
                                 </div>
 
