@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Anticipo;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -124,5 +125,10 @@ public class AnticipoMB {
         PrimeFaces.current().executeScript("PF('delete_anticipo_dialog').hide()");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Anticipo Eliminado"));
         
+    }
+    
+    // FormatoFecha da el formato a la fecha que se presentara en la tabla.
+    public static String FormatoFecha(Date fecha) {
+        return new SimpleDateFormat("dd-MM-yyyy").format(fecha);
     }
 }

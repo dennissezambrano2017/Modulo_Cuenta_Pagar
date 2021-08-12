@@ -32,6 +32,7 @@
                         class="p-mt-3" 
                         id="dt_anticipos" 
                         reflow="true"
+                        size="small"
                         value="#{anticipoMB.anticipos}" 
                         rowKey="#{anticipo.id_anticipo}" 
                         var="anticipo">
@@ -51,7 +52,7 @@
 
 
                         <p:column headerText="Fecha Registro" sortBy="#{anticipo.fecha}">
-                            <h:outputText value="#{anticipo.fecha}"/>
+                            <h:outputText value="#{anticipoMB.FormatoFecha(anticipo.fecha)}"/>
                         </p:column>
 
                         <p:column headerText="ID" sortBy="#{anticipo.id_anticipo}">

@@ -13,13 +13,13 @@
         <h:outputStylesheet name="css/default.css"/>
         <h:outputStylesheet name="css/estilo.css"/>
         <h:outputStylesheet name="css/primeflex.min.css" />        
-        
-        
+
+
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' />
     </h:head>
 
     <h:body>
-        
+
         <ui:insert name="top">
             <div class="navbar">
                 <a href="/Modulo_Cuenta_Pagar/">
@@ -29,55 +29,55 @@
             </div>
         </ui:insert>
 
-        <div>
-            <div id="left">
-                <ui:insert name="left"></ui:insert>
-                <div>
-                    <ui:insert name="left"> 
-                        <h:form>
-                            <p:growl>
-                                <p:autoUpdate/>
-                            </p:growl>
-                            <p:panelMenu  >
-                                <p:submenu label ="Cuentas por pagar" expanded="true">
-                                    <p:menuitem value="Proveedores"
-                                                icon="pi pi-refresh"
-                                                outcome="/View/Proveedor"/>
-                                    <p:menuitem value="Facturas Compra"
-                                                icon="pi pi-file-o"
-                                                outcome="/View/Factura"/>
-                                    <p:submenu label="Pagos">
-                                        <p:menuitem value="Autorizar pago"
-                                                    style="display: flex; align-items: center; text-decoration: none;"
-                                                    icon="pi pi-check-square"
-                                                    outcome="/View/AutorizacionPago"/>
-                                        <p:menuitem value="Realizar Pago"
-                                                    style="display: flex; align-items: center; text-decoration: none;"
-                                                    icon="pi pi-money-bill"
-                                                    outcome="/View/Pago"/>
-                                    </p:submenu>
-                                    
-                                    <p:submenu label="Reportes">
-                                        <p:menuitem value="Generar calendario de pagos"
-                                                    icon="pi pi-file-pdf" 
-                                                    style="display: flex; align-items: center; text-decoration: none;"
-                                                    outcome="/View/Reportes/Calendario"/>
-                                        
-                                        
-                                    </p:submenu>
-                                    <p:menuitem value="Anticipos"
-                                                icon="pi pi-file-o"
-                                                outcome="/View/Anticipo"/>
-                                      <p:menuitem value="Compro. Retención"
-                                                icon="pi pi-file-o"
-                                                outcome="/View/Comprobante"/>
-                                </p:submenu>                                      
-                            </p:panelMenu>
-                        </h:form>
-                    </ui:insert>
-                </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-4 p-lg-3 p-p-3" >
+
+                <ui:insert name="left"> 
+                    <h:form>
+                        <p:growl>
+                            <p:autoUpdate/>
+                        </p:growl>
+                        <p:panelMenu  >
+                            <p:submenu label ="Cuentas por pagar">
+                                <p:menuitem value="Proveedores"
+                                            icon="pi pi-refresh"
+                                            outcome="/View/Proveedor"/>
+                                <p:menuitem value="Facturas Compra"
+                                            icon="pi pi-file-o"
+                                            outcome="/View/Factura"/>
+                                <p:submenu label="Pagos">
+                                    <p:menuitem value="Autorizar pago"
+                                                style="display: flex; align-items: center; text-decoration: none;"
+                                                icon="pi pi-check-square"
+                                                outcome="/View/AutorizacionPago"/>
+                                    <p:menuitem value="Realizar Pago"
+                                                style="display: flex; align-items: center; text-decoration: none;"
+                                                icon="pi pi-money-bill"
+                                                outcome="/View/Pago"/>
+                                </p:submenu>
+
+                                <p:submenu label="Reportes">
+                                    <p:menuitem value="Generar calendario de pagos"
+                                                icon="pi pi-file-pdf" 
+                                                style="display: flex; align-items: center; text-decoration: none;"
+                                                outcome="/View/Reportes/Calendario"/>
+
+
+                                </p:submenu>
+                                <p:menuitem value="Anticipos"
+                                            icon="pi pi-file-o"
+                                            outcome="/View/Anticipo"/>
+                                <p:menuitem value="Compro. Retención"
+                                            icon="pi pi-file-o"
+                                            outcome="/View/Comprobante"/>
+                            </p:submenu>                                      
+                        </p:panelMenu>
+                    </h:form>
+                </ui:insert>
+
             </div>
-            <div id="content" class="left_content">
+
+            <div class="p-col-12 p-md-8 p-lg-9">
                 <ui:insert name="content">
 
                     <!-- Contenido por defecto. -->
@@ -86,12 +86,13 @@
                         <h2>Bienvenido a ERP Contable</h2>
                         <p>Descripción del sistema</p>
                     </div>
-                    
+
                 </ui:insert>
             </div>
+
         </div>
-        
-        
+
+
     </h:body>
 
 </html>
