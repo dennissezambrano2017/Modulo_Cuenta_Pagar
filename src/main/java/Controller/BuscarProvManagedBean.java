@@ -107,7 +107,8 @@ public class BuscarProvManagedBean implements Serializable {
         Object newValue = event.getNewValue();
 
         if (newValue != null && !newValue.equals(oldValue)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", 
+                    "Old: " + oldValue + ", New:" + newValue);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -118,7 +119,11 @@ public class BuscarProvManagedBean implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "New:" + obj);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
-}
+    }
+    public void Envio()
+    {
+        abonoMB.enviar(listaFactura);
+    }
 
     public List<Factura> getListaFactura() {
         return listaFactura;

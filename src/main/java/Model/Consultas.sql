@@ -46,3 +46,16 @@ select idproveedor, codigo, razonsocial, ruc, nombre, direccion, email, webpage,
 -- ACTUALIZA FACTURA -> PROVEEDOR.
 update factura set idproveedor=1
     where idfactura=30;
+
+
+-- selecionar todos los registros de anticipo
+select "idAnticipo", importe, "fechaRegistro", descripcion, "idProveedor"
+    from anticipo;
+
+-- insertar un anticipo
+insert into anticipo(importe, "fechaRegistro", descripcion, "idProveedor")
+    values (222, '10/08/2021', 'Reparación', 1);
+
+-- actualizar anticipo
+update anticipo set "importe"=33, "fechaRegistro"='10/05/2021', descripcion='sdffsdf', "idProveedor"=1
+    where "idAnticipo"=17;
