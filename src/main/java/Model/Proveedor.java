@@ -28,52 +28,8 @@ public class Proveedor {
     String telefono;
     boolean estado;
 
-    Double descuento;
-    int diasNeto;
-    int diasDescuento;
-    int cantDiasVencidos;
-    String descripcion;
-
-    public Double getDescuento() {
-        return descuento;
-    }
-
-    public void setDescuento(Double descuento) {
-        this.descuento = descuento;
-    }
-
-    public int getDiasNeto() {
-        return diasNeto;
-    }
-
-    public void setDiasNeto(int diasNeto) {
-        this.diasNeto = diasNeto;
-    }
-
-    public int getDiasDescuento() {
-        return diasDescuento;
-    }
-
-    public void setDiasDescuento(int diasDescuento) {
-        this.diasDescuento = diasDescuento;
-    }
-
-    public int getCantDiasVencidos() {
-        return cantDiasVencidos;
-    }
-
-    public void setCantDiasVencidos(int cantDiasVencidos) {
-        this.cantDiasVencidos = cantDiasVencidos;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
+  
+  
     public Proveedor(String codigo, String nombre, String email,String direccion, String telefono, String contacto, boolean estado) {
         this.codigo = codigo;
         this.nombre = nombre;
