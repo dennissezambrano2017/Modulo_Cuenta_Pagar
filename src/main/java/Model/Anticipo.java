@@ -7,11 +7,8 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLType;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -138,9 +135,11 @@ public class Anticipo {
         });
         return anticipos;
     }
-    // Consulta
-    //insert into anticipo(importe, "fechaRegistro", descripcion, "idProveedor")
-    //  values (222, '10/08/2021', 'Reparación', 1);
+    
+    
+    // el metodo InsertDB, inserta el objeto anticipo a la base de datos
+    // mediante la funcion en postgres "insert_anticipo()" la cual se le pasa
+    // los parametros.
     public void InsertDB() {
         System.out.println("Insertar objecto a la db");
         System.out.println(this.id_anticipo);
@@ -156,7 +155,7 @@ public class Anticipo {
             PreparedStatement stmt = conn.conex.prepareStatement(query);
             stmt.setInt(1, this.id_proveedor);
             stmt.setDouble(2, this.importe);
-            stmt.setObject(3, this.fecha);
+            stmt.setObject(3, new java.sql.Date(this.fecha.getTime()));
             stmt.setString(4, this.descripcion);
             
             stmt.execute();
@@ -169,6 +168,8 @@ public class Anticipo {
         }
     }
     
+    // El metodo UpdateDB actualiza el objeto java, en la base de datos
+    // mediante el id_anticipo.
     // Consulta
     //update anticipo set "importe"=33, "fechaRegistro"='10/05/2021', descripcion='sdffsdf', "idProveedor"=1
     //where "idAnticipo"=17;
@@ -203,6 +204,33 @@ public class Anticipo {
         }
     }
     
+    public void deleteDB() {
+        System.out.println("Delete objecto a la db");
+        System.out.println(this.id_anticipo);
+        System.out.println(this.fecha);
+        System.out.println(this.importe);
+        System.out.println(this.id_proveedor);
+        
+        Conexion conn = new Conexion();
+        String query =  "delete from anticipo where id_anticipo=?;";
+        try {
+            conn.abrirConexion();
+            
+            PreparedStatement stmt = conn.conex.prepareStatement(query);
+            stmt.setString(1, this.getId_anticipo());
+            
+            stmt.execute();
+            
+            conn.conex.close();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    // El metodo getAllJson(), trae todos los anticipos con su proveedor,
+    // toda esta información es traida en formato json, la cual se deserializa
+    // con la biblioteca Gson de google.
     public static List<Anticipo> getAllJson() {
         String datos = null;
         Conexion conn = new Conexion();
@@ -217,8 +245,7 @@ public class Anticipo {
             while (rs.next()) { 
                 datos = rs.getString("_anticipo");
             }
-            System.out.println("datos: ");
-            System.out.println(datos);
+            
             conn.conex.close();
 
         } catch (Exception ex) {
@@ -234,11 +261,8 @@ public class Anticipo {
             // Deserializamos los datos de json a java objeto.
             anticiposDB = gson.fromJson(datos, collectionType);
             
-            System.out.println("Lista de json, convertida a objeto java");
-            anticiposDB.forEach(ant -> {
-                System.out.println(ant.getId_anticipo());
-                System.out.println(ant.getDescripcion());
-            });
+            System.out.println("Llegaron los datos correctamente.");
+            System.out.println(datos);
             
         } catch (Exception ex) {
             System.out.println("Error gson: " + ex.getMessage());
