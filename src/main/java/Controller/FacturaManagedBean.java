@@ -198,6 +198,34 @@ public class FacturaManagedBean implements Serializable {
             }
         }
     }
+    
+     public void dhFactura(Factura factura) {
+        System.out.print("HOLA SI ENTRE DELETE HABILITAR 1");
+        this.facturaDAO.dhabilitar(factura.getNfactura());
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Deshabilitada factura: " + factura.getNfactura()));
+        PrimeFaces.current().executeScript("location.reload()");
+    }
+
+    public String getDeleteButtonMessage() {
+        if (hasSelectedFactura()) {
+            int size = this.selectedFactura.size();
+            return size > 1 ? size + " products selected" : "1 product selected";
+        }
+        return "Delete";
+    }
+
+    public boolean hasSelectedFactura() {
+        return this.selectedFactura != null && !this.selectedFactura.isEmpty();
+    }
+
+    public void deleteSelectedFacturas() {
+        System.out.print("HOLA SI ENTRE DELETE HABILITAR 2");
+        this.facturaDAO.habilitar(this.listaFactura);
+        this.selectedFactura = null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Products Removed"));
+        PrimeFaces.current().ajax().update("form:messages");
+        PrimeFaces.current().executeScript("PF('dtFactura').clearFilters()");
+    }
 
     //ESTO ES DE PAOLA
     //    public boolean valores(){

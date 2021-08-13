@@ -39,18 +39,20 @@ public class FacturaDAO {
             try {
                 String sentencia = "SELECT f.idfactura,f.nfactura,f.descripcion,"
                         + "f.importe,f.pagado ,(f.importe - f.pagado) as pendiente,f.fecha,"
-                        + "f.vencimiento,f.estado, p.nombre from factura as f "
-                        + "INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor)";
+                        + "f.vencimiento,f.estado, p.nombre, f.habilitar from factura as f "
+                        + "INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor) "
+                        + "where habilitar = 1";
                 result = conexion.ejecutarConsulta(sentencia);
-                System.out.println("Factura: "+result.toString());
+                System.out.println("Factura: " + result.toString());
                 while (result.next()) {
                     listaFacturas.add(new Factura(result.getInt("idfactura"),
                             result.getString("nfactura"), result.getString("descripcion"),
-                            result.getFloat("importe"), result.getFloat("pagado"), 
+                            result.getFloat("importe"), result.getFloat("pagado"),
                             result.getFloat("pendiente"),
-                            result.getObject("fecha",LocalDate.class), 
-                            result.getObject("vencimiento",LocalDate.class),
-                            result.getInt("estado"), result.getString("nombre")));
+                            result.getObject("fecha", LocalDate.class),
+                            result.getObject("vencimiento", LocalDate.class),
+                            result.getInt("estado"), result.getString("nombre"),
+                            result.getInt("habilitar")));
                 }
                 result.close();
             } catch (SQLException ex) {
@@ -61,7 +63,7 @@ public class FacturaDAO {
         }
         return listaFacturas;
     }
-    
+
     public List<Factura> llenarP() {
         if (conexion.isEstado()) {
             try {
@@ -69,17 +71,18 @@ public class FacturaDAO {
                         + "f.importe,f.pagado ,(f.importe - f.pagado) as pendiente,f.fecha,"
                         + "f.vencimiento,f.estado, p.nombre from factura as f "
                         + "INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor) "
-                        +"where (f.importe - f.pagado) != 0";
+                        + "where (f.importe - f.pagado) != 0 and habilitar = 1";
                 result = conexion.ejecutarConsulta(sentencia);
-                System.out.println("Factura: "+result.toString());
+                System.out.println("Factura: " + result.toString());
                 while (result.next()) {
                     listaFacturas.add(new Factura(result.getInt("idfactura"),
                             result.getString("nfactura"), result.getString("descripcion"),
-                            result.getFloat("importe"), result.getFloat("pagado"), 
+                            result.getFloat("importe"), result.getFloat("pagado"),
                             result.getFloat("pendiente"),
-                            result.getObject("fecha",LocalDate.class), 
-                            result.getObject("vencimiento",LocalDate.class),
-                            result.getInt("estado"), result.getString("nombre")));
+                            result.getObject("fecha", LocalDate.class),
+                            result.getObject("vencimiento", LocalDate.class),
+                            result.getInt("estado"), result.getString("nombre"),
+                            result.getInt("habilitar")));
                 }
                 result.close();
             } catch (SQLException ex) {
@@ -90,68 +93,83 @@ public class FacturaDAO {
         }
         return listaFacturas;
     }
-    
-//    public List<Factura> llenarEdit(String nfactura) {
-//        if (conexion.isEstado()) {
-//            try {
-//                String sentencia = "SELECT f.nfactura,f.descripcion," 
-//                        +"f.importe,f.pagado,f.fecha,f.vencimiento,p.nombre " 
-//                        +"from factura as f INNER JOIN proveedor as p on "
-//                        + "(f.idproveedor = p.idproveedor) and f.nfactura ='"+nfactura+"'";
-//                result = conexion.ejecutarConsulta(sentencia);
-//                System.out.println("Factura: "+result.toString());
-//                while (result.next()) {
-//                    listaFacturas.add(new Factura(
-//                            result.getString("nfactura"), result.getString("descripcion"),
-//                            result.getFloat("importe"), result.getFloat("pagado"),
-//                            result.getObject("fecha",LocalDate.class), 
-//                            result.getObject("vencimiento",LocalDate.class),
-//                            result.getString("nombre")));
-//                    
-//                }
-//                System.out.print("ESTOY LLENANDO: "+sentencia);
-//                System.out.print(listaFacturas.size());
-//                result.close();
-//            } catch (SQLException ex) {
-//                System.out.println(ex.getMessage() + " error en conectarse");
-//            } finally {
-//                conexion.cerrarConexion();
-//            }
-//        }
-//        return listaFacturas;
-//    }
 
     public void Insertar(Factura factura) {
+        if (conexion.isEstado()) {
+            try {
         String cadena = "INSERT INTO public.factura("
-                + "nfactura, descripcion, importe, pagado, fecha, vencimiento,idproveedor)"
+                + "nfactura, descripcion, importe, pagado, fecha, vencimiento,idproveedor,habilitar)"
                 + " VALUES ('" + factura.getNfactura() + "','"
                 + factura.getDescripcion() + "'," + factura.getImporte() + ","
                 + factura.getPagado() + ",'" + factura.getFecha() + "','"
                 + factura.getVencimiento() + "',(Select idproveedor from proveedor p "
-                + " where p.ruc = '" + factura.getRuc()+ "'))";
+                + " where p.ruc = '" + factura.getRuc() + "'), 1)";
         System.out.print(cadena);
         conexion.Ejecutar2(cadena);
+            result.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage() + " error en conectarse");
+            } finally {
+                conexion.cerrarConexion();
+            }
+        }
+        
+    }
+
+    public void Actualizar(Factura factura) {
+        if (conexion.isEstado()) {
+            try {
+        String cadena = "update factura set "
+                + "descripcion = '" + factura.getDescripcion()
+                + "', importe = " + factura.getImporte()
+                + " , pagado = " + factura.getPagado()
+                + " , fecha = '" + factura.getFecha()
+                + "' ,vencimiento = '" + factura.getVencimiento()
+                + "', idproveedor = (Select idproveedor from proveedor "
+                + "p where p.ruc = '" + factura.getRuc() + "') "
+                + "where nfactura = '" + factura.getNfactura() + "'";
+        System.out.print(cadena);
+        conexion.Ejecutar2(cadena);
+        result.close();
+        } catch (SQLException ex) {
+                System.out.println(ex.getMessage() + " error en conectarse");
+            } finally {
+                conexion.cerrarConexion();
+            }
+        }
+    }
+
+    public void habilitar(List<Factura> selectedFactura) {
+
+        System.out.print("HOLA ESTOY EN MANAGE HABILITAR");
+        for (int i = 0; i < selectedFactura.size(); i++) {
+
+            System.out.println(selectedFactura.get(i).getNfactura());
+        }
     }
     
-    public void Actualizar(Factura factura) {
-        String cadena = "update factura set " +
-                "descripcion = '"+ factura.getDescripcion() + 
-                "', importe = " + factura.getImporte() + 
-                " , pagado = " + factura.getPagado() +
-                " , fecha = '" + factura.getFecha() + 
-                "' ,vencimiento = '"+ factura.getVencimiento() +
-                "', idproveedor = (Select idproveedor from proveedor " +
-                "p where p.ruc = '" + factura.getRuc()+ "') "+
-                "where nfactura = '" + factura.getNfactura() + "'";
+    public void dhabilitar(String n) {
+    System.out.print("HOLA ESTOY EN MANAGE HABILITAR UNO");
+        if (conexion.isEstado()) {
+            try {
+            String cadena = "update factura set "
+                + "habilitar = 0 "
+                + "where nfactura = '" + n + "'";
         System.out.print(cadena);
         conexion.Ejecutar2(cadena);
+        result.close();
+        } catch (SQLException ex) {
+                System.out.println(ex.getMessage() + " error en conectarse");
+            } finally {
+                conexion.cerrarConexion();
+            }
+        }
     }
 
     //Consultas
-    
-    public float buscarPagado(String nfactura){
+    public float buscarPagado(String nfactura) {
         float pagado = 0;
-         if (conexion.isEstado()) {
+        if (conexion.isEstado()) {
             try {
                 String sentencia = "select pagado from factura where nfactura= '"
                         + nfactura + "'";
