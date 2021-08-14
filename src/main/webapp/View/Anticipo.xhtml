@@ -90,26 +90,24 @@
 
                             <p:commandButton 
                                 icon="pi pi-trash" 
+                                actionListener="#{anticipoMB.setSelected_anticipo(anticipo)}"
                                 oncomplete="PF('delete_anticipo_dialog').show()"
                                 styleClass="ui-button-danger rounded-button" 
-                                process="@this"
                                 update=":form:delete_dialog">
-
-                                <f:setPropertyActionListener value="#{anticipo}" target="#{anticipoMB.selected_anticipo}"/>
 
                             </p:commandButton>
 
                         </p:column>
                     </p:dataTable>
 
-                    <!-- Dialogo -->
+                    <!-- Dialogo para registrar un nuevo anticipo -->
 
-                    <p:dialog header="Anticipo" showEffect="fade" modal="true" responsive="true" widgetVar="manageAnticipoDialog">
+                    <p:dialog class="p-m-3" header="Anticipo" showEffect="fade" modal="true" responsive="true" widgetVar="manageAnticipoDialog">
 
                         <p:outputPanel id="manage-anticipo-content" class="ui-fluid">
                             <p:outputPanel rendered="#{not empty anticipoMB.selected_anticipo}">
 
-                                <div class="p-field">
+                                <div class="p-field p-d-none">
                                     <p:outputLabel for="id" >ID</p:outputLabel>
                                     <p:inputText id="id" value="#{anticipoMB.selected_anticipo.id_anticipo}"  />
                                 </div>
@@ -120,12 +118,12 @@
                                 </div>
 
                                 <div class="p-formgrid p-grid">
-                                    <div class="p-field p-col">
+                                    <div class="p-field p-col-12 p-md-12 p-lg-6">
                                         <p:outputLabel for="importe" >Importe</p:outputLabel>
                                         <p:inputNumber id="importe" value="#{anticipoMB.selected_anticipo.importe}" required="true" />
                                     </div>
 
-                                    <div class="p-field p-col">
+                                    <div class="p-field p-col-12 p-md-12 p-lg-6">
                                         <p:outputLabel for="fechaRegistro" >Fecha</p:outputLabel>
                                         <p:datePicker id="fechaRegistro" value="#{anticipoMB.selected_anticipo.fecha}" required="true" />
                                     </div>
@@ -139,25 +137,33 @@
                             </p:outputPanel>
                         </p:outputPanel>
 
-                        <f:facet name="footer">
-                            <p:commandButton 
+                        <f:facet name="footer" >
+                            <div class="p-d-flex p-ai-center p-jc-end p-pt-3">
+                                <p:commandButton 
                                 value="Guardar" 
                                 update="manage-anticipo-content" 
                                 process="manage-anticipo-content @this"
                                 actionListener="#{anticipoMB.guardar_anticipo()}"/>
 
-                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageAnticipoDialog').hide()"
-                                             class="ui-button-secondary"/>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageAnticipoDialog').hide()"
+                                                 class="ui-button-secondary"/>
+                            </div>
+                            
                         </f:facet>
 
                     </p:dialog>
 
-                    <p:dialog id="delete_dialog" modal="true" widgetVar="delete_anticipo_dialog" showEffect="fade" width="500"
+                    <!-- Dialogo de confirmación para eliminar el registro(anticipo) -->
+                    <p:dialog id="delete_dialog" 
+                              modal="true" 
+                              widgetVar="delete_anticipo_dialog" 
+                              showEffect="fade" 
+                              responsive="true"
                               header="Confirmar" >
 
                         <p class="p-text-center p-mb-3">¿Desea eliminar el anticipo?</p>
 
-                        <div class="ui-fluid">
+                        <div class="ui-fluid p-d-none">
                             <p:inputText value="#{anticipoMB.selected_anticipo.id_anticipo}"></p:inputText>
                         </div>
 
@@ -167,8 +173,8 @@
                             <p:commandButton 
                                 value="Si" 
                                 icon="pi pi-check" 
-                                actionListener="#{anticipoMB.delete_anticipo()}" 
-                                oncomplete="PF('delete_anticipo_dialog').hide()"/>
+                                actionListener="#{anticipoMB.delete_anticipo(anticipoMB.selected_anticipo)}" 
+                                oncomplete="PF('delete_anticipo_dialog').hide()" />
 
                             <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
                                              onclick="PF('delete_anticipo_dialog').hide()"/>
