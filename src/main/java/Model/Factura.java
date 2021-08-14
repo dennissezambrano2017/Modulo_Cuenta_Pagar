@@ -7,10 +7,8 @@ package Model;
 import Controller.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -32,6 +30,7 @@ public class Factura {
     private String ruc;
     private int idasiento;
     private float pendiente;
+    private int habilitar;
 //double precision
     public Factura() {
     }
@@ -62,7 +61,7 @@ public class Factura {
     }
     
     //Diana: Constructor para mostrar
-    public Factura(int id, String nfactura, String descripcion, float importe, float pagado, float pendiente, LocalDate fecha, LocalDate vencimiento, int estado, String nombre) {
+    public Factura(int id, String nfactura, String descripcion, float importe, float pagado, float pendiente, LocalDate fecha, LocalDate vencimiento, int estado, String nombre, int habilitar) {
         this.id = id;
         this.nfactura = nfactura;
         this.descripcion = descripcion;
@@ -73,6 +72,7 @@ public class Factura {
         this.vencimiento = vencimiento;
         this.estado = estado;
         this.nombre = nombre;
+        this.habilitar = habilitar;
     }
 
     // Buscar factura
@@ -233,7 +233,7 @@ public class Factura {
             }
             conn.conex.close();
 
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return null;
         }
