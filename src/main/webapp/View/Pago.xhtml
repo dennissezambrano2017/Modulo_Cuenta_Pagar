@@ -11,6 +11,7 @@
         <ui:composition template="./../Plantilla/Plantilla.xhtml">
 
             <ui:define name="content">
+                <!--                <f:event type="preRenderView" listener="{abonoProveedorMB.mostrar()}"/>-->
                 <h:form id="form">
                     <div >
                         <p:panel >
@@ -21,24 +22,25 @@
                                 <p:toolbarGroup>
                                     <p:commandButton value="Nuevo" icon="pi pi-plus" 
                                                      update=":form:pago-content" oncomplete="PF('managePagoDialog').show()"
-                                                     styleClass="ui-button-success" style="margin-right: .5rem">
+                                                     styleClass="ui-button-success" style="margin-right: .5rem"
+                                                     process="@this">
                                         <p:resetInput target=":form:pago-content"/>
                                     </p:commandButton>
 
-<!--                                    <p:commandButton icon="pi pi-pencil" update=":form:pago-content"
-                                                     oncomplete="PF('managePagoDialog').show()"
-                                                     styleClass="ui-button-secondary" process="@this"
-                                                     value="Editar">
-                                        <f:setPropertyActionListener value="#{product}" target="#{crudView.selectedProduct}"/>
-                                        <p:resetInput target=":form:pago-content"/>
-                                    </p:commandButton>
-                                    <p:commandButton id="delete-products-button" value="Eliminar #{crudView.deleteButtonMessage}"
-                                                     icon="pi pi-trash" actionListener="#{crudView.deleteSelectedProducts}"
-                                                     styleClass="ui-button-danger" disabled="#{!crudView.hasSelectedProducts()}"
-                                                     update="@this"> 
-                                        <p:confirm header="Confirmation" message="Delete the selected products?"
-                                                   icon="pi pi-exclamation-triangle"/>
-                                    </p:commandButton>-->
+                                    <!--                                    <p:commandButton icon="pi pi-pencil" update=":form:pago-content"
+                                                                                         oncomplete="PF('managePagoDialog').show()"
+                                                                                         styleClass="ui-button-secondary" process="@this"
+                                                                                         value="Editar">
+                                                                            <f:setPropertyActionListener value="#{product}" target="#{crudView.selectedProduct}"/>
+                                                                            <p:resetInput target=":form:pago-content"/>
+                                                                        </p:commandButton>
+                                                                        <p:commandButton id="delete-products-button" value="Eliminar #{crudView.deleteButtonMessage}"
+                                                                                         icon="pi pi-trash" actionListener="#{crudView.deleteSelectedProducts}"
+                                                                                         styleClass="ui-button-danger" disabled="#{!crudView.hasSelectedProducts()}"
+                                                                                         update="@this"> 
+                                                                            <p:confirm header="Confirmation" message="Delete the selected products?"
+                                                                                       icon="pi pi-exclamation-triangle"/>
+                                                                        </p:commandButton>-->
                                     <p:commandButton value="Buscar" icon="pi pi-search" 
                                                      oncomplete="PF('BuscarPago').show()"
                                                      styleClass="ui-button-warning" 
@@ -53,11 +55,11 @@
                                          rows="5" paginator="true" paginatorPosition="bottom">
 
 
-<!--                                <p:ajax event="rowSelect" update=":form:delete-products-button"/>
-                                <p:ajax event="rowUnselect" update=":form:delete-products-button"/>
-                                <p:ajax event="rowSelectCheckbox" update=":form:delete-products-button"/>
-                                <p:ajax event="rowUnselectCheckbox" update=":form:delete-products-button"/>
-                                <p:ajax event="toggleSelect" update=":form:delete-products-button"/>-->
+                                <!--                                <p:ajax event="rowSelect" update=":form:delete-products-button"/>
+                                                                <p:ajax event="rowUnselect" update=":form:delete-products-button"/>
+                                                                <p:ajax event="rowSelectCheckbox" update=":form:delete-products-button"/>
+                                                                <p:ajax event="rowUnselectCheckbox" update=":form:delete-products-button"/>
+                                                                <p:ajax event="toggleSelect" update=":form:delete-products-button"/>-->
 
                                 <p:column selectionMode="multiple" exportable="false"></p:column>
 
@@ -95,13 +97,13 @@
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
                                         <p:outputLabel for="name">Proveedor</p:outputLabel>
-                                        <p:inputText id="name" type="button" styleClass="ui-button-warning"
-                                                     value="#{BuscarMB.nom}" required="true"/>
+                                        <p:inputText id="name" type="button" 
+                                                     value="#{BuscarMB.nom}"/>
                                     </div>
                                     <div class="p-field p-col">
-                                        <p:inputText id="hola" value="#{BuscarMB.cod}" type="hidden" />
-                                        <p:outputLabel value="#{abonoProveedorMB.abonoproveedor.ruc=BuscarMB.cod}" style="visibility: hidden"/>
-                                        <p:inputText value="#{abonoProveedorMB.abonoproveedor.ruc}" style="visibility: hidden" />
+                                        <p:inputText id="hola" value="#{BuscarMB.cod}" style="visibility: hidden"/>
+                                        <p:outputLabel value="#{BuscarMB.abonoproveedor.ruc=BuscarMB.cod}" style="visibility: hidden"/>
+                                        <p:inputText id="ruc" value="#{BuscarMB.abonoproveedor.ruc}" style="visibility: hidden" />
                                     </div>
                                     <div class="p-field p-col"></div>
                                 </div>
@@ -125,11 +127,6 @@
                                         <p:inputText id="Referencia" type="text" 
                                                      value="#{abonoProveedorMB.abonoproveedor.referencia}"/>
                                     </div>
-                                    <div class="p-field p-col"></div>
-                                    <div class="p-field p-col"></div>
-
-                                </div>
-                                <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
                                         <!-- Datos del Banco -->
                                         <label for="Banco" >
@@ -146,19 +143,9 @@
                                         </p:selectOneMenu>
                                     </div>
                                     <div class="p-field p-col"></div>
-                                    <div class="p-field p-col"></div>
-                                    <div class="p-field p-col"></div>
                                 </div>
-                                <div class="p-formgrid p-grid">
-                                    <div class="p-field p-col">
-                                        <label for="importe" >
-                                            Importe: 
-                                        </label>
-                                        <p:inputText id="Importe" type="text" 
-                                                     style="background-color:silver;" disabled="true"
-                                                     value="$#{abonoProveedorMB.factura.importe}"/>
 
-                                    </div>
+                                <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
                                         <p:outputLabel for="fecha" value="Fecha:"/>
                                         <p:datePicker id="fecha" 
@@ -169,22 +156,22 @@
                                             Periodo: 
                                         </label>
                                         <p:inputText id="peri" type="text"
-                                                     value="#{abonoProveedorMB.abonoproveedor.periodo}"/><div class="p-field p-col"></div>
+                                                     value="#{abonoProveedorMB.abonoproveedor.periodo}"/>
+                                        <div class="p-field p-col"></div>
                                     </div>
-                                    <div class="p-field p-col"></div>
                                 </div>
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
-                                        <p:dataTable var="pagoFactura" id="table-factura"
-                                                     style="padding-top: 20px"
-                                                     value="#{BuscarMB.listaFactura}" 
-                                                     editable="true" editMode="cell"
-                                                     editInitEvent="dblclick"
-                                                     widgetVar="cellCars2" >
+                                        <p:dataTable id="table-factura" editable="true"
+                                                     var="pagoFactura" 
+                                                     value="#{BuscarMB.listafactura}" 
+                                                     style="padding-top: 20px" 
+                                                     selection="#{BuscarMB.listafactura}">
+                                            
                                             <!--Nos ayuda en poder ingresar dato en Pago-->
-                                            <p:ajax event="cellEdit" 
-                                                    listener="#{BuscarMB.onCellEdit}"
-                                                    update=":form:table-factura,:form:msgs"/>
+                                            <p:ajax event="rowEdit" listener="#{BuscarMB.onRowEdit}" update=":form:table-factura"/>
+                                            <p:ajax event="rowEditCancel" listener="#{BuscarMB.onRowCancel}" update=":form:table-factura"/>
+                                            
                                             <p:column headerText="Factura No." >
                                                 <h:outputText value="#{pagoFactura.nfactura}"/>
                                             </p:column>
@@ -206,11 +193,15 @@
                                                         <h:outputText value="$#{pagoFactura.pagado}"/>
                                                     </f:facet>
                                                     <f:facet name="input">
-                                                        <p:inputText value="#{pagoFactura.pagado}" style="width:100%" label="Pago"/>
+                                                        <p:inputText value="#{pagoFactura.pagado}" label="Pago"/>
+                                                        
                                                     </f:facet>
                                                 </p:cellEditor>
                                             </p:column>
-                                            
+                                            <p:column style="width:6rem">
+                                                <p:rowEditor />
+                                            </p:column>
+
                                         </p:dataTable>
                                     </div>
                                 </div>
@@ -221,7 +212,7 @@
                                                  rows="5" paginator="true" selectionMode="single"
                                                  selection="#{BuscarMB.proveedor}" rowKey="#{proveedor.nombre}">
                                         <p:ajax event="rowSelect" listener="#{BuscarMB.onRowSelectf}" 
-                                                oncomplete="PF('moviePicker').hide()" update=":form:pago-content"/>
+                                                oncomplete="PF('moviePicker').hide()" update=":form:pago-content,:form:ruc"/>
 
                                         <p:column headerText="Proveedor">
                                             <h:outputText value="#{proveedor.codigo}"/>
@@ -237,7 +228,6 @@
 
                                     </p:dataTable>
                                 </p:overlayPanel>
-
                             </p:outputPanel>
 
                             <f:facet name="footer">

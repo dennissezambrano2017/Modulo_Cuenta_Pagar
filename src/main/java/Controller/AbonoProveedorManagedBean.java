@@ -6,6 +6,7 @@
 package Controller;
 
 import DataView.AbonoProveedorDAO;
+import DataView.BuscarProvDAO;
 import DataView.FacturaDAO;
 import Model.AbonoProveedor;
 import Model.DetalleAbono;
@@ -14,13 +15,12 @@ import Model.TipoBanco;
 import Model.Factura;
 import Model.Proveedor;
 import java.io.Serializable;
-import java.sql.Array;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -41,9 +41,13 @@ public class AbonoProveedorManagedBean implements Serializable {
     private List<AbonoProveedor> listaAbonos;
     private List<Factura> listaFactura;
     private List<Proveedor> listaProveedor;
+    private BuscarProvDAO buscarprovDAO;
     private Factura factura;
+    private String nfactura;
+    private float pago;
     private String nom;
     private String cod;
+    private FacesContext FacesContext;
 
     public AbonoProveedorManagedBean() {
         abonoproveedor = new AbonoProveedor();
@@ -54,6 +58,8 @@ public class AbonoProveedorManagedBean implements Serializable {
         listaAbonos = new ArrayList<>();
         listaFactura = new ArrayList<>();
         listaProveedor = new ArrayList<>();
+        buscarprovDAO = new BuscarProvDAO();
+        listaProveedor = buscarprovDAO.llenar();
         abonoDAO = new AbonoProveedorDAO();
         listaAbonos = abonoDAO.llenar();
         factura = new Factura();
@@ -73,23 +79,23 @@ public class AbonoProveedorManagedBean implements Serializable {
         this.abonoDAO = new AbonoProveedorDAO(abonoproveedor);
         int result;
         System.out.println(tipoPago.getDescripcion() + "--"
-                + tipoBanco.getDescrpcion() + "--" + abonoproveedor.getRuc());
-        
+                + tipoBanco.getDescrpcion() + "--" + buscarprovDAO.getProveedor().getRuc());
+
         try {
             this.abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(),
                     tipoBanco.getDescrpcion(), abonoproveedor.getRuc(), abonoproveedor.getFecha()));
-            try {
-                this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarFactura(abonoproveedor.getRuc()));
-                System.out.println(this.listaFactura.size() + "--");
-                int index = 0;
-                while (index > getListaFactura().size()) {
-                    this.abonoDAO.insertar(detalleAbono.getSentencia(listaFactura.get(index).getNfactura()));
-                    index++;
-                }
-                System.out.println("EXITO");
-            } catch (Exception ex) {
-                System.err.println(ex + ":Error en guardar los datos en BD");
-            }
+//            try {
+//                this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarFactura(abonoproveedor.getRuc()));
+//                System.out.println(this.listaFactura.size() + "--");
+//                int index = 0;
+//                while (index > getListaFactura().size()) {
+//                    this.abonoDAO.insertar(detalleAbono.getSentencia(listaFactura.get(index).getNfactura()));
+//                    index++;
+//                }
+//                System.out.println("EXITO");
+//            } catch (Exception ex) {
+//                System.err.println(ex + ":Error en guardar los datos en BD");
+//            }
         } catch (Exception e) {
             System.out.println(e + "Error en registrar Cabezera Abono");
         }
@@ -99,7 +105,7 @@ public class AbonoProveedorManagedBean implements Serializable {
         System.out.println("Estoy buscandi factura");
         int result = 0;
         try {
-            this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarFactura(ruc));
+            this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarSentenciaFactura(ruc));
             System.out.println(listaFactura.size() + "--");
             int index = 0;
             while (index > getListaFactura().size()) {
@@ -118,13 +124,21 @@ public class AbonoProveedorManagedBean implements Serializable {
     }
 
     public List<Factura> BuscarFactura(String ruc) {
-        this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarFactura(ruc));
+        System.out.print(getCod()+"ando aqui");
+        this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarSentenciaFactura(ruc));
+//        
         return listaFactura;
     }
-
-    public void ActualizarFilas() {
-        listaAbonos = abonoDAO.llenar();
-
+    
+    public void Factura(){
+        FacesContext =FacesContext.getCurrentInstance();
+        Map<String, String> parametros= FacesContext.getExternalContext().getRequestParameterMap();
+        int accion=0;
+        switch (accion){
+            case 1: this.listaProveedor = buscarprovDAO.llenar();
+            case 2: this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarSentenciaFactura(getCod()));
+        }
+//         return listaFactura = abonoDAO.llenar(abonoproveedor.BuscarSentenciaFactura());
     }
 
     public AbonoProveedor getAbonoproveedor() {
@@ -207,6 +221,35 @@ public class AbonoProveedorManagedBean implements Serializable {
         this.facturaDAO = facturaDAO;
     }
 
+    public List<Proveedor> getListaProveedor() {
+        return listaProveedor;
+    }
+
+    public void setListaProveedor(List<Proveedor> listaProveedor) {
+        this.listaProveedor = listaProveedor;
+    }
+
+    public void deleteProduct() {
+        listaFactura.remove(factura);
+        factura = null;
+    }
+
+    public String getNfactura() {
+        return nfactura;
+    }
+
+    public void setNfactura(String nfactura) {
+        this.nfactura = nfactura;
+    }
+
+    public float getPago() {
+        return pago;
+    }
+
+    public void setPago(float pago) {
+        this.pago = pago;
+    }
+
     public String getNom() {
         return nom;
     }
@@ -222,13 +265,7 @@ public class AbonoProveedorManagedBean implements Serializable {
     public void setCod(String cod) {
         this.cod = cod;
     }
+     
 
-    public List<Proveedor> getListaProveedor() {
-        return listaProveedor;
-    }
-
-    public void setListaProveedor(List<Proveedor> listaProveedor) {
-        this.listaProveedor = listaProveedor;
-    }
-
+    
 }

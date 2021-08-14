@@ -9,8 +9,6 @@ import Controller.Conexion;
 import Model.AbonoProveedor;
 import Model.DetalleAbono;
 import Model.Factura;
-import Model.TipoPago;
-import Model.TipoBanco;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ import java.util.List;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.time.LocalDate;
-
+import javax.faces.context.FacesContext;
 /**
  *
  * @author PAOLA
@@ -68,7 +66,7 @@ public class AbonoProveedorDAO {
                 result = conex.ejecutarConsulta(sentencia);
                 while (result.next()) {
                     listaAbono.add(new AbonoProveedor(result.getString("referencia"),
-                            result.getInt("idproveedor"), result.getObject("fecha",LocalDate.class),
+                            result.getInt("idproveedor"), result.getObject("fecha", LocalDate.class),
                             result.getFloat("pago"), result.getString("periodo"),
                             result.getString("descripcion"), result.getString("nombre")));
                 }
@@ -93,7 +91,7 @@ public class AbonoProveedorDAO {
                             result.getObject("fecha", LocalDate.class), result.getObject("vencimiento", LocalDate.class),
                             result.getFloat("pendiente")));
                 }
-                System.out.print(listafactura.size()+ "  si hay datosssss");
+                System.out.print(listafactura.size() + "  si hay datosssss");
                 result.close();
                 return listafactura;
             } catch (SQLException ex) {
@@ -115,6 +113,28 @@ public class AbonoProveedorDAO {
         } catch (Exception e) {
             return 0;
         }
+    }
+
+    public List<Factura> llenarDatos(String sentencia) {
+        if (conex.isEstado()) {
+            try {
+                result = conex.ejecutarConsulta(sentencia);
+                while (result.next()) {
+                    listafactura.add(new Factura(result.getString("nfactura"),
+                            result.getFloat("importe"), result.getFloat("pagado"),
+                            result.getObject("fecha", LocalDate.class), result.getObject("vencimiento", LocalDate.class),
+                            result.getFloat("pendiente")));
+                }
+                System.out.print(listafactura.size() + "  si hay datosssss");
+                
+                result.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage() + " error en conectarse");
+            } finally {
+                conex.cerrarConexion();
+            }
+        }
+        return listafactura;
     }
 
     public Conexion getConex() {

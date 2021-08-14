@@ -16,6 +16,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -251,4 +252,6 @@ public class FacturaManagedBean implements Serializable {
 //            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(detail));
         }
     }
+    
+    
 }
