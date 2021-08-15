@@ -170,7 +170,7 @@ public class AbonoProveedor {
         System.out.print(sentencia);
         return sentencia;
     }
-    public String BuscarFactura(String proveedor)
+    public String BuscarSentenciaFactura(String proveedor)
     {
         String sentencia =String.format("Select f.nfactura, f.importe,f.pagado,(f.importe-f.pagado) as pendiente, "
                 + "f.fecha,f.vencimiento\n from factura f "

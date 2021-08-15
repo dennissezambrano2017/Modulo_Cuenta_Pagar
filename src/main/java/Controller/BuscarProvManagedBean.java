@@ -6,7 +6,8 @@
 package Controller;
 
 import DataView.BuscarProvDAO;
-import Controller.AbonoProveedorManagedBean;
+import DataView.AbonoProveedorDAO;
+import Model.AbonoProveedor;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
@@ -20,6 +21,7 @@ import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
+
 /**
  *
  * @author ninat
@@ -32,19 +34,25 @@ public class BuscarProvManagedBean implements Serializable {
     private BuscarProvDAO buscarprovDAO;
     private Factura factura;
     private List<Proveedor> listaProveedor;
-    private List<Factura> listaFactura;
+    private List<Factura> listafactura;
     private String nom;
     private String cod;
+    private String Nfactura;
+    private float Pago;
     private AbonoProveedorManagedBean abonoMB;
+    private AbonoProveedor abonoproveedor;
+    private AbonoProveedorDAO abonoDAO;
 
     public BuscarProvManagedBean() {
         proveedor = new Proveedor();
         listaProveedor = new ArrayList<>();
-        listaFactura = new ArrayList<>();
+        listafactura = new ArrayList<>();
         buscarprovDAO = new BuscarProvDAO();
         listaProveedor = buscarprovDAO.llenar();
         abonoMB = new AbonoProveedorManagedBean();
         factura = new Factura();
+        abonoDAO = new AbonoProveedorDAO();
+        abonoproveedor = new AbonoProveedor();
     }
 
     public Proveedor getProveedor() {
@@ -88,50 +96,21 @@ public class BuscarProvManagedBean implements Serializable {
         System.out.print("Ruc: " + msg3);
         setNom(msg2);
         setCod(msg3);
-        listaFactura = abonoMB.BuscarFactura(msg3);
-
+        listafactura = abonoDAO.llenarDatos(abonoproveedor.BuscarSentenciaFactura(msg3));        
     }
 
-     public void onRowEdit(RowEditEvent<Factura> event) {
-        FacesMessage msg = new FacesMessage("Product Edited", String.valueOf(event.getObject().getNfactura()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-     
-     public void onRowCancel(RowEditEvent<Factura> event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", String.valueOf(event.getObject().getNfactura()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
-    public void onCellEdit(CellEditEvent event) {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-
-        if (newValue != null && !newValue.equals(oldValue)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", 
-                    "Old: " + oldValue + ", New:" + newValue);
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        }
-    }
     public void onRowDoubleClick(final SelectEvent event) {
-    Object obj = (Object) event.getObject();
-    // rest of your logic
-    if (obj != null ) {
+        Object obj = (Object) event.getObject();
+        // rest of your logic
+        if (obj != null) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "New:" + obj);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
-    public void Envio()
-    {
-        abonoMB.enviar(listaFactura);
-    }
 
-    public List<Factura> getListaFactura() {
-        return listaFactura;
-    }
-
-    public void setListaFactura(List<Factura> listaFactura) {
-        this.listaFactura = listaFactura;
-    }
+//    public void Envio() {
+//        abonoMB.enviar(listaFactura);
+//    }
 
     public String getNom() {
         return nom;
@@ -155,6 +134,81 @@ public class BuscarProvManagedBean implements Serializable {
 
     public void setAbonoMB(AbonoProveedorManagedBean abonoMB) {
         this.abonoMB = abonoMB;
+    }
+
+    public String getNfactura() {
+        return Nfactura;
+    }
+
+    public void setNfactura(String Nfactura) {
+        this.Nfactura = Nfactura;
+    }
+
+    public float getPago() {
+        return Pago;
+    }
+
+    public void setPago(float Pago) {
+        this.Pago = Pago;
+    }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
+    }
+
+    public AbonoProveedor getAbonoproveedor() {
+        return abonoproveedor;
+    }
+
+    public void setAbonoproveedor(AbonoProveedor abonoproveedor) {
+        this.abonoproveedor = abonoproveedor;
+    }
+
+    public AbonoProveedorDAO getAbonoDAO() {
+        return abonoDAO;
+    }
+
+    public void setAbonoDAO(AbonoProveedorDAO abonoDAO) {
+        this.abonoDAO = abonoDAO;
+    }
+
+    //Paola
+    public void onRowEdit(RowEditEvent<Factura> event) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Se Modifico la cantidad"));
+    }
+
+    public void onRowCancel(RowEditEvent<Factura> event) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Se Cancelo la modificación"));
+    }
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        if (newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+
+
+    public List<Factura> getListafactura() {
+        return listafactura;
+    }
+
+    public void setListafactura(List<Factura> listafactura) {
+        this.listafactura = listafactura;
+    }
+
+    public BuscarProvDAO getBuscarprovDAO() {
+        return buscarprovDAO;
+    }
+
+    public void setBuscarprovDAO(BuscarProvDAO buscarprovDAO) {
+        this.buscarprovDAO = buscarprovDAO;
     }
 
 }
