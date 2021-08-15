@@ -9,6 +9,7 @@ import DataView.FacturaDAO;
 import DataView.BuscarProvDAO;
 import Model.Factura;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -27,25 +28,18 @@ import org.primefaces.PrimeFaces;
 public class FacturaManagedBean implements Serializable {
 
     private Factura factura;
-    
+    private FacturaDAO facturaDAO;
     private BuscarProvDAO busprovDAO;
     private List<Factura> listaFactura;
     private boolean check;
     private boolean value;
     
-//    public FacturaManagedBean() {
-////        factura = new Factura();
-////        listaFactura = new ArrayList<>();
-////        facturaDAO = new FacturaDAO();
-////        busprovDAO = new BuscarProvDAO();
-//        
-//    }
-    @Inject
-    private FacturaDAO facturaDAO;
-    
-    @PostConstruct
-    public void init() {
-        this.listaFactura = facturaDAO.llenar();
+    public FacturaManagedBean() {
+        factura = new Factura();
+        listaFactura = new ArrayList<>();
+        facturaDAO = new FacturaDAO();
+        busprovDAO = new BuscarProvDAO();
+        
     }
 
     public Factura getFactura() {
