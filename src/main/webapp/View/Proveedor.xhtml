@@ -78,33 +78,41 @@
                               <p:ajax event="toggleSelect" update=":form:delete-products-button"/>
 
                               <p:column selectionMode="multiple" exportable="false"></p:column>
-
+                              <!--  DATO CODIGO PROVEEDOR  !-->
                               <p:column headerText="Código" sortBy="#{provee.codigo}" 
                                         filterBy="#{provee.codigo}">
                                    <h:outputText value="#{provee.codigo}"/>
                               </p:column>
+                              <!-- DATO  NOMBRE PROVEEDOR  !-->
                               <p:column headerText="Nombre" sortBy="#{provee.nombre}" 
                                         filterBy="#{provee.nombre}">
                                    <h:outputText value="#{provee.nombre}"/>
                               </p:column>
-                              <p:column headerText="Telefono" sortBy="#{provee.contacto}" 
+                              <!-- DATO CONTACTO PROVEEDOR  !-->
+                              <p:column headerText="Contacto" sortBy="#{provee.contacto}" 
                                         filterBy="#{provee.contacto}">
                                    <h:outputText value="#{provee.contacto}"/>
                               </p:column>
-                              <p:column headerText="E-mail" >
+                              <!-- DATO DIRECCION PROVEEDOR  !-->
+                              <p:column headerText="Dirección" >
                                    <h:outputText value="#{provee.direccion}"/>
                               </p:column>
-                              <p:column headerText="Dirección" >
+                              <!-- DATO EMAIL PROVEEDOR  !-->
+                              <p:column headerText="E-mail" >
                                    <h:outputText value="#{provee.email}"/>
                               </p:column>
+                              <!-- DATO TELEFONO PROVEEDOR  !-->
                               <p:column headerText="Telefono" >
                                    <h:outputText value="#{provee.telefono}"/>
                               </p:column>
+                              <!-- DATO ESTADO PROVEEDOR  !-->
                               <p:column headerText="Estado" sortBy="#{provee.estado}" 
                                         filterBy="#{provee.estado}">
                                    <h:outputText value="#{provee.estado}"/>
                               </p:column>
+
                               <p:column exportable="false">
+                                   <!-- BOTON EDITAR PROVEEDOR  !-->
                                    <p:commandButton icon="pi pi-pencil" 
                                                     update=":form:manage-product-content-edit"
                                                     oncomplete="PF('manageProductDialogEdit').show()"
@@ -115,7 +123,7 @@
                                                                      target="#{proveedorDAO.selectedProveedor}" />
                                         <p:resetInput target=":form:manage-product-content-edit" />
                                    </p:commandButton>
-
+                                   <!-- BOTON DESACTIVAR PROVEEDOR  !-->
                                    <p:commandButton class="ui-button-warning rounded-button" 
                                                     icon="pi pi-trash" process="@this" 
                                                     oncomplete="PF('deleteProductDialog').show"                                                    >
@@ -123,8 +131,9 @@
                                                                      target="#{proveedorDAO.selectedProveedor}"/>
                                    </p:commandButton>
                               </p:column>
-
                          </p:dataTable>
+
+
                          <!---Dialogo de proveedor Nuevo-->
                          <p:dialog header="Proveedor" showEffect="fade" modal="true"
                                    widgetVar="manageProductDialog" maximizable="true" 
@@ -212,15 +221,15 @@
                                                   </p:outputLabel>
                                                   <p:inputText id ="diasNeto" required="true"/>
                                              </div>
-                                              <div class="p-field p-col">
+                                             <div class="p-field p-col">
                                                   <p:outputLabel for="diaDescuento"> Dias descuento: 
                                                   </p:outputLabel>
                                                   <p:inputText id ="diaDescuento" required="true" />
                                              </div>
-                                                <div class="p-field p-col">
+                                             <div class="p-field p-col">
                                                   <p:outputLabel >
                                                        Cantidad días vencido: </p:outputLabel>
-                                                     <p:selectOneMenu value="#{proveedorDAO}">
+                                                  <p:selectOneMenu value="#{proveedorDAO}">
                                                        <f:selectItem itemLabel="Seleccionar..." itemValue="" noSelectionOption="true"/>
                                                        <f:selectItem itemLabel="A 15 días" itemValue="Option1"/>
                                                        <f:selectItem itemLabel="A 30 días" itemValue="Option2"/>
@@ -231,15 +240,15 @@
                                         </div>
 
                                         <div class="p-formgrid p-grid">
-                                            
-                                          
-                                              <div class="p-field p-col">
+
+
+                                             <div class="p-field p-col">
                                                   <p:outputLabel for="descripcion"> Descripción:
                                                   </p:outputLabel>
                                                   <p:inputText id ="descripcion" required="true" />                                                
                                              </div>    
                                         </div>
-                                  
+
                                    </p:outputPanel>
                               </p:outputPanel>
 

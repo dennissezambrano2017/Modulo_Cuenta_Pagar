@@ -36,13 +36,17 @@ public class ProveedorDAO extends Conexion {
      public List<Proveedor> llenar() {
           if (conexion.isEstado()) {
                try {
-                    String sentencia = "SELECT * from proveedor p";
+                    String sentencia = "SELECT * FROM condiciones INNER JOIN proveedor ON proveedor.idproveedor = condiciones.idproveedor";
                     result = conexion.ejecutarConsulta(sentencia);
                     while (result.next()) {
-                         listaProveedor.add(new Proveedor(result.getString("codigo"),
-                                 result.getString("nombre"), result.getString("direccion"),
-                                 result.getString("email"), result.getString("contacto"),
-                                 result.getString("telefono"), result.getBoolean("estado")
+                         listaProveedor.add(new Proveedor(
+                                 result.getString("codigo"),
+                                 result.getString("nombre"),
+                                 result.getString("contacto"),
+                                 result.getString("direccion"),
+                                 result.getString("email"),
+                                 result.getString("telefono"),
+                                 result.getBoolean("estado")
                          ));
                     }
                     result.close();
@@ -55,46 +59,37 @@ public class ProveedorDAO extends Conexion {
           return listaProveedor;
      }
 
-    
+     public void insertar(Proveedor proveedor, Condiciones condiciones) {
 
-  
+          String cadena = "INSERT INTO public.proveedor(\n"
+                  + "	 codigo, razonsocial, ruc, nombre, direccion, email, webpage, contacto, telefono, estado)\n"
+                  + "	VALUES ('" + proveedor.getCodigo() + "','"
+                  + proveedor.getRazonSocial() + "','" + proveedor.getRuc() + "','"
+                  + proveedor.getNombre() + "','" + proveedor.getDireccion() + "','"
+                  + proveedor.getEmail() + "','" + proveedor.getWebPage() + "','"
+                  + proveedor.getContacto() + "','" + proveedor.getTelefono() + "','"
+                  + proveedor.isEstado() + "')";
+          System.out.print(cadena);
+          conexion.Ejecutar2(cadena);
 
-    public void insertar(Proveedor proveedor, Condiciones condiciones){
-     
-         String cadena = "INSERT INTO public.proveedor(\n" +
-"	 codigo, razonsocial, ruc, nombre, direccion, email, webpage, contacto, telefono, estado)\n" +
-"	VALUES ('"+proveedor.getCodigo()+"','"
-                 +proveedor.getRazonSocial()+"','"+proveedor.getRuc()+"','"
-                 +proveedor.getNombre()+"','"+proveedor.getDireccion()+"','"
-                 +proveedor.getEmail()+"','"+proveedor.getWebPage()+"','"
-                 +proveedor.getContacto()+"','"+proveedor.getTelefono()+"','"
-                 +proveedor.isEstado()+"')";         
-         System.out.print(cadena);
-         conexion.Ejecutar2(cadena);
-         
-         String cadena2 = "INSERT INTO public.condiciones(\n" +
-"	 descuento, \"diasNeto\", \"diasDescuento\", \"cantDiasVencidos\", descripcion, \"idProveedor\")\n" +
-"	VALUES ( "+condiciones.getDescuento()+", "
-                 + ""+condiciones.getDiasNeto()+", "+condiciones.getDiasDescuento()+","
-                 + ""+condiciones.getCantDiasVencidos()+",'"+condiciones.getDescripcion()+"', (SELECT idproveedor FROM proveedor ORDER BY  idproveedor DESC LIMIT 1));\n" +
-"	\n" +
-"	";
-           System.out.print(cadena2);
-         conexion.Ejecutar2(cadena2);
-    }
-    public void update (Proveedor proveedor, Condiciones condiciones){
-         String cadena ="UPDATE public.proveedor\n" +
-"	SET razonsocial='"+proveedor.getRazonSocial()+"',"
-                 + " ruc='"+proveedor.getRuc()+"',"
-                 + " nombre='"+proveedor.getNombre()+"',"
-                 + " direccion='"+proveedor.getDireccion()+"',"
-                 + " email='"+proveedor.getEmail()+"',"
-                 + " webpage='"+proveedor.getWebPage()+"',"
-                 + " contacto='"+proveedor.getContacto()+"',"
-                 + " telefono='"+proveedor.getTelefono()+"',"
-                 + " estado='"+proveedor.isEstado()+"'\n" +
-"	WHERE idproveedor = '"+proveedor.getIdProveedor()+"' ;";
-           System.out.print(cadena);
-         conexion.Ejecutar2(cadena);
-    }
+          String cadena2 = "";
+          System.out.print(cadena2);
+          conexion.Ejecutar2(cadena2);
+     }
+
+     public void update(Proveedor proveedor, Condiciones condiciones) {
+          String cadena = "UPDATE public.proveedor\n"
+                  + "	SET razonsocial='" + proveedor.getRazonSocial() + "',"
+                  + " ruc='" + proveedor.getRuc() + "',"
+                  + " nombre='" + proveedor.getNombre() + "',"
+                  + " direccion='" + proveedor.getDireccion() + "',"
+                  + " email='" + proveedor.getEmail() + "',"
+                  + " webpage='" + proveedor.getWebPage() + "',"
+                  + " contacto='" + proveedor.getContacto() + "',"
+                  + " telefono='" + proveedor.getTelefono() + "',"
+                  + " estado='" + proveedor.isEstado() + "'\n"
+                  + "	WHERE idproveedor = '" + proveedor.getIdProveedor() + "' ;";
+          System.out.print(cadena);
+          conexion.Ejecutar2(cadena);
+     }
 }
