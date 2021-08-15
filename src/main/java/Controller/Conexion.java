@@ -43,7 +43,7 @@ public class Conexion {
     public boolean abrirConexion() throws SQLException {
         try {
             if (conex == null || !(conex.isClosed())) {
-                System.out.println(mensaje+ " si abre la conexion");
+                //System.out.println(mensaje+ " si abre la conexion");
                 Class.forName(classForName);
                 conex = DriverManager.getConnection(url, usuario, clave);
                 st = conex.createStatement();

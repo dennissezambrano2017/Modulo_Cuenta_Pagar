@@ -207,7 +207,7 @@ public class Anticipo {
     public void deleteDB() {
         System.out.println("Delete objecto a la db");
         System.out.println(this.id_anticipo);
-        System.out.println(this.fecha);
+        System.out.println(this.fecha.toString());
         System.out.println(this.importe);
         System.out.println(this.id_proveedor);
         
