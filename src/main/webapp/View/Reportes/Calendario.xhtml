@@ -10,20 +10,19 @@
         <!-- Vista de generar calendario de pagos -->
         <ui:composition template="../../Plantilla/Plantilla.xhtml">
             <ui:define name="content">
-                <h:form class="p-p-5">
-                    <div class="p-grid">
-                        <div class="p-col-8">
-                            <h1 class="p-mb-2">Reporte de cuentas por pagar</h1>
-                            <p  class="p-mb-2">Consulte a quién le debe, cuánto debes y la fecha del vencimiento de las facturas</p>
-                        </div>
-                        <div class="p-col-4">
-                            <p:button 
-                                value="Exportar a Excel" 
-                                styleClass="ui-button-raised ui-button-success"
-                                icon="pi pi-file-excel" />
-                        </div>
+                <h:form class="p-m-5 p-m-lg-2" id="form">
+
+                    <div class="p-d-flex p-ai-center p-jc-between p-mb-3 p-grid">
+
+                        <h1 class="p-mb-2 p-col ">Reporte de cuentas por pagar</h1>
+
+                        <p:button 
+                            class="p-col "
+                            value="Exportar a Excel" 
+                            styleClass="ui-button-raised ui-button-success"
+                            icon="pi pi-file-excel" />
                     </div>
-                    
+
                     <div class="p-formgroup-inline">
                         <div class="p-field p-mr-2">
                             <p:outputLabel for="desde" value="Desde: "/>
@@ -34,22 +33,35 @@
                             <p:outputLabel for="hasta" value="Hasta: "/>
                             <p:datePicker id="hasta" value="#{beanGenerarCalendario.hasta}"/>
                         </div>
+                        
+                        <div class="p-field p-mr-2">
+                            
+                            <p:selectOneButton value="#{beanGenerarCalendario.tipo}" style="font-size: 10px;">
+                                <f:selectItem itemLabel="No vencidas" itemValue="0" />
+                                <f:selectItem itemLabel="Vencida en 30 dias o menos" itemValue="1" />
+                                <f:selectItem itemLabel="Vencida en 31 dias a 60 días" itemValue="2" />
+                                <f:selectItem itemLabel="Vencida en 61 dias a 90 días" itemValue="3" />
+                                <f:selectItem itemLabel="Vencidas 91+" itemValue="4" />
+                            </p:selectOneButton>
+                            
+                        </div>
 
-                        <p:button value="Generar" styleClass="ui-button-raised" />
+                        <p:commandButton 
+                            value="Generar" 
+                            styleClass="ui-button-raised" 
+                            actionListener="#{beanGenerarCalendario.generar()}" />
                     </div>
 
-                    <div class="p-formgroup-inline">
-                        <p:selectOneButton>
-                            <f:selectItem itemLabel="Vencida en 30 dias o menos" itemValue="60" />
-                            <f:selectItem itemLabel="Vencida en 31 dias a 60 días" itemValue="60" />
-                            <f:selectItem itemLabel="Vencida en 61 dias a 90 días" itemValue="60" />
-                            <f:selectItem itemLabel="Vencidas 91+" itemValue="60" />
-                            <f:selectItem itemLabel="No vencidas" itemValue="60" />
-                        </p:selectOneButton>
-                    </div>
-                    
+
+
                     <div class="p-mt-3">
-                        <p:dataTable id="tablafacturas" value="#{beanGenerarCalendario.facturas}" var="factura" size="small">
+                        <p:dataTable 
+                            id="tablafacturas" 
+                            value="#{beanGenerarCalendario.facturas}" 
+                            reflow="true"
+                            var="factura" 
+                            size="small">
+
                             <f:facet name="header">
                                 <div class="p-d-flex p-jc-between p-ai-center">
                                     Reporte de cuentas por pagar
@@ -61,17 +73,18 @@
                                 </div>
                             </f:facet>
 
+                            <p:column headerText="Fecha">
+                                <h:outputText value="#{factura.fecha}" />
+                            </p:column>
+
                             <p:column headerText="Número">
                                 <h:outputText value="#{factura.nfactura}" />
                             </p:column>
 
                             <p:column headerText="Proveedor">
-                                <h:outputText value="#{factura.nombre}" />
+                                <h:outputText value="#{factura.proveedor.nombre}" />
                             </p:column>
 
-                            <p:column headerText="Creación">
-                                <h:outputText value="#{factura.fecha}" />
-                            </p:column>
 
                             <p:column headerText="Vencimiento">
                                 <h:outputText value="#{factura.vencimiento}" />

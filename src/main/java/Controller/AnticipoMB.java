@@ -18,11 +18,12 @@ import org.primefaces.PrimeFaces;
 /**
  *
  * @author elect
+ * pagina que va a interacturar con ajax
  */
 
 @ManagedBean(name = "anticipoMB")
-@RequestScoped
-public class AnticipoMB {
+@ViewScoped
+public class AnticipoMB implements Serializable {
 
     private List<Anticipo> anticipos;
     private Anticipo selected_anticipo;
@@ -62,6 +63,8 @@ public class AnticipoMB {
     }
 
     public void setSelected_anticipo(Anticipo selected_anticipo) {
+        System.out.println("Descripcion: ");
+        System.out.println(selected_anticipo.getDescripcion());
         this.selected_anticipo = selected_anticipo;
     }
 
@@ -72,12 +75,13 @@ public class AnticipoMB {
     public void open_new() {
         this.selected_anticipo = new Anticipo();
         
-        this.selected_anticipo.setId_proveedor(1);
+        this.selected_anticipo.setId_proveedor(2);
         this.selected_anticipo.setImporte(0.0);
         this.selected_anticipo.setFecha(new Date());
-        this.selected_anticipo.setDescripcion("descripción desde open new");
+        this.selected_anticipo.setDescripcion("Trabajando con view scope");
         
         System.out.println("Nuevo anticipo");
+        System.out.println(this.selected_anticipo.getDescripcion());
     }
     
     public void guardar_anticipo() {
@@ -109,10 +113,16 @@ public class AnticipoMB {
         //PrimeFaces.current().executeScript("location.reload()");
     }
     
-    public void delete_anticipo() {
-        System.out.println("Eliminar");
+    public void delete_anticipo(Anticipo seleAnticipo) {
+        System.out.println("Anticipo por argumento");
+        System.out.println(seleAnticipo.getId_anticipo());
+        System.out.println(seleAnticipo.getDescripcion());
+        System.out.println(seleAnticipo.getFecha());
+        System.out.println("Anticipo por argumento fin");
+        
+        this.selected_anticipo = seleAnticipo;
+        
         try {
-            System.out.println(this.selected_anticipo.getId_anticipo());
             this.selected_anticipo.deleteDB();
         } 
         catch (Exception ex) {
@@ -131,4 +141,6 @@ public class AnticipoMB {
     public static String FormatoFecha(Date fecha) {
         return new SimpleDateFormat("dd-MM-yyyy").format(fecha);
     }
+    
+    
 }

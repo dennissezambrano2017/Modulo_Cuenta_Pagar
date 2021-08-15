@@ -13,17 +13,19 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalDate;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -32,12 +34,14 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 //@Named(value = "bindGenerarCalendario")
 @ManagedBean(name = "beanGenerarCalendario")
 @RequestScoped
-public class BeanGenerarCalendario implements Serializable {
+public class BeanGenerarCalendario {
 
     // Parametro de la vista
     private LocalDate desde;
     private LocalDate hasta;
     private boolean sinfecha;
+    private String tipo;
+    
     private FacturaDAO facturaDAO;
     List<Factura> facturas; // datos que se muestran en la tabla.
 
@@ -47,11 +51,20 @@ public class BeanGenerarCalendario implements Serializable {
     
 
     public BeanGenerarCalendario()  {
+        
+    }
+    
+    @PostConstruct
+    public void init() {
         managerCalendario = new ManagerCalendario();
+        
         this.desde = LocalDate.now().withMonth(1).withDayOfMonth(1);
         this.hasta = LocalDate.now().withMonth(12).withDayOfMonth(31);
-        facturaDAO = new FacturaDAO();
-        facturas = facturaDAO.llenar();
+        this.tipo = "2";
+        
+        //facturaDAO = new FacturaDAO();
+        //facturas = facturaDAO.llenar();
+        facturas = Factura.get_fac_pro();
     }
 
     ////////////////////////////////
@@ -103,6 +116,16 @@ public class BeanGenerarCalendario implements Serializable {
     public void setSinfecha(boolean sinfecha) {
         this.sinfecha = sinfecha;
     }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+   
     
 
     // METODOS PARA TRABAJAR CON LOS DATOS.
@@ -158,6 +181,18 @@ public class BeanGenerarCalendario implements Serializable {
         
         
         return totalPorPagar;
+    }
+    
+    public void generar() {
+        System.out.println(this.desde);
+        System.out.println(this.hasta);
+        System.out.println(this.tipo);
+        
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Consultado los datos."));
+        System.out.println(this.facturas);
+        
+        this.facturas = Factura.get_fac_pro();
+        PrimeFaces.current().ajax().update(":form:tablafacturas");
     }
     
 }

@@ -245,4 +245,45 @@ public class Factura {
         this.setProveedor(Proveedor.getOneProveedor(this.idproveedor));
         return this;
     }
+    
+    public static List<Factura> get_fac_pro() {
+        List<Factura> lista = new ArrayList<>();
+        
+        Conexion conn = new Conexion();
+        String query = "select * from select_fac_pro();";
+        try {
+            conn.abrirConexion();
+            
+            //Statement stmt = conn.conex.createStatement();
+            PreparedStatement stmt = conn.conex.prepareStatement(query);
+            
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Factura fac = new Factura();
+                fac.proveedor = new Proveedor();
+                
+                fac.setFecha(rs.getObject("fecha", LocalDate.class));
+                fac.setId(rs.getInt("id_factura"));
+                fac.setIdasiento(rs.getInt("id_asiento"));
+                fac.setNfactura(rs.getString("nfactura"));
+                fac.setDescripcion(rs.getString("descripcion"));
+                fac.setImporte(rs.getFloat("importe"));
+                fac.setPagado(rs.getFloat("pagado"));
+                fac.setVencimiento(rs.getObject("vencimiento", LocalDate.class));
+                fac.setEstado(rs.getInt("estado"));
+                fac.setIdproveedor(rs.getInt("id_proveedor"));
+                fac.proveedor.idProveedor = rs.getInt("id_proveedor");
+                fac.proveedor.nombre = rs.getString("nombre");
+                
+                lista.add(fac);
+            }
+            conn.conex.close();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+
+        return lista;
+    }
 }
