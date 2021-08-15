@@ -6,6 +6,10 @@
         <mime-type>application/x-font-ttf</mime-type>
     </mime-mapping>
     <mime-mapping>
+        <extension>map</extension>
+        <mime-type>application/map</mime-type>
+    </mime-mapping>
+    <mime-mapping>
         <extension>woff</extension>
         <mime-type>application/x-font-woff</mime-type>
     </mime-mapping>
