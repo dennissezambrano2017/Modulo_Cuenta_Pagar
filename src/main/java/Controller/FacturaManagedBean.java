@@ -11,12 +11,10 @@ import Model.Factura;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import org.primefaces.PrimeFaces;
 
 /**
@@ -39,8 +37,9 @@ public class FacturaManagedBean implements Serializable {
         listaFactura = new ArrayList<>();
         facturaDAO = new FacturaDAO();
         busprovDAO = new BuscarProvDAO();
-        
+        check = true;
     }
+    
 
     public Factura getFactura() {
         return factura;
@@ -89,21 +88,21 @@ public class FacturaManagedBean implements Serializable {
             listaFactura = facturaDAO.llenarP();
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
-            listaFactura = facturaDAO.llenar();
+            listaFactura = facturaDAO.llenar("1");
         }
         return listaFactura;
     }
 
     public List<Factura> habTabla() {
-        this.listaFactura = null;
+        this.listaFactura = new ArrayList<>();
         String mensaje = check ? "Habilitados" : "Deshabilitados";
         if (check) {
             System.out.print("hello");
-            listaFactura = facturaDAO.llenar();
+            listaFactura = facturaDAO.llenar("1");
             PrimeFaces.current().ajax().update("form:dt-factura");
         } else {
             System.out.print("hello2");
-            listaFactura = facturaDAO.llenarP();
+            listaFactura = facturaDAO.llenar("0");
             PrimeFaces.current().ajax().update("form:dt-factura");
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(mensaje));
@@ -154,7 +153,7 @@ public class FacturaManagedBean implements Serializable {
                 PrimeFaces.current().executeScript("PF('newFactura').hide()");
 //                PrimeFaces.current().executeScript("location.reload()");
                 listaFactura = null;
-                listaFactura = facturaDAO.llenar();
+                listaFactura = facturaDAO.llenar("1");
                 PrimeFaces.current().ajax().update("form:dt-factura");
             }
         }
@@ -184,7 +183,7 @@ public class FacturaManagedBean implements Serializable {
                 PrimeFaces.current().executeScript("PF('editFactura').hide()");
                 //PrimeFaces.current().executeScript("location.reload()");
                 listaFactura = null;
-                listaFactura = facturaDAO.llenar();
+                listaFactura = facturaDAO.llenar("1");
                 PrimeFaces.current().ajax().update("form:dt-factura");
             }
         }

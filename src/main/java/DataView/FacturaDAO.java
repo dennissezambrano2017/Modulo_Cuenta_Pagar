@@ -34,14 +34,14 @@ public class FacturaDAO {
         this.factura = factura;
     }
 
-    public List<Factura> llenar() {
+    public List<Factura> llenar(String n) {
         if (conexion.isEstado()) {
             try {
                 String sentencia = "SELECT f.idfactura,f.nfactura,f.descripcion,"
                         + "f.importe,f.pagado ,(f.importe - f.pagado) as pendiente,f.fecha,"
                         + "f.vencimiento,f.estado, p.nombre, f.habilitar from factura as f "
                         + "INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor) "
-                        + "where habilitar = 1";
+                        + "where habilitar = "+n;
                 result = conexion.ejecutarConsulta(sentencia);
                 System.out.println("Factura: " + result.toString());
                 while (result.next()) {
@@ -76,7 +76,7 @@ public class FacturaDAO {
                         + "f.importe,f.pagado ,(f.importe - f.pagado) as pendiente,f.fecha,"
                         + "f.vencimiento,f.estado, p.nombre, f.habilitar from factura as f "
                         + "INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor) "
-                        + "where habilitar = 0";
+                        + "where habilitar = 1";
                 result = conexion.ejecutarConsulta(sentencia);
                 System.out.println("Factura: " + result.toString());
                 while (result.next()) {
