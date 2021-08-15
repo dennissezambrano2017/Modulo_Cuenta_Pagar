@@ -12,7 +12,7 @@
 
                <ui:define name="content">
                     <h:form id="form">
-                        
+
                          <p:growl id="messages" showDetail="true"/>
                          <!--- Boton nuevo y deshabilitar  !-->
                          <p:toolbar>
@@ -125,7 +125,7 @@
                               </p:column>
 
                          </p:dataTable>
-                         <!---Dialogo de proveedor  !-->
+                         <!---Dialogo de proveedor Nuevo-->
                          <p:dialog header="Proveedor" showEffect="fade" modal="true"
                                    widgetVar="manageProductDialog" maximizable="true" 
                                    height="300" width="70%">
@@ -208,48 +208,38 @@
                                         <h3>Condiciones</h3>
                                         <div class="p-formgrid p-grid">
                                              <div class="p-field p-col">
-                                                  <p:outputLabel for="descuento"> Descuento: 
-                                                  </p:outputLabel>
-                                                  <p:inputNumber id ="descuento" required="true"  
-                                                                 symbol="%"
-                                                                 symbolPosition="s"
-                                                                 /> 
-
-
-                                             </div>
-                                             <div class="p-field p-col">
                                                   <p:outputLabel for="diasNeto"> Dias neto: 
                                                   </p:outputLabel>
-                                                  <p:inputText id ="diasNeto" required="true" 
-                                                               />
+                                                  <p:inputText id ="diasNeto" required="true"/>
                                              </div>
-                                        </div>
-
-                                        <div class="p-formgrid p-grid">
-                                             <div class="p-field p-col">
+                                              <div class="p-field p-col">
                                                   <p:outputLabel for="diaDescuento"> Dias descuento: 
                                                   </p:outputLabel>
-                                                  <p:inputText id ="diaDescuento" required="true" 
-                                                               >
-
-                                                  </p:inputText>
+                                                  <p:inputText id ="diaDescuento" required="true" />
                                              </div>
-                                             <div class="p-field p-col">
-                                                  <p:outputLabel for="cantDiasVenc">
+                                                <div class="p-field p-col">
+                                                  <p:outputLabel >
                                                        Cantidad días vencido: </p:outputLabel>
-                                                  <p:inputText type="" id ="cantDiasVenc" 
-                                                               required="true" 
-                                                               />
+                                                     <p:selectOneMenu value="#{proveedorDAO}">
+                                                       <f:selectItem itemLabel="Seleccionar..." itemValue="" noSelectionOption="true"/>
+                                                       <f:selectItem itemLabel="A 15 días" itemValue="Option1"/>
+                                                       <f:selectItem itemLabel="A 30 días" itemValue="Option2"/>
+                                                       <f:selectItem itemLabel="A 60 días" itemValue="Option3"/>
+                                                       <f:selectItem itemLabel="A 90 días" itemValue="Option3"/>
+                                                  </p:selectOneMenu>
                                              </div>
                                         </div>
+
                                         <div class="p-formgrid p-grid">
-                                             <div class="p-field p-col">
+                                            
+                                          
+                                              <div class="p-field p-col">
                                                   <p:outputLabel for="descripcion"> Descripción:
                                                   </p:outputLabel>
-                                                  <p:inputText id ="descripcion" required="true" 
-                                                               />                                                
-                                             </div>                                            
+                                                  <p:inputText id ="descripcion" required="true" />                                                
+                                             </div>    
                                         </div>
+                                  
                                    </p:outputPanel>
                               </p:outputPanel>
 
