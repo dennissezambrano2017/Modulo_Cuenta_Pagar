@@ -15,101 +15,92 @@
 
                 <h:form id="form">
                     <p:growl id="messages" showDetail="true"/>
-                    <p:panel>
-                    <h1 style="text-align: center; color: black">Facturas de compras</h1>
-                    
-                    <p:toolbar>
-                        <p:toolbarGroup>
-                            <p:commandButton id="new" value="Nuevo" icon="pi pi-plus" 
-                                             actionListener="#{facturaMB.abrirNuevo}"
-                                             update=":form:outputnuevo"
-                                             onclick="PF('newFactura').show()" process="@this"
-                                             styleClass="ui-button-success"
-                                             style="margin-right: .5rem"
-                                             >
-                                <p:resetInput target=":form:outputnuevo"/>
-                            </p:commandButton>
+                    <p:panel id="panel">
+                        <h1 style="text-align: center; color: black">Facturas de compras</h1>
 
-                            <p:commandButton id="delete-products-button" value="#{facturaMB.deleteButtonMessage}"
-                                             icon="pi pi-trash" actionListener="#{facturaMB.deleteSelectedFacturas}"
-                                             styleClass="ui-button-danger" disabled="#{!facturaMB.hasSelectedFactura()}"
-                                             process="@this">
-                                <p:confirm header="Confirmation" 
-                                           message="Eliminar los productos seleccionados?"
-                                           icon="pi pi-exclamation-triangle"/>
-                            </p:commandButton>
+                        <p:toolbar>
+                            <p:toolbarGroup>
+                                <p:commandButton id="new" value="Nuevo" icon="pi pi-plus" 
+                                                 actionListener="#{facturaMB.abrirNuevo}"
+                                                 update=":form:outputnuevo"
+                                                 onclick="PF('newFactura').show()" process="@this"
+                                                 styleClass="ui-button-success"
+                                                 style="margin-right: .5rem"
+                                                 >
+                                    <p:resetInput target=":form:outputnuevo"/>
+                                </p:commandButton>
 
-                            <p:commandButton type="button" value="Buscar" icon="pi pi-search" 
-                                             styleClass="ui-button-warning" 
-                                             onclick="PF('Buscar').show()"/>
-                            <p:commandButton type="button" value="Pago" icon="pi pi-money-bill" 
-                                             styleClass="ui-button-primary" 
-                                             onclick="PF('pagos').show()"/>
-                        </p:toolbarGroup>
-                    </p:toolbar>
+                                <p:commandButton type="button" value="Buscar" icon="pi pi-search" 
+                                                 styleClass="ui-button-warning" 
+                                                 onclick="PF('Buscar').show()"/>
+                                <p:commandButton type="button" value="Pago" icon="pi pi-money-bill" 
+                                                 styleClass="ui-button-primary" 
+                                                 onclick="PF('pagos').show()"/>
+                            </p:toolbarGroup>
 
-                    <p:dataTable  id="dt-factura" widgetVar="dtFactura" var="factura"
-                                  value="#{facturaMB.listaFactura}"
-                                  selection="#{facturaMB.selectedFactura}"
-                                  reflow="true" rowKey="#{factura.nfactura}" 
-                                  paginator="true" rows="5" rowSelectMode="add"
-                                  resizableColumns="true"
-                                  paginatorPosition="bottom"
-                                  class="p-mt-3" size="small"
-                                  style="font-size:12px">
+                            <p:toolbarGroup align="right">
+                                <p:selectBooleanButton value="#{facturaMB.check}" onLabel="Habilitado" offLabel="Deshabilitado" style="width:8rem">
+                                    <p:ajax listener="#{facturaMB.habTabla}"/>
+                                </p:selectBooleanButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
 
-                        <p:ajax event="rowSelect" update=":form:delete-products-button"/>
-                        <p:ajax event="rowUnselect" update=":form:delete-products-button"/>
-                        <p:ajax event="rowSelectCheckbox" update=":form:delete-products-button"/>
-                        <p:ajax event="rowUnselectCheckbox" update=":form:delete-products-button"/>
-                        <p:ajax event="toggleSelect" update=":form:delete-products-button"/>
+                        <p:dataTable  id="dt-factura" widgetVar="dtFactura" var="factura"
+                                      value="#{facturaMB.listaFactura}"
+                                      reflow="true" rowKey="#{factura.nfactura}" 
+                                      paginator="true" rows="5" rowSelectMode="add"
+                                      resizableColumns="true"
+                                      paginatorPosition="bottom"
+                                      class="p-mt-3" 
+                                      style="font-size:12px">
 
-                       <p:column selectionMode="multiple" exportable="false"
-                                 style="width: 25px"/>
+                            <!--                            <p:column selectionMode="multiple" exportable="false"
+                                                                  style="width: 25px"/>-->
 
-                        <p:column headerText="No. Factura">
-                            <h:outputText value="#{factura.nfactura}" />
-                        </p:column>
+                            <p:column headerText="No. Factura" style="width: 60px">
+                                <h:outputText value="#{factura.nfactura}" />
+                            </p:column>
 
-                        <p:column headerText="Fecha" sortBy="#{factura.fecha}">
-                            <h:outputText value="#{factura.fecha}"/>
-                        </p:column>
+                            <p:column headerText="Fecha" sortBy="#{factura.fecha}"
+                                      style="width: 70px">
+                                <h:outputText value="#{factura.fecha}"/>
+                            </p:column>
 
-                        <p:column headerText="Proveedor">
-                            <h:outputText value="#{factura.nombre}"/>
-                        </p:column>
+                            <p:column headerText="Proveedor" style="width: 70px">
+                                <h:outputText value="#{factura.nombre}"/>
+                            </p:column>
 
-                        <p:column headerText="Importe">
-                            <h:outputText value="#{factura.importe}"/>
-                        </p:column>
+                            <p:column headerText="Importe" style="width: 70px">
+                                <h:outputText value="#{factura.importe}"/>
+                            </p:column>
 
-                        <p:column headerText="Pendiente">
-                            <h:outputText value="#{factura.pendiente}"/>
-                        </p:column>
+                            <p:column headerText="Pendiente" style="width: 70px">
+                                <h:outputText value="#{factura.pendiente}"/>
+                            </p:column>
 
-                        <p:column headerText="Vencimiento">
-                            <h:outputText value="#{factura.vencimiento}"/>
-                        </p:column>
+                            <p:column headerText="Vencimiento" style="width: 70px">
+                                <h:outputText value="#{factura.vencimiento}"/>
+                            </p:column>
 
-<!--                        <p:column headerText="Descripción">
-                            <h:outputText value="#{factura.descripcion}"/>
-                        </p:column>-->
+                            <p:column headerText="Descripción">
+                                <h:outputText value="#{factura.descripcion}"/>
+                            </p:column>
 
-                        <p:column exportable="false">
-                            <p:commandButton icon="pi pi-pencil"
-                                             oncomplete="PF('editFactura').show()"
-                                             styleClass="edit-button rounded-button ui-button-warning"
-                                             actionListener="#{facturaMB.cargarEditar(factura)}"
-                                             process="@this"
-                                             update=":form:outputedit">
-                            </p:commandButton>
-                            <p:commandButton styleClass="edit-button rounded-button ui-button-danger"
-                                             icon="pi pi-trash" process="@this"
-                                             actionListener="#{facturaMB.dhFactura(factura)}">
-                            </p:commandButton>
-                        </p:column>
-                    </p:dataTable>
-</p:panel>
+                            <p:column exportable="false">
+                                <p:commandButton icon="pi pi-pencil"
+                                                 oncomplete="PF('editFactura').show()"
+                                                 styleClass="edit-button rounded-button ui-button-warning"
+                                                 actionListener="#{facturaMB.cargarEditar(factura)}"
+                                                 process="@this"
+                                                 update=":form:outputedit">
+                                </p:commandButton>
+                                <p:commandButton styleClass="edit-button rounded-button ui-button-danger"
+                                                 icon="pi pi-trash" process="@this"
+                                                 actionListener="#{facturaMB.dhFactura(factura)}">
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
                     <!-- DIALOG 1 NUEVA FACTURA-->
 
                     <p:dialog  header="Nueva Factura" showEffect="fade" modal="true"

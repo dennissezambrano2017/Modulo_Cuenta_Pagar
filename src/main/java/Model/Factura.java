@@ -203,6 +203,14 @@ public class Factura {
     public void setPendiente(float pendiente) {
         this.pendiente = pendiente;
     }
+
+    public int getHabilitar() {
+        return habilitar;
+    }
+
+    public void setHabilitar(int habilitar) {
+        this.habilitar = habilitar;
+    }
     
     
     // metodos aux para comunicación con la db

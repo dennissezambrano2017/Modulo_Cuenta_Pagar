@@ -9,14 +9,14 @@ import DataView.FacturaDAO;
 import DataView.BuscarProvDAO;
 import Model.Factura;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import org.primefaces.PrimeFaces;
-import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -27,19 +27,25 @@ import org.primefaces.event.RowEditEvent;
 public class FacturaManagedBean implements Serializable {
 
     private Factura factura;
-    private FacturaDAO facturaDAO;
+    
     private BuscarProvDAO busprovDAO;
     private List<Factura> listaFactura;
-    private List<Factura> selectedFactura;
     private boolean check;
     private boolean value;
-
-    public FacturaManagedBean() {
-        factura = new Factura();
-        listaFactura = new ArrayList<>();
-        facturaDAO = new FacturaDAO();
-        listaFactura = facturaDAO.llenar();
-        busprovDAO = new BuscarProvDAO();
+    
+//    public FacturaManagedBean() {
+////        factura = new Factura();
+////        listaFactura = new ArrayList<>();
+////        facturaDAO = new FacturaDAO();
+////        busprovDAO = new BuscarProvDAO();
+//        
+//    }
+    @Inject
+    private FacturaDAO facturaDAO;
+    
+    @PostConstruct
+    public void init() {
+        this.listaFactura = facturaDAO.llenar();
     }
 
     public Factura getFactura() {
@@ -66,12 +72,12 @@ public class FacturaManagedBean implements Serializable {
         this.listaFactura = listaFactura;
     }
 
-    public List<Factura> getSelectedFactura() {
-        return selectedFactura;
+    public boolean isCheck() {
+        return check;
     }
 
-    public void setSelectedFactura(List<Factura> selectedFactura) {
-        this.selectedFactura = selectedFactura;
+    public void setCheck(boolean cheack) {
+        this.check = cheack;
     }
 
     public boolean isValue() {
@@ -91,6 +97,22 @@ public class FacturaManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
             listaFactura = facturaDAO.llenar();
         }
+        return listaFactura;
+    }
+
+    public List<Factura> habTabla() {
+        this.listaFactura = null;
+        String mensaje = check ? "Habilitados" : "Deshabilitados";
+        if (check) {
+            System.out.print("hello");
+            listaFactura = facturaDAO.llenar();
+            PrimeFaces.current().ajax().update("form:dt-factura");
+        } else {
+            System.out.print("hello2");
+            listaFactura = facturaDAO.llenarP();
+            PrimeFaces.current().ajax().update("form:dt-factura");
+        }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(mensaje));
         return listaFactura;
     }
 
@@ -136,7 +158,10 @@ public class FacturaManagedBean implements Serializable {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
                 }
                 PrimeFaces.current().executeScript("PF('newFactura').hide()");
-                PrimeFaces.current().executeScript("location.reload()");
+//                PrimeFaces.current().executeScript("location.reload()");
+                listaFactura = null;
+                listaFactura = facturaDAO.llenar();
+                PrimeFaces.current().ajax().update("form:dt-factura");
             }
         }
     }
@@ -156,14 +181,17 @@ public class FacturaManagedBean implements Serializable {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
                     } else {
                         this.facturaDAO.Actualizar(factura);
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Guardada"));
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Actualizada"));
                     }
                 } catch (Exception e) {
                     System.out.println("ERROR DAO: " + e);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
                 }
                 PrimeFaces.current().executeScript("PF('editFactura').hide()");
-                PrimeFaces.current().executeScript("location.reload()");
+                //PrimeFaces.current().executeScript("location.reload()");
+                listaFactura = null;
+                listaFactura = facturaDAO.llenar();
+                PrimeFaces.current().ajax().update("form:dt-factura");
             }
         }
     }
@@ -199,33 +227,12 @@ public class FacturaManagedBean implements Serializable {
             }
         }
     }
-    
-     public void dhFactura(Factura factura) {
+
+    public void dhFactura(Factura factura) {
         System.out.print("HOLA SI ENTRE DELETE HABILITAR 1");
         this.facturaDAO.dhabilitar(factura.getNfactura());
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Deshabilitada factura: " + factura.getNfactura()));
         PrimeFaces.current().executeScript("location.reload()");
-    }
-
-    public String getDeleteButtonMessage() {
-        if (hasSelectedFactura()) {
-            int size = this.selectedFactura.size();
-            return size > 1 ? size + " products selected" : "1 product selected";
-        }
-        return "Delete";
-    }
-
-    public boolean hasSelectedFactura() {
-        return this.selectedFactura != null && !this.selectedFactura.isEmpty();
-    }
-
-    public void deleteSelectedFacturas() {
-        System.out.print("HOLA SI ENTRE DELETE HABILITAR 2");
-        this.facturaDAO.habilitar(this.listaFactura);
-        this.selectedFactura = null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Products Removed"));
-        PrimeFaces.current().ajax().update("form:messages");
-        PrimeFaces.current().executeScript("PF('dtFactura').clearFilters()");
     }
 
     //ESTO ES DE PAOLA
@@ -233,14 +240,6 @@ public class FacturaManagedBean implements Serializable {
 //        float importe = factura.getImporte();
 //        float
 //    }
-    public boolean isCheck() {
-        return check;
-    }
-
-    public void setCheck(boolean cheack) {
-        this.check = cheack;
-    }
-
     public void Registro() {
         String detail = check ? "Pago Autorizado" : "Pago no Autorizado";
         System.out.println(factura.getNfactura() + "-" + factura.getDescripcion() + "-" + detail);
@@ -252,6 +251,4 @@ public class FacturaManagedBean implements Serializable {
 //            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(detail));
         }
     }
-    
-    
 }

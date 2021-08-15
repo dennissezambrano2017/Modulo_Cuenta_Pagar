@@ -67,11 +67,16 @@ public class FacturaDAO {
     public List<Factura> llenarP() {
         if (conexion.isEstado()) {
             try {
+//                String sentencia = "SELECT f.idfactura,f.nfactura,f.descripcion,"
+//                        + "f.importe,f.pagado ,(f.importe - f.pagado) as pendiente,f.fecha,"
+//                        + "f.vencimiento,f.estado, p.nombre from factura as f "
+//                        + "INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor) "
+//                        + "where (f.importe - f.pagado) != 0 and habilitar = 1";
                 String sentencia = "SELECT f.idfactura,f.nfactura,f.descripcion,"
                         + "f.importe,f.pagado ,(f.importe - f.pagado) as pendiente,f.fecha,"
-                        + "f.vencimiento,f.estado, p.nombre from factura as f "
+                        + "f.vencimiento,f.estado, p.nombre, f.habilitar from factura as f "
                         + "INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor) "
-                        + "where (f.importe - f.pagado) != 0 and habilitar = 1";
+                        + "where habilitar = 0";
                 result = conexion.ejecutarConsulta(sentencia);
                 System.out.println("Factura: " + result.toString());
                 while (result.next()) {
@@ -116,18 +121,17 @@ public class FacturaDAO {
         
     }
 
-    public void Actualizar(Factura factura) {
+//
+    
+        public void Actualizar(Factura factura) {
         if (conexion.isEstado()) {
             try {
-        String cadena = "update factura set "
-                + "descripcion = '" + factura.getDescripcion()
-                + "', importe = " + factura.getImporte()
-                + " , pagado = " + factura.getPagado()
-                + " , fecha = '" + factura.getFecha()
-                + "' ,vencimiento = '" + factura.getVencimiento()
-                + "', idproveedor = (Select idproveedor from proveedor "
-                + "p where p.ruc = '" + factura.getRuc() + "') "
-                + "where nfactura = '" + factura.getNfactura() + "'";
+        String cadena = "select actualizarfactura('"+factura.getNfactura()
+                + "','" + factura.getDescripcion()+ "'," + factura.getImporte()
+                + "," + factura.getPagado()
+                + ",'" + factura.getFecha()
+                + "','" + factura.getVencimiento()
+                + "','" + factura.getRuc() + "')";
         System.out.print(cadena);
         conexion.Ejecutar2(cadena);
         result.close();
@@ -152,9 +156,7 @@ public class FacturaDAO {
     System.out.print("HOLA ESTOY EN MANAGE HABILITAR UNO");
         if (conexion.isEstado()) {
             try {
-            String cadena = "update factura set "
-                + "habilitar = 0 "
-                + "where nfactura = '" + n + "'";
+            String cadena = "select habilitarfactura(0,'"+n+"')";
         System.out.print(cadena);
         conexion.Ejecutar2(cadena);
         result.close();
