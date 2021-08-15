@@ -39,7 +39,7 @@ public class BeanGenerarCalendario {
     // Parametro de la vista
     private LocalDate desde;
     private LocalDate hasta;
-    private boolean sinfecha;
+    private boolean disabled_fecha;
     private String tipo;
     
     private FacturaDAO facturaDAO;
@@ -65,6 +65,8 @@ public class BeanGenerarCalendario {
         //facturaDAO = new FacturaDAO();
         //facturas = facturaDAO.llenar();
         facturas = Factura.get_fac_pro();
+        
+        this.disabled_fecha = true;
     }
 
     ////////////////////////////////
@@ -109,13 +111,15 @@ public class BeanGenerarCalendario {
         this.hasta = hasta;
     }
 
-    public boolean isSinfecha() {
-        return sinfecha;
+    public boolean isDisabled_fecha() {
+        return disabled_fecha;
     }
 
-    public void setSinfecha(boolean sinfecha) {
-        this.sinfecha = sinfecha;
+    public void setDisabled_fecha(boolean disabled_fecha) {
+        this.disabled_fecha = disabled_fecha;
     }
+
+    
 
     public String getTipo() {
         return tipo;
@@ -195,4 +199,11 @@ public class BeanGenerarCalendario {
         PrimeFaces.current().ajax().update(":form:tablafacturas");
     }
     
+    public void on_cambio() {
+        if ("1".equals(this.tipo)) {
+            this.disabled_fecha = false;
+        } else {
+            this.disabled_fecha = true;
+        }
+    }
 }

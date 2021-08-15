@@ -10,7 +10,7 @@
         <!-- Vista de generar calendario de pagos -->
         <ui:composition template="../../Plantilla/Plantilla.xhtml">
             <ui:define name="content">
-                <h:form class="p-m-5 p-m-lg-2" id="form">
+                <h:form class="p-m-3 " id="form">
 
                     <div class="p-d-flex p-ai-center p-jc-between p-mb-3 p-grid">
 
@@ -24,24 +24,31 @@
                     </div>
 
                     <div class="p-formgroup-inline">
+                        
                         <div class="p-field p-mr-2">
                             <p:outputLabel for="desde" value="Desde: "/>
-                            <p:datePicker id="desde" value="#{beanGenerarCalendario.desde}"/>
+                            <p:datePicker id="desde" value="#{beanGenerarCalendario.desde}" disabled="#{beanGenerarCalendario.disabled_fecha}"/>
                         </div>
 
                         <div class="p-field p-mr-2">
                             <p:outputLabel for="hasta" value="Hasta: "/>
-                            <p:datePicker id="hasta" value="#{beanGenerarCalendario.hasta}"/>
+                            <p:datePicker id="hasta" value="#{beanGenerarCalendario.hasta}" disabled="#{beanGenerarCalendario.disabled_fecha}"/>
                         </div>
                         
                         <div class="p-field p-mr-2">
                             
-                            <p:selectOneButton value="#{beanGenerarCalendario.tipo}" style="font-size: 10px;">
+                            <p:selectOneButton onchange=""
+                                value="#{beanGenerarCalendario.tipo}">
+                                <p:ajax update="desde hasta" listener="#{beanGenerarCalendario.on_cambio()}" />
+                                
                                 <f:selectItem itemLabel="No vencidas" itemValue="0" />
-                                <f:selectItem itemLabel="Vencida en 30 dias o menos" itemValue="1" />
-                                <f:selectItem itemLabel="Vencida en 31 dias a 60 días" itemValue="2" />
-                                <f:selectItem itemLabel="Vencida en 61 dias a 90 días" itemValue="3" />
-                                <f:selectItem itemLabel="Vencidas 91+" itemValue="4" />
+                                <f:selectItem itemLabel="Por fecha" itemValue="1" />
+                                <f:selectItem itemLabel="Vencida en 30 dias o menos" itemValue="2" />
+                                <f:selectItem itemLabel="Vencida en 31 dias a 60 días" itemValue="3" />
+                                <f:selectItem itemLabel="Vencida en 61 dias a 90 días" itemValue="4" />
+                                <f:selectItem itemLabel="Vencidas 91+" itemValue="5" />
+                                
+                                
                             </p:selectOneButton>
                             
                         </div>
