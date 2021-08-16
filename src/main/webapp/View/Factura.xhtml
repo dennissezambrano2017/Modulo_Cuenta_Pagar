@@ -14,7 +14,7 @@
                 <!-- PRINCIPAL FACTURA -->
 
                 <h:form id="form">
-<!--                    <f:event type="preRenderView" listener="{facturaMB.mostrar()}"/>-->
+                    <f:event type="preRenderComponent" listener="#{facturaMB.mostrar()}"/>
 
                     <p:growl id="messages" showDetail="true"/>
                     <p:panel id="panel">
@@ -96,7 +96,7 @@
                                                  process="@this"
                                                  update=":form:outputedit">
                                 </p:commandButton>
-                                <p:commandButton styleClass="edit-button rounded-button ui-button-danger"
+                                <p:commandButton styleClass="rounded-button ui-button-danger"
                                                  icon="pi pi-trash" process="@this"
                                                  actionListener="#{facturaMB.dhFactura(factura)}">
                                 </p:commandButton>

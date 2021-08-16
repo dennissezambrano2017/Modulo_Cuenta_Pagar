@@ -34,7 +34,7 @@ public class FacturaDAO {
         this.factura = factura;
     }
 
-    public List<Factura> llenar(String n) {
+    public List<Factura> llenarP(String n) {
         if (conexion.isEstado()) {
             try {
                 String sentencia = "SELECT f.idfactura,f.nfactura,f.descripcion,"
@@ -64,7 +64,7 @@ public class FacturaDAO {
         return listaFacturas;
     }
 
-    public List<Factura> llenarP() {
+    public List<Factura> llenar() {
         if (conexion.isEstado()) {
             try {
 //                String sentencia = "SELECT f.idfactura,f.nfactura,f.descripcion,"
