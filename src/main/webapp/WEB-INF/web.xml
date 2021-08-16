@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+    <display-name>jsf</display-name>
     <mime-mapping>
         <extension>ttf</extension>
         <mime-type>application/x-font-ttf</mime-type>
@@ -16,10 +17,22 @@
         <extension>eot</extension>
         <mime-type>application/x-font-eot</mime-type>
     </mime-mapping>
+    <mime-mapping>    
+        <extension>js</extension>        
+        <mime-type>application/javascript</mime-type>        
+    </mime-mapping>
+    <mime-mapping>    
+        <extension>css</extension>        
+        <mime-type>css/primeflex</mime-type>        
+    </mime-mapping>
     
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>saga</param-value>
     </context-param>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>

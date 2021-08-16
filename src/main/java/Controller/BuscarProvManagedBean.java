@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
@@ -177,7 +178,7 @@ public class BuscarProvManagedBean implements Serializable {
     }
 
     //Paola
-    public void onRowEdit(RowEditEvent<Factura> event) {
+    public void onRowEdit(RowEditEvent event) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Se Modifico la cantidad"));
     }
 
@@ -185,13 +186,18 @@ public class BuscarProvManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Se Cancelo la modificación"));
     }
     public void onCellEdit(CellEditEvent event) {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-
-        if (newValue != null && !newValue.equals(oldValue)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        }
+        event.getComponent();
+        System.out.println(event.getNewValue());
+//        Object oldValue = event.getOldValue();
+//        Object newValue = event.getNewValue();
+//        
+//
+//        if (newValue != null && !newValue.equals(oldValue)) {
+//            PrimeFaces.current().ajax().update("form:table-factura");
+//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+//            FacesContext.getCurrentInstance().addMessage(null, msg);
+//        }
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Se Cancelo la modificación"));
     }
 
 

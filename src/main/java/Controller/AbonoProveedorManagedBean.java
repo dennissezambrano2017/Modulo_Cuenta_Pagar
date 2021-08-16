@@ -71,7 +71,7 @@ public class AbonoProveedorManagedBean implements Serializable {
     }
 
     public void mostrarPago() {
-        listaFactura = facturaDAO.llenar();
+        listaFactura = facturaDAO.llenar("1");
         System.out.println(listaFactura);
     }
 

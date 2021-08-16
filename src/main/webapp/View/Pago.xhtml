@@ -166,12 +166,16 @@
                                                      var="pagoFactura" 
                                                      value="#{BuscarMB.listafactura}" 
                                                      style="padding-top: 20px" 
-                                                     selection="#{BuscarMB.listafactura}">
-                                            
+                                                     selection="#{BuscarMB.listafactura}"
+                                                     editMode="cell">
+
                                             <!--Nos ayuda en poder ingresar dato en Pago-->
-                                            <p:ajax event="rowEdit" listener="#{BuscarMB.onRowEdit}" update=":form:table-factura"/>
-                                            <p:ajax event="rowEditCancel" listener="#{BuscarMB.onRowCancel}" update=":form:table-factura"/>
-                                            
+                                            <!--                                            <p:ajax event="rowEdit" listener="{BuscarMB.onRowEdit}" update=":form:table-factura"/>
+                                            <p:ajax event="rowEditCancel" listener="{BuscarMB.onRowCancel}" update=":form:table-factura"/>
+                                            <p:ajax event="rowEdit" listener="{BuscarMB.onRowEdit}" update=":form:msgs form" />
+                                            <p:ajax event="rowEditCancel" listener="{BuscarMB.onRowCancel}" update=":form:msgs form" />-->
+                                            <p:ajax event="cellEdit" listener="#{BuscarMB.onCellEdit}" update=":form:table-factura,:form:msgs"/>
+
                                             <p:column headerText="Factura No." >
                                                 <h:outputText value="#{pagoFactura.nfactura}"/>
                                             </p:column>
@@ -194,14 +198,9 @@
                                                     </f:facet>
                                                     <f:facet name="input">
                                                         <p:inputText value="#{pagoFactura.pagado}" label="Pago"/>
-                                                        
                                                     </f:facet>
                                                 </p:cellEditor>
                                             </p:column>
-                                            <p:column style="width:6rem">
-                                                <p:rowEditor />
-                                            </p:column>
-
                                         </p:dataTable>
                                     </div>
                                 </div>
