@@ -64,7 +64,7 @@ public class BeanGenerarCalendario {
         
         //facturaDAO = new FacturaDAO();
         //facturas = facturaDAO.llenar();
-        facturas = Factura.get_fac_pro();
+        this.facturas = Factura.get_fac_pro(this.desde, this.hasta, Integer.parseInt(this.tipo));
         
         this.disabled_fecha = true;
     }
@@ -195,7 +195,7 @@ public class BeanGenerarCalendario {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Consultado los datos."));
         System.out.println(this.facturas);
         
-        this.facturas = Factura.get_fac_pro();
+        this.facturas = Factura.get_fac_pro(this.desde, this.hasta, Integer.parseInt(this.tipo));
         PrimeFaces.current().ajax().update(":form:tablafacturas");
     }
     
