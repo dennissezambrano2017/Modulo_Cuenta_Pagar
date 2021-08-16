@@ -11,12 +11,9 @@ import Model.Factura;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import org.primefaces.PrimeFaces;
 
@@ -33,18 +30,27 @@ public class FacturaManagedBean implements Serializable {
     private BuscarProvDAO busprovDAO;
     private List<Factura> listaFactura;
     private boolean check;
-    private boolean value;
     
     public FacturaManagedBean() {
         factura = new Factura();
         listaFactura = new ArrayList<>();
         facturaDAO = new FacturaDAO();
         busprovDAO = new BuscarProvDAO();
-        check = true;
+        boolean value = habTabla();
+        System.out.print("MI BOOLEAN NO FUNCAAAAA: "+ value);
+        if (value) {
+            System.out.print("hello managed");
+            listaFactura = facturaDAO.llenarP("1");
+            PrimeFaces.current().ajax().update("form:dt-factura");
+        } else {
+            System.out.print("hello2 managed");
+            listaFactura = facturaDAO.llenarP("0");
+            PrimeFaces.current().ajax().update("form:dt-factura");
+        }
     }
     
     public void mostrar(){
-        listaFactura = facturaDAO.llenar();
+        check = habTabla();
     }
 
     public Factura getFactura() {
@@ -78,42 +84,38 @@ public class FacturaManagedBean implements Serializable {
     public void setCheck(boolean cheack) {
         this.check = cheack;
     }
+    
+    
 
-    public boolean isValue() {
-        return value;
-    }
 
-    public void setValue(boolean value) {
-        this.value = value;
-    }
-
-    public List<Factura> check() {
-        String summary = value ? "Pendientes" : "Todas";
-        if (value) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
-            listaFactura = facturaDAO.llenar();
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
-            listaFactura = facturaDAO.llenarP("1");
-        }
-        return listaFactura;
-    }
-
-    public void habTabla() {
-        this.listaFactura = new ArrayList<>();
+//    public void habTabla() {
+//        this.listaFactura = new ArrayList<>();
+//        String mensaje = check ? "Habilitados" : "Deshabilitados";
+//        if (check) {
+//            System.out.print("hello");
+//            listaFactura = facturaDAO.llenarP("1");
+//            //PrimeFaces.current().ajax().update("form:dt-factura");
+//        } else {
+//            System.out.print("hello2");
+//            listaFactura = facturaDAO.llenarP("0");
+//            //PrimeFaces.current().ajax().update("form:dt-factura");
+//        }
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(mensaje));
+//        PrimeFaces.current().ajax().update("form:dt-factura");
+////        return listaFactura;
+//    }
+    
+        public boolean habTabla() {
         String mensaje = check ? "Habilitados" : "Deshabilitados";
         if (check) {
             System.out.print("hello");
-            listaFactura = facturaDAO.llenarP("1");
-            //PrimeFaces.current().ajax().update("form:dt-factura");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(mensaje));
+            return true;
         } else {
             System.out.print("hello2");
-            listaFactura = facturaDAO.llenarP("0");
-            //PrimeFaces.current().ajax().update("form:dt-factura");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(mensaje));
+            return false;
         }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(mensaje));
-        PrimeFaces.current().ajax().update("form:dt-factura");
-//        return listaFactura;
     }
 
     public void abrirNuevo() {
