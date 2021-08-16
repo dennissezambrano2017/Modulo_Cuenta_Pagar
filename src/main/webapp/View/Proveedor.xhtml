@@ -41,10 +41,10 @@
                          </p:toolbar>
                          <!--- Lista de Tabal de datos  !-->
                          <p:dataTable id="dt-products" widgetVar="dtProducts" var="provee" 
-                                      value="#{proveedorDAO.listaProveedor}"
+                                      value="#{condicionesMB.listaCondiciones}"
                                       reflow="true" styleClass="products-table"
                                       selection="#{proveedorDAO.selectedProveedor}" 
-                                      rowKey="#{provee.idProveedor}" paginator="true"
+                                      rowKey="#{provee.idCondiciones}" paginator="true"
                                       rows="5" rowSelectMode="add" paginatorPosition="bottom">
                               <f:facet name="header">
                                    <div class="products-table-header">
@@ -79,67 +79,67 @@
 
                               <p:column selectionMode="multiple" exportable="false"></p:column>
                               <!--  DATO CODIGO PROVEEDOR  !-->
-                              <p:column headerText="Código" sortBy="#{provee.codigo}" 
-                                        filterBy="#{provee.codigo}">
-                                   <h:outputText value="#{provee.codigo}"/>
+                              <p:column headerText="Código" sortBy="#{provee.proveedor.codigo}" 
+                                        filterBy="#{provee.proveedor.codigo}">
+                                   <h:outputText value="#{provee.proveedor.codigo}"/>
                               </p:column>
                                <!-- DATO   RAZON SOCIAL  !-->
-                               <p:column headerText="RazonSocial" sortBy="#{provee.razonSocial}" 
-                                        filterBy="#{provee.razonSocial}">
-                                   <h:outputText value="#{provee.razonSocial}"/>
+                               <p:column headerText="RazonSocial" sortBy="#{provee.proveedor.razonSocial}" 
+                                        filterBy="#{provee.proveedor.razonSocial}">
+                                   <h:outputText value="#{provee.proveedor.razonSocial}"/>
                               </p:column>
                                 <!-- DATO   RUC  !-->
-                                <p:column headerText="Ruc" sortBy="#{provee.ruc}" 
-                                        filterBy="#{provee.ruc}">
-                                   <h:outputText value="#{provee.ruc}"/>
+                                <p:column headerText="Ruc" sortBy="#{provee.proveedor.ruc}" 
+                                        filterBy="#{provee.proveedor.ruc}">
+                                   <h:outputText value="#{provee.proveedor.ruc}"/>
                               </p:column>
                               <!-- DATO  NOMBRE PROVEEDOR  !-->
-                              <p:column headerText="Nombre" sortBy="#{provee.nombre}" 
-                                        filterBy="#{provee.nombre}">
-                                   <h:outputText value="#{provee.nombre}"/>
+                              <p:column headerText="Nombre" sortBy="#{provee.proveedor.nombre}" 
+                                        filterBy="#{provee.proveedor.nombre}">
+                                   <h:outputText value="#{provee.proveedor.nombre}"/>
                               </p:column>
                               <!-- DATO CONTACTO PROVEEDOR  !-->
-                              <p:column headerText="Contacto" sortBy="#{provee.contacto}" 
-                                        filterBy="#{provee.contacto}">
-                                   <h:outputText value="#{provee.contacto}"/>
+                              <p:column headerText="Contacto" sortBy="#{provee.proveedor.contacto}" 
+                                        filterBy="#{provee.proveedor.contacto}">
+                                   <h:outputText value="#{provee.proveedor.contacto}"/>
                               </p:column>
                               <!-- DATO DIRECCION PROVEEDOR  !-->
                               <p:column headerText="Dirección" >
-                                   <h:outputText value="#{provee.direccion}"/>
+                                   <h:outputText value="#{provee.proveedor.direccion}"/>
                               </p:column>
                               <!-- DATO EMAIL PROVEEDOR  !-->
                               <p:column headerText="E-mail" >
-                                   <h:outputText value="#{provee.email}"/>
+                                   <h:outputText value="#{provee.proveedor.email}"/>
                               </p:column>
                               <!-- DATO TELEFONO PROVEEDOR  !-->
                               <p:column headerText="Telefono" >
-                                   <h:outputText value="#{provee.telefono}"/>
+                                   <h:outputText value="#{provee.proveedor.telefono}"/>
                               </p:column>
                                <!-- DATO WEBPAGE PROVEEDOR  !-->
-                              <p:column headerText="Estado" sortBy="#{provee.webPage}" 
-                                        filterBy="#{provee.webPage}">
-                                   <h:outputText value="#{provee.webPage}"/>
+                              <p:column headerText="Estado" sortBy="#{provee.proveedor.webPage}" 
+                                        filterBy="#{provee.proveedor.webPage}">
+                                   <h:outputText value="#{provee.proveedor.webPage}"/>
                               </p:column>
                               <!-- DATO ESTADO PROVEEDOR  !-->
-                              <p:column headerText="Estado" sortBy="#{provee.estado}" 
-                                        filterBy="#{provee.estado}">
-                                   <h:outputText value="#{provee.estado}"/>
+                              <p:column headerText="Estado" sortBy="#{provee.proveedor.estado}" 
+                                        filterBy="#{provee.proveedor.estado}">
+                                   <h:outputText value="#{provee.proveedor.estado}"/>
                               </p:column>
                                <!-- DATO DIAS NETO PROVEEDOR  !-->
                                <p:column headerText="DiasNeto" >
-                                   <h:outputText value=""/>
+                                    <h:outputText value="#{provee.diasNeto}"/>
                               </p:column>
                                 <!-- DATO DIAS DESCUENTO PROVEEDOR  !-->
                                <p:column headerText="DiasDescuento">
-                                   <h:outputText value=""/>
+                                    <h:outputText value="#{provee.diasDescuento}"/>
                               </p:column>
                                 <!-- DATO DIAS VENCIDOS PROVEEDOR  !-->
                                 <p:column headerText="cantDiasVencidos" >
-                                   <h:outputText value=""/>
+                                     <h:outputText value="#{provee.cantDiasVencidos}"/>
                               </p:column>
                                   <!-- DATO DESCRIPCION PROVEEDOR  !-->
                                <p:column headerText="descripcion" >
-                                   <h:outputText value=""/>
+                                    <h:outputText value="#{provee.descripcion}"/>
                               </p:column>
 
                               <p:column exportable="false">

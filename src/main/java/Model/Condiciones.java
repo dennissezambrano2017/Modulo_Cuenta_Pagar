@@ -9,16 +9,16 @@ public class Condiciones {
      int diasDescuento;
      int cantDiasVencidos;
      String descripcion;
-     Proveedor idProveedor;
+     Proveedor  proveedor;
 
-     public Condiciones(int idCondiciones, Double descuento, int diasNeto, int diasDescuento, int cantDiasVencidos, String descripcion, Proveedor idProveedor) {
+     public Condiciones(int idCondiciones, Double descuento, int diasNeto, int diasDescuento, int cantDiasVencidos, String descripcion, Proveedor proveedor) {
           this.idCondiciones = idCondiciones;
           this.descuento = descuento;
           this.diasNeto = diasNeto;
           this.diasDescuento = diasDescuento;
           this.cantDiasVencidos = cantDiasVencidos;
           this.descripcion = descripcion;
-          this.idProveedor = idProveedor;
+          this.proveedor = proveedor;
      }
 
      
@@ -73,12 +73,14 @@ public class Condiciones {
           this.descripcion = descripcion;
      }
 
-     public Proveedor getidProveedor() {
-          return idProveedor;
+     public Proveedor getProveedor() {
+          return proveedor;
      }
 
-     public void setidProveedor(Proveedor idProveedor) {
-          this.idProveedor = idProveedor;
+     public void setProveedor(Proveedor proveedor) {
+          this.proveedor = proveedor;
      }
+
+   
      
 }
