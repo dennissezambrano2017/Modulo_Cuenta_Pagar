@@ -109,6 +109,9 @@
                                 <h:outputText value="#{factura.importe - factura.pagado}" />
                             </p:column>
 
+                            <p:column headerText="Estado">
+                                <h:outputText value="#{factura.estado_string}" />
+                            </p:column>
                         </p:dataTable>
                     </div>
                 </h:form>

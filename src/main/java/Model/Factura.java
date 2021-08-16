@@ -28,6 +28,7 @@ public class Factura {
     private LocalDate vencimiento;
     private int estado;
     private int idproveedor;
+    private String estado_string;
     private Proveedor proveedor;
     private String nombre;
     private String ruc;
@@ -169,6 +170,14 @@ public class Factura {
     public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
     }
+
+    public String getEstado_string() {
+        return estado_string;
+    }
+
+    public void setEstado_string(String estado_string) {
+        this.estado_string = estado_string;
+    }
     
 
     public String getNombre() {
@@ -257,16 +266,22 @@ public class Factura {
         return this;
     }
     
-    public static List<Factura> get_fac_pro() {
+    public static List<Factura> get_fac_pro(LocalDate desde, LocalDate hasta, int opcion) {
         List<Factura> lista = new ArrayList<>();
         
         Conexion conn = new Conexion();
-        String query = "select * from select_fac_pro();";
+        String query = "select * from select_fac_pro(?, ?, ?);";
+        
         try {
             conn.abrirConexion();
             
             //Statement stmt = conn.conex.createStatement();
             PreparedStatement stmt = conn.conex.prepareStatement(query);
+            // Establecemos los argumentos.
+            stmt.setDate(1, java.sql.Date.valueOf(desde));
+            stmt.setDate(2, java.sql.Date.valueOf(hasta));
+            stmt.setInt(3, opcion);
+            //stmt.setObject(1, new java.sql.Date());
             
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -285,6 +300,8 @@ public class Factura {
                 fac.setIdproveedor(rs.getInt("id_proveedor"));
                 fac.proveedor.idProveedor = rs.getInt("id_proveedor");
                 fac.proveedor.nombre = rs.getString("nombre");
+                
+                fac.setEstado_string(rs.getString("estado_string"));
                 
                 lista.add(fac);
             }
