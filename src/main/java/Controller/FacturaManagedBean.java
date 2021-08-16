@@ -16,6 +16,7 @@ import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import org.primefaces.PrimeFaces;
 
@@ -118,6 +119,10 @@ public class FacturaManagedBean implements Serializable {
     public void abrirNuevo() {
         this.factura = new Factura();
     }
+    
+    public void hola(){
+    System.out.print("hola");
+}
 
     public void cargarEditar(Factura factura) {
         String dato = factura.getNfactura();
@@ -147,17 +152,16 @@ public class FacturaManagedBean implements Serializable {
             } else {
                 try {
                     if ("".equals(factura.getRuc())) {
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al guardar"));
                     } else {
-                        this.facturaDAO.Insertar(factura);
+                        facturaDAO.Insertar(factura);
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Guardada"));
                     }
                 } catch (Exception e) {
                     System.out.println("ERROR DAO: " + e);
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ERROR AL GUARDAR"));
                 }
                 PrimeFaces.current().executeScript("PF('newFactura').hide()");
-//                PrimeFaces.current().executeScript("location.reload()");
                 listaFactura = null;
                 listaFactura = facturaDAO.llenarP("1");
                 PrimeFaces.current().ajax().update("form:dt-factura");
@@ -167,6 +171,7 @@ public class FacturaManagedBean implements Serializable {
 
     //Diana Actualizar factura
     public void editarfactura() {
+        this.factura= new Factura();
         System.out.print("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
         System.out.print("ruc: " + factura.getRuc());
         if (fechas()) {
@@ -184,7 +189,7 @@ public class FacturaManagedBean implements Serializable {
                     }
                 } catch (Exception e) {
                     System.out.println("ERROR DAO: " + e);
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ERROR AL GUARDAR"));
                 }
                 PrimeFaces.current().executeScript("PF('editFactura').hide()");
                 //PrimeFaces.current().executeScript("location.reload()");
@@ -233,6 +238,7 @@ public class FacturaManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Deshabilitada factura: " + factura.getNfactura()));
         PrimeFaces.current().executeScript("location.reload()");
     }
+
 
     //ESTO ES DE PAOLA
     //    public boolean valores(){

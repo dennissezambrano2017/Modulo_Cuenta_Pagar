@@ -25,6 +25,7 @@ public class FacturaDAO {
     private List<Factura> listaFacturas;
 
     public FacturaDAO() {
+        factura = new Factura();
         conexion = new Conexion();
         listaFacturas = new ArrayList<>();
     }
@@ -41,7 +42,7 @@ public class FacturaDAO {
                         + "f.importe,f.pagado ,(f.importe - f.pagado) as pendiente,f.fecha,"
                         + "f.vencimiento,f.estado, p.nombre, f.habilitar from factura as f "
                         + "INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor) "
-                        + "where habilitar = "+n;
+                        + "where (f.importe - f.pagado) != 0 and habilitar = " + n;
                 result = conexion.ejecutarConsulta(sentencia);
                 System.out.println("Factura: " + result.toString());
                 while (result.next()) {
@@ -54,7 +55,7 @@ public class FacturaDAO {
                             result.getInt("estado"), result.getString("nombre"),
                             result.getInt("habilitar")));
                 }
-                result.close();
+
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");
             } finally {
@@ -67,16 +68,11 @@ public class FacturaDAO {
     public List<Factura> llenar() {
         if (conexion.isEstado()) {
             try {
-//                String sentencia = "SELECT f.idfactura,f.nfactura,f.descripcion,"
-//                        + "f.importe,f.pagado ,(f.importe - f.pagado) as pendiente,f.fecha,"
-//                        + "f.vencimiento,f.estado, p.nombre from factura as f "
-//                        + "INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor) "
-//                        + "where (f.importe - f.pagado) != 0 and habilitar = 1";
                 String sentencia = "SELECT f.idfactura,f.nfactura,f.descripcion,"
                         + "f.importe,f.pagado ,(f.importe - f.pagado) as pendiente,f.fecha,"
                         + "f.vencimiento,f.estado, p.nombre, f.habilitar from factura as f "
                         + "INNER JOIN proveedor as p on (f.idproveedor = p.idproveedor) "
-                        + "where habilitar = 1";
+                        + "where (f.importe - f.pagado) != 0 and habilitar = 1";
                 result = conexion.ejecutarConsulta(sentencia);
                 System.out.println("Factura: " + result.toString());
                 while (result.next()) {
@@ -89,7 +85,6 @@ public class FacturaDAO {
                             result.getInt("estado"), result.getString("nombre"),
                             result.getInt("habilitar")));
                 }
-                result.close();
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");
             } finally {
@@ -102,40 +97,36 @@ public class FacturaDAO {
     public void Insertar(Factura factura) {
         if (conexion.isEstado()) {
             try {
-        String cadena = "INSERT INTO public.factura("
-                + "nfactura, descripcion, importe, pagado, fecha, vencimiento,idproveedor,habilitar)"
-                + " VALUES ('" + factura.getNfactura() + "','"
-                + factura.getDescripcion() + "'," + factura.getImporte() + ","
-                + factura.getPagado() + ",'" + factura.getFecha() + "','"
-                + factura.getVencimiento() + "',(Select idproveedor from proveedor p "
-                + " where p.ruc = '" + factura.getRuc() + "'), 1)";
-        System.out.print(cadena);
-        conexion.Ejecutar2(cadena);
-            result.close();
-            } catch (SQLException ex) {
+                String cadena = "INSERT INTO public.factura("
+                        + "nfactura, descripcion, importe, pagado, fecha, vencimiento,idproveedor,habilitar)"
+                        + " VALUES ('" + factura.getNfactura() + "','"
+                        + factura.getDescripcion() + "'," + factura.getImporte() + ","
+                        + factura.getPagado() + ",'" + factura.getFecha() + "','"
+                        + factura.getVencimiento() + "',(Select idproveedor from proveedor p "
+                        + " where p.ruc = '" + factura.getRuc() + "'), 1)";
+                System.out.print(cadena);
+                conexion.Ejecutar2(cadena);
+            } catch (Exception ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");
             } finally {
                 conexion.cerrarConexion();
             }
         }
-        
     }
 
 //
-    
-        public void Actualizar(Factura factura) {
+    public void Actualizar(Factura factura) {
         if (conexion.isEstado()) {
             try {
-        String cadena = "select actualizarfactura('"+factura.getNfactura()
-                + "','" + factura.getDescripcion()+ "'," + factura.getImporte()
-                + "," + factura.getPagado()
-                + ",'" + factura.getFecha()
-                + "','" + factura.getVencimiento()
-                + "','" + factura.getRuc() + "')";
-        System.out.print(cadena);
-        conexion.Ejecutar2(cadena);
-        result.close();
-        } catch (SQLException ex) {
+                String cadena = "select actualizarfactura('" + factura.getNfactura()
+                        + "','" + factura.getDescripcion() + "'," + factura.getImporte()
+                        + "," + factura.getPagado()
+                        + ",'" + factura.getFecha()
+                        + "','" + factura.getVencimiento()
+                        + "','" + factura.getRuc() + "')";
+                System.out.print(cadena);
+                conexion.Ejecutar2(cadena);
+            } catch (Exception ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");
             } finally {
                 conexion.cerrarConexion();
@@ -151,16 +142,15 @@ public class FacturaDAO {
             System.out.println(selectedFactura.get(i).getNfactura());
         }
     }
-    
+
     public void dhabilitar(String n) {
-    System.out.print("HOLA ESTOY EN MANAGE HABILITAR UNO");
+        System.out.print("HOLA ESTOY EN MANAGE HABILITAR UNO");
         if (conexion.isEstado()) {
             try {
-            String cadena = "select habilitarfactura(0,'"+n+"')";
-        System.out.print(cadena);
-        conexion.Ejecutar2(cadena);
-        result.close();
-        } catch (SQLException ex) {
+                String cadena = "select habilitarfactura(0,'" + n + "')";
+                System.out.print(cadena);
+                conexion.Ejecutar2(cadena);
+            } catch (Exception ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");
             } finally {
                 conexion.cerrarConexion();
@@ -179,7 +169,6 @@ public class FacturaDAO {
                 while (result.next()) {
                     pagado = result.getFloat("pagado");
                 }
-                result.close();
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");
             } finally {

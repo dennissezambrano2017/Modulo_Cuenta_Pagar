@@ -17,7 +17,6 @@
                     <f:event type="preRenderComponent" listener="#{facturaMB.mostrar()}"/>
 
                     <p:growl id="messages" showDetail="true"/>
-                    <p:panel id="panel">
                         <h1 style="text-align: center; color: black">Facturas de compras</h1>
 
                         <p:toolbar>
@@ -56,9 +55,6 @@
                                       class="p-mt-3" 
                                       style="font-size:12px">
 
-                            <!--                            <p:column selectionMode="multiple" exportable="false"
-                                                                  style="width: 25px"/>-->
-
                             <p:column headerText="No. Factura" style="width: 60px">
                                 <h:outputText value="#{factura.nfactura}" />
                             </p:column>
@@ -89,20 +85,18 @@
                             </p:column>
 
                             <p:column exportable="false">
-                                <p:commandButton icon="pi pi-pencil"
+                                <p:commandButton icon="pi pi-pencil" update=":form:outputedit"
                                                  oncomplete="PF('editFactura').show()"
                                                  styleClass="edit-button rounded-button ui-button-warning"
-                                                 actionListener="#{facturaMB.cargarEditar(factura)}"
-                                                 process="@this"
-                                                 update=":form:outputedit">
+                                                 
+                                                 process="@this">
+                                    <f:ajax event="click" execute="@this" render="@this" listener="#{facturaMB.hola}" />
                                 </p:commandButton>
-                                <p:commandButton styleClass="rounded-button ui-button-danger"
+                                <p:commandButton  class="ui-button-danger rounded-button"
                                                  icon="pi pi-trash" process="@this"
-                                                 actionListener="#{facturaMB.dhFactura(factura)}">
-                                </p:commandButton>
+                                                 action="#{facturaMB.dhFactura(factura)}"/>
                             </p:column>
                         </p:dataTable>
-                    </p:panel>
                     <!-- DIALOG 1 NUEVA FACTURA-->
 
                     <p:dialog  header="Nueva Factura" showEffect="fade" modal="true"
@@ -337,75 +331,6 @@
                                          icon="pi pi-times"/>
                     </p:confirmDialog>
                 </h:form>
-                <!--
-                                DIALOG 4 BUSCAR FACTURA
-                
-                               <p:dialog header="Buscar Factura" widgetVar="Buscar" minHeight="500" width="40%" showEffect="fade">
-                                   <h:form>
-                                       <h:panelGrid columns="3" style="padding-bottom: 20px">
-                                           <p:outputLabel value="Proveedor:"/>
-                                           <p:inputText value="#{userWizard.user.firstname}" required="true" style="width: 300px"/>
-                                           <p:commandButton type="button" icon="pi pi-folder-open" styleClass="ui-button-warning"/>
-                
-                                           <p:outputLabel value="No. Factura: "/>
-                                           <p:inputText value="#{userWizard.user.lastname}" required="true" label="Lastname"/>
-                                           <p:outputLabel value=""/>
-                                       </h:panelGrid>
-                                       <p:commandButton type="button" style="left: 140px" value="Buscar" styleClass="ui-button-primary"/> 
-                                       <p:commandButton type="button" style="left: 150px" value="Cancelar" styleClass="ui-button-danger"/> 
-                                   </h:form>
-                               </p:dialog>
-                
-                                DIALOG 5 PAGOS
-                
-                               <p:dialog header="Pagos" widgetVar="pagos" minHeight="500" width="70%" showEffect="fade">
-                                   <h:form>
-                                       <p:dataTable id="dt-products" widgetVar="dtProducts" var="product" value="#{crudView.products}"
-                                                    styleClass="products-table" selection="#{crudView.selectedProducts}" 
-                                                    rowKey="#{product.id}">
-                
-                                           <p:column headerText="Pago por" style="width: 75px; text-align: center">
-                                               <h:outputText value="#{product.code}"/>
-                                           </p:column>
-                
-                                           <p:column headerText="Referencia" style="width: 75px; text-align: center">
-                                               <h:outputText value="#{product.name}"/>
-                                           </p:column>
-                
-                                           <p:column headerText="Fecha" style="width: 75px; text-align: center">
-                                               <h:outputText value="#{product.image}"/>
-                                           </p:column>
-                                           <p:column headerText="Pago" style="width: 75px; text-align: center">
-                                               <h:outputText value="#{product.name}"/>
-                                           </p:column>
-                
-                                           <p:column headerText="Total pago" style="width: 75px; text-align: center">
-                                               <h:outputText value="#{product.image}"/>
-                                           </p:column>
-                                       </p:dataTable>
-                                   </h:form>
-                               </p:dialog>
-                
-                
-                
-                                DIALOG OTROS
-                
-                               <p:dialog header="Buscar proveedor" widgetVar="Bprov" minHeight="500" width="40%" showEffect="fade">
-                                   <h:form>
-                                       <h:panelGrid columns="3" style=" padding-bottom: 20px">
-                                           <p:outputLabel value="Proveedor:"/>
-                                           <p:inputText value="#{userWizard.user.firstname}" required="true" style="width: 300px"/>
-                                           <p:commandButton type="button" icon="pi pi-folder-open" styleClass="ui-button-warning"/>
-                
-                                           <p:outputLabel value="No. Factura: "/>
-                                           <p:inputText value="#{userWizard.user.lastname}" required="true" label="Lastname"/>
-                                           <p:outputLabel value=""/>
-                                       </h:panelGrid>
-                                       <p:commandButton type="button" style="left: 140px" value="Buscar" styleClass="ui-button-primary"/> 
-                                       <p:commandButton type="button" style="left: 150px" value="Cancelar" styleClass="ui-button-danger"/> 
-                                   </h:form>
-                               </p:dialog>-->
-
             </ui:define>
         </ui:composition>
 

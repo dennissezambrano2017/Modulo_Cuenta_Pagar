@@ -34,13 +34,8 @@ public class Factura {
     private int idasiento;
     private float pendiente;
     private int habilitar;
-//    private List<Factura> listaFactura;
-//    private FacturaDAO facturaDAO;
-//double precision
+    
     public Factura() {
-//        listaFactura = new ArrayList<>();
-//        facturaDAO = new FacturaDAO();
-//        listaFactura = facturaDAO.llenarP("1");
     }
 
     //Paola: Usa este Constructor
