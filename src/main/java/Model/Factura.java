@@ -35,6 +35,7 @@ public class Factura {
     private int idasiento;
     private float pendiente;
     private int habilitar;
+    private float por_pagar;
     
     public Factura() {
     }
@@ -221,6 +222,14 @@ public class Factura {
     public void setHabilitar(int habilitar) {
         this.habilitar = habilitar;
     }
+
+    public float getPor_pagar() {
+        return por_pagar;
+    }
+
+    public void setPor_pagar(float por_pagar) {
+        this.por_pagar = por_pagar;
+    }
     
     
     // metodos aux para comunicación con la db
@@ -298,6 +307,9 @@ public class Factura {
                 fac.setVencimiento(rs.getObject("vencimiento", LocalDate.class));
                 fac.setEstado(rs.getInt("estado"));
                 fac.setIdproveedor(rs.getInt("id_proveedor"));
+                
+                fac.setPor_pagar(fac.getImporte()-fac.getPagado()); // Calculado
+                
                 fac.proveedor.idProveedor = rs.getInt("id_proveedor");
                 fac.proveedor.nombre = rs.getString("nombre");
                 

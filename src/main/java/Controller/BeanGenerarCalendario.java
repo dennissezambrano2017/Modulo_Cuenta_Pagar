@@ -8,9 +8,14 @@ package Controller;
 import DataView.FacturaDAO;
 import Model.Factura;
 import Model.ManagerCalendario;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 
@@ -23,9 +28,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -34,7 +42,7 @@ import org.primefaces.PrimeFaces;
 //@Named(value = "bindGenerarCalendario")
 @ManagedBean(name = "beanGenerarCalendario")
 @RequestScoped
-public class BeanGenerarCalendario {
+public class BeanGenerarCalendario  {
 
     // Parametro de la vista
     private LocalDate desde;
@@ -45,8 +53,7 @@ public class BeanGenerarCalendario {
     private FacturaDAO facturaDAO;
     List<Factura> facturas; // datos que se muestran en la tabla.
 
-    // Datos a consultar en la db
-    private ManagerCalendario managerCalendario;
+    private StreamedContent file;
     
     
 
@@ -56,7 +63,7 @@ public class BeanGenerarCalendario {
     
     @PostConstruct
     public void init() {
-        managerCalendario = new ManagerCalendario();
+        
         
         this.desde = LocalDate.now().withMonth(1).withDayOfMonth(1);
         this.hasta = LocalDate.now().withMonth(12).withDayOfMonth(31);
@@ -67,6 +74,10 @@ public class BeanGenerarCalendario {
         this.facturas = Factura.get_fac_pro(this.desde, this.hasta, Integer.parseInt(this.tipo));
         
         this.disabled_fecha = true;
+        
+        // confi of file
+        //this.file = DefaultStreamedContent.builder().name("reporte.pdf").contentType("aplication/pdf").stream(() -> null).build();
+        //exportar2();
     }
 
     ////////////////////////////////
@@ -85,14 +96,6 @@ public class BeanGenerarCalendario {
 
     public void setFacturaDAO(FacturaDAO facturaDAO) {
         this.facturaDAO = facturaDAO;
-    }
-    
-    public ManagerCalendario getManagerCalendario() {
-        return managerCalendario;
-    }
-
-    public void setManagerCalendario(ManagerCalendario managerCalendario) {
-        this.managerCalendario = managerCalendario;
     }
 
     public LocalDate getDesde() {
@@ -129,6 +132,20 @@ public class BeanGenerarCalendario {
         this.tipo = tipo;
     }
 
+    public StreamedContent getFile() {
+        System.out.println("///getFiledata");
+        this.facturas.forEach(fac -> {
+                System.out.println(fac.getProveedor().getNombre());
+                System.out.println(fac.getFecha());
+            });
+        System.out.println("///getFiledata fin");
+        return file;
+    }
+
+    public void setFile(StreamedContent file) {
+        this.file = file;
+    }
+
    
     
 
@@ -136,7 +153,19 @@ public class BeanGenerarCalendario {
     ///////////////////////////////////////
     // Metodo funcional para exportar pdf
     public void exportpdf() throws IOException, JRException {
-
+        System.out.println("metodo Export");
+        System.out.println(this.desde);
+        System.out.println(this.hasta);
+        System.out.println(this.tipo);
+        this.facturas = Factura.get_fac_pro(this.desde, this.hasta, Integer.parseInt(this.tipo));
+        
+        System.out.println("Datos que se ingresan al reporte, metodo exportpdf");
+        this.facturas.forEach(fac -> {
+            System.out.println(fac.getProveedor().getNombre());
+            System.out.println(fac.getFecha());
+        });
+        System.out.println("Datos que se ingresan al reporte, metodo exportpdf fin");
+        
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
 
@@ -152,18 +181,19 @@ public class BeanGenerarCalendario {
             // Parametros para el reporte.
             Map<String, Object> parametros = new HashMap<String, Object>();
             parametros.put("titulo", "Reporte desde java");
+            parametros.put("fecha", LocalDate.now().toString());
 
             // leemos la plantilla para el reporte.
             File filetext = new File(FacesContext
                     .getCurrentInstance()
                     .getExternalContext()
-                    .getRealPath("/PlantillasReportes/Calendario.jasper"));
+                    .getRealPath("/PlantillasReportes/practica_reporte.jasper"));
 
             // llenamos la plantilla con los datos.
             JasperPrint jasperPrint = JasperFillManager.fillReport(
                     filetext.getPath(),
                     parametros,
-                    new JRBeanCollectionDataSource(mc.getListFacturas())
+                    new JRBeanCollectionDataSource(this.facturas)
             );
 
             // exportamos a pdf.
@@ -172,12 +202,61 @@ public class BeanGenerarCalendario {
 
             stream.flush();
             stream.close();
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            // enviamos la respuesta.
+            fc.responseComplete();
+
+            System.out.println("fin proccess");
         }
 
-        // enviamos la respuesta.
-        fc.responseComplete();
+        
+    }
+    
+    public void exportar2() {
+        // Parametros para el reporte.
+        //this.facturas = Factura.get_fac_pro(this.desde, this.hasta, Integer.parseInt(this.tipo));
+        Map<String, Object> parametros = new HashMap<String, Object>();
+        parametros.put("titulo", "Reporte desde java");
+        parametros.put("fecha", LocalDate.now().toString());
+        
+        try {
+        
+        
+            File filetext = new File(FacesContext
+                       .getCurrentInstance()
+                       .getExternalContext()
+                       .getRealPath("/PlantillasReportes/practica_reporte.jasper"));
 
-        System.out.println("fin proccess");
+            System.out.println("Datos que se ingresan al reporte");
+            this.facturas.forEach(fac -> {
+                System.out.println(fac.getProveedor().getNombre());
+                System.out.println(fac.getFecha());
+            });
+            
+            // llenamos la plantilla con los datos.
+            JasperPrint jasperPrint = JasperFillManager.fillReport(
+                    filetext.getPath(),
+                    parametros,
+                    new JRBeanCollectionDataSource(this.facturas)
+            );
+
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            
+            // exportamos a pdf.
+            JasperExportManager.exportReportToPdfStream(jasperPrint, os);
+            os.flush();
+            os.close();
+            
+            InputStream is = new ByteArrayInputStream(os.toByteArray());
+            
+            this.file = DefaultStreamedContent.builder().name("reportedeexpor.pdf").contentType("application/pdf").stream(() -> is).build();
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        System.out.println("Fin, proceso de exportar 2");
     }
     
     public float Total() {
@@ -192,18 +271,21 @@ public class BeanGenerarCalendario {
         System.out.println(this.hasta);
         System.out.println(this.tipo);
         
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Consultado los datos."));
-        System.out.println(this.facturas);
-        
+        if (!this.desde.isBefore(this.hasta)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Fechas mal selecionadas"));
+            return;
+        }
+        // Tremos los datos desde la base de datos
         this.facturas = Factura.get_fac_pro(this.desde, this.hasta, Integer.parseInt(this.tipo));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Operación exitosa"));
+        // Actulizamos la tabla, para ver los resultados.
         PrimeFaces.current().ajax().update(":form:tablafacturas");
+        
+        // Antualizamos los datoa para el reporte
+        //exportar2();
     }
     
     public void on_cambio() {
-        if ("1".equals(this.tipo)) {
-            this.disabled_fecha = false;
-        } else {
-            this.disabled_fecha = true;
-        }
+        this.disabled_fecha = !"1".equals(this.tipo);
     }
 }
