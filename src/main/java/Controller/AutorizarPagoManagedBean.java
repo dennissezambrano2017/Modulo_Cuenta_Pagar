@@ -38,11 +38,11 @@ public class AutorizarPagoManagedBean implements Serializable {
         facturaDAO = new FacturaDAO();
         factura = new Factura();
         listaFactura = new ArrayList<>();
-        listaFactura = facturaDAO.llenar("1");
+        listaFactura = facturaDAO.llenar();
     }
 
     public void mostrar() {
-        listaFactura = facturaDAO.llenar("1");
+        listaFactura = facturaDAO.llenar();
         System.out.println(listaFactura.size() + "holis");
     }
 
