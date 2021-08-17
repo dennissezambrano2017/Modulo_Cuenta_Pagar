@@ -5,7 +5,6 @@
  */
 package Model;
 import Controller.Conexion;
-import DataView.FacturaDAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,6 +35,9 @@ public class Factura {
     private float pendiente;
     private int habilitar;
     private float por_pagar;
+    // detalle de factura
+    private String detalle;
+    
     
     public Factura() {
     }
@@ -89,7 +91,12 @@ public class Factura {
         this.fecha = fecha;
         this.vencimiento = vencimiento;
     }
-    
+
+    //detalle factura
+    public Factura(float importe, String detalle) {
+        this.importe = importe;
+        this.detalle = detalle;
+    }
     
     
     public int getId() {
@@ -222,6 +229,16 @@ public class Factura {
     public void setHabilitar(int habilitar) {
         this.habilitar = habilitar;
     }
+
+    public String getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
+    }
+    
+    
 
     public float getPor_pagar() {
         return por_pagar;

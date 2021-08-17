@@ -13,25 +13,29 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
  * @author ninat
  */
 @ManagedBean(name = "facturaMB")
-@ViewScoped
+//@ViewScoped
+@SessionScoped
 public class FacturaManagedBean implements Serializable {
 
     private Factura factura;
     private FacturaDAO facturaDAO;
     private BuscarProvDAO busprovDAO;
     private List<Factura> listaFactura;
-    private List<Factura> detalleFactura;
+    private List<Factura> detalleFactura = new ArrayList<>();
     private boolean check;
-    int tamaño;
+    private float datoImporte;
+    private String datoDetalle;
 
     //Constructor
     public FacturaManagedBean() {
@@ -43,14 +47,11 @@ public class FacturaManagedBean implements Serializable {
         this.listaFactura.clear();
         this.listaFactura = this.facturaDAO.llenar();
     }
-    public void llenar(){
-        this.listaFactura.clear();
-        this.listaFactura = this.facturaDAO.llenar();
-    }
 
 //    public void mostrar() {
 //        check = true;
 //    }
+    
     // Getter and Setter
     public Factura getFactura() {
         return factura;
@@ -76,6 +77,15 @@ public class FacturaManagedBean implements Serializable {
         this.listaFactura = listaFactura;
     }
 
+    public List<Factura> getDetalleFactura() {
+        return detalleFactura;
+    }
+
+    public void setDetalleFactura(List<Factura> detalleFactura) {
+        this.detalleFactura = detalleFactura;
+    }
+    
+
     public boolean isCheck() {
         return check;
     }
@@ -87,6 +97,7 @@ public class FacturaManagedBean implements Serializable {
     //Diana: insertar nueva Factura
     public void insertarfactura() {
         System.out.print("ESTOY AQUI EN EL MANAGED INSERTAR");
+        System.out.print("Cantidad detalle: "+detalleFactura.size());
         System.out.print("ruc: " + factura.getRuc());
         if (fechas()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Fecha es mayor que vencimiento"));
@@ -98,7 +109,7 @@ public class FacturaManagedBean implements Serializable {
                     if ("".equals(factura.getRuc())) {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al guardar"));
                     } else {
-                        facturaDAO.Insertar(factura);
+                        //facturaDAO.Insertar(factura);
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Guardada"));
                     }
                 } catch (Exception e) {
@@ -224,12 +235,64 @@ public class FacturaManagedBean implements Serializable {
             }
         }
     }
+    
+    //DETALLE FACTURA
+
+
+    public float getDatoImporte() {
+        return datoImporte;
+    }
+
+    public void setDatoImporte(float datoImporte) {
+        this.datoImporte = datoImporte;
+    }
+
+    public String getDatoDetalle() {
+        return datoDetalle;
+    }
+
+    public void setDatoDetalle(String datoDetalle) {
+        this.datoDetalle = datoDetalle;
+    }
+    
+    
+    
+    public void onRowEdit(RowEditEvent<Factura> event) {
+        Factura f = (Factura) event.getObject();
+        f.setImporte(datoImporte);
+        f.setDetalle(datoDetalle);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Edited"));
+    }
+
+    public void onRowCancel(RowEditEvent<Factura> event) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Edit Cancelled"));
+    }
+
+    public void onAddNew() {
+        // Add one new product to the table:
+        System.out.print("Cantidad detalle: "+detalleFactura.size());
+        Factura newFactura = new Factura(0,"Detalle factura");
+        detalleFactura.add(newFactura);
+        PrimeFaces.current().ajax().update("form:dt-detalle");
+        FacesMessage msg = new FacesMessage("New Product added");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    
+    
+    
+    
 
     //ESTO ES DE PAOLA
     //    public boolean valores(){
 //        float importe = factura.getImporte();
 //        float
 //    }
+    public void llenar() {
+        this.listaFactura.clear();
+        this.listaFactura = this.facturaDAO.llenar();
+    }
+
     public void Registro() {
         String detail = check ? "Pago Autorizado" : "Pago no Autorizado";
         System.out.println(factura.getNfactura() + "-" + factura.getDescripcion() + "-" + detail);

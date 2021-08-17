@@ -160,23 +160,40 @@
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
 
-                                        <p:dataTable id="dt-products" widgetVar="dtProducts" 
-                                                     var="product" value="#{facturaMB.listaFactura}"
-                                                     styleClass="products-table" selection="#{crudView.selectedProducts}" 
-                                                     rowKey="#{product.id}" style="padding-top: 20px">
+                                        <p:dataTable id="dt-detalle" widgetVar="dtdetail" var="detalle" value="#{facturaMB.detalleFactura}"
+                                                     editable="true">
 
-                                            <p:column headerText="Importe" style="width: 35px; text-align: center">
-                                                <h:outputText value="#{product.code}"/>
+                                            <p:ajax event="rowEdit" listener="#{facturaMB.onRowEdit}" update=":form:messages"/>
+                                            <p:ajax event="rowEditCancel" listener="#{facturaMB.onRowCancel}" update=":form:messages"/>
+
+
+                                            <p:column headerText="Importe">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{detalle.importe}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText value="#{facturaMB.datoImporte}" style="width:100%"
+                                                                                       label="Importe"/></f:facet>
+                                                </p:cellEditor>
                                             </p:column>
 
-                                            <p:column headerText="Cuenta GL" style="width: 75px; text-align: center">
-                                                <h:outputText value="#{product.name}"/>
+                                            <p:column headerText="Detalle">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{detalle.detalle}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText value="#{facturaMB.datoDetalle}" style="width:100%"
+                                                                                       label="Detalle"/></f:facet>
+                                                </p:cellEditor>
                                             </p:column>
 
-                                            <p:column headerText="Nombre" style="width: 130px; text-align: center">
-                                                <h:outputText value="#{product.image}"/>
+                                            <p:column style="width:6rem">
+                                                <p:rowEditor/>
                                             </p:column>
                                         </p:dataTable>
+                                    </div>
+                                </div>
+
+                                <div class="p-grid p-mt-3">
+                                    <div class="p-col-12">
+                                        <p:commandButton value="Add new row" process="@this"
+                                                         action="#{facturaMB.onAddNew()}" oncomplete="PF('dtdetail').addRow();"/>
                                     </div>
                                 </div>
 

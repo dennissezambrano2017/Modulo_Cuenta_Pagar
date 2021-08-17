@@ -6,6 +6,7 @@
 package DataView;
 
 import Controller.Conexion;
+import java.sql.Connection;
 import Model.Factura;
 import java.sql.SQLException;
 import java.sql.ResultSet;
@@ -177,4 +178,27 @@ public class FacturaDAO {
         }
         return pagado;
     }
+    
+//Paola: Funcion para autorizar Pago
+    public void AutorizarPago(String sentencia) {
+        result= conexion.ejecutarConsulta(sentencia);
+    }
+//    public void AutorizarPago(String sentencia) {
+//        result= conexion.ejecutarConsulta(sentencia);
+//        System.out.println(result.getRow());
+//    }
+    
+    
+//    public int Autorizar(String sentencia) {
+//        try {
+//            connection = conexion.getCnx();
+//            statement = connection.createStatement();
+//            statement.executeUpdate(sentencia);
+//            System.out.print("Si inserto");
+//            return 1;
+//        } catch (SQLException err) {
+//            System.out.println(err + " Error de insertar");
+//            return 0;
+//        }
+//    }
 }
