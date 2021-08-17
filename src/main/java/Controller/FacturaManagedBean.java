@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -24,15 +25,14 @@ import org.primefaces.event.RowEditEvent;
  * @author ninat
  */
 @ManagedBean(name = "facturaMB")
-//@ViewScoped
 @SessionScoped
 public class FacturaManagedBean implements Serializable {
 
     private Factura factura;
-    private FacturaDAO facturaDAO;
-    private BuscarProvDAO busprovDAO;
+    private FacturaDAO facturaDAO = new FacturaDAO();
+    private BuscarProvDAO busprovDAO = new BuscarProvDAO();
     private List<Factura> listaFactura;
-    private List<Factura> detalleFactura = new ArrayList<>();
+    private List<Factura> detalleFactura;
     private boolean check;
     private float datoImporte;
     private String datoDetalle;
@@ -41,9 +41,9 @@ public class FacturaManagedBean implements Serializable {
     public FacturaManagedBean() {
         factura = new Factura();
         listaFactura = new ArrayList<>();
-        facturaDAO = new FacturaDAO();
-        busprovDAO = new BuscarProvDAO();
+      //  detalleFactura = new ArrayList<>();
         check = true;
+        System.out.print("ESTOY AQUI EN EL MANAGED NUEVO");
         this.listaFactura.clear();
         this.listaFactura = this.facturaDAO.llenar();
     }
@@ -201,7 +201,9 @@ public class FacturaManagedBean implements Serializable {
     }
 
     public void reset() {
-        PrimeFaces.current().resetInputs("form:outputnuevo");
+        System.out.print("sie ntre al reset");
+        PrimeFaces.current().resetInputs("form:outputnuevo, form:dt-detalle");
+        detalleFactura.clear();
     }
 
     //Comparación de fechas
@@ -274,6 +276,7 @@ public class FacturaManagedBean implements Serializable {
         Factura newFactura = new Factura(0,"Detalle factura");
         detalleFactura.add(newFactura);
         PrimeFaces.current().ajax().update("form:dt-detalle");
+        System.out.print("Cantidad detalle 2: "+detalleFactura.size());
         FacesMessage msg = new FacesMessage("New Product added");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
