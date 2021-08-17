@@ -97,7 +97,7 @@ public class BuscarProvManagedBean implements Serializable {
         System.out.print("Ruc: " + msg3);
         setNom(msg2);
         setCod(msg3);
-        listafactura = abonoDAO.llenarDatos(abonoproveedor.BuscarSentenciaFactura(msg3));        
+        listafactura = abonoDAO.llenarFacturas(abonoproveedor.BuscarSentenciaFactura(msg3));        
     }
 
     public void onRowDoubleClick(final SelectEvent event) {
@@ -154,6 +154,7 @@ public class BuscarProvManagedBean implements Serializable {
     }
 
     public Factura getFactura() {
+        System.out.println(factura.getNfactura()+listafactura.size());
         return factura;
     }
 
@@ -176,32 +177,8 @@ public class BuscarProvManagedBean implements Serializable {
     public void setAbonoDAO(AbonoProveedorDAO abonoDAO) {
         this.abonoDAO = abonoDAO;
     }
-
-    //Paola
-    public void onRowEdit(RowEditEvent event) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Se Modifico la cantidad"));
-    }
-
-    public void onRowCancel(RowEditEvent<Factura> event) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Se Cancelo la modificación"));
-    }
-    public void onCellEdit(CellEditEvent event) {
-        event.getComponent();
-        System.out.println(event.getNewValue());
-//        Object oldValue = event.getOldValue();
-//        Object newValue = event.getNewValue();
-//        
-//
-//        if (newValue != null && !newValue.equals(oldValue)) {
-//            PrimeFaces.current().ajax().update("form:table-factura");
-//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-//            FacesContext.getCurrentInstance().addMessage(null, msg);
-//        }
-//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Se Cancelo la modificación"));
-    }
-
-
     public List<Factura> getListafactura() {
+        
         return listafactura;
     }
 
@@ -216,5 +193,10 @@ public class BuscarProvManagedBean implements Serializable {
     public void setBuscarprovDAO(BuscarProvDAO buscarprovDAO) {
         this.buscarprovDAO = buscarprovDAO;
     }
+    public void leer (Factura factSelection){
+        factura=factSelection;
+        System.out.println("Controller.BuscarProvManagedBean.leer()");
 
+    }
+    
 }

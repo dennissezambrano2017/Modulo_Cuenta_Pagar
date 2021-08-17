@@ -42,6 +42,10 @@ public class FacturaManagedBean implements Serializable {
         this.listaFactura.clear();
         this.listaFactura = this.facturaDAO.llenar();
     }
+    public void llenar(){
+        this.listaFactura.clear();
+        this.listaFactura = this.facturaDAO.llenar();
+    }
 
 //    public void mostrar() {
 //        check = true;

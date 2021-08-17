@@ -15,13 +15,17 @@ import Model.TipoBanco;
 import Model.Factura;
 import Model.Proveedor;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
+import javax.faces.event.ActionListener;
 
 /**
  *
@@ -40,6 +44,7 @@ public class AbonoProveedorManagedBean implements Serializable {
     private FacturaDAO facturaDAO;
     private List<AbonoProveedor> listaAbonos;
     private List<Factura> listaFactura;
+    private List<Factura> listaSecFactura;
     private List<Proveedor> listaProveedor;
     private BuscarProvDAO buscarprovDAO;
     private Factura factura;
@@ -59,102 +64,91 @@ public class AbonoProveedorManagedBean implements Serializable {
         listaFactura = new ArrayList<>();
         listaProveedor = new ArrayList<>();
         buscarprovDAO = new BuscarProvDAO();
-        listaProveedor = buscarprovDAO.llenar();
         abonoDAO = new AbonoProveedorDAO();
-        listaAbonos = abonoDAO.llenar();
         factura = new Factura();
+        listaAbonos = abonoDAO.llenarDatos(abonoproveedor.sentenciaMostrar());
+        listaProveedor = abonoDAO.llenarProveedor();
+        
     }
 
+    //Metodos 
     public void mostrar() {
-        listaAbonos = abonoDAO.llenar();
-        System.out.println(listaAbonos);
+        this.listaAbonos = abonoDAO.llenarDatos(abonoproveedor.sentenciaMostrar());
     }
 
-    public void mostrarPago() {
-        listaFactura = facturaDAO.llenar();
-        System.out.println(listaFactura);
+    public void mostrar(String ruc) {
+        this.listaFactura.clear();
+        this.listaFactura = abonoDAO.llenarFacturas(abonoproveedor.BuscarSentenciaFactura(ruc));
     }
 
-    public void enviar(List<Factura> listafactura) {
-        this.abonoDAO = new AbonoProveedorDAO(abonoproveedor);
-        int result;
-        System.out.println(tipoPago.getDescripcion() + "--"
-                + tipoBanco.getDescrpcion() + "--" + buscarprovDAO.getProveedor().getRuc());
-
-        try {
-            this.abonoDAO.insertar(abonoproveedor.getSentencia(tipoPago.getDescripcion(),
-                    tipoBanco.getDescrpcion(), abonoproveedor.getRuc(), abonoproveedor.getFecha()));
-//            try {
-//                this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarFactura(abonoproveedor.getRuc()));
-//                System.out.println(this.listaFactura.size() + "--");
-//                int index = 0;
-//                while (index > getListaFactura().size()) {
-//                    this.abonoDAO.insertar(detalleAbono.getSentencia(listaFactura.get(index).getNfactura()));
-//                    index++;
-//                }
-//                System.out.println("EXITO");
-//            } catch (Exception ex) {
-//                System.err.println(ex + ":Error en guardar los datos en BD");
-//            }
-        } catch (Exception e) {
-            System.out.println(e + "Error en registrar Cabezera Abono");
-        }
+    public void mostraProveedor() {
+        this.listaProveedor = abonoDAO.llenarProveedor();
     }
 
-    public int InsertDetail(String ruc) {
-        System.out.println("Estoy buscandi factura");
-        int result = 0;
-        try {
-            this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarSentenciaFactura(ruc));
-            System.out.println(listaFactura.size() + "--");
-            int index = 0;
-            while (index > getListaFactura().size()) {
-                this.abonoDAO.insertar(detalleAbono.getSentencia(listaFactura.get(index).getNfactura()));
-                index++;
+    public void onRowSelectf(SelectEvent<Proveedor> event) {
+        String msg2 = event.getObject().getNombre();
+        String msg3 = event.getObject().getRuc();
+        System.out.print("Nombre: " + msg2);
+        System.out.print("Ruc: " + msg3);
+        setNom(msg2);
+        setCod(msg3);
+        this.listaFactura.clear();
+        this.listaFactura = abonoDAO.llenarFacturas(abonoproveedor.BuscarSentenciaFactura(msg3));
+        this.listaSecFactura =this.listaFactura;
+//        int index = 0;
+//        while (index < listaFactura.size()) {
+//            listaSecFactura.add(new Factura(listaFactura.get(index).getNfactura(),
+//                    listaFactura.get(index).getImporte(), listaFactura.get(index).getFecha(),
+//                    listaFactura.get(index).getFecha(), listaFactura.get(index).getVencimiento(),
+//                    listaFactura.get(index).getPendiente()));
+//        }
+    }
+
+    public void Cargar(Factura factura) {
+        int n = 0;
+        System.out.println("hola" + n);
+        this.factura.setNfactura(factura.getNfactura());
+        this.factura.setFecha(factura.getFecha());
+        this.factura.setVencimiento(factura.getVencimiento());
+        this.factura.setPagado(factura.getPagado());
+
+    }
+    public void Enviar(){
+        this.factura= new Factura();
+        System.out.print("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
+        System.out.print("ruc: " + factura.getRuc());
+        
+    }
+    public Boolean fechas() {
+
+        int year1 = Integer.parseInt(((factura.getFecha()).toString()).substring(0, 4));
+        int mes1 = Integer.parseInt(((factura.getFecha()).toString()).substring(5, 7));
+        int dia1 = Integer.parseInt(((factura.getFecha()).toString()).substring(8, 10));
+        int year2 = Integer.parseInt(((factura.getVencimiento()).toString()).substring(0, 4));
+        int mes2 = Integer.parseInt(((factura.getVencimiento()).toString()).substring(5, 7));
+        int dia2 = Integer.parseInt(((factura.getVencimiento()).toString()).substring(8, 10));
+
+        if (year1 > year2) {
+            return true;
+        } else {
+            if (year1 == year2) {
+                if (mes1 > mes2) {
+                    return true;
+                } else {
+                    if (mes1 == mes2) {
+                        if (dia1 > dia2) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                return false;
             }
-            result = 1;
-            System.out.println("EXITO");
-            return result;
-        } catch (Exception ex) {
-            result = 0;
-            System.err.println(ex + ":Error en guardar los datos en BD");
         }
-
-        return result;
-    }
-
-    public List<Factura> BuscarFactura(String ruc) {
-        System.out.print(getCod()+"ando aqui");
-        this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarSentenciaFactura(ruc));
-//        
-        return listaFactura;
-    }
-    
-    public void Factura(){
-        FacesContext =FacesContext.getCurrentInstance();
-        Map<String, String> parametros= FacesContext.getExternalContext().getRequestParameterMap();
-        int accion=0;
-        switch (accion){
-            case 1: this.listaProveedor = buscarprovDAO.llenar();
-            case 2: this.listaFactura = abonoDAO.llenar(abonoproveedor.BuscarSentenciaFactura(getCod()));
-        }
-//         return listaFactura = abonoDAO.llenar(abonoproveedor.BuscarSentenciaFactura());
-    }
-
-    public AbonoProveedor getAbonoproveedor() {
-        return abonoproveedor;
-    }
-
-    public void setAbonoproveedor(AbonoProveedor abonoproveedor) {
-        this.abonoproveedor = abonoproveedor;
-    }
-
-    public AbonoProveedorDAO getAbonoDAO() {
-        return abonoDAO;
-    }
-
-    public void setAbonoDAO(AbonoProveedorDAO abonoDAO) {
-        this.abonoDAO = abonoDAO;
     }
 
     public List<AbonoProveedor> getListaAbonos() {
@@ -165,12 +159,77 @@ public class AbonoProveedorManagedBean implements Serializable {
         this.listaAbonos = listaAbonos;
     }
 
-    public DetalleAbono getDetalleAbono() {
-        return detalleAbono;
+    public List<Factura> getListaFactura() {
+        return listaFactura;
     }
 
-    public void setDetalleAbono(DetalleAbono detalleAbono) {
-        this.detalleAbono = detalleAbono;
+    public void setListaFactura(List<Factura> listaFactura) {
+        this.listaFactura = listaFactura;
+    }
+
+    public List<Proveedor> getListaProveedor() {
+        return listaProveedor;
+    }
+
+    public void setListaProveedor(List<Proveedor> listaProveedor) {
+        this.listaProveedor = listaProveedor;
+    }
+
+    public Factura getFactura() {
+        System.err.println(factura);
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
+    }
+
+    public String getNfactura() {
+        return nfactura;
+    }
+
+    public void setNfactura(String nfactura) {
+        this.nfactura = nfactura;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getCod() {
+        return cod;
+    }
+
+    public void setCod(String cod) {
+        this.cod = cod;
+    }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
+    }
+
+    public float getPago() {
+        return pago;
+    }
+
+    public void setPago(float pago) {
+        this.pago = pago;
+    }
+
+    public AbonoProveedor getAbonoproveedor() {
+        return abonoproveedor;
+    }
+
+    public void setAbonoproveedor(AbonoProveedor abonoproveedor) {
+        this.abonoproveedor = abonoproveedor;
     }
 
     public TipoPago getTipoPago() {
@@ -189,30 +248,6 @@ public class AbonoProveedorManagedBean implements Serializable {
         this.tipoBanco = tipoBanco;
     }
 
-    public Proveedor getProveedor() {
-        return proveedor;
-    }
-
-    public void setProveedor(Proveedor proveedor) {
-        this.proveedor = proveedor;
-    }
-
-    public List<Factura> getListaFactura() {
-        return listaFactura;
-    }
-
-    public void setListaFactura(List<Factura> listaFactura) {
-        this.listaFactura = listaFactura;
-    }
-
-    public Factura getFactura() {
-        return factura;
-    }
-
-    public void setFactura(Factura factura) {
-        this.factura = factura;
-    }
-
     public FacturaDAO getFacturaDAO() {
         return facturaDAO;
     }
@@ -221,51 +256,13 @@ public class AbonoProveedorManagedBean implements Serializable {
         this.facturaDAO = facturaDAO;
     }
 
-    public List<Proveedor> getListaProveedor() {
-        return listaProveedor;
+    public List<Factura> getListaSecFactura() {
+        return listaSecFactura;
     }
 
-    public void setListaProveedor(List<Proveedor> listaProveedor) {
-        this.listaProveedor = listaProveedor;
+    public void setListaSecFactura(List<Factura> listaSecFactura) {
+        this.listaSecFactura = listaSecFactura;
     }
-
-    public void deleteProduct() {
-        listaFactura.remove(factura);
-        factura = null;
-    }
-
-    public String getNfactura() {
-        return nfactura;
-    }
-
-    public void setNfactura(String nfactura) {
-        this.nfactura = nfactura;
-    }
-
-    public float getPago() {
-        return pago;
-    }
-
-    public void setPago(float pago) {
-        this.pago = pago;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getCod() {
-        return cod;
-    }
-
-    public void setCod(String cod) {
-        this.cod = cod;
-    }
-     
-
     
+
 }

@@ -11,7 +11,6 @@
         <ui:composition template="./../Plantilla/Plantilla.xhtml">
 
             <ui:define name="content">
-                <!--                <f:event type="preRenderView" listener="{abonoProveedorMB.mostrar()}"/>-->
                 <h:form id="form">
                     <div >
                         <p:panel >
@@ -26,21 +25,7 @@
                                                      process="@this">
                                         <p:resetInput target=":form:pago-content"/>
                                     </p:commandButton>
-
-                                    <!--                                    <p:commandButton icon="pi pi-pencil" update=":form:pago-content"
-                                                                                         oncomplete="PF('managePagoDialog').show()"
-                                                                                         styleClass="ui-button-secondary" process="@this"
-                                                                                         value="Editar">
-                                                                            <f:setPropertyActionListener value="#{product}" target="#{crudView.selectedProduct}"/>
-                                                                            <p:resetInput target=":form:pago-content"/>
-                                                                        </p:commandButton>
-                                                                        <p:commandButton id="delete-products-button" value="Eliminar #{crudView.deleteButtonMessage}"
-                                                                                         icon="pi pi-trash" actionListener="#{crudView.deleteSelectedProducts}"
-                                                                                         styleClass="ui-button-danger" disabled="#{!crudView.hasSelectedProducts()}"
-                                                                                         update="@this"> 
-                                                                            <p:confirm header="Confirmation" message="Delete the selected products?"
-                                                                                       icon="pi pi-exclamation-triangle"/>
-                                                                        </p:commandButton>-->
+                                    
                                     <p:commandButton value="Buscar" icon="pi pi-search" 
                                                      oncomplete="PF('BuscarPago').show()"
                                                      styleClass="ui-button-warning" 
@@ -51,18 +36,8 @@
                             </p:toolbar>
 
                             <p:dataTable widgetVar="dtPagos" var="pago" value="#{abonoProveedorMB.listaAbonos}"
-                                         reflow="true" styleClass="products-table" id="proveedortabla"  rowKey="#{pago.fecha}"
+                                         reflow="true" styleClass="products-table" id="proveedortabla"
                                          rows="5" paginator="true" paginatorPosition="bottom">
-
-
-                                <!--                                <p:ajax event="rowSelect" update=":form:delete-products-button"/>
-                                                                <p:ajax event="rowUnselect" update=":form:delete-products-button"/>
-                                                                <p:ajax event="rowSelectCheckbox" update=":form:delete-products-button"/>
-                                                                <p:ajax event="rowUnselectCheckbox" update=":form:delete-products-button"/>
-                                                                <p:ajax event="toggleSelect" update=":form:delete-products-button"/>-->
-
-                                <p:column selectionMode="multiple" exportable="false"></p:column>
-
                                 <p:column headerText="Fecha" >
                                     <h:outputText value="#{pago.fecha}"/>
                                 </p:column>
@@ -98,12 +73,12 @@
                                     <div class="p-field p-col">
                                         <p:outputLabel for="name">Proveedor</p:outputLabel>
                                         <p:inputText id="name" type="button" 
-                                                     value="#{BuscarMB.nom}"/>
+                                                     value="#{abonoProveedorMB.nom}"/>
                                     </div>
                                     <div class="p-field p-col">
-                                        <p:inputText id="hola" value="#{BuscarMB.cod}" style="visibility: hidden"/>
-                                        <p:outputLabel value="#{BuscarMB.abonoproveedor.ruc=BuscarMB.cod}" style="visibility: hidden"/>
-                                        <p:inputText id="ruc" value="#{BuscarMB.abonoproveedor.ruc}" style="visibility: hidden" />
+                                        <p:inputText id="hola" value="#{abonoProveedorMB.cod}" style="visibility: hidden"/>
+                                        <p:outputLabel value="#{abonoProveedorMB.abonoproveedor.ruc=abonoProveedorMB.cod}" style="visibility: hidden"/>
+                                        <p:inputText id="ruc" value="#{abonoProveedorMB.abonoproveedor.ruc}" style="visibility: hidden" />
                                     </div>
                                     <div class="p-field p-col"></div>
                                 </div>
@@ -152,30 +127,20 @@
                                                       value="#{abonoProveedorMB.abonoproveedor.fecha}" />
                                     </div>
                                     <div class="p-field p-col">
-                                        <label for="periodo" >
-                                            Periodo: 
-                                        </label>
-                                        <p:inputText id="peri" type="text"
+                                        <p:outputLabel for="periodo" value="Periodo: " />
+                                        <p:inputText id="periodo" type="text"
                                                      value="#{abonoProveedorMB.abonoproveedor.periodo}"/>
                                         <div class="p-field p-col"></div>
                                     </div>
                                 </div>
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
-                                        <p:dataTable id="table-factura" editable="true"
+                                        <p:dataTable id="table-factura"
                                                      var="pagoFactura" 
-                                                     value="#{BuscarMB.listafactura}" 
+                                                     value="#{abonoProveedorMB.listaFactura}" 
                                                      style="padding-top: 20px" 
-                                                     selection="#{BuscarMB.listafactura}"
-                                                     editMode="cell">
-
-                                            <!--Nos ayuda en poder ingresar dato en Pago-->
-                                            <!--                                            <p:ajax event="rowEdit" listener="{BuscarMB.onRowEdit}" update=":form:table-factura"/>
-                                            <p:ajax event="rowEditCancel" listener="{BuscarMB.onRowCancel}" update=":form:table-factura"/>
-                                            <p:ajax event="rowEdit" listener="{BuscarMB.onRowEdit}" update=":form:msgs form" />
-                                            <p:ajax event="rowEditCancel" listener="{BuscarMB.onRowCancel}" update=":form:msgs form" />-->
-                                            <p:ajax event="cellEdit" listener="#{BuscarMB.onCellEdit}" update=":form:table-factura,:form:msgs"/>
-
+                                                     selection="#{abonoProveedorMB.listaFactura}"
+                                                     widgetVar="tabfactura">
                                             <p:column headerText="Factura No." >
                                                 <h:outputText value="#{pagoFactura.nfactura}"/>
                                             </p:column>
@@ -191,15 +156,9 @@
                                             <p:column headerText="Pendiente" >
                                                 <h:outputText value="#{pagoFactura.pendiente}"/>
                                             </p:column>
-                                            <p:column headerText="Pago" >
-                                                <p:cellEditor>
-                                                    <f:facet name="output">
-                                                        <h:outputText value="$#{pagoFactura.pagado}"/>
-                                                    </f:facet>
-                                                    <f:facet name="input">
-                                                        <p:inputText value="#{pagoFactura.pagado}" label="Pago"/>
-                                                    </f:facet>
-                                                </p:cellEditor>
+                                            <p:column headerText="Pago">
+                                                <p:inputText id="pag" type="text" 
+                                                             value="#{pagoFactura.por_pagar}"/>
                                             </p:column>
                                         </p:dataTable>
                                     </div>
@@ -207,10 +166,10 @@
                                 <!-- DIALOG BUSCAR PROVEEDOR -->
                                 <p:overlayPanel for="name" dynamic="true" 
                                                 style="width:600px" widgetVar="moviePicker">
-                                    <p:dataTable var="proveedor" value="#{BuscarMB.listaProveedor}" 
+                                    <p:dataTable var="proveedor" value="#{abonoProveedorMB.listaProveedor}" 
                                                  rows="5" paginator="true" selectionMode="single"
-                                                 selection="#{BuscarMB.proveedor}" rowKey="#{proveedor.nombre}">
-                                        <p:ajax event="rowSelect" listener="#{BuscarMB.onRowSelectf}" 
+                                                 selection="#{abonoProveedorMB.proveedor}" rowKey="#{proveedor.nombre}">
+                                        <p:ajax event="rowSelect" listener="#{abonoProveedorMB.onRowSelectf}" 
                                                 oncomplete="PF('moviePicker').hide()" update=":form:pago-content,:form:ruc"/>
 
                                         <p:column headerText="Proveedor">
@@ -230,7 +189,7 @@
                             </p:outputPanel>
 
                             <f:facet name="footer">
-                                <p:commandButton value="Aceptar" icon="pi pi-check" actionListener="#{abonoProveedorMB.enviar(pagoFactura)}"
+                                <p:commandButton value="Aceptar" icon="pi pi-check" actionListener="#{abonoProveedorMB.enviar}"
                                                  update=":form:proveedortabla" process="pago-content @this"
                                                  styleClass="ui-button-success" />
                                 <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('managePagoDialog').hide()"
@@ -239,20 +198,22 @@
                             </f:facet>
 
                         </p:dialog>
-
-                        <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
-                                         message="Delete the product?" header="Confirm" severity="warn">
-                            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{crudView.deleteProduct}"
-                                             process="@this" oncomplete="PF('deleteProductDialog').hide()"/>
-                            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
-                                             onclick="PF('deleteProductDialog').hide()"/>
-                        </p:confirmDialog>
-
-                        <p:confirmDialog global="true" showEffect="fade" width="300">
-                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
-                                             icon="pi pi-times"/>
-                        </p:confirmDialog>
+                        <!--                        Dialogo para editar el pago-->
+                        <p:dialog header="Detalle de factura" showEffect="fade" modal="true"
+                                  widgetVar="Editarpago" responsive="true" >
+                            <p:outputPanel id="manage-factura-content-edit" class="ui-fluid">
+                                <p:outputPanel  rendered="#{not empty abonoProveedorMB.factura}">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="name"> Factura N:</p:outputLabel>
+                                        <p:inputTextarea id="nfactura" value="#{abonoProveedorMB.listaSecFactura}"/>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="name"> Valor a pagar:</p:outputLabel>
+                                        <p:inputTextarea id="pagado" value="#{abonoProveedorMB.factura.pagado}"/>
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+                        </p:dialog>
                     </div>
                 </h:form>
             </ui:define>

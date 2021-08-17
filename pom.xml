@@ -49,8 +49,6 @@
             <artifactId>primefaces</artifactId>
             <version>10.0.0</version>
         </dependency>
-        
-       
 
         <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
         <dependency>
