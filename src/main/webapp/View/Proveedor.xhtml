@@ -147,11 +147,9 @@
                                    <p:commandButton icon="pi pi-pencil" 
                                                     update=":form:manage-product-content-edit"
                                                     oncomplete="PF('manageProductDialogEdit').show()"
-                                                    actionListener="#{proveedorDAO.cargarEditar(provee)}"
+                                                   
                                                     styleClass="edit-button rounded-button ui-button-success"
                                                     process="@this">
-                                        <f:setPropertyActionListener value="#{provee}" 
-                                                                     target="#{proveedorDAO.selectedProveedor}" />
                                         <p:resetInput target=":form:manage-product-content-edit" />
                                    </p:commandButton>
                                    <!-- BOTON DESACTIVAR PROVEEDOR  !-->
@@ -248,35 +246,43 @@
                                         <h3>Condiciones</h3>
                                         <div class="p-formgrid p-grid">
                                              <div class="p-field p-col">
+                                                  <p:outputLabel for="descuento"> Descuento: 
+                                                  </p:outputLabel>
+                                                  <p:inputText id ="descuento" 
+                                                               value="#{proveedorDAO.condiciones.descuento}"
+                                                               required="true"/>
+                                             </div>
+                                             <div class="p-field p-col">
                                                   <p:outputLabel for="diasNeto"> Dias neto: 
                                                   </p:outputLabel>
-                                                  <p:inputText id ="diasNeto" required="true"/>
+                                                  <p:inputText id ="diasNeto"
+                                                               value="#{proveedorDAO.condiciones.diasNeto}"
+                                                               required="true"/>
                                              </div>
                                              <div class="p-field p-col">
                                                   <p:outputLabel for="diaDescuento"> Dias descuento: 
                                                   </p:outputLabel>
-                                                  <p:inputText id ="diaDescuento" required="true" />
+                                                  <p:inputText id ="diaDescuento" 
+                                                               value="#{proveedorDAO.condiciones.diasDescuento}"
+                                                               required="true" />
                                              </div>
                                              <div class="p-field p-col">
-                                                  <p:outputLabel >
+                                                  <p:outputLabel for="cantDiasVencidos" >
                                                        Cantidad días vencido: </p:outputLabel>
-                                                  <p:selectOneMenu value="#{proveedorDAO}">
-                                                       <f:selectItem itemLabel="Seleccionar..." itemValue="" noSelectionOption="true"/>
-                                                       <f:selectItem itemLabel="A 15 días" itemValue="Option1"/>
-                                                       <f:selectItem itemLabel="A 30 días" itemValue="Option2"/>
-                                                       <f:selectItem itemLabel="A 60 días" itemValue="Option3"/>
-                                                       <f:selectItem itemLabel="A 90 días" itemValue="Option3"/>
-                                                  </p:selectOneMenu>
-                                             </div>
+                                                  <p:inputText id="cantDiasVencidos" 
+                                                               value="#{proveedorDAO.condiciones.cantDiasVencidos}" 
+                                                               required="true"/>                                                  
+                                             </div>                                             
                                         </div>
 
                                         <div class="p-formgrid p-grid">
 
-
                                              <div class="p-field p-col">
                                                   <p:outputLabel for="descripcion"> Descripción:
                                                   </p:outputLabel>
-                                                  <p:inputText id ="descripcion" required="true" />                                                
+                                                  <p:inputText id ="descripcion" 
+                                                               value="#{proveedorDAO.condiciones.descripcion}" 
+                                                               required="true" />                                                
                                              </div>    
                                         </div>
 
@@ -287,19 +293,20 @@
                                    <p:commandButton value="Save" icon="pi pi-check" 
                                                     update="manage-product-content"
                                                     process="manage-product-content @this"
-                                                    actionListener="#{proveedorDAO.insertar()}"/>
+                                                    actionListener="#{proveedorDAO.insertar()}"
+                                                    onclick="PF('manageProductDialog').hide()"/>
                                    <p:commandButton value="Cancel" icon="pi pi-times"
                                                     onclick="PF('manageProductDialog').hide()"
                                                     class="ui-button-secondary"/>
                               </f:facet>
                          </p:dialog>
 
-                         <!---Dialogo de proveedor  Editar!-->
-                         <p:dialog header="Product Details" showEffect="fade" modal="true"
+                         <!---Dialogo editar de proveedor  -->
+                       <p:dialog header="Product Details" showEffect="fade" modal="true"
                                    widgetVar="manageProductDialogEdit" responsive="true"
                                    maximizable="true" height="300" width="70%">
                               <p:outputPanel id="manage-product-content-edit" class="ui-fluid">
-                                   <p:outputPanel > <!--asignar atributo de primeface !--> 
+                                   <p:outputPanel > asignar atributo de primeface 
                                         <div class="p-formgrid p-grid"> 
                                              <div class="p-field p-col">
                                                   <p:outputLabel for="check_"> Habilitado:
@@ -421,7 +428,8 @@
                                                     onclick="PF('manageProductDialogEdit').hide()"
                                                     class="ui-button-secondary"/>
                               </f:facet>
-                         </p:dialog>
+                         </p:dialog> 
+                      
 
 
 
