@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import DataView.CondicionesDAO;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
@@ -26,42 +27,60 @@ import org.primefaces.event.SelectEvent;
 @ManagedBean(name = "proveedorDAO")
 @ViewScoped
 public class ProveedorManageBean implements Serializable {
-
+     
      private Proveedor proveedor;
      private Condiciones condiciones;
      private ProveedorDAO proveedorDAO;
+     private CondicionesDAO condicionesDAO;     
+
+     public Condiciones getCondiciones() {
+          return condiciones;
+     }
+
+     public void setCondiciones(Condiciones condiciones) {
+          this.condiciones = condiciones;
+     }
+
+     public CondicionesDAO getCondicionesDAO() {
+          return condicionesDAO;
+     }
+
+     public void setCondicionesDAO(CondicionesDAO condicionesDAO) {
+          this.condicionesDAO = condicionesDAO;
+     }
      private List<Proveedor> listaProveedor;
      private List<Proveedor> Proveedores;
      private Proveedor selectedProveedor;
      private String msj;
      private String nom;
      private String cod;
-
+     
      public ProveedorManageBean() {
           proveedor = new Proveedor();
           condiciones = new Condiciones();
+          condicionesDAO = new CondicionesDAO();
           listaProveedor = new ArrayList<>();
           proveedorDAO = new ProveedorDAO();
           listaProveedor = proveedorDAO.llenar();
-
+          
      }
-
+     
      public List<Proveedor> getProveedores() {
           return Proveedores;
      }
-
+     
      public void setProveedores(List<Proveedor> Proveedores) {
           this.Proveedores = Proveedores;
      }
-
+     
      public Proveedor getSelectedProveedor() {
           return selectedProveedor;
      }
-
+     
      public void setSelectedProveedor(Proveedor selectedProveedor) {
           this.selectedProveedor = selectedProveedor;
      }
-
+     
      public void saveProduct() {
           if (this.selectedProveedor.getCodigo() == null) {
                this.selectedProveedor.setCodigo(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9));
@@ -70,11 +89,12 @@ public class ProveedorManageBean implements Serializable {
           } else {
                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Updated"));
           }
-
+          
           PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
           PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
      }
-     public void cargarEditar(Proveedor p){
+
+     public void cargarEditar(Proveedor p) {
           this.proveedor.setCodigo(p.getCodigo());
           this.proveedor.setNombre(p.getNombre());
           this.proveedor.setDireccion(p.getDireccion());
@@ -84,53 +104,58 @@ public class ProveedorManageBean implements Serializable {
           this.proveedor.setTelefono(p.getTelefono());
           this.proveedor.setEmail(p.getEmail());
      }
-
+     
      public void editar() {
           try {
-               this.proveedorDAO.update(proveedor, condiciones);
+               //  this.proveedorDAO.update(proveedor, condiciones);
                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Proveedor Guardado"));
-
+               
           } catch (Exception e) {
                System.out.println("ERROR DAO: " + e);
                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
-
+               
           }
           PrimeFaces.current().executeScript("PF('manageProductDialogEdit').hide()");
           PrimeFaces.current().executeScript("location.reload()");
-
+          
      }
 
      public void insertar() {
           try {
-               this.proveedorDAO.insertar(proveedor, condiciones);
-               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Proveedor agg"));
-
+               System.out.println("INSERTADO  PROVEEDOR");
+               this.proveedorDAO.insertarProveedor(proveedor);
+               System.out.println("INSERTADO  CONDICIONES");
+               condicionesDAO.insertarCondiciones(condiciones);
+               
+               System.out.print("termina metodo DAO insertar condiciones");
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Proveedor agg"));               
+               
           } catch (Exception e) {
-               System.out.println("ERROR DAO: " + e);
+               System.out.println("ERROR DAO PROVEEDOR: " + e);
                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
-
+               
           }
           PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
           PrimeFaces.current().executeScript("location.reload()");
-
+          
      }
-
+     
      public Proveedor getProveedor() {
           return proveedor;
      }
-
+     
      public void setProveedor(Proveedor proveedor) {
           this.proveedor = proveedor;
      }
-
+     
      public ProveedorDAO getProveedorDAO() {
           return proveedorDAO;
      }
-
+     
      public void setProveedorDAO(ProveedorDAO proveedorDAO) {
           this.proveedorDAO = proveedorDAO;
      }
-
+     
      public List<Proveedor> getListaProveedor() {
           try {
                this.proveedorDAO = new ProveedorDAO();
@@ -140,11 +165,11 @@ public class ProveedorManageBean implements Serializable {
           }
           return listaProveedor;
      }
-
+     
      public void setListaProveedor(List<Proveedor> listaProveedor) {
           this.listaProveedor = listaProveedor;
      }
-
+     
      public void onRowSelect(SelectEvent<Proveedor> event) {
           String msg2 = event.getObject().getNombre();
           String msg3 = event.getObject().getCodigo();
@@ -153,19 +178,19 @@ public class ProveedorManageBean implements Serializable {
           setNom(msg2);
           setCod(msg3);
      }
-
+     
      public String getNom() {
           return nom;
      }
-
+     
      public void setNom(String nom) {
           this.nom = nom;
      }
-
+     
      public String getCod() {
           return cod;
      }
-
+     
      public void setCod(String cod) {
           this.cod = cod;
      }
@@ -174,27 +199,27 @@ public class ProveedorManageBean implements Serializable {
      public void openNew() {
           this.selectedProveedor = new Proveedor();
      }
-
+     
      public void deleteProduct() {
           this.Proveedores.remove(this.selectedProveedor);
           this.selectedProveedor = null;
           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Removed"));
           PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
      }
-
+     
      public String getDeleteButtonMessage() {
           if (hasSelectedProducts()) {
                int size = this.listaProveedor.size();
                return size > 1 ? size + " products selected" : "1 product selected";
           }
-
+          
           return "Delete";
      }
-
+     
      public boolean hasSelectedProducts() {
           return this.listaProveedor != null && !this.listaProveedor.isEmpty();
      }
-
+     
      public void deleteSelectedProducts() {
           this.Proveedores.removeAll(this.listaProveedor);
           this.listaProveedor = null;
@@ -202,5 +227,5 @@ public class ProveedorManageBean implements Serializable {
           PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
           PrimeFaces.current().executeScript("PF('dtProducts').clearFilters()");
      }
-
+     
 }

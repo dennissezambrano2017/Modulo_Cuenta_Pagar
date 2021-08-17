@@ -27,10 +27,12 @@ public class ProveedorDAO extends Conexion {
      private Proveedor proveedor;
      private ResultSet result;
      private Condiciones condiciones;
+     private CondicionesDAO condicionesDAO;
 
      public ProveedorDAO() {
           conexion = new Conexion();
           listaProveedor = new ArrayList<>();
+          condiciones = new Condiciones();
      }
 
      public List<Proveedor> llenar() {
@@ -59,8 +61,8 @@ public class ProveedorDAO extends Conexion {
           return listaProveedor;
      }
 
-     public void insertar(Proveedor proveedor, Condiciones condiciones) {
-
+     public void insertarProveedor(Proveedor proveedor) throws Exception {
+  System.out.println("DataView.CondicionesDAO.insertarCondiciones()....ENTRA n  INSERTAR .....");
           String cadena = "INSERT INTO public.proveedor(\n"
                   + "	 codigo, razonsocial, ruc, nombre, direccion, email, webpage, contacto, telefono, estado)\n"
                   + "	VALUES ('" + proveedor.getCodigo() + "','"
@@ -70,11 +72,10 @@ public class ProveedorDAO extends Conexion {
                   + proveedor.getContacto() + "','" + proveedor.getTelefono() + "','"
                   + proveedor.isEstado() + "')";
           System.out.print(cadena);
-          conexion.Ejecutar2(cadena);
+          conexion.Ejecutar2(cadena); 
+                  
+                       System.out.print("termina metodo DAO insertar coniciones");
 
-          String cadena2 = "";
-          System.out.print(cadena2);
-          conexion.Ejecutar2(cadena2);
      }
 
      public void update(Proveedor proveedor, Condiciones condiciones) {
