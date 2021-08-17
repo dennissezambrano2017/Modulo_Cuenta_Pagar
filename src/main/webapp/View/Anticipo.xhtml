@@ -83,7 +83,9 @@
                                 process="@this"
                                 update=":form:manage-anticipo-content">
 
-                                <f:setPropertyActionListener value="#{anticipo}" target="#{anticipoMB.selected_anticipo}"/>
+                                <f:setPropertyActionListener 
+                                    value="#{anticipo}" 
+                                    target="#{anticipoMB.selected_anticipo}"/>
 
                                 <p:resetInput target=":form:manage-anticipo-content"/>
                             </p:commandButton>
@@ -102,36 +104,61 @@
 
                     <!-- Dialogo para registrar un nuevo anticipo -->
 
-                    <p:dialog class="p-m-3" header="Anticipo" showEffect="fade" modal="true" responsive="true" widgetVar="manageAnticipoDialog">
+                    <p:dialog 
+                        class="p-m-3" 
+                        header="Anticipo" 
+                        showEffect="fade" 
+                        modal="true" 
+                        responsive="true" 
+                        widgetVar="manageAnticipoDialog">
 
-                        <p:outputPanel id="manage-anticipo-content" class="ui-fluid">
-                            <p:outputPanel rendered="#{not empty anticipoMB.selected_anticipo}">
+                        <p:outputPanel 
+                            id="manage-anticipo-content" 
+                            class="ui-fluid">
+                            
+                            <p:outputPanel 
+                                rendered="#{not empty anticipoMB.selected_anticipo}">
 
                                 <div class="p-field p-d-none">
                                     <p:outputLabel for="id" >ID</p:outputLabel>
-                                    <p:inputText id="id" value="#{anticipoMB.selected_anticipo.id_anticipo}"  />
+                                    <p:inputText 
+                                        id="id" 
+                                        value="#{anticipoMB.selected_anticipo.id_anticipo}"/>
                                 </div>
 
                                 <div class="p-field">
                                     <p:outputLabel for="id_proveedor" >Proveedor</p:outputLabel>
-                                    <p:inputNumber id="id_proveedor" value="#{anticipoMB.selected_anticipo.id_proveedor}" required="true" />
+                                    <p:inputNumber 
+                                        id="id_proveedor" 
+                                        value="#{anticipoMB.selected_anticipo.id_proveedor}" 
+                                        required="true" />
                                 </div>
 
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col-12 p-md-12 p-lg-6">
                                         <p:outputLabel for="importe" >Importe</p:outputLabel>
-                                        <p:inputNumber id="importe" value="#{anticipoMB.selected_anticipo.importe}" required="true" />
+                                        <p:inputNumber 
+                                            id="importe" 
+                                            value="#{anticipoMB.selected_anticipo.importe}" 
+                                            required="true" />
                                     </div>
 
                                     <div class="p-field p-col-12 p-md-12 p-lg-6">
-                                        <p:outputLabel for="fechaRegistro" >Fecha</p:outputLabel>
-                                        <p:datePicker id="fechaRegistro" value="#{anticipoMB.selected_anticipo.fecha}" required="true" />
+                                        <p:outputLabel 
+                                            for="fechaRegistro" >Fecha</p:outputLabel>
+                                        <p:datePicker 
+                                            id="fechaRegistro" 
+                                            value="#{anticipoMB.selected_anticipo.fecha}" 
+                                            required="true" />
                                     </div>
                                 </div>
 
                                 <div class="p-field">
-                                    <p:outputLabel for="descripcion" >Descripción</p:outputLabel>
-                                    <p:inputTextarea id="descripcion" value="#{anticipoMB.selected_anticipo.descripcion}" />
+                                    <p:outputLabel 
+                                        for="descripcion" >Descripción</p:outputLabel>
+                                    <p:inputTextarea 
+                                        id="descripcion" 
+                                        value="#{anticipoMB.selected_anticipo.descripcion}" />
                                 </div>
 
                             </p:outputPanel>
@@ -145,8 +172,11 @@
                                 process="manage-anticipo-content @this"
                                 actionListener="#{anticipoMB.guardar_anticipo()}"/>
 
-                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageAnticipoDialog').hide()"
-                                                 class="ui-button-secondary"/>
+                                <p:commandButton 
+                                    value="Cancelar" 
+                                    icon="pi pi-times" 
+                                    onclick="PF('manageAnticipoDialog').hide()"
+                                    class="ui-button-secondary"/>
                             </div>
                             
                         </f:facet>
@@ -164,7 +194,9 @@
                         <p class="p-text-center p-mb-3">¿Desea eliminar el anticipo?</p>
 
                         <div class="ui-fluid p-d-none">
-                            <p:inputText value="#{anticipoMB.selected_anticipo.id_anticipo}"></p:inputText>
+                            <p:inputText 
+                                value="#{anticipoMB.selected_anticipo.id_anticipo}">
+                            </p:inputText>
                         </div>
 
 
@@ -176,8 +208,12 @@
                                 actionListener="#{anticipoMB.delete_anticipo(anticipoMB.selected_anticipo)}" 
                                 oncomplete="PF('delete_anticipo_dialog').hide()" />
 
-                            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
-                                             onclick="PF('delete_anticipo_dialog').hide()"/>
+                            <p:commandButton 
+                                value="No" 
+                                type="button" 
+                                styleClass="ui-button-secondary" 
+                                icon="pi pi-times"
+                                onclick="PF('delete_anticipo_dialog').hide()"/>
                         </f:facet>
                     </p:dialog>
 

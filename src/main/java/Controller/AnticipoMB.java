@@ -78,7 +78,7 @@ public class AnticipoMB implements Serializable {
         this.selected_anticipo.setId_proveedor(2);
         this.selected_anticipo.setImporte(0.0);
         this.selected_anticipo.setFecha(new Date());
-        this.selected_anticipo.setDescripcion("Trabajando con view scope");
+        this.selected_anticipo.setDescripcion("");
         
         System.out.println("Nuevo anticipo");
         System.out.println(this.selected_anticipo.getDescripcion());
