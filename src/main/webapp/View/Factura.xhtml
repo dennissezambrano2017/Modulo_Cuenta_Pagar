@@ -14,85 +14,85 @@
                 <!-- PRINCIPAL FACTURA -->
 
                 <h:form id="form">
-<!--                    <f:event type="preRenderComponent" listener="{facturaMB.mostrar()}"/>-->
+                    <!--                    <f:event type="preRenderComponent" listener="{facturaMB.mostrar()}"/>-->
                     <p:growl id="messages" showDetail="true"/>
-                        <h1 style="text-align: center; color: black">Facturas de compras</h1>
+                    <h1 style="text-align: center; color: black">Facturas de compras</h1>
 
-                        <p:toolbar>
-                            <p:toolbarGroup>
-                                <p:commandButton id="new" value="Nuevo" icon="pi pi-plus" 
-                                                 actionListener="#{facturaMB.abrirNuevo}"
-                                                 update=":form:outputnuevo"
-                                                 onclick="PF('newFactura').show()" process="@this"
-                                                 styleClass="ui-button-success"
-                                                 style="margin-right: .5rem"
-                                                 >
-                                    <p:resetInput target=":form:outputnuevo"/>
-                                </p:commandButton>
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:commandButton id="new" value="Nuevo" icon="pi pi-plus" 
+                                             actionListener="#{facturaMB.abrirNuevo}"
+                                             update=":form:outputnuevo"
+                                             onclick="PF('newFactura').show()" process="@this"
+                                             styleClass="ui-button-success"
+                                             style="margin-right: .5rem"
+                                             >
+                                <p:resetInput target=":form:outputnuevo"/>
+                            </p:commandButton>
 
-                                <p:commandButton type="button" value="Buscar" icon="pi pi-search" 
-                                                 styleClass="ui-button-warning" 
-                                                 onclick="PF('Buscar').show()"/>
-                                <p:commandButton type="button" value="Pago" icon="pi pi-money-bill" 
-                                                 styleClass="ui-button-primary" 
-                                                 onclick="PF('pagos').show()"/>
-                            </p:toolbarGroup>
+                            <p:commandButton type="button" value="Buscar" icon="pi pi-search" 
+                                             styleClass="ui-button-warning" 
+                                             onclick="PF('Buscar').show()"/>
+                            <p:commandButton type="button" value="Pago" icon="pi pi-money-bill" 
+                                             styleClass="ui-button-primary" 
+                                             onclick="PF('pagos').show()"/>
+                        </p:toolbarGroup>
 
-                            <p:toolbarGroup align="right">
-                                <p:selectBooleanButton id="slcbtn" value="#{facturaMB.check}" onLabel="Habilitado" offLabel="Deshabilitado" style="width:8rem">
-                                    <p:ajax listener="#{facturaMB.habTabla}"/>
-                                </p:selectBooleanButton>
-                            </p:toolbarGroup>
-                        </p:toolbar>
+                        <p:toolbarGroup align="right">
+                            <p:selectBooleanButton id="slcbtn" value="#{facturaMB.check}" onLabel="Habilitado" offLabel="Deshabilitado" style="width:8rem">
+                                <p:ajax listener="#{facturaMB.habTabla}"/>
+                            </p:selectBooleanButton>
+                        </p:toolbarGroup>
+                    </p:toolbar>
 
-                        <p:dataTable  id="dt-factura" widgetVar="dtFactura" var="factura"
-                                      value="#{facturaMB.listaFactura}"
-                                      reflow="true" paginator="true" rows="5"
-                                      resizableColumns="true" class="p-mt-3" 
-                                      paginatorPosition="bottom"
-                                      style="font-size:12px">
+                    <p:dataTable  id="dt-factura" widgetVar="dtFactura" var="factura"
+                                  value="#{facturaMB.listaFactura}"
+                                  reflow="true" paginator="true" rows="5"
+                                  resizableColumns="true" class="p-mt-3" 
+                                  paginatorPosition="bottom"
+                                  style="font-size:12px">
 
-                            <p:column headerText="No. Factura" style="width: 60px">
-                                <h:outputText value="#{factura.nfactura}" />
-                            </p:column>
+                        <p:column headerText="No. Factura" style="width: 60px">
+                            <h:outputText value="#{factura.nfactura}" />
+                        </p:column>
 
-                            <p:column headerText="Fecha" sortBy="#{factura.fecha}"
-                                      style="width: 70px">
-                                <h:outputText value="#{factura.fecha}"/>
-                            </p:column>
+                        <p:column headerText="Fecha" sortBy="#{factura.fecha}"
+                                  style="width: 70px">
+                            <h:outputText value="#{factura.fecha}"/>
+                        </p:column>
 
-                            <p:column headerText="Proveedor" style="width: 70px">
-                                <h:outputText value="#{factura.nombre}"/>
-                            </p:column>
+                        <p:column headerText="Proveedor" style="width: 70px">
+                            <h:outputText value="#{factura.nombre}"/>
+                        </p:column>
 
-                            <p:column headerText="Importe" style="width: 70px">
-                                <h:outputText value="#{factura.importe}"/>
-                            </p:column>
+                        <p:column headerText="Importe" style="width: 70px">
+                            <h:outputText value="#{factura.importe}"/>
+                        </p:column>
 
-                            <p:column headerText="Pendiente" style="width: 70px">
-                                <h:outputText value="#{factura.pendiente}"/>
-                            </p:column>
+                        <p:column headerText="Pendiente" style="width: 70px">
+                            <h:outputText value="#{factura.pendiente}"/>
+                        </p:column>
 
-                            <p:column headerText="Vencimiento" style="width: 70px">
-                                <h:outputText value="#{factura.vencimiento}"/>
-                            </p:column>
+                        <p:column headerText="Vencimiento" style="width: 70px">
+                            <h:outputText value="#{factura.vencimiento}"/>
+                        </p:column>
 
-                            <p:column headerText="Descripción">
-                                <h:outputText value="#{factura.descripcion}"/>
-                            </p:column>
+                        <p:column headerText="Descripción">
+                            <h:outputText value="#{factura.descripcion}"/>
+                        </p:column>
 
-                            <p:column exportable="false">
-                                <p:commandButton icon="pi pi-pencil" update=":form:outputedit"
-                                                 oncomplete="PF('editFactura').show()"
-                                                 styleClass="edit-button rounded-button ui-button-warning"
-                                                 actionListener="#{facturaMB.cargarEditar(factura)}"
-                                                 process="@this">
-                                </p:commandButton>
-                                <p:commandButton  class="ui-button-danger rounded-button"
-                                                 icon="pi pi-trash" process="@this"
-                                                 action="#{facturaMB.dhFactura(factura)}"/>
-                            </p:column>
-                        </p:dataTable>
+                        <p:column exportable="false">
+                            <p:commandButton icon="pi pi-pencil" update=":form:outputedit"
+                                             oncomplete="PF('editFactura').show()"
+                                             styleClass="edit-button rounded-button ui-button-warning"
+                                             actionListener="#{facturaMB.cargarEditar(factura)}"
+                                             process="@this">
+                            </p:commandButton>
+                            <p:commandButton  class="ui-button-danger rounded-button"
+                                              icon="pi pi-trash" process="@this"
+                                              action="#{facturaMB.dhFactura(factura)}"/>
+                        </p:column>
+                    </p:dataTable>
                     <!-- DIALOG 1 NUEVA FACTURA-->
 
                     <p:dialog  header="Nueva Factura" showEffect="fade" modal="true"
@@ -157,28 +157,28 @@
                                 <!-- FINAL CAMPOS DEL DIALOG-->
 
                                 <!-- TABLA DE DIALOG 1-->
-                                <!--                                <div class="p-formgrid p-grid">
-                                                                    <div class="p-field p-col">
-                                
-                                                                        <p:dataTable id="dt-products" widgetVar="dtProducts" 
-                                                                                     var="product" value="#{crudView.products}"
-                                                                                     styleClass="products-table" selection="#{crudView.selectedProducts}" 
-                                                                                     rowKey="#{product.id}" style="padding-top: 20px">
-                                
-                                                                            <p:column headerText="Importe" style="width: 35px; text-align: center">
-                                                                                <h:outputText value="#{product.code}"/>
-                                                                            </p:column>
-                                
-                                                                            <p:column headerText="Cuenta GL" style="width: 75px; text-align: center">
-                                                                                <h:outputText value="#{product.name}"/>
-                                                                            </p:column>
-                                
-                                                                            <p:column headerText="Nombre" style="width: 130px; text-align: center">
-                                                                                <h:outputText value="#{product.image}"/>
-                                                                            </p:column>
-                                                                        </p:dataTable>
-                                                                    </div>
-                                                                </div>-->
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+
+                                        <p:dataTable id="dt-products" widgetVar="dtProducts" 
+                                                     var="product" value="#{facturaMB.listaFactura}"
+                                                     styleClass="products-table" selection="#{crudView.selectedProducts}" 
+                                                     rowKey="#{product.id}" style="padding-top: 20px">
+
+                                            <p:column headerText="Importe" style="width: 35px; text-align: center">
+                                                <h:outputText value="#{product.code}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Cuenta GL" style="width: 75px; text-align: center">
+                                                <h:outputText value="#{product.name}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Nombre" style="width: 130px; text-align: center">
+                                                <h:outputText value="#{product.image}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </div>
 
                                 <!-- DIALOG BUSCAR PROVEEDOR -->
                                 <p:overlayPanel for="proveedor" dynamic="true" style="width:600px" widgetVar="moviePicker">
