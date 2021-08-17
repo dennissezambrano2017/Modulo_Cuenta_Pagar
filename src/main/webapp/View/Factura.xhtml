@@ -14,7 +14,7 @@
                 <!-- PRINCIPAL FACTURA -->
 
                 <h:form id="form">
-<!--                    <f:event type="preRenderView" listener="{facturaMB.mostrar()}"/>-->
+<!--                    <f:event type="preRenderComponent" listener="{facturaMB.mostrar()}"/>-->
                     <p:growl id="messages" showDetail="true"/>
                         <h1 style="text-align: center; color: black">Facturas de compras</h1>
 
@@ -39,7 +39,7 @@
                             </p:toolbarGroup>
 
                             <p:toolbarGroup align="right">
-                                <p:selectBooleanButton value="#{facturaMB.check}" onLabel="Habilitado" offLabel="Deshabilitado" style="width:8rem">
+                                <p:selectBooleanButton id="slcbtn" value="#{facturaMB.check}" onLabel="Habilitado" offLabel="Deshabilitado" style="width:8rem">
                                     <p:ajax listener="#{facturaMB.habTabla}"/>
                                 </p:selectBooleanButton>
                             </p:toolbarGroup>
@@ -47,11 +47,9 @@
 
                         <p:dataTable  id="dt-factura" widgetVar="dtFactura" var="factura"
                                       value="#{facturaMB.listaFactura}"
-                                      reflow="true" rowKey="#{factura.nfactura}" 
-                                      paginator="true" rows="5" rowSelectMode="add"
-                                      resizableColumns="true"
+                                      reflow="true" paginator="true" rows="5"
+                                      resizableColumns="true" class="p-mt-3" 
                                       paginatorPosition="bottom"
-                                      class="p-mt-3" 
                                       style="font-size:12px">
 
                             <p:column headerText="No. Factura" style="width: 60px">
@@ -232,27 +230,26 @@
                                     <div class="p-field p-col">
                                         <p:outputLabel for="editprov">Proveedor: *</p:outputLabel>
                                         <p:outputLabel value="#{BuscarMB.nom=facturaMB.factura.nombre}" style="visibility: hidden"/>
-                                        <p:inputText type="button" id="editprov"
-                                                     value="#{BuscarMB.nom}"/>
+                                        <p:inputText type="button" id="editprov" value="#{BuscarMB.nom}"/>
                                     </div>
 
                                     <div class="p-field p-col">
                                         <p:outputLabel for="editnfactura">No. Factura:</p:outputLabel>
                                         <p:inputText id="editnfactura" value="#{facturaMB.factura.nfactura}" required="true"
                                                      disabled="true"/>
-                                        <p:inputText value="#{facturaMB.factura.nfactura}" style="visibility: hidden"/>
                                     </div>
                                 </div>
 
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
                                         <p:outputLabel for="editdescripcion" >Descripción:</p:outputLabel>
-                                        <p:inputText id="editdescripcion" value="#{facturaMB.factura.descripcion}"/>
+                                        <p:inputTextarea id="editdescripcion" value="#{facturaMB.factura.descripcion}"/>
                                     </div>
                                     <div class="p-field p-col">
                                         <p:outputLabel id="edithola" value="#{BuscarMB.cod=facturaMB.factura.ruc}" style="visibility: hidden"/>
                                         <p:outputLabel id="editruc" value="#{facturaMB.factura.ruc=BuscarMB.cod}" style="visibility: hidden"/>
-                                        <p:inputText id="editR" value="#{facturaMB.factura.ruc}" style="visibility: hidden" />
+                                        <p:inputText value="#{facturaMB.factura.nfactura}" style="visibility: hidden"/>
+                                        <p:inputText id="editR" value="#{facturaMB.factura.ruc}"  style="visibility: hidden"/>
                                     </div>
                                 </div>
 

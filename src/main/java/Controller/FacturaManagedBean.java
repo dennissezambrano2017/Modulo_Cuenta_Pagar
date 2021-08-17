@@ -30,29 +30,23 @@ public class FacturaManagedBean implements Serializable {
     private BuscarProvDAO busprovDAO;
     private List<Factura> listaFactura;
     private boolean check;
-    
+    int tamaño;
+
+    //Constructor
     public FacturaManagedBean() {
         factura = new Factura();
         listaFactura = new ArrayList<>();
         facturaDAO = new FacturaDAO();
         busprovDAO = new BuscarProvDAO();
-        boolean value = habTabla();
-        System.out.print("MI BOOLEAN NO FUNCAAAAA: "+ value);
-        if (value) {
-            System.out.print("hello managed");
-            listaFactura = facturaDAO.llenarP("1");
-            PrimeFaces.current().ajax().update("form:dt-factura");
-        } else {
-            System.out.print("hello2 managed");
-            listaFactura = facturaDAO.llenarP("0");
-            PrimeFaces.current().ajax().update("form:dt-factura");
-        }
-    }
-    
-    public void mostrar(){
-        check = habTabla();
+        check = true;
+        this.listaFactura.clear();
+        this.listaFactura = this.facturaDAO.llenar();
     }
 
+//    public void mostrar() {
+//        check = true;
+//    }
+    // Getter and Setter
     public Factura getFactura() {
         return factura;
     }
@@ -84,63 +78,6 @@ public class FacturaManagedBean implements Serializable {
     public void setCheck(boolean cheack) {
         this.check = cheack;
     }
-    
-    
-
-
-//    public void habTabla() {
-//        this.listaFactura = new ArrayList<>();
-//        String mensaje = check ? "Habilitados" : "Deshabilitados";
-//        if (check) {
-//            System.out.print("hello");
-//            listaFactura = facturaDAO.llenarP("1");
-//            //PrimeFaces.current().ajax().update("form:dt-factura");
-//        } else {
-//            System.out.print("hello2");
-//            listaFactura = facturaDAO.llenarP("0");
-//            //PrimeFaces.current().ajax().update("form:dt-factura");
-//        }
-//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(mensaje));
-//        PrimeFaces.current().ajax().update("form:dt-factura");
-////        return listaFactura;
-//    }
-    
-        public boolean habTabla() {
-        String mensaje = check ? "Habilitados" : "Deshabilitados";
-        if (check) {
-            System.out.print("hello");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(mensaje));
-            return true;
-        } else {
-            System.out.print("hello2");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(mensaje));
-            return false;
-        }
-    }
-
-    public void abrirNuevo() {
-        this.factura = new Factura();
-    }
-    
-    public void hola(){
-    System.out.print("hola");
-}
-
-    public void cargarEditar(Factura factura) {
-        String dato = factura.getNfactura();
-        this.factura.setNombre(factura.getNombre());
-        this.factura.setNfactura(factura.getNfactura());
-        this.factura.setDescripcion(factura.getDescripcion());
-        this.factura.setImporte(factura.getImporte());
-        this.factura.setFecha(factura.getFecha());
-        this.factura.setVencimiento(factura.getVencimiento());
-        this.factura.setRuc(busprovDAO.Buscar(dato));
-        this.factura.setPagado(facturaDAO.buscarPagado(dato));
-    }
-
-    public void reset() {
-        PrimeFaces.current().resetInputs("form:outputnuevo");
-    }
 
     //Diana: insertar nueva Factura
     public void insertarfactura() {
@@ -164,16 +101,16 @@ public class FacturaManagedBean implements Serializable {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ERROR AL GUARDAR"));
                 }
                 PrimeFaces.current().executeScript("PF('newFactura').hide()");
-                listaFactura = null;
+                listaFactura.clear();
+                check = true;
                 listaFactura = facturaDAO.llenarP("1");
-                PrimeFaces.current().ajax().update("form:dt-factura");
+                PrimeFaces.current().ajax().update("form:dt-factura", "form:slcbtn");
             }
         }
     }
 
     //Diana Actualizar factura
     public void editarfactura() {
-        this.factura= new Factura();
         System.out.print("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
         System.out.print("ruc: " + factura.getRuc());
         if (fechas()) {
@@ -195,15 +132,64 @@ public class FacturaManagedBean implements Serializable {
                 }
                 PrimeFaces.current().executeScript("PF('editFactura').hide()");
                 //PrimeFaces.current().executeScript("location.reload()");
-                listaFactura = null;
+                listaFactura.clear();
                 listaFactura = facturaDAO.llenarP("1");
-                PrimeFaces.current().ajax().update("form:dt-factura");
+                PrimeFaces.current().ajax().update("form:dt-factura", "form:slcbtn");
             }
         }
     }
 
-    public Boolean fechas() {
+    //Cardar datos para actualizar
+    public void cargarEditar(Factura factura) {
+        System.out.print(factura.getNfactura());
+        String dato = factura.getNfactura();
+        this.factura.setNombre(factura.getNombre());
+        this.factura.setNfactura(factura.getNfactura());
+        this.factura.setDescripcion(factura.getDescripcion());
+        this.factura.setImporte(factura.getImporte());
+        this.factura.setFecha(factura.getFecha());
+        this.factura.setVencimiento(factura.getVencimiento());
+        this.factura.setRuc(busprovDAO.Buscar(dato));
+        this.factura.setPagado(facturaDAO.buscarPagado(dato));
+    }
 
+    //Diana: Habilitar y Deshabilitar
+    public void dhFactura(Factura factura) {
+        System.out.print("HOLA SI ENTRE DELETE HABILITAR 1");
+        this.facturaDAO.dhabilitar(factura.getNfactura());
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Deshabilitada factura: " + factura.getNfactura()));
+        listaFactura.clear();
+        listaFactura = facturaDAO.llenarP("1");
+        PrimeFaces.current().ajax().update("form:dt-factura");
+    }
+
+    //Mostrar tablas habilitadas y deshabilitadas
+    public void habTabla() {
+        listaFactura.clear();
+        if (check) {
+            this.listaFactura = facturaDAO.llenarP("1");
+        } else {
+
+            this.listaFactura = facturaDAO.llenarP("0");
+        }
+        PrimeFaces.current().ajax().update("form:dt-factura");
+    }
+
+    //Funciones apartes
+    public void abrirNuevo() {
+        this.factura = new Factura();
+    }
+
+    public void hola() {
+        System.out.print("hola");
+    }
+
+    public void reset() {
+        PrimeFaces.current().resetInputs("form:outputnuevo");
+    }
+
+    //Comparación de fechas
+    public Boolean fechas() {
         int year1 = Integer.parseInt(((factura.getFecha()).toString()).substring(0, 4));
         int mes1 = Integer.parseInt(((factura.getFecha()).toString()).substring(5, 7));
         int dia1 = Integer.parseInt(((factura.getFecha()).toString()).substring(8, 10));
@@ -233,14 +219,6 @@ public class FacturaManagedBean implements Serializable {
             }
         }
     }
-
-    public void dhFactura(Factura factura) {
-        System.out.print("HOLA SI ENTRE DELETE HABILITAR 1");
-        this.facturaDAO.dhabilitar(factura.getNfactura());
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Deshabilitada factura: " + factura.getNfactura()));
-        PrimeFaces.current().executeScript("location.reload()");
-    }
-
 
     //ESTO ES DE PAOLA
     //    public boolean valores(){
