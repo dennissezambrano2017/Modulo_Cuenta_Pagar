@@ -29,6 +29,7 @@ public class FacturaManagedBean implements Serializable {
     private FacturaDAO facturaDAO;
     private BuscarProvDAO busprovDAO;
     private List<Factura> listaFactura;
+    private List<Factura> detalleFactura;
     private boolean check;
     int tamaño;
 
