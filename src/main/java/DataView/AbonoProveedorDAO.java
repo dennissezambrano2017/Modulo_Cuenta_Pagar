@@ -98,7 +98,7 @@ public class AbonoProveedorDAO {
         }
         return listafactura;
     }
-
+    
     public List<Proveedor> llenarProveedor() {
         if (conex.isEstado()) {
             try {

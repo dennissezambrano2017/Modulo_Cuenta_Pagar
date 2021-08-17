@@ -13,6 +13,7 @@ public class DetalleAbono {
 
     private int idDetalleAbono;
     private float pago;
+    private boolean canEdit;
     private int idAbonoProveedor;
     private String periodo;
     private int idFactura;
@@ -26,6 +27,7 @@ public class DetalleAbono {
         this.idAbonoProveedor = idAbonoProveedor;
         this.periodo = periodo;
         this.idFactura = idFactura;
+        canEdit=false;
     }
 
     public DetalleAbono(float pago, String periodo) {
@@ -71,6 +73,14 @@ public class DetalleAbono {
 
     public void setIdFactura(int idFactura) {
         this.idFactura = idFactura;
+    }
+
+    public boolean isCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
     }
     
      public String getSentencia(String nfactura)

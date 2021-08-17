@@ -6,7 +6,6 @@
 package Controller;
 
 import DataView.AbonoProveedorDAO;
-import DataView.BuscarProvDAO;
 import DataView.FacturaDAO;
 import Model.AbonoProveedor;
 import Model.DetalleAbono;
@@ -15,17 +14,11 @@ import Model.TipoBanco;
 import Model.Factura;
 import Model.Proveedor;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
-import javax.faces.event.ActionListener;
 
 /**
  *
@@ -36,7 +29,6 @@ import javax.faces.event.ActionListener;
 public class AbonoProveedorManagedBean implements Serializable {
 
     private AbonoProveedor abonoproveedor;
-    private DetalleAbono detalleAbono;
     private TipoPago tipoPago;
     private TipoBanco tipoBanco;
     private Proveedor proveedor;
@@ -44,31 +36,27 @@ public class AbonoProveedorManagedBean implements Serializable {
     private FacturaDAO facturaDAO;
     private List<AbonoProveedor> listaAbonos;
     private List<Factura> listaFactura;
-    private List<Factura> listaSecFactura;
     private List<Proveedor> listaProveedor;
-    private BuscarProvDAO buscarprovDAO;
+    private List<Factura> listaDetalleFact;
     private Factura factura;
     private String nfactura;
     private float pago;
     private String nom;
     private String cod;
-    private FacesContext FacesContext;
 
     public AbonoProveedorManagedBean() {
         abonoproveedor = new AbonoProveedor();
-        detalleAbono = new DetalleAbono();
         tipoPago = new TipoPago();
         tipoBanco = new TipoBanco();
         proveedor = new Proveedor();
         listaAbonos = new ArrayList<>();
         listaFactura = new ArrayList<>();
         listaProveedor = new ArrayList<>();
-        buscarprovDAO = new BuscarProvDAO();
+        listaDetalleFact = new ArrayList<>();
         abonoDAO = new AbonoProveedorDAO();
         factura = new Factura();
         listaAbonos = abonoDAO.llenarDatos(abonoproveedor.sentenciaMostrar());
         listaProveedor = abonoDAO.llenarProveedor();
-        
     }
 
     //Metodos 
@@ -94,17 +82,9 @@ public class AbonoProveedorManagedBean implements Serializable {
         setCod(msg3);
         this.listaFactura.clear();
         this.listaFactura = abonoDAO.llenarFacturas(abonoproveedor.BuscarSentenciaFactura(msg3));
-        this.listaSecFactura =this.listaFactura;
-//        int index = 0;
-//        while (index < listaFactura.size()) {
-//            listaSecFactura.add(new Factura(listaFactura.get(index).getNfactura(),
-//                    listaFactura.get(index).getImporte(), listaFactura.get(index).getFecha(),
-//                    listaFactura.get(index).getFecha(), listaFactura.get(index).getVencimiento(),
-//                    listaFactura.get(index).getPendiente()));
-//        }
     }
 
-    public void Cargar(Factura factura) {
+    public void cargar(Factura factura) {
         int n = 0;
         System.out.println("hola" + n);
         this.factura.setNfactura(factura.getNfactura());
@@ -113,7 +93,7 @@ public class AbonoProveedorManagedBean implements Serializable {
         this.factura.setPagado(factura.getPagado());
 
     }
-    public void Enviar(){
+    public void enviar(){
         this.factura= new Factura();
         System.out.print("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
         System.out.print("ruc: " + factura.getRuc());
@@ -136,11 +116,7 @@ public class AbonoProveedorManagedBean implements Serializable {
                     return true;
                 } else {
                     if (mes1 == mes2) {
-                        if (dia1 > dia2) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return dia1 > dia2;
                     } else {
                         return false;
                     }
@@ -256,13 +232,20 @@ public class AbonoProveedorManagedBean implements Serializable {
         this.facturaDAO = facturaDAO;
     }
 
-    public List<Factura> getListaSecFactura() {
-        return listaSecFactura;
+    public AbonoProveedorDAO getAbonoDAO() {
+        return abonoDAO;
     }
 
-    public void setListaSecFactura(List<Factura> listaSecFactura) {
-        this.listaSecFactura = listaSecFactura;
+    public void setAbonoDAO(AbonoProveedorDAO abonoDAO) {
+        this.abonoDAO = abonoDAO;
+    }
+
+    public List<Factura> getListaDetalleFact() {
+        return listaDetalleFact;
+    }
+
+    public void setListaDetalleFact(List<Factura> listaDetalleFact) {
+        this.listaDetalleFact = listaDetalleFact;
     }
     
-
 }
