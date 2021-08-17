@@ -38,10 +38,11 @@ public class CondicionesManageBean implements Serializable{
                this.listaCondiciones = this.condicionesDAO.llenarCondiciones();
                System.out.println("SE LLENO CORRECTAMENTE");
           }catch(Exception e){
-               System.out.println("Controller.CondicionesManageBean.getListaCondiciones() -----ERROR AL LLENAR");
+               System.out.println("--ERROR AL LLENAR");
           }
           return listaCondiciones;
      }
+    
 
      public void setListaCondiciones(List<Condiciones> listaCondiciones) {
           this.listaCondiciones = listaCondiciones;

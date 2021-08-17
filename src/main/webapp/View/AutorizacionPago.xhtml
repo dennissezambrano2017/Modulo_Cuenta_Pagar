@@ -3,19 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./../Plantilla/Plantilla.xhtml">
 
             <ui:define name="content">
+                <f:event type="preRenderView" listener="#{facturaMB.llenar()}"/>
                 <h:form>
+                    <p:growl id="messages" showDetail="true"/>
+
                     <p:panel >
                         <h1 style="text-align: center; color: black">Autorizar Pagos</h1>
                         <p:outputPanel id="factura">
-                            <p:dataTable value="#{facturaMB.listaFactura}" 
-                                var="factura" id="tablafactura" 
+                            <p:dataTable id="dt-facturas" value="#{facturaMB.listaFactura}" 
+                                         var="factura"  
                                          reflow="true" rows="5" paginator="true">
                                 <p:column headerText="N° Factura" >
                                     <h:outputText value="#{factura.nfactura}"/>
@@ -36,15 +40,23 @@
                                     <h:outputText value="#{factura.nombre}"/>
                                 </p:column>
                                 <p:column>
-                                    <p:growl id="msgs"/>
-                                    <p:selectBooleanButton id="autoPago" value="#{facturaMB.check}"
-                                                               onLabel="Yes" offLabel="No"
-                                                               style="width:6rem">
-                                        <p:ajax update="msgs" listener="#{facturaMB.Registro()}"/>
-                                        </p:selectBooleanButton>
+                                    <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                                     oncomplete="PF('AutorizarPago').show()">
+                                        <f:setPropertyActionListener value="#{factura}" target="#{facturaMB.cargarEditar(factura)}"/>
+                                    </p:commandButton>
                                 </p:column>
-                            </p:dataTable>
+
+                            </p:dataTable> 
+
                         </p:outputPanel>
+                        <p:confirmDialog widgetVar="AutorizarPago" showEffect="fade" width="300"
+                                         message="Desea autorizar el pago de la factura?" header="Confirm" severity="warn">
+                            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{facturaMB.autorizarPago(factura.nfactura)}"
+                                             process="@this" oncomplete="PF('deleteProductDialog').hide()"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                             onclick="PF('deleteProductDialog').hide()"/>
+                        </p:confirmDialog>
+
                     </p:panel> 
                 </h:form>
             </ui:define>

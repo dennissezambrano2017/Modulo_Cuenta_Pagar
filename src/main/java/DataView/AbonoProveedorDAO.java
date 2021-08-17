@@ -9,6 +9,7 @@ import Controller.Conexion;
 import Model.AbonoProveedor;
 import Model.DetalleAbono;
 import Model.Factura;
+import Model.Proveedor;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -17,12 +18,13 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.time.LocalDate;
 import javax.faces.context.FacesContext;
+
 /**
  *
  * @author PAOLA
  */
 public class AbonoProveedorDAO {
-
+    
     Conexion conex;
     private AbonoProveedor abono;
     private DetalleAbono detalleAbono;
@@ -30,39 +32,33 @@ public class AbonoProveedorDAO {
     private Factura factura;
     private List<AbonoProveedor> listaAbono;
     private List<Factura> listafactura;
+    private List<Proveedor> listaProveedor;
     private Statement statement;
     private Connection connection;
-
+    
     public AbonoProveedorDAO() {
-        conex = new Conexion();
-        listaAbono = new ArrayList<>();
         listafactura = new ArrayList<>();
+        listaProveedor = new ArrayList<>();
+        
     }
-
+    
     public AbonoProveedorDAO(AbonoProveedor abono) {
-        conex = new Conexion();
         this.abono = abono;
     }
-
+    
     public AbonoProveedorDAO(Factura factura) {
-        conex = new Conexion();
         this.factura = factura;
     }
-
+    
     public AbonoProveedorDAO(DetalleAbono detalleAbono) {
-        conex = new Conexion();
         this.detalleAbono = detalleAbono;
     }
-
-    public List<AbonoProveedor> llenar() {
+    
+    public List<AbonoProveedor> llenarDatos(String sentencia) {
+        conex = new Conexion();
+        listaAbono = new ArrayList<>();
         if (conex.isEstado()) {
             try {
-                String sentencia = "SELECT a.fecha,pag.descripcion,a.referencia,sum(d.pago) as Pago,a.idproveedor,p.nombre,d.periodo\n"
-                        + "FROM abonoproveedor a INNER JOIN detalleabono d ON ( a.idabonoproveedor = d.idabonoproveedor  ) \n"
-                        + "INNER JOIN tipopago t ON ( a.idtipopago= t.idtipopago  )  \n"
-                        + "INNER JOIN proveedor p ON ( a.idproveedor = p.idproveedor)  \n"
-                        + "INNER JOIN tipopago pag ON ( a.idtipopago = pag.idtipopago) \n"
-                        + "group by d.periodo,a.fecha,pag.descripcion,a.referencia,a.idproveedor,p.nombre";
                 result = conex.ejecutarConsulta(sentencia);
                 while (result.next()) {
                     listaAbono.add(new AbonoProveedor(result.getString("referencia"),
@@ -80,8 +76,8 @@ public class AbonoProveedorDAO {
         }
         return listaAbono;
     }
-
-    public List<Factura> llenar(String sentencia) {
+    
+    public List<Factura> llenarFacturas(String sentencia) {
         if (conex.isEstado()) {
             try {
                 result = conex.ejecutarConsulta(sentencia);
@@ -103,6 +99,30 @@ public class AbonoProveedorDAO {
         return listafactura;
     }
 
+    public List<Proveedor> llenarProveedor() {
+        if (conex.isEstado()) {
+            try {
+                String sentencia = "SELECT proveedor.codigo,proveedor.ruc,\n"
+                        + "proveedor.nombre FROM public.condiciones INNER JOIN "
+                        + "proveedor ON proveedor.idproveedor = condiciones.idproveedor;";
+                result = conex.ejecutarConsulta(sentencia);
+                while (result.next()) {
+                    listaProveedor.add(new Proveedor(
+                            result.getString("codigo"),
+                            result.getString("ruc"),
+                            result.getString("nombre")
+                    ));
+                }
+                result.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage() + " error en conectarse");
+            } finally {
+                conex.cerrarConexion();
+            }
+        }
+        return listaProveedor;
+    }
+    
     public int insertar(String sentencia) {
         try {
             connection = conex.getCnx();
@@ -114,83 +134,61 @@ public class AbonoProveedorDAO {
             return 0;
         }
     }
-
-    public List<Factura> llenarDatos(String sentencia) {
-        if (conex.isEstado()) {
-            try {
-                result = conex.ejecutarConsulta(sentencia);
-                while (result.next()) {
-                    listafactura.add(new Factura(result.getString("nfactura"),
-                            result.getFloat("importe"), result.getFloat("pagado"),
-                            result.getObject("fecha", LocalDate.class), result.getObject("vencimiento", LocalDate.class),
-                            result.getFloat("pendiente")));
-                }
-                System.out.print(listafactura.size() + "  si hay datosssss");
-                
-                result.close();
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage() + " error en conectarse");
-            } finally {
-                conex.cerrarConexion();
-            }
-        }
-        return listafactura;
-    }
-
+    
     public Conexion getConex() {
         return conex;
     }
-
+    
     public void setConex(Conexion conex) {
         this.conex = conex;
     }
-
+    
     public AbonoProveedor getAbono() {
         return abono;
     }
-
+    
     public void setAbono(AbonoProveedor abono) {
         this.abono = abono;
     }
-
+    
     public ResultSet getResult() {
         return result;
     }
-
+    
     public DetalleAbono getDetalleAbono() {
         return detalleAbono;
     }
-
+    
     public void setDetalleAbono(DetalleAbono detalleAbono) {
         this.detalleAbono = detalleAbono;
     }
-
+    
     public void setResult(ResultSet result) {
         this.result = result;
     }
-
+    
     public List<AbonoProveedor> getListaAbono() {
         return listaAbono;
     }
-
+    
     public void setListaAbono(List<AbonoProveedor> listaAbono) {
         this.listaAbono = listaAbono;
     }
-
+    
     public List<Factura> getListafactura() {
         return listafactura;
     }
-
+    
     public void setListafactura(List<Factura> listafactura) {
         this.listafactura = listafactura;
     }
-
+    
     public Factura getFactura() {
         return factura;
     }
-
+    
     public void setFactura(Factura factura) {
         this.factura = factura;
     }
-
+    
 }
