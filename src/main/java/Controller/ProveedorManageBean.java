@@ -94,15 +94,23 @@ public class ProveedorManageBean implements Serializable {
           PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
      }
 
-     public void cargarEditar(Proveedor p) {
+     public void cargarEditar(Proveedor p, Condiciones c) {
           this.proveedor.setCodigo(p.getCodigo());
           this.proveedor.setNombre(p.getNombre());
           this.proveedor.setDireccion(p.getDireccion());
           this.proveedor.setContacto(p.getContacto());
           this.proveedor.setWebPage(p.getWebPage());
+          this.proveedor.setRuc(p.getRuc());
           this.proveedor.setRazonSocial(p.getRazonSocial());
           this.proveedor.setTelefono(p.getTelefono());
           this.proveedor.setEmail(p.getEmail());
+          this.proveedor.setEstado(p.isEstado());
+          //condiciones 
+          this.condiciones.setCantDiasVencidos(c.getCantDiasVencidos());
+          this.condiciones.setDescuento(c.getDescuento());
+          this.condiciones.setDiasNeto(c.getDiasNeto());
+          this.condiciones.setDiasDescuento(c.getDiasDescuento());
+          this.condiciones.setDescripcion(c.getDescripcion());
      }
      
      public void editar() {

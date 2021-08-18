@@ -42,6 +42,17 @@ public class CondicionesManageBean implements Serializable{
           }
           return listaCondiciones;
      }
+     public void carga( Proveedor pr)throws Exception{
+          try{
+                 this.condicionesDAO = new CondicionesDAO();
+          this.condiciones = this.condicionesDAO.caragrCondiciones(pr);
+          this.proveedor.setIdProveedor(this.condiciones.getProveedor().getIdProveedor());
+               System.err.println("CARGADO CORRECTAMENTE MANAGE BEANS");
+          }catch(Exception e){
+               throw e;
+          }
+        
+     }
     
 
      public void setListaCondiciones(List<Condiciones> listaCondiciones) {

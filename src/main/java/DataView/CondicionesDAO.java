@@ -21,6 +21,50 @@ public class CondicionesDAO implements Serializable {
 
      Conexion conexion = new Conexion();
      private Proveedor proveedor;
+      public Condiciones caragrCondiciones( Proveedor pr) throws Exception {
+          
+                    Condiciones c = new Condiciones();
+          try {
+               this.conexion.Conectar();
+
+               String sentencia = "SELECT c.diasneto,c.diasdescuento,"
+                       + "c.cantdiasvencidos,c.descripcion,"
+                       + "p.codigo,p.razonsocial,p.ruc,p.nombre,"
+                       + "p.direccion,p.email,p.webpage,p.contacto,"
+                       + "p.telefono,p.estado FROM condiciones c "
+                       + "INNER JOIN proveedor p ON c.idproveedor = ?";
+               PreparedStatement prs = conexion.getCnx().prepareStatement(sentencia);
+               prs.setInt(1,pr.getIdProveedor());
+               ResultSet result = prs.executeQuery();
+               System.err.println("Se cargo Condiciones DAO");
+               while (result.next()) {
+                    Proveedor p = new Proveedor();
+                    c.setDiasNeto(result.getInt("diasneto"));
+                    c.setDiasDescuento(result.getInt("diasdescuento"));
+                    c.setCantDiasVencidos(result.getInt("cantdiasvencidos"));
+                    c.setDescripcion(result.getString("descripcion"));
+                    p.setCodigo(result.getString("codigo"));
+                    p.setRazonSocial(result.getString("razonsocial"));
+                    p.setRuc(result.getString("ruc"));
+                    p.setNombre(result.getString("nombre"));
+                    p.setDireccion(result.getString("direccion"));
+                    p.setEmail(result.getString("email"));
+                    p.setWebPage(result.getString("webpage"));
+                    p.setContacto(result.getString("contacto"));
+                    p.setTelefono(result.getString("telefono"));
+                    p.setEstado(result.getBoolean("estado"));
+                    c.setProveedor(p);
+                 
+
+               }   System.out.println("Sentencia CARGAR correcta condicionesDAO");
+          } catch (Exception e) {
+               throw e;
+
+          } finally {
+               this.conexion.cerrarConexion();
+          }
+          return c;
+     }
 
      public ArrayList<Condiciones> llenarCondiciones() throws Exception {
           ArrayList<Condiciones> lista = new ArrayList<Condiciones>();
