@@ -228,7 +228,7 @@
                                              actionListener="#{facturaMB.insertarfactura}"
                                              process="outputnuevo @this"/>
                             <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('newFactura').hide()"
-                                             class="ui-button-secondary" action="#{facturaMB.reset}" 
+                                             class="ui-button-secondary" actionListener="#{facturaMB.reset}" 
                                              process="@this"/>
                         </f:facet>
                     </p:dialog>
@@ -365,7 +365,7 @@
                                              actionListener="#{facturaMB.editarfactura}"
                                              process="outputedit @this"/>
                             <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('editFactura').hide()"
-                                             class="ui-button-secondary" action="#{facturaMB.reset}" 
+                                             class="ui-button-secondary" actionListener="#{facturaMB.resetE}" 
                                              process="@this"/>
                         </f:facet>
                     </p:dialog>

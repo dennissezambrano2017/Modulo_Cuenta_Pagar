@@ -23,7 +23,7 @@ import org.primefaces.event.RowEditEvent;
  */
 @ManagedBean(name = "facturaMB")
 @SessionScoped
-public class FacturaManagedBean implements Serializable {
+public class FacturaManagedBean {
 
     private Factura factura;
     private FacturaDAO facturaDAO = new FacturaDAO();
@@ -101,7 +101,7 @@ public class FacturaManagedBean implements Serializable {
                     } else {
                         facturaDAO.Insertar(factura);
                         System.out.println("YA INSERTE, AHORA EL DETALLE");
-                        facturaDAO.insertdetalle(detalleFactura,factura);
+                        facturaDAO.insertdetalle(detalleFactura, factura);
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Guardada"));
                     }
                 } catch (Exception e) {
@@ -120,7 +120,7 @@ public class FacturaManagedBean implements Serializable {
     //Diana Actualizar factura
     public void editarfactura() {
         System.out.print("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
-        System.out.print("DETALLE: "+ detalleFactura.get(0).getId_detalle());
+        System.out.print("DETALLE: " + detalleFactura.get(0).getId_detalle());
         System.out.print("ruc: " + factura.getRuc());
         if (fechas()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Fecha es mayor que vencimiento"));
@@ -132,8 +132,8 @@ public class FacturaManagedBean implements Serializable {
                     if ("".equals(factura.getRuc())) {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
                     } else {
-                        //this.facturaDAO.Actualizar(factura);
-                        this.facturaDAO.Actdetalle(detalleFactura, factura);
+                        this.facturaDAO.Actualizar(factura);
+                        this.facturaDAO.Actdetalle(detalleFactura);
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Actualizada"));
                     }
                 } catch (Exception e) {
@@ -151,7 +151,7 @@ public class FacturaManagedBean implements Serializable {
 
     //Cardar datos para actualizar
     public void cargarEditar(Factura factura) {
-        System.out.print("CANTIDAD DETALLE EDITAR: "+detalleFactura.size());
+        System.out.print("CANTIDAD DETALLE EDITAR: " + detalleFactura.size());
         System.out.print(factura.getNfactura());
         String dato = factura.getNfactura();
         this.factura.setNombre(factura.getNombre());
@@ -163,19 +163,19 @@ public class FacturaManagedBean implements Serializable {
         this.factura.setRuc(facturaDAO.Buscar(dato));
         this.factura.setPagado(facturaDAO.buscarPagado(dato));
         detalleFactura.clear();
-        detalleFactura=facturaDAO.llenarDetalle(dato);
+        detalleFactura = facturaDAO.llenarDetalle(dato);
+        System.out.print("CANTIDAD DETALLE EDITAR2: " + detalleFactura.size());
     }
 
     //Diana: Habilitar y Deshabilitar
     public void dhFactura(Factura factura) {
         System.out.print("HOLA SI ENTRE DELETE HABILITAR 1");
         if (check) {
-            this.facturaDAO.dhabilitar(factura.getNfactura(),0);
+            this.facturaDAO.dhabilitar(factura.getNfactura(), 0);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Deshabilitada factura: " + factura.getNfactura()));
             listaFactura = facturaDAO.llenarP("1");
-        }
-        else{
-            this.facturaDAO.dhabilitar(factura.getNfactura(),1);
+        } else {
+            this.facturaDAO.dhabilitar(factura.getNfactura(), 1);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Habilitada factura: " + factura.getNfactura()));
             listaFactura = facturaDAO.llenarP("0");
         }
@@ -206,8 +206,22 @@ public class FacturaManagedBean implements Serializable {
 
     public void reset() {
         System.out.print("sie ntre al reset");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cancelado"));
         PrimeFaces.current().resetInputs("form:outputnuevo, form:dt-detalle");
+        removeSessionScopedBean("facturaMB");
         detalleFactura.clear();
+    }
+
+    public void resetE() {
+        System.out.print("sie ntre al reset");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cancelado"));
+        PrimeFaces.current().resetInputs("form:outputedit, form:dt-detalle");
+        removeSessionScopedBean("facturaMB");
+        detalleFactura.clear();
+    }
+
+    public static void removeSessionScopedBean(String beanName) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(beanName);
     }
 
     //Comparación de fechas
@@ -273,7 +287,7 @@ public class FacturaManagedBean implements Serializable {
     public void onAddNew() {
         // Add one new product to the table:
         System.out.print("Cantidad detalle: " + detalleFactura.size());
-        Factura newFactura = new Factura(0,"Detalle factura","code");
+        Factura newFactura = new Factura(0, "Detalle factura", "code");
         detalleFactura.add(newFactura);
         System.out.print("Cantidad detalle 2: " + detalleFactura.size());
         FacesMessage msg = new FacesMessage("New Product added");

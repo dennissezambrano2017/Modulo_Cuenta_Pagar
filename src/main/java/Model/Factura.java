@@ -5,6 +5,7 @@
  */
 package Model;
 import Controller.Conexion;
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +18,7 @@ import java.util.List;
  * @author ninat
  */
 
-public class Factura {
+public class Factura{
     private int id;
     private String nfactura;
     private String descripcion;
