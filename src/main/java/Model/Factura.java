@@ -36,6 +36,8 @@ public class Factura {
     private int habilitar;
     private float por_pagar;
     // detalle de factura
+    private String id_detalle;
+    private Float importeD;
     private String detalle;
     
     
@@ -93,11 +95,11 @@ public class Factura {
     }
 
     //detalle factura
-    public Factura(float importe, String detalle) {
-        this.importe = importe;
+    public Factura(float importeD, String detalle, String id_detalle) {
+        this.id_detalle = id_detalle;
+        this.importeD = importeD;
         this.detalle = detalle;
     }
-    
     
     public int getId() {
         return id;
@@ -196,8 +198,6 @@ public class Factura {
         this.nombre = nombre;
     }
 
-
-
     public int getIdasiento() {
         return idasiento;
     }
@@ -230,12 +230,28 @@ public class Factura {
         this.habilitar = habilitar;
     }
 
+    public String getId_detalle() {
+        return id_detalle;
+    }
+
+    public void setId_detalle(String id_detalle) {
+        this.id_detalle = id_detalle;
+    }
+
     public String getDetalle() {
         return detalle;
     }
 
     public void setDetalle(String detalle) {
         this.detalle = detalle;
+    }
+
+    public Float getImporteD() {
+        return importeD;
+    }
+
+    public void setImporteD(Float importeD) {
+        this.importeD = importeD;
     }
     
     

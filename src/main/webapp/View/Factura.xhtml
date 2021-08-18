@@ -169,7 +169,7 @@
 
                                             <p:column headerText="Importe">
                                                 <p:cellEditor>
-                                                    <f:facet name="output"><h:outputText value="#{detalle.importe}"/></f:facet>
+                                                    <f:facet name="output"><h:outputText value="#{detalle.importeD}"/></f:facet>
                                                     <f:facet name="input"><p:inputText value="#{facturaMB.datoImporte}" style="width:100%"
                                                                                        label="Importe"/></f:facet>
                                                 </p:cellEditor>
@@ -296,6 +296,42 @@
                                     </div>
                                 </div>
                                 <!-- FINAL CAMPOS DEL DIALOG-->
+                                
+                                <!--TABLA DIALOG 2-->
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+
+                                        <p:dataTable id="dt-dedit" widgetVar="dtdedit" var="detalle" value="#{facturaMB.detalleFactura}"
+                                                     editable="true">
+
+                                            <p:ajax event="rowEdit" listener="#{facturaMB.onRowEdit}" update=":form:messages"/>
+                                            <p:ajax event="rowEditCancel" listener="#{facturaMB.onRowCancel}" update=":form:messages"/>
+
+
+                                            <p:column headerText="Importe">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{detalle.importeD}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText value="#{facturaMB.datoImporte}" style="width:100%"
+                                                                                       label="Importe"/></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+
+                                            <p:column headerText="Detalle">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{detalle.detalle}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText value="#{facturaMB.datoDetalle}" style="width:100%"
+                                                                                       label="Detalle"/></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+
+                                            <p:column style="width:6rem">
+                                                <p:rowEditor/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+
+                                
                                 <!-- DIALOG BUSCAR PROVEEDOR -->
                                 <p:overlayPanel for="editprov" dynamic="true" style="width:600px"
                                                 id="dia" widgetVar="editmoviePicker">
