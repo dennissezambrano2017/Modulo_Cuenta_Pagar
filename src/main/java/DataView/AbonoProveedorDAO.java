@@ -78,6 +78,8 @@ public class AbonoProveedorDAO {
     }
     
     public List<Factura> llenarFacturas(String sentencia) {
+        conex = new Conexion();
+        listafactura = new ArrayList<>();
         if (conex.isEstado()) {
             try {
                 result = conex.ejecutarConsulta(sentencia);
@@ -102,9 +104,7 @@ public class AbonoProveedorDAO {
     public List<Proveedor> llenarProveedor() {
         if (conex.isEstado()) {
             try {
-                String sentencia = "SELECT proveedor.codigo,proveedor.ruc,\n"
-                        + "proveedor.nombre FROM public.condiciones INNER JOIN "
-                        + "proveedor ON proveedor.idproveedor = condiciones.idproveedor;";
+                String sentencia = "SELECT proveedor.codigo,proveedor.ruc,proveedor.nombre FROM proveedor";
                 result = conex.ejecutarConsulta(sentencia);
                 while (result.next()) {
                     listaProveedor.add(new Proveedor(

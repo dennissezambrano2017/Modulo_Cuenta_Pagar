@@ -11,8 +11,9 @@
         <ui:composition template="./../Plantilla/Plantilla.xhtml">
 
             <ui:define name="content">
+<!--                <f:event type="preRenderView" listener="{abonoProveedorMB.mostrar()}"/>
+                <f:event type="preRenderView" listener="{abonoProveedorMB.mostraProveedor}"/>-->
                 <h:form id="form">
-                    <div >
                         <p:panel >
                             <h1 style="text-align: center"> PAGOS</h1>
                             <p:growl id="msgs" showDetail="true"/>
@@ -25,7 +26,6 @@
                                                      process="@this">
                                         <p:resetInput target=":form:pago-content"/>
                                     </p:commandButton>
-                                    
                                     <p:commandButton value="Buscar" icon="pi pi-search" 
                                                      oncomplete="PF('BuscarPago').show()"
                                                      styleClass="ui-button-warning" 
@@ -36,8 +36,11 @@
                             </p:toolbar>
 
                             <p:dataTable widgetVar="dtPagos" var="pago" value="#{abonoProveedorMB.listaAbonos}"
-                                         reflow="true" styleClass="products-table" id="proveedortabla"
+                                         reflow="true" styleClass="products-table" id="proveedortabla"  rowKey="#{pago.fecha}"
                                          rows="5" paginator="true" paginatorPosition="bottom">
+
+                                <p:column selectionMode="multiple" exportable="false"></p:column>
+
                                 <p:column headerText="Fecha" >
                                     <h:outputText value="#{pago.fecha}"/>
                                 </p:column>
@@ -66,8 +69,8 @@
                         </p:panel>
                         <!-- Dialogo Nuevo-->
                         <p:dialog id="pago" header="Detalle de Pago" showEffect="fade" modal="true"
-                                  widgetVar="managePagoDialog" responsive="true" height="400" width="70%" >
-                            <p:outputPanel id="pago-content" class="ui-fluid">
+                                  widgetVar="managePagoDialog" responsive="true" height="400" width="70%"  >
+                            <p:outputPanel id="pago-content" class="ui-fluid" >
 
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
@@ -127,20 +130,26 @@
                                                       value="#{abonoProveedorMB.abonoproveedor.fecha}" />
                                     </div>
                                     <div class="p-field p-col">
-                                        <p:outputLabel for="periodo" value="Periodo: " />
-                                        <p:inputText id="periodo" type="text"
+                                        <label for="periodo" >
+                                            Periodo: 
+                                        </label>
+                                        <p:inputText id="peri" type="text"
                                                      value="#{abonoProveedorMB.abonoproveedor.periodo}"/>
                                         <div class="p-field p-col"></div>
                                     </div>
                                 </div>
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
-                                        <p:dataTable id="table-factura"
+                                        <p:dataTable id="table-factura" editable="true"
                                                      var="pagoFactura" 
                                                      value="#{abonoProveedorMB.listaFactura}" 
                                                      style="padding-top: 20px" 
-                                                     selection="#{abonoProveedorMB.listaFactura}"
-                                                     widgetVar="tabfactura">
+                                                     selection="#{abonoProveedorMB.listaFactura}">
+                                            
+                                            <!--Nos ayuda en poder ingresar dato en Pago-->
+                                            <p:ajax event="rowEdit" listener="#{abonoProveedorMB.onRowEdit}" update=":form:table-factura"/>
+                                            <p:ajax event="rowEditCancel" listener="#{abonoProveedorMB.onRowCancel}" update=":form:table-factura"/>
+                                            
                                             <p:column headerText="Factura No." >
                                                 <h:outputText value="#{pagoFactura.nfactura}"/>
                                             </p:column>
@@ -156,10 +165,22 @@
                                             <p:column headerText="Pendiente" >
                                                 <h:outputText value="#{pagoFactura.pendiente}"/>
                                             </p:column>
-                                            <p:column headerText="Pago">
-                                                <p:inputText id="pag" type="text" 
-                                                             value="#{pagoFactura.por_pagar}"/>
+                                            <p:column headerText="Pago" >
+                                                <p:cellEditor>
+                                                    <f:facet name="output">
+                                                        <h:outputText value="$#{pagoFactura.pagado}"/>
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputText value="#{abonoProveedorMB.pago}" label="Pago"/>
+                                                        
+                                                    </f:facet>
+                                                </p:cellEditor>
                                             </p:column>
+                                            <p:column style="width:6rem">
+                                                <p:rowEditor/>
+                                                
+                                            </p:column>
+
                                         </p:dataTable>
                                     </div>
                                 </div>
@@ -188,33 +209,31 @@
                                 </p:overlayPanel>
                             </p:outputPanel>
 
-                            <f:facet name="footer">
-                                <p:commandButton value="Aceptar" icon="pi pi-check" actionListener="#{abonoProveedorMB.enviar}"
+                           <f:facet name="footer">
+                               <p:commandButton value="Aceptar" icon="pi pi-check" actionListener="#{abonoProveedorMB.enviar(pagoFactura)}"
                                                  update=":form:proveedortabla" process="pago-content @this"
                                                  styleClass="ui-button-success" />
-                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('managePagoDialog').hide()"
+                                <p:commandButton value="Cancelar" icon="pi pi-times" actionListener="#{abonoProveedorMB.reset}"
+                                                 onclick="PF('managePagoDialog').hide()"
                                                  class="ui-button-secondary" styleClass="ui-button-danger"
                                                  onsuccess="location.reload()"/>
                             </f:facet>
 
                         </p:dialog>
-                        <!--                        Dialogo para editar el pago-->
-                        <p:dialog header="Detalle de factura" showEffect="fade" modal="true"
-                                  widgetVar="Editarpago" responsive="true" >
-                            <p:outputPanel id="manage-factura-content-edit" class="ui-fluid">
-                                <p:outputPanel  rendered="#{not empty abonoProveedorMB.factura}">
-                                    <div class="p-field p-col">
-                                        <p:outputLabel for="name"> Factura N:</p:outputLabel>
-                                        <p:inputTextarea id="nfactura" value="#{abonoProveedorMB.listaSecFactura}"/>
-                                    </div>
-                                    <div class="p-field p-col">
-                                        <p:outputLabel for="name"> Valor a pagar:</p:outputLabel>
-                                        <p:inputTextarea id="pagado" value="#{abonoProveedorMB.factura.pagado}"/>
-                                    </div>
-                                </p:outputPanel>
-                            </p:outputPanel>
-                        </p:dialog>
-                    </div>
+
+                        <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
+                                         message="Delete the product?" header="Confirm" severity="warn">
+                            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{crudView.deleteProduct}"
+                                             process="@this" oncomplete="PF('deleteProductDialog').hide()"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                             onclick="PF('deleteProductDialog').hide()"/>
+                        </p:confirmDialog>
+
+                        <p:confirmDialog global="true" showEffect="fade" width="300">
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                             icon="pi pi-times"/>
+                        </p:confirmDialog>
                 </h:form>
             </ui:define>
 

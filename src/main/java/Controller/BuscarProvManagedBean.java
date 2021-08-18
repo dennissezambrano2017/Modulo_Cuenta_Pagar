@@ -97,7 +97,7 @@ public class BuscarProvManagedBean implements Serializable {
         System.out.print("Ruc: " + msg3);
         setNom(msg2);
         setCod(msg3);
-        listafactura = abonoDAO.llenarFacturas(abonoproveedor.BuscarSentenciaFactura(msg3));        
+        this.listafactura = abonoDAO.llenarFacturas(abonoproveedor.BuscarSentenciaFactura(msg3));        
     }
 
     public void onRowDoubleClick(final SelectEvent event) {
