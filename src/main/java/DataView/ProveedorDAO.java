@@ -62,7 +62,7 @@ public class ProveedorDAO extends Conexion {
      }
 
      public void insertarProveedor(Proveedor proveedor) throws Exception {
-  System.out.println("DataView.CondicionesDAO.insertarCondiciones()....ENTRA n  INSERTAR .....");
+          System.out.println("DataView.CondicionesDAO.insertarCondiciones()....ENTRA n  INSERTAR .....");
           String cadena = "INSERT INTO public.proveedor(\n"
                   + "	 codigo, razonsocial, ruc, nombre, direccion, email, webpage, contacto, telefono, estado)\n"
                   + "	VALUES ('" + proveedor.getCodigo() + "','"
@@ -72,25 +72,38 @@ public class ProveedorDAO extends Conexion {
                   + proveedor.getContacto() + "','" + proveedor.getTelefono() + "','"
                   + proveedor.isEstado() + "')";
           System.out.print(cadena);
-          conexion.Ejecutar2(cadena); 
-                  
-                       System.out.print("termina metodo DAO insertar coniciones");
+          conexion.Ejecutar2(cadena);
+
+          System.out.print("termina metodo DAO insertar coniciones");
 
      }
 
-     public void update(Proveedor proveedor, Condiciones condiciones) {
-          String cadena = "UPDATE public.proveedor\n"
-                  + "	SET razonsocial='" + proveedor.getRazonSocial() + "',"
-                  + " ruc='" + proveedor.getRuc() + "',"
-                  + " nombre='" + proveedor.getNombre() + "',"
-                  + " direccion='" + proveedor.getDireccion() + "',"
-                  + " email='" + proveedor.getEmail() + "',"
-                  + " webpage='" + proveedor.getWebPage() + "',"
-                  + " contacto='" + proveedor.getContacto() + "',"
-                  + " telefono='" + proveedor.getTelefono() + "',"
-                  + " estado='" + proveedor.isEstado() + "'\n"
-                  + "	WHERE idproveedor = '" + proveedor.getIdProveedor() + "' ;";
-          System.out.print(cadena);
-          conexion.Ejecutar2(cadena);
+     public void update(Proveedor proveedor, String codigo) throws SQLException {
+         
+          try {
+                 this.conexion.Conectar();
+               System.out.println("EDITAR METODOPROVEEDOR----------------------------------------------------------------");
+               System.out.println(proveedor.getIdProveedor());
+                System.out.println(codigo+"-----ojojojojojojojojojojosado-----------------------------------------------------------------");
+                 System.out.println("EDITAR METODOPROVEEDOR----------------------------------------------------------------");
+               String cadena = "UPDATE public.proveedor\n"
+                       + "	SET  razonsocial= '"+proveedor.getRazonSocial()+"', ruc='"+proveedor.getRuc()+"', "
+                       + "nombre='"+proveedor.getNombre()+"', direccion='"+proveedor.getDireccion()+"', "
+                       + "email='"+proveedor.getEmail()+"', webpage='"+proveedor.getWebPage()+"', "
+                       + "contacto='"+proveedor.getContacto()+"', telefono='"+proveedor.getTelefono()+"',"
+                       + " estado='"+proveedor.isEstado()+"'\n"
+                       + "	WHERE codigo ='"+codigo+"';";
+                     System.err.println(cadena);
+               System.out.println("Entrando a prepared statement");
+             
+              
+               conexion.ejecutar(cadena);
+               System.out.print(cadena);
+          } catch (Exception e) {
+               throw e;
+          } finally {
+               this.conexion.cerrarConexion();
+          }
+
      }
 }
