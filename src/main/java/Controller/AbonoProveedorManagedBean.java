@@ -13,9 +13,9 @@ import Model.TipoPago;
 import Model.TipoBanco;
 import Model.Factura;
 import Model.Proveedor;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -30,7 +30,7 @@ import org.primefaces.event.RowEditEvent;
  */
 @ManagedBean(name = "abonoProveedorMB")
 @SessionScoped
-public class AbonoProveedorManagedBean implements Serializable {
+public class AbonoProveedorManagedBean {
 
     private AbonoProveedor abonoproveedor;
     private TipoPago tipoPago;
@@ -90,7 +90,7 @@ public class AbonoProveedorManagedBean implements Serializable {
     }
 
     public void cargar(Factura factura) {
-        System.out.print("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
+        System.out.print("ESTOY AQUI EN EL MANAGED CARGAR ACTUALIZAR");
         System.out.print("ruc: " + factura.getNfactura());
         this.factura.setNfactura(factura.getNfactura());
         this.factura.setFecha(factura.getFecha());
@@ -100,8 +100,23 @@ public class AbonoProveedorManagedBean implements Serializable {
     }
 
     public void enviar(List<Factura> listaFactura) {
-        System.out.print("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
-        System.out.println(getCod()+" --- "+abonoproveedor.getReferencia());
+//        System.out.print("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
+//        System.out.println(getCod()+" --- "+abonoproveedor.getReferencia()+" ----- "+
+//                this.listaFactura.size()+"--"+this.listaFactura.get(0).getPagado());
+        if (this.listaFactura.size() > 0) {
+            UUID uuid = UUID.randomUUID();
+            abonoproveedor.setIdAbonoProveedor(Integer.parseInt(Long.toString(uuid.getMostSignificantBits(), 40)));
+            abonoproveedor.setDetalletipoPago(tipoPago.getDescripcion());
+            abonoproveedor.setDetalletipoBanco(tipoBanco.getDescrpcion());
+            abonoDAO.Insertar(abonoproveedor);
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error el proveedor seleccionado no tiene factura"));
+        }
+
+    }
+
+    public static void removeSessionScopedBean(String beanName) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(beanName);
     }
 
     public Boolean fechas() {
@@ -133,12 +148,12 @@ public class AbonoProveedorManagedBean implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent<Factura> event) {
-        float n1=event.getObject().getImporte();
+        float n1 = event.getObject().getImporte();
         float n2 = pago;
-        if (n1<n2) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe es menor que pagado"));
-                pago =0;
-        }else{
+        if (n1 < n2) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe es menor que pagado"));
+            pago = 0;
+        } else {
             Factura f = (Factura) event.getObject();
             f.setPagado(pago);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cambio"));
