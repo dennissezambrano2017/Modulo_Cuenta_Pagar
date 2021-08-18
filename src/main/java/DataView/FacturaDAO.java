@@ -97,6 +97,8 @@ public class FacturaDAO {
 
     public List<Factura> llenarDetalle(String n) {
         System.out.print("HOLA LLENAR DETALLE: " + n);
+        listaFacturas.clear();
+        System.out.print("CANTIDAD DETALLE LLENAR: " + listaFacturas.size());
         if (conexion.isEstado()) {
             try {
                 String sentencia = "select * from detalle_compra where nfactura = '" + n + "';";
@@ -113,6 +115,7 @@ public class FacturaDAO {
                 conexion.cerrarConexion();
             }
         }
+        System.out.print("CANTIDAD DETALLE LLENAR2: " + listaFacturas.size());
         return listaFacturas;
     }
 
@@ -120,12 +123,12 @@ public class FacturaDAO {
         if (conexion.isEstado()) {
             try {
                 String cadena = "INSERT INTO public.factura("
-                        + "nfactura, descripcion, importe, pagado, fecha, vencimiento,idproveedor,habilitar)"
+                        + "nfactura, descripcion, importe, pagado, fecha, vencimiento,idproveedor,habilitar,estado)"
                         + " VALUES ('" + factura.getNfactura() + "','"
                         + factura.getDescripcion() + "'," + factura.getImporte() + ","
                         + factura.getPagado() + ",'" + factura.getFecha() + "','"
                         + factura.getVencimiento() + "',(Select idproveedor from proveedor p "
-                        + " where p.ruc = '" + factura.getRuc() + "'), 1)";
+                        + " where p.ruc = '" + factura.getRuc() + "'), 1,0)";
                 System.out.print(cadena);
                 conexion.Ejecutar2(cadena);
             } catch (Exception ex) {
@@ -178,25 +181,22 @@ public class FacturaDAO {
         }
     }
 
-    public void Actdetalle(List<Factura> selectedFactura, Factura factura) {
-//        if (conexion.isEstado()) {
-//            try {
-//                String cadena = "select actualizarfactura('" + factura.getNfactura()
-//                        + "','" + factura.getDescripcion() + "'," + factura.getImporte()
-//                        + "," + factura.getPagado()
-//                        + ",'" + factura.getFecha()
-//                        + "','" + factura.getVencimiento()
-//                        + "','" + factura.getRuc() + "')";
-//                System.out.print(cadena);
-//                conexion.Ejecutar2(cadena);
-//            } catch (Exception ex) {
-//                System.out.println(ex.getMessage() + " error en conectarse");
-//            } finally {
-//                conexion.cerrarConexion();
-//            }
-//        }
-        for (int i = 0; i < selectedFactura.size(); i++) {
-            System.err.println(selectedFactura.get(i).getId_detalle()+"---"+selectedFactura.get(i).getImporteD()+"--"+selectedFactura.get(i).getDetalle()); 
+    public void Actdetalle(List<Factura> selectedFactura) {
+        if (conexion.isEstado()) {
+            try {
+                for (int i = 0; i < selectedFactura.size(); i++) {
+                    String cadena = "SELECT public.actualizardetallefac('"
+                            + selectedFactura.get(i).getId_detalle() + "',"
+                            + selectedFactura.get(i).getImporteD() + ",'"
+                            + selectedFactura.get(i).getDetalle() + "')";
+                    System.out.print(cadena);
+                    conexion.Ejecutar2(cadena);
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage() + " error en conectarse");
+            } finally {
+                conexion.cerrarConexion();
+            }
         }
     }
 
