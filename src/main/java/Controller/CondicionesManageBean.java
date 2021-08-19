@@ -31,6 +31,16 @@ public class CondicionesManageBean implements Serializable{
           this.condiciones = new Condiciones();
           this.proveedor = new Proveedor();
      }
+     public void editaCondiciones(){
+          try{
+                System.out.println("ENTRANDO A  EDITAR condiciones: ");
+                this.condiciones.setProveedor(proveedor);
+                this.condicionesDAO.updateCondiciones(condiciones);
+          }catch( Exception e){
+               
+          }
+     }
+     
 
      public List<Condiciones> getListaCondiciones() {
           try{

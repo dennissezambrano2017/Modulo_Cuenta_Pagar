@@ -21,7 +21,7 @@ public class CondicionesDAO implements Serializable {
 
      Conexion conexion = new Conexion();
      private Proveedor proveedor;
-   
+
      public ArrayList<Condiciones> llenarCondiciones() throws Exception {
           ArrayList<Condiciones> lista = new ArrayList<Condiciones>();
           try {
@@ -81,6 +81,42 @@ public class CondicionesDAO implements Serializable {
                pst.setInt(4, c.getCantDiasVencidos());
                pst.setString(5, c.getDescripcion());
                pst.executeUpdate();
+               conexion.ejecutar(sentencia);
+               System.out.println(sentencia);
+
+          } catch (Exception e) {
+               throw e;
+
+          } finally {
+               this.conexion.cerrarConexion();
+          }
+
+     }
+
+     public void updateCondiciones(Condiciones c) throws Exception {
+          Proveedor proveedor = new Proveedor();
+          try {
+               String sentencia = "UPDATE public.condiciones\n" +
+"	SET descuento=?, diasneto=?, diasdescuento=?, cantdiasvencidos=?, descripcion=?\n" +
+"	WHERE idproveedor =?;";
+               this.conexion.Conectar();
+               
+               System.out.println("´´´´´´´´´´´´´´´´´´´´´´´´´´jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkkkkkkkk");
+               System.out.println(sentencia);
+               PreparedStatement pst = this.conexion.conex.prepareStatement(sentencia);
+               pst.setDouble(1, c.getDescuento());
+               System.out.println(c.getDescuento());
+               pst.setInt(2, c.getDiasNeto());               
+               System.out.println(c.getDiasNeto());
+               pst.setInt(3, c.getDiasDescuento());
+               pst.setInt(4, c.getCantDiasVencidos());               
+               System.out.println(c.getDescripcion());
+               pst.setString(5, c.getDescripcion());
+               System.out.println(proveedor.getIdProveedor()+"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+               System.out.println( "´´´´´´´´´´´´´´´´´´´´´´´´´´jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkkkkkkkk");
+               pst.setInt(6, c.getProveedor().getIdProveedor());
+               pst.executeUpdate();
+               System.out.println("saliendo de update condicionesdao");
                conexion.ejecutar(sentencia);
                System.out.println(sentencia);
 

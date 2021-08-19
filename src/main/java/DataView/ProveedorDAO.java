@@ -29,37 +29,21 @@ public class ProveedorDAO extends Conexion {
      private Condiciones condiciones;
      private CondicionesDAO condicionesDAO;
 
+     public Proveedor getProveedor() {
+          return proveedor;
+     }
+
+     public void setProveedor(Proveedor proveedor) {
+          this.proveedor = proveedor;
+     }
+
      public ProveedorDAO() {
           conexion = new Conexion();
           listaProveedor = new ArrayList<>();
           condiciones = new Condiciones();
      }
 
-     public List<Proveedor> llenar() {
-          if (conexion.isEstado()) {
-               try {
-                    String sentencia = "SELECT * FROM condiciones INNER JOIN proveedor ON proveedor.idproveedor = condiciones.idproveedor";
-                    result = conexion.ejecutarConsulta(sentencia);
-                    while (result.next()) {
-                         listaProveedor.add(new Proveedor(
-                                 result.getString("codigo"),
-                                 result.getString("nombre"),
-                                 result.getString("contacto"),
-                                 result.getString("direccion"),
-                                 result.getString("email"),
-                                 result.getString("telefono"),
-                                 result.getBoolean("estado")
-                         ));
-                    }
-                    result.close();
-               } catch (SQLException ex) {
-                    System.out.println(ex.getMessage() + " error en conectarse");
-               } finally {
-                    conexion.cerrarConexion();
-               }
-          }
-          return listaProveedor;
-     }
+   
 
      public void insertarProveedor(Proveedor proveedor) throws Exception {
           System.out.println("DataView.CondicionesDAO.insertarCondiciones()....ENTRA n  INSERTAR .....");
@@ -82,10 +66,7 @@ public class ProveedorDAO extends Conexion {
          
           try {
                  this.conexion.Conectar();
-               System.out.println("EDITAR METODOPROVEEDOR----------------------------------------------------------------");
-               System.out.println(proveedor.getIdProveedor());
-                System.out.println(codigo+"-----ojojojojojojojojojojosado-----------------------------------------------------------------");
-                 System.out.println("EDITAR METODOPROVEEDOR----------------------------------------------------------------");
+                  System.out.println("EDITAR METODOPROVEEDOR----------------------------------------------------------------");
                String cadena = "UPDATE public.proveedor\n"
                        + "	SET  razonsocial= '"+proveedor.getRazonSocial()+"', ruc='"+proveedor.getRuc()+"', "
                        + "nombre='"+proveedor.getNombre()+"', direccion='"+proveedor.getDireccion()+"', "
@@ -93,12 +74,10 @@ public class ProveedorDAO extends Conexion {
                        + "contacto='"+proveedor.getContacto()+"', telefono='"+proveedor.getTelefono()+"',"
                        + " estado='"+proveedor.isEstado()+"'\n"
                        + "	WHERE codigo ='"+codigo+"';";
-                     System.err.println(cadena);
-               System.out.println("Entrando a prepared statement");
              
               
                conexion.ejecutar(cadena);
-               System.out.print(cadena);
+              
           } catch (Exception e) {
                throw e;
           } finally {
@@ -106,4 +85,40 @@ public class ProveedorDAO extends Conexion {
           }
 
      }
+     
+     
+     
+     public void updateCondicionesProve(Condiciones c, int cod) throws Exception {
+          Proveedor proveedor = new Proveedor();
+          System.out.println(c.getProveedor().getIdProveedor());
+          System.out.println(proveedor.getIdProveedor());
+          System.out.println(this.proveedor.getIdProveedor());
+          
+          System.out.println(cod);
+          System.err.println("_________________________________________________________________________________________");
+          try {
+               conexion.Conectar();
+               String sentencia = "UPDATE public.condiciones\n" +
+"	SET descuento='"+c.getDescuento()+"', diasneto='"+c.getDiasNeto()+"',"
+                       + " diasdescuento='"+c.getDiasDescuento()+"', cantdiasvencidos='"+c.getCantDiasVencidos()+"',"
+                       + " descripcion='"+c.getDescripcion()+"'\n" +
+"	WHERE idproveedor = '"+cod+"';";
+               this.conexion.Conectar();
+               
+               System.out.println("´´´´´´´´´´´´´´´´´´´´´´´´´´jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkkkkkkkk");
+               System.out.println(sentencia);
+      
+               System.out.println("saliendo de update condicionesdao");
+               conexion.ejecutar(sentencia);
+               System.out.println(sentencia);
+
+          } catch (Exception e) {
+               throw e;
+
+          } finally {
+               this.conexion.cerrarConexion();
+          }
+
+     }
+
 }
