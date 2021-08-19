@@ -138,34 +138,6 @@ public class AbonoProveedorManagedBean {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(beanName);
     }
 
-//    public Boolean fechas() {
-//
-//        int year1 = Integer.parseInt(((factura.getFecha()).toString()).substring(0, 4));
-//        int mes1 = Integer.parseInt(((factura.getFecha()).toString()).substring(5, 7));
-//        int dia1 = Integer.parseInt(((factura.getFecha()).toString()).substring(8, 10));
-//        int year2 = Integer.parseInt(((factura.getVencimiento()).toString()).substring(0, 4));
-//        int mes2 = Integer.parseInt(((factura.getVencimiento()).toString()).substring(5, 7));
-//        int dia2 = Integer.parseInt(((factura.getVencimiento()).toString()).substring(8, 10));
-//
-//        if (year1 > year2) {
-//            return true;
-//        } else {
-//            if (year1 == year2) {
-//                if (mes1 > mes2) {
-//                    return true;
-//                } else {
-//                    if (mes1 == mes2) {
-//                        return dia1 > dia2;
-//                    } else {
-//                        return false;
-//                    }
-//                }
-//            } else {
-//                return false;
-//            }
-//        }
-//    }
-
     public void onRowEdit(RowEditEvent<Factura> event) {
         float n1 = event.getObject().getImporte();
         float n2 = pago;

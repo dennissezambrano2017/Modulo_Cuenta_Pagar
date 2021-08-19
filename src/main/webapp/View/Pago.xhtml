@@ -62,9 +62,9 @@
                                 <h:outputText value="#{pago.periodo}"/>
                             </p:column>
                             <p:column exportable="false">
-                                <p:commandButton icon="pi pi-pencil" update=":form:pago-content-edit"
+                                <p:commandButton icon="pi pi-trash" update=":form:pago-content-edit"
                                                  oncomplete="PF('managePagoDialog-edit').show()"
-                                                 styleClass="edit-button rounded-button ui-button-warning"
+                                                 styleClass="ui-button-danger rounded-button"
                                                  action="#{abonoProveedorMB.cargar(pago)}"
                                                  process="@this">
                                 </p:commandButton>
