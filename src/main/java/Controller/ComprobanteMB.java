@@ -5,11 +5,10 @@
  */
 package Controller;
 
+import DataView.RetencionDAO;
 import Model.Retencion;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 
@@ -25,7 +24,7 @@ public class ComprobanteMB {
     
     public ComprobanteMB() {
         this.retenciones = new ArrayList<>();
-        this.retenciones = Retencion.getAll();
+        this.retenciones = RetencionDAO.getAll();
         
     }
 

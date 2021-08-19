@@ -13,7 +13,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import Model.Proveedor;
 import Model.Factura;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -22,7 +24,6 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
-
 
 /**
  *
@@ -39,6 +40,8 @@ public class BuscarProvManagedBean implements Serializable {
     private List<Factura> listafactura;
     private String nom;
     private String cod;
+    private int nvenc;
+    private LocalDate fec;
     private LocalDate vence;
     private String Nfactura;
     private float Pago;
@@ -85,11 +88,30 @@ public class BuscarProvManagedBean implements Serializable {
     public void onRowSelect(SelectEvent<Proveedor> event) {
         String msg2 = event.getObject().getNombre();
         String msg3 = event.getObject().getRuc();
-        //String msg4 = event.getObject().get();
+        int msg4 = event.getObject().getVence();
         System.out.print("Nombre: " + msg2);
         System.out.print("Ruc: " + msg3);
+        System.out.print("Vence: " + msg4);
         setNom(msg2);
         setCod(msg3);
+        setNvenc(msg4);
+        setFec(LocalDate.now());
+        setVence(getFec().plusDays(msg4));
+        System.out.print(getFec() + "----" + getVence());
+
+        //setVence(msg4);
+    }
+
+    public void sumfechas(int d1, LocalDate d2) {
+
+        if (d1 != 0) {
+            System.out.print("DIAS" + d1);
+            System.out.print("FECHA" + d2);
+            setVence(d2.plusDays(d1));
+            System.out.print("VENCIMIENTO" + getVence());
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Seleccione un proveedor"));
+        }
     }
     //Paola: Llenar Factura
 
@@ -100,7 +122,7 @@ public class BuscarProvManagedBean implements Serializable {
         System.out.print("Ruc: " + msg3);
         setNom(msg2);
         setCod(msg3);
-        this.listafactura = abonoDAO.llenarFacturas(abonoproveedor.BuscarSentenciaFactura(msg3));        
+        this.listafactura = abonoDAO.llenarFacturas(abonoproveedor.BuscarSentenciaFactura(msg3));
     }
 
     public void onRowDoubleClick(final SelectEvent event) {
@@ -115,7 +137,6 @@ public class BuscarProvManagedBean implements Serializable {
 //    public void Envio() {
 //        abonoMB.enviar(listaFactura);
 //    }
-
     public String getNom() {
         return nom;
     }
@@ -128,8 +149,32 @@ public class BuscarProvManagedBean implements Serializable {
         return cod;
     }
 
+    public int getNvenc() {
+        return nvenc;
+    }
+
+    public void setNvenc(int nvenc) {
+        this.nvenc = nvenc;
+    }
+
     public void setCod(String cod) {
         this.cod = cod;
+    }
+
+    public LocalDate getFec() {
+        return fec;
+    }
+
+    public void setFec(LocalDate fec) {
+        this.fec = fec;
+    }
+
+    public LocalDate getVence() {
+        return vence;
+    }
+
+    public void setVence(LocalDate vence) {
+        this.vence = vence;
     }
 
     public AbonoProveedorManagedBean getAbonoMB() {
@@ -157,7 +202,7 @@ public class BuscarProvManagedBean implements Serializable {
     }
 
     public Factura getFactura() {
-        System.out.println(factura.getNfactura()+listafactura.size());
+        System.out.println(factura.getNfactura() + listafactura.size());
         return factura;
     }
 
@@ -180,8 +225,9 @@ public class BuscarProvManagedBean implements Serializable {
     public void setAbonoDAO(AbonoProveedorDAO abonoDAO) {
         this.abonoDAO = abonoDAO;
     }
+
     public List<Factura> getListafactura() {
-        
+
         return listafactura;
     }
 
@@ -196,10 +242,11 @@ public class BuscarProvManagedBean implements Serializable {
     public void setBuscarprovDAO(BuscarProvDAO buscarprovDAO) {
         this.buscarprovDAO = buscarprovDAO;
     }
-    public void leer (Factura factSelection){
-        factura=factSelection;
+
+    public void leer(Factura factSelection) {
+        factura = factSelection;
         System.out.println("Controller.BuscarProvManagedBean.leer()");
 
     }
-    
+
 }
