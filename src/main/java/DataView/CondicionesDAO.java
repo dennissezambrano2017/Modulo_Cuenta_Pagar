@@ -117,6 +117,7 @@ public class CondicionesDAO implements Serializable {
                System.out.println(proveedor.getIdProveedor() + "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
                System.out.println("´´´´´´´´´´´´´´´´´´´´´´´´´´jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkkkkkkkk");
                pst.setInt(6, c.getProveedor().getIdProveedor());
+               System.out.println(c.getProveedor().getIdProveedor());
                pst.executeUpdate();
                System.out.println("saliendo de update condicionesdao");
                conexion.ejecutar(sentencia);
