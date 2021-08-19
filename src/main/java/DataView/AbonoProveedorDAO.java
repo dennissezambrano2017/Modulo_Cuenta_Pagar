@@ -24,7 +24,7 @@ import javax.faces.context.FacesContext;
  * @author PAOLA
  */
 public class AbonoProveedorDAO {
-    
+
     Conexion conex;
     private AbonoProveedor abono;
     private DetalleAbono detalleAbono;
@@ -35,25 +35,25 @@ public class AbonoProveedorDAO {
     private List<Proveedor> listaProveedor;
     private Statement statement;
     private Connection connection;
-    
+
     public AbonoProveedorDAO() {
         listafactura = new ArrayList<>();
         listaProveedor = new ArrayList<>();
-        
+
     }
-    
+
     public AbonoProveedorDAO(AbonoProveedor abono) {
         this.abono = abono;
     }
-    
+
     public AbonoProveedorDAO(Factura factura) {
         this.factura = factura;
     }
-    
+
     public AbonoProveedorDAO(DetalleAbono detalleAbono) {
         this.detalleAbono = detalleAbono;
     }
-    
+
     public List<AbonoProveedor> llenarDatos(String sentencia) {
         conex = new Conexion();
         listaAbono = new ArrayList<>();
@@ -76,7 +76,7 @@ public class AbonoProveedorDAO {
         }
         return listaAbono;
     }
-    
+
     public List<Factura> llenarFacturas(String sentencia) {
         conex = new Conexion();
         listafactura = new ArrayList<>();
@@ -100,7 +100,7 @@ public class AbonoProveedorDAO {
         }
         return listafactura;
     }
-    
+
     public List<Proveedor> llenarProveedor() {
         if (conex.isEstado()) {
             try {
@@ -122,73 +122,83 @@ public class AbonoProveedorDAO {
         }
         return listaProveedor;
     }
-    
-    public int insertar(String sentencia) {
-        try {
-            connection = conex.getCnx();
-            statement = connection.createStatement();
-            statement.executeUpdate(sentencia);
-            System.out.print("Si insertoq");
-            return 1;
-        } catch (Exception e) {
-            return 0;
+
+    public void Insertar(AbonoProveedor abonoProveedor) {
+        if (conex.isEstado()) {
+            try {
+                String cadena = "INSERT INTO public.abonoproveedor(\n"
+                        + "	idabonoproveedor, idtipopago, idtipobanco, idproveedor, "
+                        + "     referencia, idasiento, fecha)\n"
+                        + "	VALUES('" + abonoProveedor.getIdAbonoProveedor()+ "','"
+                        + factura.getDescripcion() + "',"
+                        + "(select tp.idtipopago from public.tipopago tp where tp.descripcion='" + factura.getImporte() + "'),"
+                        + "(select tb.idtipobanco from public.tipobanco tb where tb.descripcion='"+factura.getPagado() + "'),'" + factura.getFecha() + "','"
+                        + factura.getVencimiento() + "',(Select idproveedor from proveedor p "
+                        + " where p.ruc = '" + factura.getRuc() + "'), 1)";
+                System.out.print(cadena);
+                conex.Ejecutar2(cadena);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage() + " error en conectarse");
+            } finally {
+                conex.cerrarConexion();
+            }
         }
     }
-    
+
     public Conexion getConex() {
         return conex;
     }
-    
+
     public void setConex(Conexion conex) {
         this.conex = conex;
     }
-    
+
     public AbonoProveedor getAbono() {
         return abono;
     }
-    
+
     public void setAbono(AbonoProveedor abono) {
         this.abono = abono;
     }
-    
+
     public ResultSet getResult() {
         return result;
     }
-    
+
     public DetalleAbono getDetalleAbono() {
         return detalleAbono;
     }
-    
+
     public void setDetalleAbono(DetalleAbono detalleAbono) {
         this.detalleAbono = detalleAbono;
     }
-    
+
     public void setResult(ResultSet result) {
         this.result = result;
     }
-    
+
     public List<AbonoProveedor> getListaAbono() {
         return listaAbono;
     }
-    
+
     public void setListaAbono(List<AbonoProveedor> listaAbono) {
         this.listaAbono = listaAbono;
     }
-    
+
     public List<Factura> getListafactura() {
         return listafactura;
     }
-    
+
     public void setListafactura(List<Factura> listafactura) {
         this.listafactura = listafactura;
     }
-    
+
     public Factura getFactura() {
         return factura;
     }
-    
+
     public void setFactura(Factura factura) {
         this.factura = factura;
     }
-    
+
 }

@@ -9,7 +9,7 @@ public class Condiciones {
      int diasDescuento;
      int cantDiasVencidos;
      String descripcion;
-     Proveedor  proveedor;
+     Proveedor  proveedor ;
 
      public Condiciones(int idCondiciones, Double descuento, int diasNeto, int diasDescuento, int cantDiasVencidos, String descripcion, Proveedor proveedor) {
           this.idCondiciones = idCondiciones;

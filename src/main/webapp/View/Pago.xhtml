@@ -69,14 +69,14 @@
                         </p:panel>
                         <!-- Dialogo Nuevo-->
                         <p:dialog id="pago" header="Detalle de Pago" showEffect="fade" modal="true"
-                                  widgetVar="managePagoDialog" responsive="true" height="400" width="70%"  >
+                                  widgetVar="managePagoDialog" responsive="true" height="400" width="70%"  closable="false">
                             <p:outputPanel id="pago-content" class="ui-fluid" >
 
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
                                         <p:outputLabel for="name">Proveedor</p:outputLabel>
                                         <p:inputText id="name" type="button" 
-                                                     value="#{abonoProveedorMB.nom}"/>
+                                                     value="#{abonoProveedorMB.nom}" required="true"/>
                                     </div>
                                     <div class="p-field p-col">
                                         <p:inputText id="hola" value="#{abonoProveedorMB.cod}" style="visibility: hidden"/>
@@ -90,7 +90,7 @@
                                         <p:outputLabel for="name" >Pago por
                                         </p:outputLabel>
                                         <p:selectOneMenu  placeholder="Seleccione" id="detallePago"
-                                                          value="#{abonoProveedorMB.tipoPago.descripcion}" >
+                                                          value="#{abonoProveedorMB.tipoPago.descripcion}" required="true">
                                             <f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
                                             <f:selectItem itemLabel="Caja" 
                                                           itemValue="Caja"/>
@@ -103,7 +103,7 @@
                                     <div class="p-field p-col">
                                         <p:outputLabel value="Referencia" />
                                         <p:inputText id="Referencia" type="text" 
-                                                     value="#{abonoProveedorMB.abonoproveedor.referencia}"/>
+                                                     value="#{abonoProveedorMB.abonoproveedor.referencia}" />
                                     </div>
                                     <div class="p-field p-col">
                                         <!-- Datos del Banco -->
@@ -127,14 +127,14 @@
                                     <div class="p-field p-col">
                                         <p:outputLabel for="fecha" value="Fecha:"/>
                                         <p:datePicker id="fecha" 
-                                                      value="#{abonoProveedorMB.abonoproveedor.fecha}" />
+                                                      value="#{abonoProveedorMB.abonoproveedor.fecha}" required="true"/>
                                     </div>
                                     <div class="p-field p-col">
                                         <label for="periodo" >
                                             Periodo: 
                                         </label>
                                         <p:inputText id="peri" type="text"
-                                                     value="#{abonoProveedorMB.abonoproveedor.periodo}"/>
+                                                     value="#{abonoProveedorMB.abonoproveedor.periodo}" required="true"/>
                                         <div class="p-field p-col"></div>
                                     </div>
                                 </div>
@@ -191,7 +191,8 @@
                                                  rows="5" paginator="true" selectionMode="single"
                                                  selection="#{abonoProveedorMB.proveedor}" rowKey="#{proveedor.nombre}">
                                         <p:ajax event="rowSelect" listener="#{abonoProveedorMB.onRowSelectf}" 
-                                                oncomplete="PF('moviePicker').hide()" update=":form:pago-content,:form:ruc"/>
+                                                oncomplete="PF('moviePicker').hide()" update=":form:pago-content,:form:ruc"
+                                                process="@this"/>
 
                                         <p:column headerText="Proveedor">
                                             <h:outputText value="#{proveedor.codigo}"/>
@@ -216,7 +217,7 @@
                                 <p:commandButton value="Cancelar" icon="pi pi-times" actionListener="#{abonoProveedorMB.reset}"
                                                  onclick="PF('managePagoDialog').hide()"
                                                  class="ui-button-secondary" styleClass="ui-button-danger"
-                                                 onsuccess="location.reload()"/>
+                                                 onsuccess="location.reload()" process="@this"/>
                             </f:facet>
 
                         </p:dialog>

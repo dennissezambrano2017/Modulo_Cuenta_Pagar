@@ -21,7 +21,7 @@ public class CondicionesDAO implements Serializable {
 
      Conexion conexion = new Conexion();
      private Proveedor proveedor;
-
+   
      public ArrayList<Condiciones> llenarCondiciones() throws Exception {
           ArrayList<Condiciones> lista = new ArrayList<Condiciones>();
           try {

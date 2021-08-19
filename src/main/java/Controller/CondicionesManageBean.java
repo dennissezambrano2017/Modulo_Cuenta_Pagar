@@ -42,6 +42,10 @@ public class CondicionesManageBean implements Serializable{
           }
           return listaCondiciones;
      }
+     public void carga( Proveedor pr)throws Exception{
+        
+        
+     }
     
 
      public void setListaCondiciones(List<Condiciones> listaCondiciones) {
