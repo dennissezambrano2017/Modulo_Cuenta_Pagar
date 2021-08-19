@@ -13,6 +13,8 @@ import Model.TipoPago;
 import Model.TipoBanco;
 import Model.Factura;
 import Model.Proveedor;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +32,7 @@ import org.primefaces.event.RowEditEvent;
  */
 @ManagedBean(name = "abonoProveedorMB")
 @SessionScoped
-public class AbonoProveedorManagedBean {
+public final class AbonoProveedorManagedBean {
 
     private AbonoProveedor abonoproveedor;
     private TipoPago tipoPago;
@@ -65,6 +67,9 @@ public class AbonoProveedorManagedBean {
         buscarprovDAO = new BuscarProvDAO();
         listaProveedor = buscarprovDAO.llenar();
         detalleFactura = new ArrayList<>();
+        abonoproveedor.setDetalletipoPago("");
+        abonoproveedor.setDetalletipoBanco("");
+        abonoproveedor.setReferencia("");
     }
 
     //Metodos 
@@ -133,6 +138,23 @@ public class AbonoProveedorManagedBean {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error el proveedor seleccionado no tiene factura"));
         }
     }
+    
+    public void deshabilitar(List<Factura> listaFactura) {
+        if (this.detalleFactura.size() > 0) {
+            abonoproveedor.setDetalletipoPago(tipoPago.getDescripcion());
+            abonoproveedor.setDetalletipoBanco(tipoBanco.getDescrpcion());
+            abonoDAO.Insertar(abonoproveedor);
+            
+            bandera = abonoDAO.InsertarDetalle(this.detalleFactura, abonoproveedor);
+            if (bandera) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Detalle de abono revertido"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error en registrar el abono"));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error el proveedor seleccionado no tiene factura"));
+        }
+    }
 
     public static void removeSessionScopedBean(String beanName) {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(beanName);
@@ -156,8 +178,13 @@ public class AbonoProveedorManagedBean {
     }
 
     public void reset() {
-        PrimeFaces.current().resetInputs(":form:pago-content,:form:table-factura, :form:pago");
+        System.out.println("Se reset");
+        PrimeFaces.current().resetInputs(":form:pago-content,:form:table-factura, "
+                + ":form:pago, :form:pago-content-edit");
         this.setNom("");
+        abonoproveedor = new AbonoProveedor();
+        tipoBanco = new TipoBanco();
+        tipoPago = new TipoPago();
         listaFactura.clear();
     }
 
