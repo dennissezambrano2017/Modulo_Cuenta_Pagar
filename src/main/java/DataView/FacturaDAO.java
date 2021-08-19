@@ -98,9 +98,9 @@ public class FacturaDAO {
     }
 
     public List<Factura> llenarDetalle(String n) {
-        System.out.print("HOLA LLENAR DETALLE: " + n);
+        System.out.println("HOLA LLENAR DETALLE: " + n);
         listaFacturas.clear();
-        System.out.print("CANTIDAD DETALLE LLENAR: " + listaFacturas.size());
+        System.out.println("CANTIDAD DETALLE LLENAR: " + listaFacturas.size());
         if (conexion.isEstado()) {
             try {
                 String sentencia = "select * from detalle_compra where nfactura = '" + n + "';";
@@ -117,7 +117,7 @@ public class FacturaDAO {
                 conexion.cerrarConexion();
             }
         }
-        System.out.print("CANTIDAD DETALLE LLENAR2: " + listaFacturas.size());
+        System.out.println("CANTIDAD DETALLE LLENAR2: " + listaFacturas.size());
         return listaFacturas;
     }
 
@@ -131,7 +131,7 @@ public class FacturaDAO {
                         + factura.getPagado() + ",'" + factura.getFecha() + "','"
                         + factura.getVencimiento() + "',(Select idproveedor from proveedor p "
                         + " where p.ruc = '" + factura.getRuc() + "'), 1,0)";
-                System.out.print(cadena);
+                System.out.println(cadena);
                 conexion.Ejecutar2(cadena);
             } catch (Exception ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");
@@ -143,7 +143,7 @@ public class FacturaDAO {
 
     //Insertar Detalle
     public void insertdetalle(List<Factura> selectedFactura, Factura factura) {
-        System.out.print("HOLA ESTOY EN MANAGE HABILITAR");
+        System.out.println("HOLA ESTOY EN MANAGE HABILITAR");
         if (conexion.isEstado()) {
             try {
                 for (int i = 0; i < selectedFactura.size(); i++) {
@@ -151,7 +151,7 @@ public class FacturaDAO {
                             + factura.getNfactura() + "',"
                             + selectedFactura.get(i).getImporteD() + ", '"
                             + selectedFactura.get(i).getDetalle() + "')";
-                    System.out.print(cadena);
+                    System.out.println(cadena);
                     conexion.Ejecutar2(cadena);
                 }
             } catch (Exception ex) {
@@ -173,7 +173,7 @@ public class FacturaDAO {
                         + ",'" + factura.getFecha()
                         + "','" + factura.getVencimiento()
                         + "','" + factura.getRuc() + "')";
-                System.out.print(cadena);
+                System.out.println(cadena);
                 conexion.Ejecutar2(cadena);
             } catch (Exception ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");
@@ -191,7 +191,7 @@ public class FacturaDAO {
                             + selectedFactura.get(i).getId_detalle() + "',"
                             + selectedFactura.get(i).getImporteD() + ",'"
                             + selectedFactura.get(i).getDetalle() + "')";
-                    System.out.print(cadena);
+                    System.out.println(cadena);
                     conexion.Ejecutar2(cadena);
                 }
             } catch (Exception ex) {
@@ -203,11 +203,11 @@ public class FacturaDAO {
     }
 
     public void dhabilitar(String d, int n) {
-        System.out.print("HOLA ESTOY EN MANAGE HABILITAR UNO");
+        System.out.println("HOLA ESTOY EN MANAGE HABILITAR UNO");
         if (conexion.isEstado()) {
             try {
                 String cadena = "select habilitarfactura(" + n + ",'" + d + "')";
-                System.out.print(cadena);
+                System.out.println(cadena);
                 conexion.Ejecutar2(cadena);
             } catch (Exception ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");

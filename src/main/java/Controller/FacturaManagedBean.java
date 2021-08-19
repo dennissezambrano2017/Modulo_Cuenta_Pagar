@@ -89,15 +89,15 @@ public class FacturaManagedBean {
 
     //Diana: insertar nueva Factura
     public void insertarfactura() {
-        System.out.print("ESTOY AQUI EN EL MANAGED INSERTAR");
-        System.out.print("Cantidad detalle: " + detalleFactura.size());
-        System.out.print("ruc: " + factura.getRuc());
+        System.out.println("ESTOY AQUI EN EL MANAGED INSERTAR");
+        System.out.println("Cantidad detalle: " + detalleFactura.size());
+        System.out.println("ruc: " + factura.getRuc());
         float comp = 0;
         for (int i = 0; i < detalleFactura.size(); i++) {
             comp += detalleFactura.get(i).getImporteD();
-            System.out.print("Importe comp: " + comp);
+            System.out.println("Importe comp: " + comp);
         }
-        System.out.print("Importe comp: " + this.factura.getImporte());
+        System.out.println("Importe comp: " + this.factura.getImporte());
         if (factura.getImporte() != comp) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe debe ser igual al total del detalle"));
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe= " + factura.getImporte() + "Total= " + comp));
@@ -134,13 +134,13 @@ public class FacturaManagedBean {
 
     //Diana Actualizar factura
     public void editarfactura() {
-        System.out.print("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
-        System.out.print("DETALLE: " + detalleFactura.get(0).getId_detalle());
-        System.out.print("ruc: " + factura.getRuc());
+        System.out.println("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
+        System.out.println("DETALLE: " + detalleFactura.get(0).getId_detalle());
+        System.out.println("ruc: " + factura.getRuc());
         float comp = 0;
         for (int i = 0; i < detalleFactura.size(); i++) {
             comp += detalleFactura.get(i).getImporteD();
-            System.out.print("Importe comp: " + comp);
+            System.out.println("Importe comp: " + comp);
         }
         if (factura.getImporte() != comp) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe es menor que el total del detalle"));
@@ -175,8 +175,8 @@ public class FacturaManagedBean {
 
     //Cardar datos para actualizar
     public void cargarEditar(Factura factura) {
-        System.out.print("CANTIDAD DETALLE EDITAR: " + detalleFactura.size());
-        System.out.print(factura.getNfactura());
+        System.out.println("CANTIDAD DETALLE EDITAR: " + detalleFactura.size());
+        System.out.println(factura.getNfactura());
         String dato = factura.getNfactura();
         this.factura.setNombre(factura.getNombre());
         this.factura.setNfactura(factura.getNfactura());
@@ -189,12 +189,12 @@ public class FacturaManagedBean {
         this.factura.setAux(sumfechas());
         detalleFactura.clear();
         detalleFactura = facturaDAO.llenarDetalle(dato);
-        System.out.print("CANTIDAD DETALLE EDITAR2: " + detalleFactura.size());
+        System.out.println("CANTIDAD DETALLE EDITAR2: " + detalleFactura.size());
     }
 
     //Diana: Habilitar y Deshabilitar
     public void dhFactura(Factura factura) {
-        System.out.print("HOLA SI ENTRE DELETE HABILITAR 1");
+        System.out.println("HOLA SI ENTRE DELETE HABILITAR 1");
         if (check) {
             this.facturaDAO.dhabilitar(factura.getNfactura(), 0);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Deshabilitada factura: " + factura.getNfactura()));
@@ -227,11 +227,11 @@ public class FacturaManagedBean {
     }
 
     public void hola() {
-        System.out.print("hola");
+        System.out.println("hola");
     }
 
     public void reset() {
-        System.out.print("sie ntre al reset");
+        System.out.println("sie ntre al reset");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cancelado"));
         PrimeFaces.current().resetInputs("form:outputnuevo, form:dt-detalle");
         removeSessionScopedBean("facturaMB");
@@ -239,7 +239,7 @@ public class FacturaManagedBean {
     }
 
     public void resetE() {
-        System.out.print("sie ntre al reset");
+        System.out.println("sie ntre al reset");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cancelado"));
         PrimeFaces.current().resetInputs("form:outputedit, form:dt-detalle");
         removeSessionScopedBean("facturaMB");
@@ -320,10 +320,10 @@ public class FacturaManagedBean {
 
     public void onAddNew() {
         // Add one new product to the table:
-        System.out.print("Cantidad detalle: " + detalleFactura.size());
+        System.out.println("Cantidad detalle: " + detalleFactura.size());
         Factura newFactura = new Factura(0, "Detalle factura", "code");
         detalleFactura.add(newFactura);
-        System.out.print("Cantidad detalle 2: " + detalleFactura.size());
+        System.out.println("Cantidad detalle 2: " + detalleFactura.size());
         FacesMessage msg = new FacesMessage("New Product added");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
