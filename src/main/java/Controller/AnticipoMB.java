@@ -1,5 +1,6 @@
 package Controller;
 
+import DataView.AnticipoDAO;
 import Model.Anticipo;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -42,7 +43,7 @@ public class AnticipoMB implements Serializable {
     
     @PostConstruct
     public void init() {
-        this.anticipos = Anticipo.getAllJson();
+        this.anticipos = AnticipoDAO.getAllJson();
         
         this.selected_anticipo = new Anticipo();
         this.selected_anticipo.setId_proveedor(1);
@@ -106,7 +107,7 @@ public class AnticipoMB implements Serializable {
         }
         
         
-        this.anticipos = Anticipo.getAllJson();  // Actualiza los datos de la tabla
+        this.anticipos = AnticipoDAO.getAllJson();  // Actualiza los datos de la tabla
         
         PrimeFaces.current().executeScript("PF('manageAnticipoDialog').hide()");
         PrimeFaces.current().ajax().update(":form:dt_anticipos");
@@ -129,7 +130,7 @@ public class AnticipoMB implements Serializable {
             System.out.println(ex.getMessage());
         }
         
-        this.anticipos = Anticipo.getAllJson();  // Actualiza los datos de la tabla
+        this.anticipos = AnticipoDAO.getAllJson();  // Actualiza los datos de la tabla
         PrimeFaces.current().ajax().update(":form:dt_anticipos");
         
         PrimeFaces.current().executeScript("PF('delete_anticipo_dialog').hide()");

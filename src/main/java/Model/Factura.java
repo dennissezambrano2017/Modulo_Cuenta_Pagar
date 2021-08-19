@@ -274,98 +274,12 @@ public class Factura{
     }
     
     
-    // metodos aux para comunicación con la db
-    public static Factura getOneFactura(int id) {
-        Factura fac = new Factura();
-        
-        Conexion conn = new Conexion();
-        String query = "select idfactura, nfactura, descripcion, importe, pagado, fecha, vencimiento, estado, idproveedor, idasiento\n" +
-                            "from factura\n" +
-                            "where \"idfactura\"=?;";
-        try {
-            conn.abrirConexion();
-            
-            //Statement stmt = conn.conex.createStatement();
-            PreparedStatement stmt = conn.conex.prepareStatement(query);
-            stmt.setInt(1, id);
-            
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                fac.setId(rs.getInt("idfactura"));
-                fac.setNfactura(rs.getString("nfactura"));
-                fac.setDescripcion(rs.getString("descripcion"));
-                fac.setImporte(rs.getFloat("importe"));
-                fac.setPagado(rs.getFloat("pagado"));
-                fac.setFecha(rs.getObject("fecha", LocalDate.class));
-                fac.setVencimiento(rs.getObject("vencimiento", LocalDate.class));
-                fac.setEstado(rs.getInt("estado"));
-                fac.setIdproveedor(rs.getInt("idproveedor"));
-                fac.setIdasiento(rs.getInt("idasiento"));
-            }
-            conn.conex.close();
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }
-
-        return fac;
-    }
+    
     
     public Factura GetdbProveedor() {
         this.setProveedor(Proveedor.getOneProveedor(this.idproveedor));
         return this;
     }
     
-    public static List<Factura> get_fac_pro(LocalDate desde, LocalDate hasta, int opcion) {
-        List<Factura> lista = new ArrayList<>();
-        
-        Conexion conn = new Conexion();
-        String query = "select * from select_fac_pro(?, ?, ?);";
-        
-        try {
-            conn.abrirConexion();
-            
-            //Statement stmt = conn.conex.createStatement();
-            PreparedStatement stmt = conn.conex.prepareStatement(query);
-            // Establecemos los argumentos.
-            stmt.setDate(1, java.sql.Date.valueOf(desde));
-            stmt.setDate(2, java.sql.Date.valueOf(hasta));
-            stmt.setInt(3, opcion);
-            //stmt.setObject(1, new java.sql.Date());
-            
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Factura fac = new Factura();
-                fac.proveedor = new Proveedor();
-                
-                fac.setFecha(rs.getObject("fecha", LocalDate.class));
-                fac.setId(rs.getInt("id_factura"));
-                fac.setIdasiento(rs.getInt("id_asiento"));
-                fac.setNfactura(rs.getString("nfactura"));
-                fac.setDescripcion(rs.getString("descripcion"));
-                fac.setImporte(rs.getFloat("importe"));
-                fac.setPagado(rs.getFloat("pagado"));
-                fac.setVencimiento(rs.getObject("vencimiento", LocalDate.class));
-                fac.setEstado(rs.getInt("estado"));
-                fac.setIdproveedor(rs.getInt("id_proveedor"));
-                
-                fac.setPor_pagar(fac.getImporte()-fac.getPagado()); // Calculado
-                
-                fac.proveedor.idProveedor = rs.getInt("id_proveedor");
-                fac.proveedor.nombre = rs.getString("nombre");
-                
-                fac.setEstado_string(rs.getString("estado_string"));
-                
-                lista.add(fac);
-            }
-            conn.conex.close();
-
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }
-
-        return lista;
-    }
+    
 }

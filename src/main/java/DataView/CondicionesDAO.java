@@ -27,21 +27,23 @@ public class CondicionesDAO implements Serializable {
           try {
                this.conexion.Conectar();
 
-               String sentencia = "SELECT c.diasneto,c.diasdescuento,"
+               String sentencia = "SELECT c.descuento,c.diasneto,c.diasdescuento,"
                        + "c.cantdiasvencidos,c.descripcion,"
-                       + "p.codigo,p.razonsocial,p.ruc,p.nombre,"
+                       + "p.idproveedor, p.codigo,p.razonsocial,p.ruc,p.nombre,"
                        + "p.direccion,p.email,p.webpage,p.contacto,"
                        + "p.telefono,p.estado FROM condiciones c "
-                       + "INNER JOIN proveedor p ON p.idproveedor = c.idproveedor";
+                       + "INNER JOIN proveedor p ON p.idproveedor = c.idproveedor order by p.idproveedor";
                PreparedStatement prs = conexion.getCnx().prepareStatement(sentencia);
                ResultSet result = prs.executeQuery();
                while (result.next()) {
                     Proveedor p = new Proveedor();
                     Condiciones c = new Condiciones();
+                    c.setDescuento(result.getDouble("descuento"));
                     c.setDiasNeto(result.getInt("diasneto"));
                     c.setDiasDescuento(result.getInt("diasdescuento"));
                     c.setCantDiasVencidos(result.getInt("cantdiasvencidos"));
                     c.setDescripcion(result.getString("descripcion"));
+                    p.setIdProveedor(result.getInt("idproveedor"));
                     p.setCodigo(result.getString("codigo"));
                     p.setRazonSocial(result.getString("razonsocial"));
                     p.setRuc(result.getString("ruc"));
@@ -96,24 +98,24 @@ public class CondicionesDAO implements Serializable {
      public void updateCondiciones(Condiciones c) throws Exception {
           Proveedor proveedor = new Proveedor();
           try {
-               String sentencia = "UPDATE public.condiciones\n" +
-"	SET descuento=?, diasneto=?, diasdescuento=?, cantdiasvencidos=?, descripcion=?\n" +
-"	WHERE idproveedor =?;";
+               String sentencia = "UPDATE public.condiciones\n"
+                       + "	SET descuento=?, diasneto=?, diasdescuento=?, cantdiasvencidos=?, descripcion=?\n"
+                       + "	WHERE idproveedor =?;";
                this.conexion.Conectar();
-               
+
                System.out.println("´´´´´´´´´´´´´´´´´´´´´´´´´´jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkkkkkkkk");
                System.out.println(sentencia);
                PreparedStatement pst = this.conexion.conex.prepareStatement(sentencia);
                pst.setDouble(1, c.getDescuento());
                System.out.println(c.getDescuento());
-               pst.setInt(2, c.getDiasNeto());               
+               pst.setInt(2, c.getDiasNeto());
                System.out.println(c.getDiasNeto());
                pst.setInt(3, c.getDiasDescuento());
-               pst.setInt(4, c.getCantDiasVencidos());               
+               pst.setInt(4, c.getCantDiasVencidos());
                System.out.println(c.getDescripcion());
                pst.setString(5, c.getDescripcion());
-               System.out.println(proveedor.getIdProveedor()+"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
-               System.out.println( "´´´´´´´´´´´´´´´´´´´´´´´´´´jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkkkkkkkk");
+               System.out.println(proveedor.getIdProveedor() + "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+               System.out.println("´´´´´´´´´´´´´´´´´´´´´´´´´´jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkkkkkkkk");
                pst.setInt(6, c.getProveedor().getIdProveedor());
                pst.executeUpdate();
                System.out.println("saliendo de update condicionesdao");
