@@ -218,7 +218,9 @@
                         <f:facet name="footer">
                             <p:commandButton value="Aceptar" icon="pi pi-check" actionListener="#{abonoProveedorMB.enviar(pagoFactura)}"
                                              update=":form:proveedortabla" process="pago-content @this"
-                                             styleClass="ui-button-success" />
+                                             onclick="PF('managePagoDialog').hide()"
+                                             styleClass="ui-button-success"
+                                             onsuccess="location.reload()" />
                             <p:commandButton value="Cancelar" icon="pi pi-times" actionListener="#{abonoProveedorMB.reset}"
                                              onclick="PF('managePagoDialog').hide()"
                                              class="ui-button-secondary" styleClass="ui-button-danger"
