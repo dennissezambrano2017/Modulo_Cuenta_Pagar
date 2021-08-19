@@ -27,6 +27,7 @@ public class Proveedor {
     String contacto;
     String telefono;
     boolean estado;
+    int vence;
 
   
   
@@ -55,10 +56,12 @@ public class Proveedor {
     }
 
     //DIANA: YO USO ESTO
-    public Proveedor(String codigo, String ruc, String nombre) {
+    public Proveedor(int idProveedor, String codigo, String ruc, String nombre, int vence) {
+        this.idProveedor = idProveedor;
         this.codigo = codigo;
         this.ruc = ruc;
         this.nombre = nombre;
+        this.vence = vence;
     }
 
     public Proveedor(int idProveedor) {
@@ -155,6 +158,15 @@ public class Proveedor {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
+
+    public int getVence() {
+        return vence;
+    }
+
+    public void setVence(int vence) {
+        this.vence = vence;
+    }
+    
 
     @Override
     public int hashCode() {

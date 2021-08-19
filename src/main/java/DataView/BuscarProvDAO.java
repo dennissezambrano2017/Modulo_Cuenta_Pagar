@@ -55,15 +55,16 @@ public class BuscarProvDAO {
     public List<Proveedor> llenar() {
         if (conexion.isEstado()) {
             try {
-                String sentencia = "SELECT * from proveedor";
+                String sentencia = "select p.idproveedor, p.codigo, p.nombre, p.ruc, c.cantdiasvencidos "
+                        +" from proveedor p inner join condiciones c on " +
+                        "(c.idproveedor = p.idproveedor);";
                 result = conexion.ejecutarConsulta(sentencia);
                 while (result.next()) {
-                    listaProveedor.add(new Proveedor(result.getString("codigo"),
-                            result.getString("ruc"), result.getString("nombre")));
-                    //this.condiciones = new Condiciones();
-                    //condiciones.setCantDiasVencidos(result.getInt("cantdiasvencidos"));
-                            
+                    listaProveedor.add(new Proveedor(result.getInt("idproveedor"),
+                            result.getString("codigo"),result.getString("ruc"), 
+                            result.getString("nombre"),result.getInt("cantdiasvencidos")));           
                 }
+                System.out.print(sentencia);
                 result.close();
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");
