@@ -71,7 +71,7 @@ public class BeanGenerarCalendario  {
         
         //facturaDAO = new FacturaDAO();
         //facturas = facturaDAO.llenar();
-        this.facturas = Factura.get_fac_pro(this.desde, this.hasta, Integer.parseInt(this.tipo));
+        this.facturas = FacturaDAO.get_fac_pro(this.desde, this.hasta, Integer.parseInt(this.tipo));
         
         this.disabled_fecha = true;
         
@@ -157,7 +157,7 @@ public class BeanGenerarCalendario  {
         System.out.println(this.desde);
         System.out.println(this.hasta);
         System.out.println(this.tipo);
-        this.facturas = Factura.get_fac_pro(this.desde, this.hasta, Integer.parseInt(this.tipo));
+        this.facturas = FacturaDAO.get_fac_pro(this.desde, this.hasta, Integer.parseInt(this.tipo));
         
         System.out.println("Datos que se ingresan al reporte, metodo exportpdf");
         this.facturas.forEach(fac -> {
@@ -276,7 +276,7 @@ public class BeanGenerarCalendario  {
             return;
         }
         // Tremos los datos desde la base de datos
-        this.facturas = Factura.get_fac_pro(this.desde, this.hasta, Integer.parseInt(this.tipo));
+        this.facturas = FacturaDAO.get_fac_pro(this.desde, this.hasta, Integer.parseInt(this.tipo));
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Operación exitosa"));
         // Actulizamos la tabla, para ver los resultados.
         PrimeFaces.current().ajax().update(":form:tablafacturas");
