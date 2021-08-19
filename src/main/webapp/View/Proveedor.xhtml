@@ -72,6 +72,10 @@
                                   
                                    <p:column selectionMode="multiple" exportable="false"></p:column>
                                    <!--  DATO CODIGO PROVEEDOR  !-->
+                                   <p:column headerText="idProveedor" sortBy="#{provee.proveedor.idProveedor}" 
+                                             filterBy="#{provee.proveedor.idProveedor}">
+                                        <h:outputText value="#{provee.proveedor.idProveedor}"/>
+                                   </p:column>
                                    <p:column headerText="Código" sortBy="#{provee.proveedor.codigo}" 
                                              filterBy="#{provee.proveedor.codigo}">
                                         <h:outputText value="#{provee.proveedor.codigo}"/>
@@ -304,6 +308,10 @@
                                              <div class="p-formgrid p-grid"> 
 
                                                   <div class="p-field p-col">
+                                                        <p:outputLabel  
+                                                            for="id_Proveedor">  </p:outputLabel>
+                                                       <p:inputText id ="id_Proveedor"style="visibility: hidden"
+                                                                    value="#{proveedorDAO.proveedor.idProveedor}"/>
                                                        <p:outputLabel 
                                                             for="cod_Proveedor"> Código: </p:outputLabel>
                                                        <p:inputText id ="cod_Proveedor" required="True" 
