@@ -89,15 +89,15 @@ public class BuscarProvManagedBean implements Serializable {
         String msg2 = event.getObject().getNombre();
         String msg3 = event.getObject().getRuc();
         int msg4 = event.getObject().getVence();
-        System.out.print("Nombre: " + msg2);
-        System.out.print("Ruc: " + msg3);
-        System.out.print("Vence: " + msg4);
+        System.out.println("Nombre: " + msg2);
+        System.out.println("Ruc: " + msg3);
+        System.out.println("Vence: " + msg4);
         setNom(msg2);
         setCod(msg3);
         setNvenc(msg4);
         setFec(LocalDate.now());
         setVence(getFec().plusDays(msg4));
-        System.out.print(getFec() + "----" + getVence());
+        System.out.println(getFec() + "----" + getVence());
 
         //setVence(msg4);
     }
@@ -105,10 +105,10 @@ public class BuscarProvManagedBean implements Serializable {
     public void sumfechas(int d1, LocalDate d2) {
 
         if (d1 != 0) {
-            System.out.print("DIAS" + d1);
-            System.out.print("FECHA" + d2);
+            System.out.println("DIAS" + d1);
+            System.out.println("FECHA" + d2);
             setVence(d2.plusDays(d1));
-            System.out.print("VENCIMIENTO" + getVence());
+            System.out.println("VENCIMIENTO" + getVence());
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Seleccione un proveedor"));
         }
@@ -118,8 +118,8 @@ public class BuscarProvManagedBean implements Serializable {
     public void onRowSelectf(SelectEvent<Proveedor> event) {
         String msg2 = event.getObject().getNombre();
         String msg3 = event.getObject().getRuc();
-        System.out.print("Nombre: " + msg2);
-        System.out.print("Ruc: " + msg3);
+        System.out.println("Nombre: " + msg2);
+        System.out.println("Ruc: " + msg3);
         setNom(msg2);
         setCod(msg3);
         this.listafactura = abonoDAO.llenarFacturas(abonoproveedor.BuscarSentenciaFactura(msg3));
