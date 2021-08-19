@@ -57,3 +57,7 @@ button.ui-button {
     margin-right: 10px;
 }
 
+.titulo {
+    font-size: 3rem; 
+    color: #333b47;
+}

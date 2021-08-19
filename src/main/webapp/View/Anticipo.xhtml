@@ -15,7 +15,7 @@
 
                     <div class="p-d-flex p-jc-between p-ai-center">
 
-                        <h1>Anticipos</h1>
+                        <p class="titulo">Anticipos</p>
 
                         <p:commandButton value="Nuevo" icon="pi pi-plus" 
                                          actionListener="#{anticipoMB.open_new}"
@@ -184,7 +184,7 @@
                     </p:dialog>
 
                     <!-- Dialogo de confirmación para eliminar el registro(anticipo) -->
-                    <p:dialog id="delete_dialog" 
+                    <p:dialog id="delete_dialog" width="400px"
                               modal="true" 
                               widgetVar="delete_anticipo_dialog" 
                               showEffect="fade" 
@@ -204,7 +204,8 @@
                         <f:facet name="footer">
                             <p:commandButton 
                                 value="Si" 
-                                icon="pi pi-check" 
+                                icon="pi pi-check"
+                                styleClass="ui-button-raised ui-button-success"
                                 actionListener="#{anticipoMB.delete_anticipo(anticipoMB.selected_anticipo)}" 
                                 oncomplete="PF('delete_anticipo_dialog').hide()" />
 

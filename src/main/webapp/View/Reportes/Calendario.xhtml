@@ -12,37 +12,29 @@
             <ui:define name="content">
                 <h:form class="p-m-3 " id="form">
 
-                    <div class="p-d-flex p-ai-center p-jc-between p-mb-3 p-grid">
-
-                        <h1 class="p-mb-2 p-col ">Reporte de cuentas por pagar</h1>
-
-                        <p:commandButton 
-                            ajax="false" 
-                            styleClass="ui-button-raised ui-button-success"
-                            actionListener="#{beanGenerarCalendario.exportpdf()}" 
-                            icon="pi pi-file-excel" 
-                            value="Exportar a PDF">
-                        </p:commandButton>
-
+                    <div class="p-d-flex p-ai-center p-mb-3">
+                        <p class="titulo">Reporte de cuentas por pagar</p>
                     </div>
 
-                    <div class="p-formgroup-inline">
+                    <div>
+                        <div class="ui-fluid p-formgrid p-grid">
+                            <div class="p-field p-col">
+                                <p:outputLabel for="desde" value="Desde: "/>
+                                <p:datePicker 
+                                    id="desde" 
+                                    value="#{beanGenerarCalendario.desde}" />
+                            </div>
 
-                        <div class="p-field p-mr-2">
-                            <p:outputLabel for="desde" value="Desde: "/>
-                            <p:datePicker 
-                                id="desde" 
-                                value="#{beanGenerarCalendario.desde}" />
-                        </div>
-
-                        <div class="p-field p-mr-2">
-                            <p:outputLabel 
-                                for="hasta" 
-                                value="Hasta: "/>
-                            <p:datePicker 
-                                id="hasta" 
-                                value="#{beanGenerarCalendario.hasta}" />
-                        </div>
+                            <div class="p-field p-col">
+                                <p:outputLabel 
+                                    for="hasta" 
+                                    value="Hasta: "/>
+                                <p:datePicker 
+                                    id="hasta" 
+                                    value="#{beanGenerarCalendario.hasta}" />
+                            </div>
+                        </div>    
+                        
 
                         <div class="p-field p-mr-2">
 
@@ -71,11 +63,22 @@
                             </p:selectOneButton>
 
                         </div>
+                        
+                        <div class="p-d-flex p-jc-end">
+                            <p:commandButton 
+                                value="Generar Reporte"
+                                styleClass="ui-button-raised ui-button-success"
+                                actionListener="#{beanGenerarCalendario.generar()}" />
 
-                        <p:commandButton 
-                            value="Generar"
-                            styleClass="ui-button-raised"
-                            actionListener="#{beanGenerarCalendario.generar()}" />
+                            <p:commandButton 
+                                ajax="false" 
+                                styleClass="ui-button-raised"
+                                actionListener="#{beanGenerarCalendario.exportpdf()}" 
+                                icon="pi pi-file-excel" 
+                                value="Exportar a PDF" />
+                        </div>
+                        
+                        
                     </div>
 
 
