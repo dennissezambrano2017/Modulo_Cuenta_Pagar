@@ -40,6 +40,7 @@ public class AbonoProveedorManagedBean {
     private FacturaDAO facturaDAO;
     private List<AbonoProveedor> listaAbonos;
     private List<Factura> listaFactura;
+    private List<Factura> detalleFactura;
     private List<Proveedor> listaProveedor;
     private List<Factura> listaDetalleFact;
     private BuscarProvDAO buscarprovDAO;
@@ -48,6 +49,7 @@ public class AbonoProveedorManagedBean {
     private float pago;
     private String nom;
     private String cod;
+    private boolean bandera;
 
     public AbonoProveedorManagedBean() {
         abonoproveedor = new AbonoProveedor();
@@ -62,6 +64,7 @@ public class AbonoProveedorManagedBean {
         factura = new Factura();
         buscarprovDAO = new BuscarProvDAO();
         listaProveedor = buscarprovDAO.llenar();
+        detalleFactura = new ArrayList<>();
     }
 
     //Metodos 
@@ -89,63 +92,79 @@ public class AbonoProveedorManagedBean {
         this.listaFactura = abonoDAO.llenarFacturas(abonoproveedor.BuscarSentenciaFactura(msg3));
     }
 
-    public void cargar(Factura factura) {
-        System.out.print("ESTOY AQUI EN EL MANAGED CARGAR ACTUALIZAR");
-        System.out.print("ruc: " + factura.getNfactura());
-        this.factura.setNfactura(factura.getNfactura());
-        this.factura.setFecha(factura.getFecha());
-        this.factura.setVencimiento(factura.getVencimiento());
-        this.factura.setPagado(factura.getPagado());
-
+    public void cargar(AbonoProveedor abonoProveedor) {
+        //Buscar idabonoproveedor para tener los datos del abono
+        
+        abonoDAO.search_date_payment(abonoProveedor.getPago(), this.abonoproveedor);
+        System.out.print("Id Proveedor: " + this.abonoproveedor.getIdAbonoProveedor());
+        //Buscar datos de abono proveedor
+        
+        abonoDAO.select_date_payment(this.abonoproveedor.getIdAbonoProveedor());
+        System.out.print("Cant Lista: " + this.listaAbonos.size());
+        //Buscar datos de la facturas
+        
+        detalleFactura = abonoDAO.select_date_invoice(this.abonoproveedor.getIdAbonoProveedor());
+        System.out.print("Cant Lista-: " + detalleFactura.size());
+        
+        //Ingresar los datos a los inputext
+        tipoPago.setDescripcion(listaAbonos.get(0).getDetalletipoPago());
+        tipoBanco.setDescrpcion(listaAbonos.get(0).getDetalletipoBanco());
+        abonoproveedor.setReferencia(listaAbonos.get(0).getReferencia());
+        abonoproveedor.setFecha(listaAbonos.get(0).getFecha());
+        abonoproveedor.setPeriodo(listaAbonos.get(0).getPeriodo());
+        setNom(listaAbonos.get(0).getNombreProveedor());
+        
+        //Ingresar los datos a la tabla
+        
     }
 
     public void enviar(List<Factura> listaFactura) {
-//        System.out.print("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
-//        System.out.println(getCod()+" --- "+abonoproveedor.getReferencia()+" ----- "+
-//                this.listaFactura.size()+"--"+this.listaFactura.get(0).getPagado());
         if (this.listaFactura.size() > 0) {
-            UUID uuid = UUID.randomUUID();
-            abonoproveedor.setIdAbonoProveedor(Integer.parseInt(Long.toString(uuid.getMostSignificantBits(), 40)));
             abonoproveedor.setDetalletipoPago(tipoPago.getDescripcion());
             abonoproveedor.setDetalletipoBanco(tipoBanco.getDescrpcion());
             abonoDAO.Insertar(abonoproveedor);
+            bandera = abonoDAO.InsertarDetalle(this.listaFactura, abonoproveedor);
+            if (bandera) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Abono proveedor ingresado"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error en registrar el abono"));
+            }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error el proveedor seleccionado no tiene factura"));
         }
-
     }
 
     public static void removeSessionScopedBean(String beanName) {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(beanName);
     }
 
-    public Boolean fechas() {
-
-        int year1 = Integer.parseInt(((factura.getFecha()).toString()).substring(0, 4));
-        int mes1 = Integer.parseInt(((factura.getFecha()).toString()).substring(5, 7));
-        int dia1 = Integer.parseInt(((factura.getFecha()).toString()).substring(8, 10));
-        int year2 = Integer.parseInt(((factura.getVencimiento()).toString()).substring(0, 4));
-        int mes2 = Integer.parseInt(((factura.getVencimiento()).toString()).substring(5, 7));
-        int dia2 = Integer.parseInt(((factura.getVencimiento()).toString()).substring(8, 10));
-
-        if (year1 > year2) {
-            return true;
-        } else {
-            if (year1 == year2) {
-                if (mes1 > mes2) {
-                    return true;
-                } else {
-                    if (mes1 == mes2) {
-                        return dia1 > dia2;
-                    } else {
-                        return false;
-                    }
-                }
-            } else {
-                return false;
-            }
-        }
-    }
+//    public Boolean fechas() {
+//
+//        int year1 = Integer.parseInt(((factura.getFecha()).toString()).substring(0, 4));
+//        int mes1 = Integer.parseInt(((factura.getFecha()).toString()).substring(5, 7));
+//        int dia1 = Integer.parseInt(((factura.getFecha()).toString()).substring(8, 10));
+//        int year2 = Integer.parseInt(((factura.getVencimiento()).toString()).substring(0, 4));
+//        int mes2 = Integer.parseInt(((factura.getVencimiento()).toString()).substring(5, 7));
+//        int dia2 = Integer.parseInt(((factura.getVencimiento()).toString()).substring(8, 10));
+//
+//        if (year1 > year2) {
+//            return true;
+//        } else {
+//            if (year1 == year2) {
+//                if (mes1 > mes2) {
+//                    return true;
+//                } else {
+//                    if (mes1 == mes2) {
+//                        return dia1 > dia2;
+//                    } else {
+//                        return false;
+//                    }
+//                }
+//            } else {
+//                return false;
+//            }
+//        }
+//    }
 
     public void onRowEdit(RowEditEvent<Factura> event) {
         float n1 = event.getObject().getImporte();
@@ -156,7 +175,7 @@ public class AbonoProveedorManagedBean {
         } else {
             Factura f = (Factura) event.getObject();
             f.setPagado(pago);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cambio"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso de pago correctamente"));
         }
     }
 
@@ -297,6 +316,14 @@ public class AbonoProveedorManagedBean {
 
     public void setBuscarprovDAO(BuscarProvDAO buscarprovDAO) {
         this.buscarprovDAO = buscarprovDAO;
+    }
+
+    public List<Factura> getDetalleFactura() {
+        return detalleFactura;
+    }
+
+    public void setDetalleFactura(List<Factura> detalleFactura) {
+        this.detalleFactura = detalleFactura;
     }
 
 }

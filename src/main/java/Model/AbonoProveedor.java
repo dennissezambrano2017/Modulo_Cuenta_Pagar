@@ -56,6 +56,17 @@ public class AbonoProveedor {
         this.fecha = fecha;
     }
 
+    public AbonoProveedor(int idAbonoProveedor, String referencia, LocalDate fecha, String periodo, String detalletipoPago, String nombreProveedor, String detalletipoBanco, String ruc) {
+        this.idAbonoProveedor = idAbonoProveedor;
+        this.referencia = referencia;
+        this.fecha = fecha;
+        this.periodo = periodo;
+        this.detalletipoPago = detalletipoPago;
+        this.nombreProveedor = nombreProveedor;
+        this.detalletipoBanco = detalletipoBanco;
+        this.ruc = ruc;
+    }
+   
     public int getIdAbonoProveedor() {
         return idAbonoProveedor;
     }
