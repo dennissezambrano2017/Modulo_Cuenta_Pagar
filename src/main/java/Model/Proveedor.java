@@ -63,6 +63,13 @@ public class Proveedor {
         this.nombre = nombre;
         this.vence = vence;
     }
+    
+    //PAOLA LO USA
+    public Proveedor(String codigo, String ruc, String nombre) {
+        this.codigo = codigo;
+        this.ruc = ruc;
+        this.nombre = nombre;
+    }
 
     public Proveedor(int idProveedor) {
         this.idProveedor = idProveedor;
