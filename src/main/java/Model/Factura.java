@@ -40,7 +40,7 @@ public class Factura{
     private String id_detalle;
     private Float importeD;
     private String detalle;
-    
+    private int aux;
     
     public Factura() {
     }
@@ -253,6 +253,14 @@ public class Factura{
 
     public void setImporteD(Float importeD) {
         this.importeD = importeD;
+    }
+
+    public int getAux() {
+        return aux;
+    }
+
+    public void setAux(int aux) {
+        this.aux = aux;
     }
     
     

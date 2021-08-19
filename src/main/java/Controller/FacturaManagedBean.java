@@ -8,6 +8,9 @@ package Controller;
 import DataView.FacturaDAO;
 import Model.Factura;
 import java.io.Serializable;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -89,30 +92,42 @@ public class FacturaManagedBean {
         System.out.print("ESTOY AQUI EN EL MANAGED INSERTAR");
         System.out.print("Cantidad detalle: " + detalleFactura.size());
         System.out.print("ruc: " + factura.getRuc());
-        if (fechas()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Fecha es mayor que vencimiento"));
-        } else {
-            if (factura.getImporte() < factura.getPagado()) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe es menor que pagado"));
+        float comp = 0;
+        for (int i = 0; i < detalleFactura.size(); i++) {
+            comp += detalleFactura.get(i).getImporteD();
+            System.out.print("Importe comp: " + comp);
+        }
+        System.out.print("Importe comp: " + this.factura.getImporte());
+        if (factura.getImporte() != comp) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe debe ser igual al total del detalle"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe= " + factura.getImporte() + "Total= " + comp));
+        } 
+        else {
+            if (fechas()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Fecha es mayor que vencimiento"));
             } else {
-                try {
-                    if ("".equals(factura.getRuc())) {
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al guardar"));
-                    } else {
-                        facturaDAO.Insertar(factura);
-                        System.out.println("YA INSERTE, AHORA EL DETALLE");
-                        facturaDAO.insertdetalle(detalleFactura, factura);
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Guardada"));
+                if (factura.getImporte() < factura.getPagado()) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe es menor que pagado"));
+                } else {
+                    try {
+                        if ("".equals(factura.getRuc())) {
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al guardar"));
+                        } else {
+                            facturaDAO.Insertar(factura);
+                            System.out.println("YA INSERTE, AHORA EL DETALLE");
+                            facturaDAO.insertdetalle(detalleFactura, factura);
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Guardada"));
+                        }
+                    } catch (Exception e) {
+                        System.out.println("ERROR DAO: " + e);
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ERROR AL GUARDAR"));
                     }
-                } catch (Exception e) {
-                    System.out.println("ERROR DAO: " + e);
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ERROR AL GUARDAR"));
+                    PrimeFaces.current().executeScript("PF('newFactura').hide()");
+                    listaFactura.clear();
+                    check = true;
+                    listaFactura = facturaDAO.llenarP("1");
+                    PrimeFaces.current().ajax().update("form:dt-factura", "form:slcbtn");
                 }
-                PrimeFaces.current().executeScript("PF('newFactura').hide()");
-                listaFactura.clear();
-                check = true;
-                listaFactura = facturaDAO.llenarP("1");
-                PrimeFaces.current().ajax().update("form:dt-factura", "form:slcbtn");
             }
         }
     }
@@ -122,29 +137,38 @@ public class FacturaManagedBean {
         System.out.print("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
         System.out.print("DETALLE: " + detalleFactura.get(0).getId_detalle());
         System.out.print("ruc: " + factura.getRuc());
-        if (fechas()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Fecha es mayor que vencimiento"));
+        float comp = 0;
+        for (int i = 0; i < detalleFactura.size(); i++) {
+            comp += detalleFactura.get(i).getImporteD();
+            System.out.print("Importe comp: " + comp);
+        }
+        if (factura.getImporte() != comp) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe es menor que el total del detalle"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe= " + factura.getImporte() + "Total= " + comp));
         } else {
-            if (factura.getImporte() < factura.getPagado()) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe es menor que pagado"));
+            if (fechas()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Fecha es mayor que vencimiento"));
             } else {
-                try {
-                    if ("".equals(factura.getRuc())) {
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
-                    } else {
-                        this.facturaDAO.Actualizar(factura);
-                        this.facturaDAO.Actdetalle(detalleFactura);
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Actualizada"));
+                if (factura.getImporte() < factura.getPagado()) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe es menor que pagado"));
+                } else {
+                    try {
+                        if ("".equals(factura.getRuc())) {
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
+                        } else {
+                            this.facturaDAO.Actualizar(factura);
+                            this.facturaDAO.Actdetalle(detalleFactura);
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Actualizada"));
+                        }
+                    } catch (Exception e) {
+                        System.out.println("ERROR DAO: " + e);
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ERROR AL GUARDAR"));
                     }
-                } catch (Exception e) {
-                    System.out.println("ERROR DAO: " + e);
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ERROR AL GUARDAR"));
+                    PrimeFaces.current().executeScript("PF('editFactura').hide()");
+                    listaFactura.clear();
+                    listaFactura = facturaDAO.llenarP("1");
+                    PrimeFaces.current().ajax().update("form:dt-factura", "form:slcbtn");
                 }
-                PrimeFaces.current().executeScript("PF('editFactura').hide()");
-                //PrimeFaces.current().executeScript("location.reload()");
-                listaFactura.clear();
-                listaFactura = facturaDAO.llenarP("1");
-                PrimeFaces.current().ajax().update("form:dt-factura", "form:slcbtn");
             }
         }
     }
@@ -162,6 +186,7 @@ public class FacturaManagedBean {
         this.factura.setVencimiento(factura.getVencimiento());
         this.factura.setRuc(facturaDAO.Buscar(dato));
         this.factura.setPagado(facturaDAO.buscarPagado(dato));
+        this.factura.setAux(sumfechas());
         detalleFactura.clear();
         detalleFactura = facturaDAO.llenarDetalle(dato);
         System.out.print("CANTIDAD DETALLE EDITAR2: " + detalleFactura.size());
@@ -254,6 +279,14 @@ public class FacturaManagedBean {
                 return false;
             }
         }
+    }
+
+    public int sumfechas() {
+        Duration diff = Duration.between(factura.getFecha().atStartOfDay(), factura.getVencimiento().atStartOfDay());
+        long diffDays = diff.toDays();
+        System.out.println("Diffrence between dates is : " + diffDays + "days");
+        int dia = (int) diffDays;
+        return dia;
     }
 
     //DETALLE FACTURA
