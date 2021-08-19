@@ -198,13 +198,14 @@ public class FacturaManagedBean {
         if (check) {
             this.facturaDAO.dhabilitar(factura.getNfactura(), 0);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Deshabilitada factura: " + factura.getNfactura()));
+            listaFactura.clear();
             listaFactura = facturaDAO.llenarP("1");
         } else {
             this.facturaDAO.dhabilitar(factura.getNfactura(), 1);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Habilitada factura: " + factura.getNfactura()));
+            listaFactura.clear();
             listaFactura = facturaDAO.llenarP("0");
         }
-        //listaFactura.clear();
         PrimeFaces.current().ajax().update("form:dt-factura");
     }
 
