@@ -219,8 +219,7 @@
                             <p:commandButton value="Aceptar" icon="pi pi-check" actionListener="#{abonoProveedorMB.enviar(pagoFactura)}"
                                              update=":form:proveedortabla" process="pago-content @this"
                                              onclick="PF('managePagoDialog').hide()"
-                                             styleClass="ui-button-success"
-                                             onsuccess="location.reload()" />
+                                             styleClass="ui-button-success" />
                             <p:commandButton value="Cancelar" icon="pi pi-times" actionListener="#{abonoProveedorMB.reset}"
                                              onclick="PF('managePagoDialog').hide()"
                                              class="ui-button-secondary" styleClass="ui-button-danger"
@@ -336,6 +335,7 @@
                         <f:facet name="footer">
                             <p:commandButton value="Aceptar" icon="pi pi-check" actionListener="#{abonoProveedorMB.deshabilitar(detalleFactura)}"
                                              update=":form:proveedortabla,:form:pago-content-edit" process="@this"
+                                             onclick="PF('managePagoDialog').hide()"
                                              styleClass="ui-button-success" />
                             <p:commandButton value="Cancelar" icon="pi pi-times" actionListener="#{abonoProveedorMB.reset}"
                                              onclick="PF('managePagoDialog').hide()"
