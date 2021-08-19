@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import Model.Proveedor;
 import Model.Factura;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -38,6 +39,7 @@ public class BuscarProvManagedBean implements Serializable {
     private List<Factura> listafactura;
     private String nom;
     private String cod;
+    private LocalDate vence;
     private String Nfactura;
     private float Pago;
     private AbonoProveedorManagedBean abonoMB;
@@ -83,6 +85,7 @@ public class BuscarProvManagedBean implements Serializable {
     public void onRowSelect(SelectEvent<Proveedor> event) {
         String msg2 = event.getObject().getNombre();
         String msg3 = event.getObject().getRuc();
+        //String msg4 = event.getObject().get();
         System.out.print("Nombre: " + msg2);
         System.out.print("Ruc: " + msg3);
         setNom(msg2);

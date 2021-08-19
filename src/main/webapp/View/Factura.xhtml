@@ -96,7 +96,8 @@
                     <!-- DIALOG 1 NUEVA FACTURA-->
 
                     <p:dialog  header="Nueva Factura" showEffect="fade" modal="true"
-                               widgetVar="newFactura" maximizable="true" height="300" width="70%">
+                               widgetVar="newFactura" maximizable="true" height="300" 
+                               closable="false" width="70%">
                         <p:outputPanel id="outputnuevo" class="ui-fluid">
                             <p:outputPanel rendered="#{not empty facturaMB.factura}">
 
@@ -237,7 +238,8 @@
 
                     <!--DIALOG 2 EDITAR FACTURA -->
 
-                    <p:dialog header="Editar Factura" widgetVar="editFactura" showEffect="fade" modal="true"
+                    <p:dialog header="Editar Factura" widgetVar="editFactura" 
+                              showEffect="fade" modal="true" closable="false"
                               maximizable="true" height="300" width="70%">
                         <p:outputPanel id="outputedit" class="ui-fluid">
                             <p:outputPanel rendered="#{not empty facturaMB.factura}">

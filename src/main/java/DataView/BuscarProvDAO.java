@@ -6,10 +6,11 @@
 package DataView;
 
 import Controller.Conexion;
-import Model.Factura;
+import Model.Condiciones;
 import Model.Proveedor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +22,9 @@ public class BuscarProvDAO {
 
     Conexion conexion = new Conexion();
     private Proveedor proveedor;
-    private Factura factura;
+    private Condiciones condiciones;
     private ResultSet result;
     private List<Proveedor> listaProveedor;
-    private List<Factura> listaFactura = new ArrayList<>();
 
     public BuscarProvDAO() {
         conexion = new Conexion();
@@ -35,49 +35,14 @@ public class BuscarProvDAO {
         conexion = new Conexion();
         this.proveedor = proveedor;
     }
-
-    public List<Factura> getListaFactura() {
-        return listaFactura;
-    }
-
-    public void setListaFactura(List<Factura> listaFactura) {
-        this.listaFactura = listaFactura;
-    }
-
-    public List<Proveedor> llenar() {
-        if (conexion.isEstado()) {
-            try {
-                String sentencia = "SELECT * from proveedor";
-                result = conexion.ejecutarConsulta(sentencia);
-                while (result.next()) {
-                    listaProveedor.add(new Proveedor(result.getString("codigo"),
-                            result.getString("ruc"), result.getString("nombre")));
-                }
-                result.close();
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage() + " error en conectarse");
-            } finally {
-                conexion.cerrarConexion();
-            }
-        }
-        return listaProveedor;
-    }
-
-    public Proveedor getProveedor() {
+    
+        public Proveedor getProveedor() {
         return proveedor;
     }
 
     public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
-    }
-
-    public Factura getFactura() {
-        return factura;
-    }
-
-    public void setFactura(Factura factura) {
-        this.factura = factura;
-    }
+    }    
 
     public List<Proveedor> getListaProveedor() {
         return listaProveedor;
@@ -86,18 +51,18 @@ public class BuscarProvDAO {
     public void setListaProveedor(List<Proveedor> listaProveedor) {
         this.listaProveedor = listaProveedor;
     }
-
-    //Diana:Utiliza esta función 
-    public String Buscar(String nfactura) {
+    
+    public List<Proveedor> llenar() {
         if (conexion.isEstado()) {
             try {
-                String sentencia = "SELECT * from proveedor where idproveedor ="
-                        + "(SELECT  idproveedor from factura where nfactura = '"
-                        + nfactura + "')";
+                String sentencia = "SELECT * from proveedor";
                 result = conexion.ejecutarConsulta(sentencia);
                 while (result.next()) {
                     listaProveedor.add(new Proveedor(result.getString("codigo"),
                             result.getString("ruc"), result.getString("nombre")));
+                    //this.condiciones = new Condiciones();
+                    //condiciones.setCantDiasVencidos(result.getInt("cantdiasvencidos"));
+                            
                 }
                 result.close();
             } catch (SQLException ex) {
@@ -106,6 +71,7 @@ public class BuscarProvDAO {
                 conexion.cerrarConexion();
             }
         }
-        return listaProveedor.get(0).getRuc();
+        return listaProveedor;
     }
+
 }
