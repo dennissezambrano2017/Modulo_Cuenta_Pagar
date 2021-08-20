@@ -11,14 +11,14 @@
         <ui:composition template="./../Plantilla/Plantilla.xhtml">
 
             <ui:define name="content">
-                <f:event type="preRenderView" listener="#{autorizarPagorMB.mostrar()}"/>
+                <f:event type="preRenderView" listener="#{facturaMB.llenar()}"/>
                 <h:form>
                     <p:growl id="messages" showDetail="true"/>
 
                     <p:panel >
                         <h1 style="text-align: center; color: black">Autorizar Pagos</h1>
                         <p:outputPanel id="factura">
-                            <p:dataTable id="dt-facturas" value="#{autorizarPagorMB.listaFactura}" 
+                            <p:dataTable id="dt-facturas" value="#{facturaMB.listaFactura}" 
                                          var="factura"  
                                          reflow="true" rows="5" paginator="true">
                                 <p:column headerText="N° Factura" >

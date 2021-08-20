@@ -43,6 +43,7 @@ public class Conexion {
     public boolean abrirConexion() throws SQLException {
         try {
             if (conex == null || !(conex.isClosed())) {
+                //System.out.println(mensaje+ " si abre la conexion");
                 Class.forName(classForName);
                 conex = DriverManager.getConnection(url, usuario, clave);
                 st = conex.createStatement();
@@ -87,8 +88,6 @@ public class Conexion {
             mensaje = exc.getMessage();
             tipoMensaje = FacesMessage.SEVERITY_FATAL;
             System.out.println(mensaje);
-            cerrarConexion();
-        }finally{
             cerrarConexion();
         }
         return lector;

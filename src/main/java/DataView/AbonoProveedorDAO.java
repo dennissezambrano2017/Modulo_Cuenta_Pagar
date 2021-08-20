@@ -55,6 +55,7 @@ public class AbonoProveedorDAO {
     }
 
     public List<AbonoProveedor> llenarDatos(String sentencia) {
+        conex = new Conexion();
         listaAbono = new ArrayList<>();
         if (conex.isEstado()) {
             try {

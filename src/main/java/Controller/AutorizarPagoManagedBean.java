@@ -5,16 +5,13 @@
  */
 package Controller;
 
-import DataView.AutorizarPagoDAO;
 import DataView.FacturaDAO;
-import Model.AutorizacionPago;
 import Model.Factura;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -31,9 +28,8 @@ public class AutorizarPagoManagedBean implements Serializable {
 
     private FacturaDAO facturaDAO;
     private Factura factura;
-    private List<AutorizacionPago> listaFactura;
+    private List<Factura> listaFactura;
     private boolean check;
-    private AutorizarPagoDAO autorizarDao;
 
     /**
      * Creates a new instance of AutorizarPago
@@ -41,13 +37,13 @@ public class AutorizarPagoManagedBean implements Serializable {
     public AutorizarPagoManagedBean() {
         facturaDAO = new FacturaDAO();
         factura = new Factura();
-        autorizarDao = new AutorizarPagoDAO();
-        this.listaFactura = new ArrayList<>();
+        listaFactura = new ArrayList<>();
+        listaFactura = facturaDAO.llenar();
     }
 
     public void mostrar() {
-        System.out.println("hola");
-        this.listaFactura = autorizarDao.llenar();
+        listaFactura = facturaDAO.llenar();
+        System.out.println(listaFactura.size() + "holis");
     }
 
     public void insertarfactura() {
@@ -73,11 +69,11 @@ public class AutorizarPagoManagedBean implements Serializable {
         this.factura = factura;
     }
 
-    public List<AutorizacionPago> getListaFactura() {
+    public List<Factura> getListaFactura() {
         return listaFactura;
     }
 
-    public void setListaFactura(List<AutorizacionPago> listaFactura) {
+    public void setListaFactura(List<Factura> listaFactura) {
         this.listaFactura = listaFactura;
     }
 
@@ -89,14 +85,6 @@ public class AutorizarPagoManagedBean implements Serializable {
         this.check = cheack;
     }
 
-    public AutorizarPagoDAO getAutorizarDao() {
-        return autorizarDao;
-    }
-
-    public void setAutorizarDao(AutorizarPagoDAO autorizarDao) {
-        this.autorizarDao = autorizarDao;
-    }
-    
     public void Registro(String estado) {
         String detail = check ? "Pago Autorizado" : "Pago no Autorizado";
         if (detail == "Pago Autorizado") {

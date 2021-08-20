@@ -124,7 +124,6 @@ public final class AbonoProveedorManagedBean {
     }
 
     public void enviar(List<Factura> listaFactura) {
-        System.out.print("Cant Lista: " + this.listaAbonos.size());
         if (this.listaFactura.size() > 0) {
             abonoproveedor.setDetalletipoPago(tipoPago.getDescripcion());
             abonoproveedor.setDetalletipoBanco(tipoBanco.getDescrpcion());
@@ -155,7 +154,6 @@ public final class AbonoProveedorManagedBean {
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error el proveedor seleccionado no tiene factura"));
         }
-        reset();
     }
 
     public static void removeSessionScopedBean(String beanName) {
