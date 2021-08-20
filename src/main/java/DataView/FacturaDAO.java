@@ -98,19 +98,15 @@ public class FacturaDAO {
     }
 
     public List<Factura> llenarDetalle(String n) {
-        System.out.println("HOLA LLENAR DETALLE: " + n);
         listaFacturas.clear();
-        System.out.println("CANTIDAD DETALLE LLENAR: " + listaFacturas.size());
         if (conexion.isEstado()) {
             try {
                 String sentencia = "select * from detalle_compra where nfactura = '" + n + "';";
                 result = conexion.ejecutarConsulta(sentencia);
-                System.out.println("Factura: " + result.toString());
                 while (result.next()) {
                     listaFacturas.add(new Factura(result.getFloat("importe"),
                             result.getString("detalle"), result.getString("iddetallecompra")));
                 }
-                System.out.print(sentencia);
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");
             } finally {
@@ -121,29 +117,30 @@ public class FacturaDAO {
         return listaFacturas;
     }
 
-    public void Insertar(Factura factura) {
+    public int Insertar(Factura factura) {
+        int existe=0;
         if (conexion.isEstado()) {
             try {
-                String cadena = "INSERT INTO public.factura("
-                        + "nfactura, descripcion, importe, pagado, fecha, vencimiento,idproveedor,habilitar,estado)"
-                        + " VALUES ('" + factura.getNfactura() + "','"
-                        + factura.getDescripcion() + "'," + factura.getImporte() + ","
-                        + factura.getPagado() + ",'" + factura.getFecha() + "','"
+                String cadena = "select registrarfactura('" + factura.getNfactura() + "','"
+                        + factura.getDescripcion() + "'," + factura.getImporte() + "," 
+                        +factura.getPagado() + ",'"+ factura.getFecha() + "','"
                         + factura.getVencimiento() + "',(Select idproveedor from proveedor p "
-                        + " where p.ruc = '" + factura.getRuc() + "'), 1,0)";
-                System.out.println(cadena);
-                conexion.Ejecutar2(cadena);
-            } catch (Exception ex) {
+                        + " where p.ruc = '" + factura.getRuc() + "'))";
+                result = conexion.ejecutarConsulta(cadena);
+                while(result.next()){
+                    existe = result.getInt("registrarfactura");
+                }
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");
             } finally {
                 conexion.cerrarConexion();
             }
         }
+        return existe;
     }
 
     //Insertar Detalle
     public void insertdetalle(List<Factura> selectedFactura, Factura factura) {
-        System.out.println("HOLA ESTOY EN MANAGE HABILITAR");
         if (conexion.isEstado()) {
             try {
                 for (int i = 0; i < selectedFactura.size(); i++) {
@@ -151,7 +148,6 @@ public class FacturaDAO {
                             + factura.getNfactura() + "',"
                             + selectedFactura.get(i).getImporteD() + ", '"
                             + selectedFactura.get(i).getDetalle() + "')";
-                    System.out.println(cadena);
                     conexion.Ejecutar2(cadena);
                 }
             } catch (Exception ex) {
