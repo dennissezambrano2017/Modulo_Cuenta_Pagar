@@ -12,6 +12,7 @@ import java.time.LocalDate;
  * @author PAOLA
  */
 public class AbonoProveedor {
+    
 
     private int idAbonoProveedor;
     private String referencia;
@@ -30,8 +31,8 @@ public class AbonoProveedor {
     public AbonoProveedor() {
     }
 
-    public AbonoProveedor(String referencia, int idProveedor, LocalDate fecha,
-            float Pago, String periodo, String detalletipoPago,
+    public AbonoProveedor(String referencia, int idProveedor, LocalDate fecha, 
+            float Pago, String periodo, String detalletipoPago, 
             String nombreProveedor) {
         this.referencia = referencia;
         this.idProveedor = idProveedor;
@@ -42,6 +43,7 @@ public class AbonoProveedor {
         this.nombreProveedor = nombreProveedor;
     }
 
+    
     public AbonoProveedor(int idAbonoProveedor, String referencia,
             int idAsiento, int idTipoPago, int idTipoBanco,
             int idProveedor, LocalDate fecha) {
@@ -64,7 +66,7 @@ public class AbonoProveedor {
         this.detalletipoBanco = detalletipoBanco;
         this.ruc = ruc;
     }
-
+   
     public int getIdAbonoProveedor() {
         return idAbonoProveedor;
     }
@@ -168,34 +170,35 @@ public class AbonoProveedor {
     public void setRuc(String ruc) {
         this.ruc = ruc;
     }
-
-    public String getSentencia(String descripcionPago, String descripcionBanco, String proveedor, LocalDate fecha) {
-
-        String sentencia = String.format("INSERT INTO abononproveedor( referencia, idasiento, idtipopago, idtipobanco, idproveedor, fecha)\n"
-                + "VALUES ('%1$s',%2$d,(select t.idtipopago FROM public.tipopago t where t.descripcion='%3$s'),(select t.idtipobanco FROM tipobanco t where t.descripcion='%4$s'),"
-                + "(select idproveedor from proveedor pro where pro.codigo ='%5$s'),'%6$s');",
-                getReferencia(), 1, descripcionPago, descripcionBanco, proveedor, fecha);
+    
+    public String getSentencia(String descripcionPago, String descripcionBanco, String proveedor,LocalDate fecha)
+    {
+        
+        String sentencia = String.format("INSERT INTO abononproveedor( referencia, idasiento, idtipopago, idtipobanco, idproveedor, fecha)\n" +
+        "VALUES ('%1$s',%2$d,(select t.idtipopago FROM public.tipopago t where t.descripcion='%3$s'),(select t.idtipobanco FROM tipobanco t where t.descripcion='%4$s'),"
+                + "(select idproveedor from proveedor pro where pro.codigo ='%5$s'),'%6$s');"
+                ,getReferencia(),1,descripcionPago,descripcionBanco,proveedor,fecha);
         System.out.print(sentencia);
         return sentencia;
     }
-
-    public String BuscarSentenciaFactura(String proveedor) {
-        String sentencia = String.format("select f.nfactura,f.importe,f.pagado,"
-                + "f.fecha,f.vencimiento,(f.importe-f.pagado)as pendiente   from factura f\n"
-                + "where f.idproveedor=(Select p.idproveedor from proveedor p where p.ruc='%1$s') \n"
-                + "and f.habilitar=1 and f.estado=1 and f.pagado<f.importe;", proveedor);
+    public String BuscarSentenciaFactura(String proveedor)
+    {
+        String sentencia =String.format("Select f.nfactura, f.importe,f.pagado,(f.importe-f.pagado) as pendiente, "
+                + "f.fecha,f.vencimiento\n from factura f "
+                + "where f.idproveedor = (Select p.idproveedor from proveedor p where p.ruc ='%1$s')", proveedor);
         System.out.println(sentencia);
         return sentencia;
     }
-
-    public String sentenciaMostrar() {
-        String sentencia = "SELECT a.fecha,pag.descripcion,a.referencia,sum(d.pago) as Pago,a.idproveedor,p.nombre,a.periodo\n"
-                + "FROM abonoproveedor a INNER JOIN detalleabono d ON ( a.idabonoproveedor = d.idabonoproveedor  ) \n"
-                + "INNER JOIN tipopago t ON ( a.idtipopago= t.idtipopago  ) \n"
-                + "INNER JOIN proveedor p ON ( a.idproveedor = p.idproveedor)  \n"
-                + "INNER JOIN tipopago pag ON ( a.idtipopago = pag.idtipopago) \n"
-                + "group by a.periodo,a.fecha,pag.descripcion,a.referencia,a.idproveedor,p.nombre";
+    public String sentenciaMostrar()
+    {
+        String sentencia = "SELECT a.fecha,pag.descripcion,a.referencia,sum(d.pago) as Pago,a.idproveedor,p.nombre,d.periodo\n"
+                        + "FROM abonoproveedor a INNER JOIN detalleabono d ON ( a.idabonoproveedor = d.idabonoproveedor  ) \n"
+                        + "INNER JOIN tipopago t ON ( a.idtipopago= t.idtipopago  )  \n"
+                        + "INNER JOIN proveedor p ON ( a.idproveedor = p.idproveedor)  \n"
+                        + "INNER JOIN tipopago pag ON ( a.idtipopago = pag.idtipopago) \n"
+                        + "group by d.periodo,a.fecha,pag.descripcion,a.referencia,a.idproveedor,p.nombre";
         return sentencia;
     }
+    
 
 }
