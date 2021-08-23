@@ -39,7 +39,6 @@ public class AbonoProveedorDAO {
     public AbonoProveedorDAO() {
         listafactura = new ArrayList<>();
         listaProveedor = new ArrayList<>();
-
     }
 
     public AbonoProveedorDAO(AbonoProveedor abono) {
@@ -71,7 +70,9 @@ public class AbonoProveedorDAO {
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");
             } finally {
+                System.out.println(conex.isEstado());
                 conex.cerrarConexion();
+                System.out.println(conex.isEstado());
             }
         }
         return listaAbono;
@@ -126,10 +127,13 @@ public class AbonoProveedorDAO {
     public void Insertar(AbonoProveedor abonoProveedor) {
         if (conex.isEstado()) {
             try {
-                String sentencia =String.format("select insert_abono('%1$s','%2$s','%3$s','%4$s','%5$s') as registro",
-                        abonoProveedor.getDetalletipoPago(),abonoProveedor.getDetalletipoBanco(),
-                        abonoProveedor.getRuc(),abonoProveedor.getReferencia(),abonoProveedor.getFecha());
-                result =conex.ejecutarConsulta(sentencia);
+                String sentencia = String.format("select insert_abono('%1$s','%2$s',"
+                        + "'%3$s','%4$s','%5$s','%6$s') as registro",
+                        abonoProveedor.getDetalletipoPago(), abonoProveedor.getDetalletipoBanco(),
+                        abonoProveedor.getRuc(), abonoProveedor.getReferencia(), 
+                        abonoProveedor.getFecha(),abonoProveedor.getPeriodo());
+                result = conex.ejecutarConsulta(sentencia);
+                System.out.println(sentencia);
                 while (result.next()) {
                     abonoProveedor.setIdAbonoProveedor(result.getInt("registro"));
                 }
@@ -140,18 +144,18 @@ public class AbonoProveedorDAO {
             }
         }
     }
-    
+
     public boolean InsertarDetalle(List<Factura> selectedFactura, AbonoProveedor abono) {
         if (conex.isEstado()) {
             try {
                 for (int i = 0; i < selectedFactura.size(); i++) {
-                    String sentencia =String.format("select insert_detalleabono(%1$d,'%2$s','%3$s','%4$s')", 
-                            abono.getIdAbonoProveedor(),selectedFactura.get(i).getPagado(),
-                            abono.getPeriodo(),selectedFactura.get(i).getNfactura());
+                    String sentencia = String.format("select insert_detalleabono(%1$d,'%2$s','%3$s')",
+                            abono.getIdAbonoProveedor(), selectedFactura.get(i).getPagado(),
+                            selectedFactura.get(i).getNfactura());
                     System.out.print(sentencia);
-                    result =conex.ejecutarConsulta(sentencia);
+                    result = conex.ejecutarConsulta(sentencia);
                 }
-                bandera=result.next();
+                bandera = result.next();
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage() + " error en conectarse");
             } finally {
@@ -160,12 +164,13 @@ public class AbonoProveedorDAO {
         }
         return bandera;
     }
-    
+
     public void search_date_payment(float importe, AbonoProveedor abonoProveedor) {
         if (conex.isEstado()) {
             try {
-                String sentencia =String.format("select search_date_payment('%1$s') as idabono;",importe);
-                result =conex.ejecutarConsulta(sentencia);
+                System.out.println(importe);
+                String sentencia = String.format("select search_date_payment('%1$s') as idabono;", importe);
+                result = conex.ejecutarConsulta(sentencia);
                 while (result.next()) {
                     abonoProveedor.setIdAbonoProveedor(result.getInt("idabono"));
                 }
@@ -176,20 +181,20 @@ public class AbonoProveedorDAO {
             }
         }
     }
-    
-    public void select_date_payment(int idabono){
+
+    public void select_date_payment(int idabono) {
         if (conex.isEstado()) {
             try {
-                String sentencia = String.format("select * from select_date_payment(%1$d);",idabono);
+                String sentencia = String.format("select * from select_date_payment(%1$d);", idabono);
                 result = conex.ejecutarConsulta(sentencia);
                 System.out.println(sentencia);
                 listaAbono.clear();
                 while (result.next()) {
                     listaAbono.add(new AbonoProveedor(result.getInt("idabonopro"),
-                    result.getString("referencia"),result.getObject("fecha",LocalDate.class),
-                    result.getString("periodo"),result.getString("tipopago"),
-                    result.getString("nombre"),result.getString("tipobanco"),
-                    result.getString("ruc")));
+                            result.getString("referencia"), result.getObject("fecha", LocalDate.class),
+                            result.getString("periodo"), result.getString("tipopago"),
+                            result.getString("nombre"), result.getString("tipobanco"),
+                            result.getString("ruc")));
                 }
                 System.out.print("Cant Lista: " + listaAbono.size());
                 result.close();
@@ -200,18 +205,18 @@ public class AbonoProveedorDAO {
             }
         }
     }
-    
-    public List<Factura> select_date_invoice(int idabono){
+
+    public List<Factura> select_date_invoice(int idabono) {
         if (conex.isEstado()) {
             try {
-                String sentencia = String.format("select * from select_date_invoice(%1$d);",idabono);
+                String sentencia = String.format("select * from select_date_invoice(%1$d);", idabono);
                 result = conex.ejecutarConsulta(sentencia);
                 System.out.println(sentencia);
                 listafactura.clear();
                 while (result.next()) {
-                    listafactura.add(new Factura(result.getString("nfactura"),result.getFloat("importe"),
-                            result.getFloat("pago"),result.getObject("fecha",LocalDate.class),
-                            result.getObject("vencimiento", LocalDate.class),result.getFloat("pendiente")));
+                    listafactura.add(new Factura(result.getString("nfactura"), result.getFloat("importe"),
+                            result.getFloat("pago"), result.getObject("fecha", LocalDate.class),
+                            result.getObject("vencimiento", LocalDate.class), result.getFloat("pendiente")));
                 }
                 System.out.print("Cant Lista: " + listafactura.size());
                 result.close();

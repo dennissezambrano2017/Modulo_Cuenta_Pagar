@@ -54,7 +54,18 @@ public class Factura{
         this.vencimiento = vencimiento;
         this.pendiente = pendiente;
     }
-    
+
+    //Autorizar factura
+    public Factura(String nfactura, String descripcion, float importe, LocalDate fecha, LocalDate vencimiento, int estado, String nombre, int habilitar) {
+        this.nfactura = nfactura;
+        this.descripcion = descripcion;
+        this.importe = importe;
+        this.fecha = fecha;
+        this.vencimiento = vencimiento;
+        this.estado = estado;
+        this.nombre = nombre;
+        this.habilitar = habilitar;
+    }
     
     //Diana Constructor para Buscar proveedor e insertar 
     public Factura(int id, String nfactura, String descripcion, float importe, float pendiente, LocalDate fecha, LocalDate vencimiento, int estado, String ruc, String nombre) {
