@@ -87,7 +87,9 @@ private AbonoProveedor abonoproveedor;
         this.listaAbonos = abonoDAO.llenarDatos(abonoproveedor.sentenciaMostrar());
     }
     public List<AbonoProveedor> ListAbono() {
-        return this.listaAbonos = abonoDAO.llenarDatos(abonoproveedor.sentenciaMostrar());
+        this.listaAbonos = abonoDAO.llenarDatos(abonoproveedor.sentenciaMostrar());
+        System.out.println(listaAbonos.size());
+        return listaAbonos;
     }
 
     public void mostrarFactura(String ruc) {
