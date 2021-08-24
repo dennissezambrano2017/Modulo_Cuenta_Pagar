@@ -57,6 +57,7 @@ public class FacturaManagedBean {
     }
 
     public List<Factura> ListFactura() {
+        listaFactura.clear();
         return this.listaFactura = this.facturaDAO.llenarP("1");
     }
 
@@ -170,11 +171,6 @@ public class FacturaManagedBean {
         }
     }
 
-    public Factura insert(Factura factura) {
-        facturaDAO.Insertar(factura);
-        return factura;
-    }
-
     //Diana Actualizar factura
     public void editarfactura() {
         System.out.println("ESTOY AQUI EN EL MANAGED ACTUALIZAR");
@@ -281,7 +277,6 @@ public class FacturaManagedBean {
     }
 
     public void reset() {
-        System.out.println("sie ntre al reset");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cancelado"));
         PrimeFaces.current().resetInputs("form:outputnuevo, form:dt-detalle");
         removeSessionScopedBean("facturaMB");
@@ -392,5 +387,22 @@ public class FacturaManagedBean {
     public void llenar() {
         this.listaFactura.clear();
         this.listaFactura = this.facturaDAO.llenar();
+    }
+
+    public Factura insert(Factura factura) {
+        facturaDAO.Insertar(factura);
+        return factura;
+    }
+
+    public void dhFactura(String n) {
+        System.out.println("HOLA SI ENTRE DELETE: " + n);
+        this.facturaDAO.dhabilitar(n, 0);
+        listaFactura.clear();
+        listaFactura = facturaDAO.llenarP("1");
+    }
+
+    public Factura editarfactura(Factura factura) {
+        this.facturaDAO.Actualizar(factura);
+        return factura;
     }
 }
