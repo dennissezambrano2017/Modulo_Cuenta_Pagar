@@ -30,19 +30,9 @@
                                 <p:resetInput target=":form:outputnuevo"/>
                             </p:commandButton>
 
-<!--                            <p:commandButton type="button" value="Buscar" icon="pi pi-search" 
-                                             styleClass="ui-button-warning" 
-                                             onclick="PF('Buscar').show()"/>-->
-<!--                            <p:commandButton type="button" value="Pago" icon="pi pi-money-bill" 
-                                             styleClass="ui-button-primary" 
-                                             onclick="PF('pagos').show()"/>-->
                         </p:toolbarGroup>
 
                         <p:toolbarGroup align="right">
-<!--                            <span class="filter-container ui-input-icon-left">
-                                <i class="pi pi-search"></i>
-                                <p:inputText id="globalFilter" onkeyup="PF('dtFactura').filter()" placeholder="Search"/>
-                            </span>-->
 
                             <p:selectBooleanButton id="slcbtn" value="#{facturaMB.check}" onLabel="Habilitado" offLabel="Deshabilitado" style="width:8rem">
                                 <p:ajax listener="#{facturaMB.habTabla}"/>
@@ -56,6 +46,11 @@
                                   resizableColumns="true" class="p-mt-3" 
                                   paginatorPosition="bottom"
                                   style="font-size:12px">
+
+                        <!--                            <span class="filter-container ui-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <p:inputText id="globalFilter" onkeyup="PF('dtFactura').filter()" placeholder="Search"/>
+                            </span>-->
 
                         <p:column headerText="No. Factura" style="width: 60px">
                             <h:outputText value="#{factura.nfactura}" />
@@ -93,9 +88,17 @@
                                              actionListener="#{facturaMB.cargarEditar(factura)}"
                                              process="@this">
                             </p:commandButton>
+<<<<<<< Updated upstream
                             <p:commandButton  class="ui-button-danger rounded-button"
                                               icon="pi pi-trash" process="@this"
                                               action="#{facturaMB.dhFactura(factura)}"/>
+=======
+                            <p:commandButton class="#{facturaMB.cl}"
+                                             icon="#{facturaMB.ic}" process="@this"
+                                             update=":form:confirmDHab"
+                                             oncomplete="PF('DHFactura').show()"
+                                             action="#{facturaMB.cargarDHab(factura)}"/>
+>>>>>>> Stashed changes
                         </p:column>
                     </p:dataTable>
                     <!-- DIALOG 1 NUEVA FACTURA-->
@@ -136,8 +139,13 @@
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
                                         <p:outputLabel for="importe">Importe:</p:outputLabel>
+<<<<<<< Updated upstream
                                         <p:spinner id="importe" value="#{facturaMB.factura.importe}" 
                                                    required="true"/>
+=======
+                                        <p:inputText id="importe" value="#{facturaMB.factura.importe}" 
+                                                     required="true"/>
+>>>>>>> Stashed changes
                                     </div>
                                     <div class="p-field p-col">
                                         <p:outputLabel for="pagado" >Pagado: </p:outputLabel>
@@ -147,7 +155,11 @@
 
                                 </div>
 
+<<<<<<< Updated upstream
                                 <p:fieldset legend="Dias plazo del proveedor: #{facturaMB.factura.aux=BuscarMB.nvenc}">
+=======
+                                <p:panel header="Dias plazo del proveedor: #{facturaMB.factura.aux=BuscarMB.nvenc}">
+>>>>>>> Stashed changes
                                     <div class="p-formgrid p-grid">
                                         <div class="p-field p-col">
                                             <p:outputLabel for="fecha" >Fecha factura:</p:outputLabel>
@@ -166,7 +178,7 @@
                                                           disabled="true"/>
                                         </div>
                                     </div>
-                                </p:fieldset>
+                                </p:panel>
 
                                 <!-- FINAL CAMPOS DEL DIALOG-->
 
@@ -176,9 +188,9 @@
                                              editable="true" class="p-mt-3">
                                     <f:facet name="header">
                                         <div class="p-d-flex p-jc-between p-ai-center">
-                                        <span style="font-weight: bold">DETALLE</span>
+                                            <span style="font-weight: bold">DETALLE</span>
 
-                                        
+
                                             <p:commandButton icon="pi pi-plus"  process="@this"
                                                              style=""
                                                              action="#{facturaMB.onAddNew()}" 
@@ -189,6 +201,28 @@
                                     <p:ajax event="rowEdit" listener="#{facturaMB.onRowEdit}" update=":form:messages"/>
                                     <p:ajax event="rowEditCancel" listener="#{facturaMB.onRowCancel}" update=":form:messages"/>
 
+<<<<<<< Updated upstream
+=======
+<!--                                    <p:column headerText="Detalle">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="{detalle.detalle}"/></f:facet>
+                                            <f:facet name="input"><p:inputText value="{facturaMB.datoDetalle}" style="width:100%"
+                                                                               label="Detalle"/></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>-->
+
+                                    <p:column headerText="GL">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{detalle.detalle}"/></f:facet>
+                                            <f:facet name="input">
+                                                <p:selectOneMenu id="group" value="#{facturaMB.datoDetalle}">
+                                                    <f:selectItem itemLabel="Select One" itemValue=""/>
+                                                    <f:selectItems value="#{facturaMB.listaCuentas}"/>
+                                                </p:selectOneMenu>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+>>>>>>> Stashed changes
 
                                     <p:column headerText="Importe">
                                         <p:cellEditor>
@@ -236,6 +270,13 @@
                                         <p:column headerText="Ruc">
                                             <h:outputText value="#{proveedor.ruc}"/>
                                         </p:column>
+<<<<<<< Updated upstream
+=======
+
+                                        <p:column headerText="Días">
+                                            <h:outputText value="#{proveedor.vence}"/>
+                                        </p:column>
+>>>>>>> Stashed changes
 
                                     </p:dataTable>
                                 </p:overlayPanel>
@@ -293,14 +334,20 @@
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
                                         <p:outputLabel for="editimporte">Importe:</p:outputLabel>
+<<<<<<< Updated upstream
                                         <p:spinner id="editimporte" value="#{facturaMB.factura.importe}" 
                                                    required="true"/>
+=======
+                                        <p:inputText type="numeric" id="editimporte" value="#{facturaMB.factura.importe}" 
+                                                     required="true"/>
+>>>>>>> Stashed changes
                                     </div>
                                     <div class="p-field p-col">
                                         <p:outputLabel for="editpagado" >Pagado: </p:outputLabel>
                                         <p:spinner id="editpagado" value="#{facturaMB.factura.pagado}"/>
                                     </div>
                                 </div>
+<<<<<<< Updated upstream
                                 
                                 <p:fieldset id="group" legend="Dias plazo del proveedor: #{facturaMB.factura.aux=BuscarMB.nvenc}">
                                     <div class="p-formgrid p-grid">
@@ -314,16 +361,34 @@
                                                         update=":form:editvencimiento,:form:editdven"/>
                                             </p:datePicker>
                                         </div> 
+=======
 
-                                        <div class="p-field p-col">
-                                            <p:outputLabel for="editvencimiento">Vencimiento:</p:outputLabel>
-                                            <p:outputLabel value="#{BuscarMB.vence=facturaMB.factura.vencimiento}" style="visibility: hidden"/>
-                                            <p:outputLabel id="editdven" value="#{facturaMB.factura.vencimiento=BuscarMB.vence}" style="visibility: hidden"/>
-                                            <p:datePicker id="editvencimiento" value="#{facturaMB.factura.vencimiento}"
-                                                          disabled="true"/>
-                                        </div>
+                                <p:panel id="group" header="Dias plazo del proveedor: #{facturaMB.factura.aux=BuscarMB.nvenc}"/>
+
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="editfecha" >Fecha factura:</p:outputLabel>
+                                        <p:datePicker id="editfecha"  value="#{facturaMB.factura.fecha}"
+                                                      required="true">
+                                            <p:ajax listener="#{BuscarMB.sumfechas(facturaMB.factura.aux,facturaMB.factura.fecha)}"
+                                                    update=":form:editdven,:form:editvencimiento"/>
+                                        </p:datePicker>
+                                    </div> 
+>>>>>>> Stashed changes
+
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="editvencimiento">Vencimiento:</p:outputLabel>
+                                        <p:outputLabel value="#{BuscarMB.vence=facturaMB.factura.vencimiento}" style="visibility: hidden"/>
+                                        <p:outputLabel id="editdven" value="#{facturaMB.factura.vencimiento=BuscarMB.vence}" style="visibility: hidden"/>
+                                        <p:datePicker id="editvencimiento" value="#{facturaMB.factura.vencimiento}"
+                                                      disabled="true"/>
                                     </div>
+<<<<<<< Updated upstream
                                 </p:fieldset>
+=======
+                                </div>
+
+>>>>>>> Stashed changes
 
                                 <!-- FINAL CAMPOS DEL DIALOG-->
 
@@ -338,6 +403,16 @@
                                             <p:ajax event="rowEdit" listener="#{facturaMB.onRowEdit}" update=":form:messages"/>
                                             <p:ajax event="rowEditCancel" listener="#{facturaMB.onRowCancel}" update=":form:messages"/>
 
+<<<<<<< Updated upstream
+=======
+                                            <p:column headerText="Detalle">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{detalle.detalle}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText value="#{facturaMB.datoDetalle}" style="width:100%"
+                                                                                       label="Detalle"/></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+>>>>>>> Stashed changes
 
                                             <p:column headerText="Importe">
                                                 <p:cellEditor>
@@ -386,6 +461,13 @@
                                         <p:column headerText="Ruc">
                                             <h:outputText value="#{proveedor.ruc}"/>
                                         </p:column>
+<<<<<<< Updated upstream
+=======
+
+                                        <p:column headerText="Días">
+                                            <h:outputText value="#{proveedor.vence}"/>
+                                        </p:column>
+>>>>>>> Stashed changes
 
                                     </p:dataTable>
                                 </p:overlayPanel>
@@ -404,12 +486,25 @@
 
                     <!-- FINAL DIALOG 2 -->
                     <!--DIALOG 3 Habilitar FACTURA-->
+<<<<<<< Updated upstream
                     <p:confirmDialog global="true" showEffect="fade" width="300">
                         <p:commandButton value="Yes" type="button" 
                                          styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
                                          icon="pi pi-times"/>
                     </p:confirmDialog>
+=======
+
+                    <p:confirmDialog id="confirmDHab" widgetVar="DHFactura" showEffect="fade" width="300"
+                                     message="Desea #{facturaMB.value} la factura ##{facturaMB.factura.nfactura}?" header="Confirmar" severity="warn">
+                        <p:inputText value="#{facturaMB.factura.nfactura}" type="hidden"/>
+
+                        <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{facturaMB.dhFactura}"
+                                         process="confirmDHab @this" oncomplete="PF('DHFactura').hide()"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                         onclick="PF('DHFactura').hide()" actionListener="#{facturaMB.reset}"/>
+                    </p:confirmDialog> 
+>>>>>>> Stashed changes
                 </h:form>
             </ui:define>
         </ui:composition>
