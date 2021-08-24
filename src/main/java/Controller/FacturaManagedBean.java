@@ -17,6 +17,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 
@@ -32,7 +34,11 @@ public class FacturaManagedBean {
     private FacturaDAO facturaDAO = new FacturaDAO();
     private List<Factura> listaFactura;
     private List<Factura> detalleFactura;
+    private List<SelectItem> listaCuentas;
     private boolean check;
+    private String value;
+    private String cl;
+    private String ic;
     private float datoImporte;
     private String datoDetalle;
 
@@ -40,10 +46,18 @@ public class FacturaManagedBean {
     public FacturaManagedBean() {
         factura = new Factura();
         listaFactura = new ArrayList<>();
+        listaCuentas = new ArrayList<>();
         detalleFactura = new ArrayList<>();
         check = true;
+        value = "habilitar";
+        setCl("ui-button-danger rounded-button");
+        setIc("pi pi-trash");
         this.listaFactura.clear();
-        this.listaFactura = this.facturaDAO.llenar();
+        this.listaFactura = this.facturaDAO.llenarP("1");
+    }
+    
+    public List<Factura> ListFactura(){
+        return this.listaFactura = this.facturaDAO.llenarP("1");
     }
 
     // Getter and Setter
@@ -79,6 +93,14 @@ public class FacturaManagedBean {
         this.detalleFactura = detalleFactura;
     }
 
+    public List<SelectItem> getListaCuentas() {
+        return listaCuentas;
+    }
+
+    public void setListaCuentas(List<SelectItem> listaCuentas) {
+        this.listaCuentas = listaCuentas;
+    }
+
     public boolean isCheck() {
         return check;
     }
@@ -87,11 +109,32 @@ public class FacturaManagedBean {
         this.check = cheack;
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getCl() {
+        return cl;
+    }
+
+    public void setCl(String cl) {
+        this.cl = cl;
+    }
+
+    public String getIc() {
+        return ic;
+    }
+
+    public void setIc(String ic) {
+        this.ic = ic;
+    }
+
     //Diana: insertar nueva Factura
     public void insertarfactura() {
-        System.out.println("ESTOY AQUI EN EL MANAGED INSERTAR");
-        System.out.println("Cantidad detalle: " + detalleFactura.size());
-        System.out.println("ruc: " + factura.getRuc());
         float comp = 0;
         for (int i = 0; i < detalleFactura.size(); i++) {
             comp += detalleFactura.get(i).getImporteD();
@@ -99,42 +142,69 @@ public class FacturaManagedBean {
         }
         System.out.println("Importe comp: " + this.factura.getImporte());
         if (factura.getImporte() != comp) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe debe ser igual al total del detalle"));
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe= " + factura.getImporte() + "Total= " + comp));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Importe debe ser igual al total del detalle"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Importe= " + factura.getImporte() + " ; Total detalle= " + comp));
         } else {
-            if (fechas()) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Fecha es mayor que vencimiento"));
-            } else {
-                if (factura.getImporte() < factura.getPagado()) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe es menor que pagado"));
+            try {
+                if ("".equals(factura.getRuc())) {
                 } else {
-                    try {
-                        if ("".equals(factura.getRuc())) {
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al guardar"));
-                        } else {
-                            if (facturaDAO.Insertar(factura) == 0) {
-                                facturaDAO.Insertar(factura);
-                                System.out.println("YA INSERTE, AHORA EL DETALLE");
-                                facturaDAO.insertdetalle(detalleFactura, factura);
-                                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura Guardada"));
-                                PrimeFaces.current().executeScript("PF('newFactura').hide()");
-                                listaFactura.clear();
-                                check = true;
-                                listaFactura = facturaDAO.llenarP("1");
-                                PrimeFaces.current().ajax().update("form:dt-factura", "form:slcbtn");
-                            }
-                            else{
-                                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Factura ya existe"));
-                            }
-                        }
-                    } catch (Exception e) {
-                        System.out.println("ERROR DAO: " + e);
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ERROR AL GUARDAR"));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al guardar"));
+                    if (facturaDAO.Insertar(factura) == 0) {
+                        facturaDAO.Insertar(factura);
+                        System.out.println("YA INSERTE, AHORA EL DETALLE");
+                        facturaDAO.insertdetalle(detalleFactura, factura);
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Factura Guardada"));
+                        PrimeFaces.current().executeScript("PF('newFactura').hide()");
+                        listaFactura.clear();
+                        check = true;
+                        listaFactura = facturaDAO.llenarP("1");
+                        PrimeFaces.current().ajax().update("form:dt-factura", "form:slcbtn");
+                    } else {
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Factura ya existe"));
                     }
-
                 }
+            } catch (Exception e) {
+                System.out.println("ERROR DAO: " + e);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "ERROR AL GUARDAR"));
             }
         }
+    }
+    
+    public Factura insert(Factura factura) {
+        float comp = 0;
+        for (int i = 0; i < detalleFactura.size(); i++) {
+            comp += detalleFactura.get(i).getImporteD();
+            System.out.println("Importe comp: " + comp);
+        }
+        System.out.println("Importe comp: " + this.factura.getImporte());
+        if (factura.getImporte() != comp) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Importe debe ser igual al total del detalle"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Importe= " + factura.getImporte() + " ; Total detalle= " + comp));
+        } else {
+            try {
+                if ("".equals(factura.getRuc())) {
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al guardar"));
+                    if (facturaDAO.Insertar(factura) == 0) {
+                        facturaDAO.Insertar(factura);
+                        System.out.println("YA INSERTE, AHORA EL DETALLE");
+                        facturaDAO.insertdetalle(detalleFactura, factura);
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Factura Guardada"));
+                        PrimeFaces.current().executeScript("PF('newFactura').hide()");
+                        listaFactura.clear();
+                        check = true;
+                        listaFactura = facturaDAO.llenarP("1");
+                        PrimeFaces.current().ajax().update("form:dt-factura", "form:slcbtn");
+                    } else {
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Factura ya existe"));
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("ERROR DAO: " + e);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "ERROR AL GUARDAR"));
+            }
+        }
+        return factura;
     }
 
     //Diana Actualizar factura
@@ -180,8 +250,6 @@ public class FacturaManagedBean {
 
     //Cardar datos para actualizar
     public void cargarEditar(Factura factura) {
-        System.out.println("CANTIDAD DETALLE EDITAR: " + detalleFactura.size());
-        System.out.println(factura.getNfactura());
         String dato = factura.getNfactura();
         this.factura.setNombre(factura.getNombre());
         this.factura.setNfactura(factura.getNfactura());
@@ -197,8 +265,12 @@ public class FacturaManagedBean {
         System.out.println("CANTIDAD DETALLE EDITAR2: " + detalleFactura.size());
     }
 
+    public void cargarDHab(Factura factura) {
+        this.factura.setNfactura(factura.getNfactura());
+    }
+
     //Diana: Habilitar y Deshabilitar
-    public void dhFactura(Factura factura) {
+    public void dhFactura() {
         System.out.println("HOLA SI ENTRE DELETE HABILITAR 1");
         if (check) {
             this.facturaDAO.dhabilitar(factura.getNfactura(), 0);
@@ -211,7 +283,7 @@ public class FacturaManagedBean {
             listaFactura.clear();
             listaFactura = facturaDAO.llenarP("0");
         }
-        PrimeFaces.current().ajax().update("form:dt-factura");
+        PrimeFaces.current().ajax().update("form:dt-factura", "form:messages");
     }
 
     //Mostrar tablas habilitadas y deshabilitadas
@@ -219,9 +291,14 @@ public class FacturaManagedBean {
         listaFactura.clear();
         if (check) {
             this.listaFactura = facturaDAO.llenarP("1");
+            setValue("deshabilitar");
+            setCl("ui-button-danger rounded-button");
+            setIc("pi pi-trash");
         } else {
-
             this.listaFactura = facturaDAO.llenarP("0");
+            setValue("habilitar");
+            setCl("ui-button-primary rounded-button");
+            setIc("pi pi-check");
         }
         PrimeFaces.current().ajax().update("form:dt-factura");
     }
@@ -314,44 +391,38 @@ public class FacturaManagedBean {
 
     public void onRowEdit(RowEditEvent<Factura> event) {
         Factura f = (Factura) event.getObject();
+        System.out.println("RowEdit: " + listaCuentas.size());
         f.setImporteD(datoImporte);
         f.setDetalle(datoDetalle);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Edited"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Detalle Editado"));
     }
 
     public void onRowCancel(RowEditEvent<Factura> event) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Edit Cancelled"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Edición Cancelada"));
     }
 
     public void onAddNew() {
         // Add one new product to the table:
-        System.out.println("Cantidad detalle: " + detalleFactura.size());
-        Factura newFactura = new Factura(0, "Detalle factura", "code");
+        System.out.println("Cantidad detalle: " + listaCuentas.size());
+        Factura newFactura = new Factura(0, "Cuenta contable", "code");
         detalleFactura.add(newFactura);
-        System.out.println("Cantidad detalle 2: " + detalleFactura.size());
+        listaCuentas.clear();
+        llenarCuenta();
+        System.out.println("Cantidad detalle 2: " + listaCuentas.size());
         FacesMessage msg = new FacesMessage("New Product added");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    //ESTO ES DE PAOLA
-    //    public boolean valores(){
-//        float importe = factura.getImporte();
-//        float
-//    }
+    public void llenarCuenta() {
+        List<Factura> auxiliar = facturaDAO.llenarCuentas();
+        for (int i = 0; i < auxiliar.size(); i++) { 
+            SelectItem Cuentas = new SelectItem(auxiliar.get(i).getCuenta(),auxiliar.get(i).getCuenta());
+            listaCuentas.add(Cuentas);
+        } 
+    }
+
     public void llenar() {
         this.listaFactura.clear();
         this.listaFactura = this.facturaDAO.llenar();
-    }
-
-    public void Registro() {
-        String detail = check ? "Pago Autorizado" : "Pago no Autorizado";
-        System.out.println(factura.getNfactura() + "-" + factura.getDescripcion() + "-" + detail);
-        if (detail == "Pago Autorizado") {
-//            facturaDAO.Autorizar(autorizarPago.sentencia(factura.getNfactura()));
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(detail));
-        } else {
-//            facturaDAO.Autorizar(autorizarPago.sentencia(factura.getNfactura()));
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(detail));
-        }
     }
 }
