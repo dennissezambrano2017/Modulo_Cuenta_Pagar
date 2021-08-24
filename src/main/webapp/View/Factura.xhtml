@@ -47,12 +47,15 @@
                                   paginatorPosition="bottom"
                                   style="font-size:12px">
 
-                        <!--                            <span class="filter-container ui-input-icon-left">
+                        <f:facet name="header">
+                            <span class="filter-container ui-input-icon-left">
                                 <i class="pi pi-search"></i>
-                                <p:inputText id="globalFilter" onkeyup="PF('dtFactura').filter()" placeholder="Search"/>
-                            </span>-->
+                                <p:inputText id="globalFilter" onkeyup="PF('dtFactura').filter()" placeholder="Buscar nfactura"/>
+                            </span>
+                        </f:facet>
 
-                        <p:column headerText="No. Factura" style="width: 60px">
+                        <p:column headerText="No. Factura" style="width: 60px" filterBy="#{factura.nfactura}" 
+                                  filterStyle="display: none">
                             <h:outputText value="#{factura.nfactura}" />
                         </p:column>
 
@@ -186,13 +189,13 @@
                                     <p:ajax event="rowEdit" listener="#{facturaMB.onRowEdit}" update=":form:messages"/>
                                     <p:ajax event="rowEditCancel" listener="#{facturaMB.onRowCancel}" update=":form:messages"/>
 
-<!--                                    <p:column headerText="Detalle">
-                                        <p:cellEditor>
-                                            <f:facet name="output"><h:outputText value="{detalle.detalle}"/></f:facet>
-                                            <f:facet name="input"><p:inputText value="{facturaMB.datoDetalle}" style="width:100%"
-                                                                               label="Detalle"/></f:facet>
-                                        </p:cellEditor>
-                                    </p:column>-->
+                                    <!--                                    <p:column headerText="Detalle">
+                                                                            <p:cellEditor>
+                                                                                <f:facet name="output"><h:outputText value="{detalle.detalle}"/></f:facet>
+                                                                                <f:facet name="input"><p:inputText value="{facturaMB.datoDetalle}" style="width:100%"
+                                                                                                                   label="Detalle"/></f:facet>
+                                                                            </p:cellEditor>
+                                                                        </p:column>-->
 
                                     <p:column headerText="GL">
                                         <p:cellEditor>
