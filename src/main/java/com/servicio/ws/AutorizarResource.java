@@ -53,7 +53,5 @@ public class AutorizarResource {
         Gson gson = new Gson();
         return gson.toJson(lista);
     }
-    
-    
 
 }
