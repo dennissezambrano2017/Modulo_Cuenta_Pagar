@@ -179,6 +179,12 @@ private AbonoProveedor abonoproveedor;
         }
     }
     
+    public AbonoProveedor insert(AbonoProveedor abono){
+        System.out.println("Si entro XD");
+        abonoDAO.Insertar(abono);
+        return abono;
+    }
+    
     public List<Factura> insertar(List<Factura> listaFactura) {
         if (this.listaFactura.size() > 0) {
             if (this.listaFactura.size() == dateMofid) {

@@ -7,8 +7,7 @@ package com.servicio.ws;
 
 import Controller.AbonoProveedorManagedBean;
 import Model.AbonoProveedor;
-import Model.Factura;
-import java.time.LocalDate;
+import com.google.gson.Gson;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -21,28 +20,25 @@ import javax.ws.rs.core.MediaType;
  *
  * @author PAOLA
  */
-
 @Path("/pago")
 public class PagoResource {
-    
+
     AbonoProveedorManagedBean servicio = new AbonoProveedorManagedBean();
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<AbonoProveedor> getPagos(){
-        return servicio.ListAbono();
+    public String getFacturas() {
+        List<AbonoProveedor> lista = servicio.ListAbono();
+        Gson gson = new Gson();
+        return gson.toJson(lista);
+
     }
-//    @GET
-//    @Path("/3")
-//    @Produces(MediaType.APPLICATION_XML)
-//    public void buscar(){
-//        
-//    }
-    
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public List<Factura> addAbonoPro( List<Factura> abono){
-//        return servicio.insertar(abono);
-//    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public AbonoProveedor addFactura(AbonoProveedor abono) {
+        return servicio.insert(abono);
+    }
+
 }

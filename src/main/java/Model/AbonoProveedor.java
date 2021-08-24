@@ -6,6 +6,7 @@
 package Model;
 
 import java.time.LocalDate;
+import javax.xml.bind.annotation.XmlRootElement;
 /**
  *
  * @author PAOLA
@@ -13,15 +14,15 @@ import java.time.LocalDate;
 
 public class AbonoProveedor {
     
-    private int idAbonoProveedor;
     private String referencia;
+    private int idAbonoProveedor; 
+    private LocalDate fecha; 
+    private float Pago;
+    private String periodo;  
     private int idAsiento;
     private int idTipoPago;
     private int idTipoBanco;
     private int idProveedor;
-    private LocalDate fecha;
-    private float Pago;
-    private String periodo;
     private String detalletipoPago;
     private String nombreProveedor;
     private String detalletipoBanco;
