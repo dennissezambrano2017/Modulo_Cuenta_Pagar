@@ -5,7 +5,9 @@ import Model.Anticipo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
@@ -101,5 +103,38 @@ public class AnticipoDAO {
         }
 
         return anticiposDB;
+    }
+    
+    public static Anticipo getOneAnticipo(String id) {
+        Anticipo anticipo = new Anticipo();
+
+        Conexion conn = new Conexion();
+        String query =  "select id_anticipo, id_proveedor, importe, fecha, descripcion, habilitado, id_asiento\n" +
+                        "	from anticipo\n" +
+                        "	where id_anticipo=?;";
+        try {
+            conn.abrirConexion();
+
+            //Statement stmt = conn.conex.createStatement();
+            PreparedStatement stmt = conn.conex.prepareStatement(query);
+            stmt.setString(1, id);
+            System.out.println(stmt.toString());
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                anticipo.setId_anticipo(rs.getString("id_anticipo"));
+                anticipo.setId_proveedor(rs.getInt("id_proveedor"));
+                anticipo.setImporte(rs.getDouble("importe"));
+                anticipo.setFecha(rs.getDate("fecha"));
+                anticipo.setDescripcion(rs.getString("descripcion"));
+            }
+            conn.conex.close();
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+
+        return anticipo;
     }
 }

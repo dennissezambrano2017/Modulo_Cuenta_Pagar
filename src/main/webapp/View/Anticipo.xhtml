@@ -218,7 +218,19 @@
                     </p:dialog>
 
                 </h:form>
+                
+                <div id="app">
+                    {{ name }}
+                    <canvas id="myChart"></canvas>
+                </div>
+                
+                <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <h:outputScript library="js" name="main.js"></h:outputScript>
+                
             </ui:define>
         </ui:composition>
+        
+        
     </h:body>
 </html>
