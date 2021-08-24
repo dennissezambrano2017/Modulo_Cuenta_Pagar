@@ -4,20 +4,12 @@
  * and open the template in the editor.
  */
 package Model;
-import Controller.Conexion;
-import java.io.Serializable;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
+import java.time.LocalDate;
 /**
  *
  * @author ninat
  */
-
 public class Factura{
     private int id;
     private String nfactura;
@@ -40,9 +32,14 @@ public class Factura{
     private String id_detalle;
     private Float importeD;
     private String detalle;
+    private String cuenta;
     private int aux;
     
     public Factura() {
+    }
+    
+    public Factura(String cuenta){
+        this.cuenta = cuenta;
     }
 
     //Paola: Usa este Constructor
@@ -54,7 +51,18 @@ public class Factura{
         this.vencimiento = vencimiento;
         this.pendiente = pendiente;
     }
-    
+
+    //Autorizar factura
+    public Factura(String nfactura, String descripcion, float importe, LocalDate fecha, LocalDate vencimiento, int estado, String nombre, int habilitar) {
+        this.nfactura = nfactura;
+        this.descripcion = descripcion;
+        this.importe = importe;
+        this.fecha = fecha;
+        this.vencimiento = vencimiento;
+        this.estado = estado;
+        this.nombre = nombre;
+        this.habilitar = habilitar;
+    }
     
     //Diana Constructor para Buscar proveedor e insertar 
     public Factura(int id, String nfactura, String descripcion, float importe, float pendiente, LocalDate fecha, LocalDate vencimiento, int estado, String ruc, String nombre) {
@@ -261,6 +269,14 @@ public class Factura{
 
     public void setAux(int aux) {
         this.aux = aux;
+    }
+
+    public String getCuenta() {
+        return cuenta;
+    }
+
+    public void setCuenta(String cuenta) {
+        this.cuenta = cuenta;
     }
     
     

@@ -6,23 +6,22 @@
 package Model;
 
 import java.time.LocalDate;
-
 /**
  *
  * @author PAOLA
  */
+
 public class AbonoProveedor {
     
-
-    private int idAbonoProveedor;
     private String referencia;
+    private int idAbonoProveedor; 
+    private LocalDate fecha; 
+    private float Pago;
+    private String periodo;  
     private int idAsiento;
     private int idTipoPago;
     private int idTipoBanco;
     private int idProveedor;
-    private LocalDate fecha;
-    private float Pago;
-    private String periodo;
     private String detalletipoPago;
     private String nombreProveedor;
     private String detalletipoBanco;
@@ -30,7 +29,8 @@ public class AbonoProveedor {
 
     public AbonoProveedor() {
     }
-
+    
+    
     public AbonoProveedor(String referencia, int idProveedor, LocalDate fecha, 
             float Pago, String periodo, String detalletipoPago, 
             String nombreProveedor) {
@@ -189,14 +189,13 @@ public class AbonoProveedor {
         System.out.println(sentencia);
         return sentencia;
     }
-    public String sentenciaMostrar()
-    {
-        String sentencia = "SELECT a.fecha,pag.descripcion,a.referencia,sum(d.pago) as Pago,a.idproveedor,p.nombre,d.periodo\n"
-                        + "FROM abonoproveedor a INNER JOIN detalleabono d ON ( a.idabonoproveedor = d.idabonoproveedor  ) \n"
-                        + "INNER JOIN tipopago t ON ( a.idtipopago= t.idtipopago  )  \n"
-                        + "INNER JOIN proveedor p ON ( a.idproveedor = p.idproveedor)  \n"
-                        + "INNER JOIN tipopago pag ON ( a.idtipopago = pag.idtipopago) \n"
-                        + "group by d.periodo,a.fecha,pag.descripcion,a.referencia,a.idproveedor,p.nombre";
+    public String sentenciaMostrar() {
+        String sentencia = "SELECT a.fecha,pag.descripcion,a.referencia,sum(d.pago) as Pago,a.idproveedor,p.nombre,a.periodo\n"
+                + "FROM abonoproveedor a INNER JOIN detalleabono d ON ( a.idabonoproveedor = d.idabonoproveedor  ) \n"
+                + "INNER JOIN tipopago t ON ( a.idtipopago= t.idtipopago  ) \n"
+                + "INNER JOIN proveedor p ON ( a.idproveedor = p.idproveedor)  \n"
+                + "INNER JOIN tipopago pag ON ( a.idtipopago = pag.idtipopago) \n"
+                + "group by a.periodo,a.fecha,pag.descripcion,a.referencia,a.idproveedor,p.nombre";
         return sentencia;
     }
     
