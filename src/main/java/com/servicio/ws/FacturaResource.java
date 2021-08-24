@@ -7,7 +7,6 @@ package com.servicio.ws;
 
 import Controller.FacturaManagedBean;
 import Model.Factura;
-import java.time.LocalDate;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

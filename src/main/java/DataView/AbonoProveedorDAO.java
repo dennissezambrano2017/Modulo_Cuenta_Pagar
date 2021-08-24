@@ -23,7 +23,7 @@ import java.time.LocalDate;
  * @author PAOLA
  */
 public class AbonoProveedorDAO {
-    Conexion conex;
+    Conexion conex = new Conexion();
     private AbonoProveedor abono;
     private DetalleAbono detalleAbono;
     private ResultSet result;
@@ -124,6 +124,8 @@ public class AbonoProveedorDAO {
     }
 
     public void Insertar(AbonoProveedor abonoProveedor) {
+        System.out.println(abonoProveedor.getFecha()+abonoProveedor.getDetalletipoPago()+abonoProveedor.getDetalletipoBanco()
+                +abonoProveedor.getRuc()+abonoProveedor.getReferencia()+abonoProveedor.getPeriodo());
         if (conex.isEstado()) {
             try {
                 String sentencia = String.format("select insert_abono('%1$s','%2$s',"

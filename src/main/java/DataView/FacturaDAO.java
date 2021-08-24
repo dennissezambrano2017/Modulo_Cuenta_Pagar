@@ -137,6 +137,7 @@ public class FacturaDAO {
     }
 
     public int Insertar(Factura factura) {
+        System.out.println(factura.getNfactura());
         int existe = 0;
         if (conexion.isEstado()) {
             try {
@@ -145,6 +146,7 @@ public class FacturaDAO {
                         + factura.getPagado() + ",'" + factura.getFecha() + "','"
                         + factura.getVencimiento() + "',(Select idproveedor from proveedor p "
                         + " where p.ruc = '" + factura.getRuc() + "'))";
+                System.out.println(cadena);
                 result = conexion.ejecutarConsulta(cadena);
                 while (result.next()) {
                     existe = result.getInt("registrarfactura");

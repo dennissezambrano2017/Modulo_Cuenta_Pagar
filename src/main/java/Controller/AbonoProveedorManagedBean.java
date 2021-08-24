@@ -180,7 +180,9 @@ private AbonoProveedor abonoproveedor;
     }
     
     public AbonoProveedor insert(AbonoProveedor abono){
-        System.out.println("Si entro XD");
+        System.out.println("Si entro XD: "+ abono.getFecha()+abono.getDetalletipoPago()+abono.getDetalletipoBanco()
+                +abono.getRuc()+abono.getReferencia()+abono.getPeriodo());
+        
         abonoDAO.Insertar(abono);
         return abono;
     }

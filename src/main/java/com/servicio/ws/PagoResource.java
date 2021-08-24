@@ -37,8 +37,11 @@ public class PagoResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public AbonoProveedor addFactura(AbonoProveedor abono) {
-        return servicio.insert(abono);
+    public String addFactura(AbonoProveedor abono) {
+        System.out.print(abono.getFecha()+abono.getDetalletipoPago()+abono.getDetalletipoBanco()
+                +abono.getRuc()+abono.getReferencia()+abono.getPeriodo());
+        Gson gson = new Gson();
+        return gson.toJson(servicio.insert(abono));
     }
 
 }
