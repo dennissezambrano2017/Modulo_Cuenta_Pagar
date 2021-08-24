@@ -48,6 +48,7 @@ private AbonoProveedor abonoproveedor;
     private List<Factura> detalleFactura;
     private List<Proveedor> listaProveedor;
     private List<Factura> listaDetalleFact;
+    private List<AbonoProveedor> filtroAbono = new ArrayList<>();
     private BuscarProvDAO buscarprovDAO;
     private Factura factura;
     private String nfactura;
@@ -182,7 +183,6 @@ private AbonoProveedor abonoproveedor;
     public AbonoProveedor insert(AbonoProveedor abono){
         System.out.println("Si entro XD: "+ abono.getFecha()+abono.getDetalletipoPago()+abono.getDetalletipoBanco()
                 +abono.getRuc()+abono.getReferencia()+abono.getPeriodo());
-        
         abonoDAO.Insertar(abono);
         return abono;
     }
@@ -468,6 +468,14 @@ private AbonoProveedor abonoproveedor;
 
     public void setPerio(String perio) {
         this.perio = perio;
+    }
+
+    public List<AbonoProveedor> getFiltroAbono() {
+        return filtroAbono;
+    }
+
+    public void setFiltroAbono(List<AbonoProveedor> filtroAbono) {
+        this.filtroAbono = filtroAbono;
     }
 
 }

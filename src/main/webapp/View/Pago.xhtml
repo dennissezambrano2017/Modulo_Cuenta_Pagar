@@ -16,7 +16,7 @@
                 <h:form id="form">
                     <p:growl id="msgs" showDetail="true"/>
                     <p:panel >
-                        <h1 style="text-align: center"> PAGOS</h1>
+                        <h1 style="text-align: center; font-size:30px;"> PAGOS</h1>
 
                         <!--                Botones que se presentan en la pantalla principal-->
                         <p:toolbar>
@@ -27,26 +27,28 @@
                                                  process="@this">
                                     <p:resetInput target=":form:pago-content"/>
                                 </p:commandButton>
-                                <p:commandButton value="Buscar" icon="pi pi-search" 
-                                                 oncomplete="PF('BuscarPago').show()"
-                                                 styleClass="ui-button-warning" 
-                                                 style="margin-right: .5rem">
-                                </p:commandButton>
                             </p:toolbarGroup>
-
                         </p:toolbar>
-
                         <p:dataTable widgetVar="dtPagos" var="pago" 
                                      value="#{abonoProveedorMB.listaAbonos}"
                                      reflow="true" styleClass="products-table" 
                                      id="proveedortabla"  rowKey="#{pago.fecha}"
                                      rows="5" paginator="true" paginatorPosition="bottom"
                                      style="font-size:13px">
+                            <f:facet name="header">
+                                <div class="p-d-flex p-jc-between p-ai-center">
+                                    <span style="font-weight: bold; margin-right: 6px;"></span>
+                                    <span class="filter-container ui-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <p:inputText id="globalFilter" onkeyup="PF('dtPagos').filter()" placeholder="Nombre Proveedor"/>
+                                    </span>
+                                </div>
+                            </f:facet>
 
                             <p:column headerText="Fecha" >
                                 <h:outputText value="#{pago.fecha}"/>
                             </p:column>
-                            <p:column headerText="Pago por" >
+                            <p:column headerText="Pago por" filterBy="#{pago.detalletipoPago}" filterStyle="display : none">
                                 <h:outputText value="#{pago.detalletipoPago}"/>
                             </p:column>
                             <p:column headerText="Referencia">
@@ -57,8 +59,8 @@
                                     <f:convertNumber currencySymbol="$" type="currency"/>
                                 </h:outputText>
                             </p:column>
-                            <p:column headerText="Nombre" >
-                                <h:outputText value="#{pago.nombreProveedor}"/>
+                            <p:column headerText="Nombre" filterBy="#{pago.nombreProveedor}" filterStyle="display : none">
+                                <h:outputText value="#{pago.nombreProveedor}" />
                             </p:column>
                             <p:column headerText="Periodo" >
                                 <h:outputText value="#{pago.periodo}"/>
@@ -144,7 +146,7 @@
                                     <p:outputLabel value="#{abonoProveedorMB.abonoproveedor.periodo=abonoProveedorMB.perio}" style="visibility: hidden"/>
                                     <p:inputText value="#{abonoProveedorMB.abonoproveedor.periodo}" disabled="true"/>
                                     <div class="p-field p-col"></div>
-                                    
+
                                 </div>
                             </div>
                             <div class="p-formgrid p-grid">

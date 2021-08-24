@@ -380,4 +380,31 @@ public class FacturaDAO {
 
         return lista;
     }
+    
+    public List<Factura> llenarFact(String nfactura) {
+        if (conexion.isEstado()) {
+            try {
+                String sentencia = "SELECT f.nfactura,f.descripcion,f.importe,"
+                        + "f.fecha,f.vencimiento, p.nombre,f.habilitar, "
+                        + "f.estado from factura as f INNER JOIN proveedor "
+                        + "as p on (f.idproveedor = p.idproveedor) "
+                        + "where (f.importe - f.pagado) != 0 and f.habilitar = 1 and f.estado = 0 and f.nfactura='"+nfactura+"'";
+                result = conexion.ejecutarConsulta(sentencia);
+                System.out.println("Factura: " + result.toString());
+                while (result.next()) {
+                    listaFacturas.add(new Factura(result.getString("nfactura"),
+                            result.getString("descripcion"), result.getFloat("importe"),
+                            result.getObject("fecha", LocalDate.class),
+                            result.getObject("vencimiento", LocalDate.class),
+                            result.getInt("estado"), result.getString("nombre"),
+                            result.getInt("habilitar")));
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage() + " error en conectarse");
+            } finally {
+                conexion.cerrarConexion();
+            }
+        }
+        return listaFacturas;
+    }
 }

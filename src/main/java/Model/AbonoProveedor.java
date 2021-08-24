@@ -6,7 +6,6 @@
 package Model;
 
 import java.time.LocalDate;
-import javax.xml.bind.annotation.XmlRootElement;
 /**
  *
  * @author PAOLA

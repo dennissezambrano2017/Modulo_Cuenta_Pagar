@@ -124,6 +124,7 @@ public class AbonoProveedorDAO {
     }
 
     public void Insertar(AbonoProveedor abonoProveedor) {
+        conex = new Conexion();
         System.out.println(abonoProveedor.getFecha()+abonoProveedor.getDetalletipoPago()+abonoProveedor.getDetalletipoBanco()
                 +abonoProveedor.getRuc()+abonoProveedor.getReferencia()+abonoProveedor.getPeriodo());
         if (conex.isEstado()) {
